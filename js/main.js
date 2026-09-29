@@ -58,6 +58,10 @@
 
     K.golden.update();
     K.evo.check();
+    while (K.evo.unlocked.length) {
+      K.ui.toast('<b>' + esc(t('tierUnlocked', { n: K.evo.unlocked.shift() })) + '</b>');
+      K.sound.play('upgrade');
+    }
 
     achAcc += dt;
     if (achAcc >= 1) {
@@ -251,7 +255,8 @@
       markAction();
       if (K.game.buyMaterial(el.getAttribute('data-mat'))) {
         K.sound.play('upgrade');
-        K.evo.mix();
+        K.ui.toast(esc(t('mixedToast', { t: K.L(K.evo.traitById[S().trait].name) })));
+        K.ui.say(K.news.monologue('mix'));
         K.ui.renderShop(true);
       }
     });
@@ -264,7 +269,23 @@
     });
   }
 
+  // まるめる
+  function roll() {
+    if (K.screens.evoOpen()) return;
+    var r = K.evo.roll();
+    if (!r) return;
+    markAction();
+    var ka = $('kasu');
+    ka.classList.remove('rolled'); void ka.offsetWidth; ka.classList.add('rolled');
+    if (!r.isNew) {
+      K.sound.play('buy');
+      K.ui.toast(esc(t('rollDup', { v: K.fmt(r.refund) })));
+    }
+    K.ui.renderKasu();
+  }
+
   function bindGlobal() {
+    $('roll-btn').onclick = roll;
     $('praise-btn').onclick = praise;
     $('blow-btn').onclick = blow;
     $('golden').onclick = function () {
@@ -315,7 +336,7 @@
   M.enterGame = function () {
     var s = S();
     s.started = true;
-    K.evo.register(s.species);
+    if (!s.zukan[s.species]) K.evo.register(s.species);
     K.screens.show('screen-game');
     K.ui.renderAll();
     K.ui.setTab('kasu');

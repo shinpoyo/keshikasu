@@ -43,6 +43,8 @@
     star: ['0 0 28 28', '<path d="M14 3l3 6.6 7.2.8-5.4 4.9 1.5 7.1L14 18.8l-6.3 3.6 1.5-7.1L3.8 10.4l7.2-.8z" fill="#E7B533" stroke="' + INK + '" stroke-width="1.6" stroke-linejoin="round"/>']
   };
 
+  UP.none = UP.rub;
+
   function upIcon(id, size) {
     size = size || 28;
     if (BUILDING[id]) {
@@ -62,6 +64,7 @@
     settings: ['0 0 24 24', '<g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></g>'],
     praise: ['0 0 24 24', '<path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.5 6.7 19.4l1.2-6L3.4 9.3l6-.7z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>'],
     blow: ['0 0 24 24', '<g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h11a3 3 0 1 0-3-3"/><path d="M3 12h16a3 3 0 1 1-3 3"/><path d="M3 16h7"/></g>'],
+    roll: ['0 0 24 24', '<g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="7"/><path d="M8 12c1-2 3-3 5-2.5M4 6l2 2M20 6l-2 2M12 2v2.5"/></g>'],
     tabKasu: ['0 0 24 24', '<path d="M11.5 3.5c5-.5 9 3 9 8.3s-3.7 8.7-8.6 8.7-9-3.2-9-8.2 3.6-8.3 8.6-8.8z" fill="none" stroke="currentColor" stroke-width="2"/>'],
     tabDesk: ['0 0 24 24', '<g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 9h18"/><path d="M5 9v11M19 9v11"/><path d="M3 5h18v4H3z"/></g>'],
     tabShop: ['0 0 24 24', '<g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h16l-1.5 11h-13z"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/></g>'],

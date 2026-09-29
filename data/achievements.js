@@ -62,13 +62,18 @@
     if (s.n === 1) return;
     add({ id: 'stage' + s.n, cat: 'evolve', type: 'stage', n: s.n,
       name: { ja: s.name.ja + ' カス', en: s.name.en + ' Crumb' },
-      desc: { ja: 'STAGE ' + s.n + ' に しんかした。', en: 'Evolved to STAGE ' + s.n + '.' },
+      desc: { ja: 'STAGE ' + s.n + ' の カスを みつけた。', en: 'Found a STAGE ' + s.n + ' crumb.' },
       quote: { ja: s.line.ja, en: s.line.en } });
   });
   [[10, 'カスはかせ みならい', 'Crumb Scholar Trainee'], [30, 'カスはかせ', 'Crumb Scholar'], [56, 'カスの かみさま', 'Crumb Deity']].forEach(function (r, i) {
     add({ id: 'zukan' + i, cat: 'evolve', type: 'zukan', n: r[0], name: { ja: r[1], en: r[2] },
       desc: { ja: 'ずかんに ' + r[0] + 'しゅるい とうろく した。', en: 'Found ' + r[0] + ' kinds in the Crumbpedia.' },
       quote: { ja: 'カスにも いろいろ ある。', en: 'There are all kinds of crumbs.' } });
+  });
+  [[1, 'まるめてみた', 'First Roll'], [10, 'まるめる ひと', 'Roller'], [100, 'まるめる たつじん', 'Roll Expert'], [1000, 'まるめる めいじん', 'Roll Master']].forEach(function (r, i) {
+    add({ id: 'roll' + i, cat: 'evolve', type: 'rolls', n: r[0], name: { ja: r[1], en: r[2] },
+      desc: { ja: r[0] === 1 ? 'はじめて カスを まるめた。' : f(r[0]) + 'かい まるめた。', en: r[0] === 1 ? 'Rolled a crumb for the first time.' : 'Rolled ' + f(r[0]) + ' times.' },
+      quote: { ja: 'ころころ。', en: 'Roll roll.' } });
   });
   add({ id: 'mix1', cat: 'evolve', type: 'mix', n: 1, name: { ja: 'まぜてみた', en: 'Mixed It Up' },
     desc: { ja: 'はじめて ざいりょうを まぜた。', en: 'Mixed in a material for the first time.' },

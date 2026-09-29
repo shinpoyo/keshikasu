@@ -297,6 +297,24 @@ h1, h2, h3 { font-family: var(--font-jp); font-weight: 900; margin: 0; }
 }
 .bubble.pop { animation: pop .25s ease; }
 @keyframes pop { from { transform: scale(.96); opacity: .4; } to { transform: none; opacity: 1; } }
+/* まるめる */
+.btn-roll {
+  align-self: stretch; display: flex; align-items: center; gap: 12px; min-height: 60px; padding: 8px 16px; text-align: left;
+  background: var(--gold); color: var(--on-accent); box-shadow: 0 4px 0 var(--ink);
+}
+.btn-roll svg { width: 26px; height: 26px; flex-shrink: 0; }
+.btn-roll .roll-text { flex: 1; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.btn-roll b { font-family: var(--font-jp); font-weight: 900; font-size: 18px; }
+.btn-roll small { font-family: var(--font-jp); font-weight: 700; font-size: 11px; opacity: .8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.btn-roll .price { font-size: 15px; background: rgba(255,255,255,.55); padding: 4px 10px; border-radius: 999px; }
+.btn-roll:disabled { background: var(--card); color: var(--graphite); box-shadow: 0 4px 0 var(--line); }
+.btn-roll:not(:disabled) { animation: roll-glow 1.6s ease-in-out infinite; }
+@keyframes roll-glow { 50% { box-shadow: 0 4px 0 var(--ink), 0 0 0 7px rgba(231,181,51,.25); } }
+.kasu.rolled .kasu-body { animation: rolled .5s cubic-bezier(.3,1.6,.5,1); }
+@keyframes rolled { 0% { transform: scale(.3) rotate(-120deg); opacity: 0; } 100% { transform: none; opacity: 1; } }
+.z-desk-btn { margin-top: 12px; min-height: 40px; font-size: 14px; }
+.z-ondesk { margin-top: 12px; align-self: flex-start; padding: 4px 12px; border-radius: 999px; background: var(--paper-2); border: 1.5px solid var(--line-2); font-family: var(--font-jp); font-weight: 700; font-size: 12px; }
+
 .actions { display: flex; gap: 12px; align-self: stretch; margin-top: auto; padding-top: 6px; }
 .actions .btn { flex: 1; min-height: 52px; }
 .actions .btn svg { width: 20px; height: 20px; }

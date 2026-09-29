@@ -17,7 +17,7 @@
     s.shardsEarned += gain;
     s.stats.rebirths++;
 
-    // リセットするもの: つぶ・なかま・アップグレード・だんかい・けいとう
+    // リセットするもの: つぶ・なかま・アップグレード・だんかい・けいとう（つくえの カスと ずかんは のこる）
     var f = K.store.fresh();
     s.crumbs = 0;
     s.totalCrumbs = 0;
@@ -26,13 +26,12 @@
     s.upgrades = {};
     s.trait = 'plain';
     s.stage = 1;
-    s.species = '1-plain';
+    s.rollsAtTier = 0;
     s.mood = f.mood;
     s.stats.runStart = Date.now();
     if (s.shardUpgrades.startAnts) s.buildings.ant = 10;
     K.rt.buff = null;
     K.rt.praiseUntil = 0;
-    K.evo.register('1-plain');
     return gain;
   };
 

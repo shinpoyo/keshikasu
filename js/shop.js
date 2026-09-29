@@ -112,7 +112,7 @@
   G.achievementTotal = K.data.achievements.filter(function (a) { return !a.shadow; }).length;
 
   G.globalMult = function () {
-    var m = (1 + 0.01 * G.achievementCount()) * (1 + 0.01 * S().shards);
+    var m = (1 + 0.01 * G.achievementCount()) * (1 + 0.01 * S().shards) * K.evo.bonusMult();
     if (hasShard('secret50')) m *= 1.5;
     if (hasShard('secret100')) m *= 2;
     return m;
@@ -198,12 +198,13 @@
     return K.data.materials.filter(function (m) { return G.materialUnlocked(m) && S().trait !== m.trait; });
   };
 
+  // まぜると、つぎに まるめる カスの けいとうが かわる（「まぜない」は ただ）
   G.buyMaterial = function (id) {
     var m = G.materialById[id];
     if (!m || !G.materialUnlocked(m) || S().trait === m.trait || S().crumbs < m.cost) return false;
     S().crumbs -= m.cost;
     S().trait = m.trait;
-    S().stats.mixes++;
+    if (m.cost > 0) S().stats.mixes++;
     return true;
   };
 

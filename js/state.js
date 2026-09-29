@@ -21,7 +21,8 @@
       buildings: b,
       upgrades: {},            // id: true
       trait: 'plain',
-      stage: 1,
+      stage: 1,                // この周で でるように なった だんかい
+      rollsAtTier: 0,          // いまの だんかいで まるめた かず（ねだんが あがる）
       species: '1-plain',
       zukan: {},               // speciesId: { at: 日時, mat: 材料id }
       achievements: {},        // id: 日時
@@ -31,7 +32,7 @@
       shardUpgrades: {},
       mood: { praises: 0, blows: 0, idle: 0 }, // この周の記録（特別な進化）
       stats: {
-        rubs: 0, allHandmade: 0, golden: 0, playTime: 0, rebirths: 0,
+        rubs: 0, rolls: 0, allHandmade: 0, golden: 0, playTime: 0, rebirths: 0,
         praises: 0, blows: 0, mixes: 0, sold: 0, maxBlowStreak: 0, maxIdle: 0,
         night: 0, rested: 0, firstPlay: now, runStart: now
       },

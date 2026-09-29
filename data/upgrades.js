@@ -108,23 +108,26 @@
 
   // --- まぜる材料（けいとう）。何回でも まぜなおせる ---
   K.data.materials = [
+    { id: 'none', trait: 'plain', stage: 1, cost: 0,
+      name: { ja: 'なにも まぜない', en: 'Mix Nothing' },
+      desc: { ja: 'まぜた ものを とりのぞく。つぎの カスは ふつうの はいいろ。', en: 'Take the mix out. Your next crumb is plain gray.' } },
     { id: 'graphite', trait: 'graphite', stage: 2, cost: 500,
       name: { ja: 'えんぴつの こな', en: 'Pencil Dust' },
-      desc: { ja: 'まぜると カスが くろく なる。すこし ひかる。', en: 'Mix it in and your crumb turns black. A little shiny.' } },
+      desc: { ja: 'まぜると、まるめた カスが くろく なる。すこし ひかる。', en: 'Mix it in and new crumbs turn black. A little shiny.' } },
     { id: 'colored', trait: 'rainbow', stage: 2, cost: 800,
       name: { ja: 'いろえんぴつ', en: 'Colored Pencil' },
-      desc: { ja: 'まぜると カスが にじいろの まだらに なる。', en: 'Mix it in and your crumb gets rainbow spots.' } },
+      desc: { ja: 'まぜると、まるめた カスが にじいろの まだらに なる。', en: 'Mix it in and new crumbs get rainbow spots.' } },
     { id: 'glue', trait: 'sticky', stage: 3, cost: 20000,
       name: { ja: 'のり', en: 'Glue' },
-      desc: { ja: 'まぜると カスが テカテカ のびる。', en: 'Mix it in and your crumb gets shiny and stretchy.' } },
+      desc: { ja: 'まぜると、まるめた カスが テカテカ のびる。', en: 'Mix it in and new crumbs get shiny and stretchy.' } },
     { id: 'dust', trait: 'fluffy', stage: 3, cost: 30000,
       name: { ja: 'ほこり', en: 'Dust Bunny' },
-      desc: { ja: 'まぜると カスが もふもふに なる。', en: 'Mix it in and your crumb gets fluffy.' } },
+      desc: { ja: 'まぜると、まるめた カスが もふもふに なる。', en: 'Mix it in and new crumbs get fluffy.' } },
     { id: 'sand', trait: 'gritty', stage: 4, cost: 3e6,
       name: { ja: 'すなけし', en: 'Sand Eraser' },
-      desc: { ja: 'まぜると カスが ざらざらに なる。', en: 'Mix it in and your crumb gets gritty.' } },
+      desc: { ja: 'まぜると、まるめた カスが ざらざらに なる。', en: 'Mix it in and new crumbs get gritty.' } },
     { id: 'gold', trait: 'golden', stage: 5, cost: 3e9,
       name: { ja: 'きんの こな', en: 'Gold Dust' },
-      desc: { ja: 'まぜると カスが きんいろに ひかる。', en: 'Mix it in and your crumb glows gold.' } }
+      desc: { ja: 'まぜると、まるめた カスが きんいろに ひかる。', en: 'Mix it in and new crumbs glow gold.' } }
   ];
 })(window.K = window.K || {});
