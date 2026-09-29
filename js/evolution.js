@@ -98,7 +98,8 @@
   // けしゴムを こすると すこしずつ ちいさく なり、つかいきると「けしゴムの かみ」が 1まい もらえる。
   // かみ 1まいで 1かい まるめる。いろは もっている ざいりょうから ランダム。
   // ダブったら スタンプ 1こ（10こで すきな カスと こうかん）。10かい つづけて ダブったら つぎは かならず あたらしい カス
-  E.WEAR_LIFE = 80;   // こする かいすうで 1こ つかいきる
+  // 1こ つかいきるまでの こする かいすう: さいしょは 80、つかいきる たびに +20、さいだい 1000
+  E.life = function () { return Math.min(80 + 20 * (S().stats.erasers || 0), 1000); };
   E.TIER_TICKETS = 2; // あたらしい STAGE が でたら もらえる かみ
   E.STAMPS = 10;      // こうかんに ひつような スタンプ
   E.PITY = 10;        // この かいすうめは かならず あたらしい
@@ -107,13 +108,13 @@
   E.wear = function () {
     var s = S();
     s.wear = (s.wear || 0) + 1;
-    if (s.wear < E.WEAR_LIFE) return false;
+    if (s.wear < E.life()) return false;
     s.wear = 0;
     s.tickets = (s.tickets || 0) + 1;
     s.stats.erasers = (s.stats.erasers || 0) + 1;
     return true;
   };
-  E.wearRatio = function () { return Math.min((S().wear || 0) / E.WEAR_LIFE, 1); };
+  E.wearRatio = function () { return Math.min((S().wear || 0) / E.life(), 1); };
 
   // まるめると でる いろ: まぜない（はいいろ）＋ かった ざいりょう（いまの STAGE で つかえる もの）
   E.pool = function () {

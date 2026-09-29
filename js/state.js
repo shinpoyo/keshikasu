@@ -24,7 +24,7 @@
       trait: 'plain',
       stage: 1,                // この周で でるように なった だんかい
       tickets: 0,              // けしゴムの かみ（まるめる ガチャけん）。おかねでは かえない
-      wear: 0,                 // いまの けしゴムを こすった かず（js/evolution.js WEAR_LIFE で 1まい）
+      wear: 0,                 // いまの けしゴムを こすった かず（js/evolution.js life() で 1まい）
       dry: 0,                  // つづけて ダブった かず（天井）
       stamps: 0,               // ダブりで もらえる スタンプ（こうかん用）
       mats: {},                // かった ざいりょう id: true（いちど かえば ずっと）
@@ -39,7 +39,7 @@
       stats: {
         rubs: 0, rolls: 0, allHandmade: 0, golden: 0, playTime: 0, rebirths: 0,
         praises: 0, blows: 0, mixes: 0, sold: 0, maxBlowStreak: 0, maxIdle: 0,
-        night: 0, rested: 0, firstPlay: now, runStart: now
+        night: 0, rested: 0, erasers: 0, firstPlay: now, runStart: now
       },
       settings: { lang: K.defaultLang(), sound: true, notation: 'short', reduceMotion: false, dark: false },
       lastSave: now,
