@@ -1,0 +1,45 @@
+// かけらの おみせ（永続アップグレード、企画書 8章）。デザイン案 design/ShardShop.dc.html と同じ並び
+(function (K) {
+  'use strict';
+  K.data = K.data || {};
+  K.data.shardShop = [
+    { id: 'offline20', cost: 1,
+      name: { ja: 'ねている あいだも', en: 'Even While Sleeping' },
+      desc: { ja: 'とじている あいだの つぶが 10% から 20% に なる。', en: 'Offline crumbs go from 10% to 20%.' } },
+    { id: 'startGraphite', cost: 2,
+      name: { ja: 'えんぴつの こな もちこみ', en: 'Bring Your Own Pencil Dust' },
+      desc: { ja: 'はじめから 「えんぴつの こな」が まぜられる。', en: 'Pencil Dust can be mixed from the very start.' } },
+    { id: 'goldenFreq', cost: 3,
+      name: { ja: 'ゴールデンカス でやすく', en: 'Golden Crumbs More Often' },
+      desc: { ja: 'ゴールデンカスが 10% よく でてくる。', en: 'Golden Crumbs appear 10% more often.' } },
+    { id: 'praiseFast', cost: 3,
+      name: { ja: 'ほめじょうず', en: 'Good at Praising' },
+      desc: { ja: 'ほめる の まちじかんが 10びょう から 5びょう に なる。', en: 'Praise cooldown goes from 10s to 5s.' } },
+    { id: 'startAnts', cost: 5,
+      name: { ja: 'アリさんの ひっこし', en: 'The Ants Move In' },
+      desc: { ja: 'はじめから アリさんが 10ぴき いる。', en: 'Start with 10 Ants.' } },
+    { id: 'goldenLong', cost: 8,
+      name: { ja: 'ゴールデンカス ながもち', en: 'Longer Golden Crumbs' },
+      desc: { ja: 'ゴールデンカスの こうかが 1.5ばい ながく つづく。', en: 'Golden Crumb effects last 1.5 times longer.' } },
+    { id: 'offline50', cost: 10, requires: 'offline20',
+      name: { ja: 'ぐっすり ねむる', en: 'Deep Sleep' },
+      desc: { ja: 'とじている あいだの つぶが 50% に なる。', en: 'Offline crumbs go up to 50%.' } },
+    { id: 'discount', cost: 15,
+      name: { ja: 'なかまの ねびき', en: 'Buddy Discount' },
+      desc: { ja: 'なかまの ねだんが ぜんぶ 5% やすく なる。', en: 'All buddies cost 5% less.' } },
+    { id: 'allMaterials', cost: 20,
+      name: { ja: 'いろんな ざいりょう', en: 'All Sorts of Materials' },
+      desc: { ja: 'はじめから ぜんぶの ざいりょうが まぜられる。', en: 'All materials can be mixed from the very start.' } },
+    { id: 'rubPower', cost: 25,
+      name: { ja: 'こする ちから', en: 'Rubbing Power' },
+      desc: { ja: 'こすると /s の 1% ぶんも もらえる。', en: 'Rubbing also gives 1% of your /s.' } },
+    { id: 'secret50', cost: 50, secret: true,
+      name: { ja: 'けしゴムの ひみつ', en: 'Secret of the Eraser' },
+      desc: { ja: '/s が 50% ふえる。けしゴムは ずっと しっていた。', en: '+50% /s. The eraser knew all along.' },
+      hiddenDesc: { ja: 'だれも みたことが ない。', en: 'Nobody has ever seen it.' } },
+    { id: 'secret100', cost: 100, secret: true,
+      name: { ja: 'カスの かみさまの ごかご', en: 'Blessing of the Crumb God' },
+      desc: { ja: '/s が 2ばい。かみさまは つくえの すみに いた。', en: 'x2 /s. The god was in the corner of the desk.' },
+      hiddenDesc: { ja: 'けしゴムの かみさまだけが しっている。', en: 'Only the eraser god knows.' } }
+  ];
+})(window.K = window.K || {});
