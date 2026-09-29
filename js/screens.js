@@ -6,7 +6,7 @@
   var S = function () { return K.state; };
   var t = function (k, v) { return K.t(k, v); };
   var esc = function (s) { return K.ui.esc(s); };
-  var VERSION = '0.8'; // index.html の ?v= と そろえる（ブラウザの キャッシュで 古い js が のこらないように）
+  var VERSION = '0.9'; // index.html の ?v= と そろえる（ブラウザの キャッシュで 古い js が のこらないように）
 
   function show(id) {
     ['screen-title', 'screen-naming', 'screen-game'].forEach(function (s) { $(s).hidden = s !== id; });
@@ -207,6 +207,13 @@
       (found ? '' : '<span class="z-q">?</span>') +
       (isNew ? '<span class="badge badge-new z-new">' + t('newBadge') + '</span>' : '') + '</button>';
   }
+  // スタンプで こうかん（いま まるめて でる かのうせいが ある ものだけ）
+  function tradeBtn(id) {
+    if (!K.evo.canTrade(id)) return '';
+    var have = S().stamps || 0, can = have >= K.evo.STAMPS;
+    return '<button type="button" class="btn btn-pink z-trade-btn" data-trade="' + id + '"' + (can ? '' : ' disabled') + '>' +
+      K.art.ui('stamp', 16) + esc(t('tradeBtn', { n: have, m: K.evo.STAMPS })) + '</button>';
+  }
   function zdetail(id) {
     var s = S();
     var info = K.evo.info(id);
@@ -214,7 +221,7 @@
     if (!found) {
       return '<div class="z-detail"><div class="z-detail-img"><img src="' + info.art + '" alt="" style="filter:brightness(0) opacity(.15)"></div>' +
         '<div class="z-detail-body"><span class="badge ' + (info.special ? 'badge-special' : 'badge-stage') + '" style="align-self:flex-start">' + (info.special ? t('specialBadge') : t('stageBadge', { n: info.stage })) + '</span>' +
-        '<h3>？？？</h3><p class="z-quote">' + esc(info.hint ? K.L(info.hint) : t('notFound')) + '</p></div></div>';
+        '<h3>？？？</h3><p class="z-quote">' + esc(info.hint ? K.L(info.hint) : t('notFound')) + '</p>' + tradeBtn(id) + '</div></div>';
     }
     var mat = found.mat ? K.game.materialById[found.mat] : null;
     var other = K.lang() === 'ja' ? info.name.en : info.name.ja;
@@ -235,6 +242,9 @@
     });
     card.querySelectorAll('[data-desk]').forEach(function (b) {
       b.onclick = function () { if (K.evo.setDesk(b.getAttribute('data-desk'))) { K.ui.renderKasu(); SC.refresh(); } };
+    });
+    card.querySelectorAll('[data-trade]').forEach(function (b) {
+      b.onclick = function () { if (K.evo.trade(b.getAttribute('data-trade'))) { SC.close(); K.ui.renderKasu(); } };
     });
   };
 

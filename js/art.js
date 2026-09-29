@@ -74,6 +74,8 @@
     back: ['0 0 24 24', '<path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>'],
     lock: ['0 0 24 24', '<g fill="none" stroke="#A59A86" stroke-width="2" stroke-linecap="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></g>'],
     crumb: ['0 0 10 10', '<path d="M2 6c0-2 2-4 4-3.5S9 5 8 7 3 8.5 2 6z" fill="#A9A49B" stroke="' + INK + '" stroke-width="1"/>'],
+    sleeve: ['0 0 22 16', '<rect x="2" y="2" width="18" height="12" rx="2" fill="#3E6FB0" stroke="' + INK + '" stroke-width="1.5"/><rect x="2" y="6.5" width="18" height="3" fill="#FFFFFF" stroke="' + INK + '" stroke-width="1"/>'],
+    stamp: ['0 0 16 16', '<circle cx="8" cy="8" r="6.5" fill="#F29CA3" stroke="' + INK + '" stroke-width="1.5"/><path d="M5 8.2l2 2 4-4.2" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>'],
     eraser: ['0 0 22 16', '<rect x="1" y="2" width="20" height="12" rx="3" fill="#F29CA3" stroke="' + INK + '" stroke-width="1.5"/><rect x="9" y="2" width="12" height="12" fill="#3E6FB0" stroke="' + INK + '" stroke-width="1.5"/>'],
     sound: ['0 0 24 24', '<g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16 9a4 4 0 0 1 0 6M19 6a8 8 0 0 1 0 12"/></g>'],
     save: ['0 0 24 24', '<g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5"/><path d="M4 17v3h16v-3"/></g>'],
@@ -91,20 +93,24 @@
     return 'art/kasu-stage' + n + '.svg';
   }
 
-  // こする 消しゴム（大きい絵）。左はしが こすれて まるく、すこし よごれている
-  var ERASER = ['0 0 220 124',
-    '<ellipse cx="116" cy="112" rx="98" ry="9" fill="#5C401E" opacity="0.18"/>' +
-    '<path d="M22 14h72v92H24c-9 0-15-6-16-15-1-9-1-53 0-62 1-9 6-15 14-15z" fill="#F29CA3" stroke="' + INK + '" stroke-width="3" stroke-linejoin="round"/>' +
+  // こする 消しゴム（大きい絵）。左はしが こすれて まるく、すこし よごれている。
+  // wear は へりぐあい（0〜1）。ピンクの ところが みじかく なる
+  var ERASER_SHADOW = '<ellipse cx="116" cy="112" rx="98" ry="9" fill="#5C401E" opacity="0.18"/>';
+  var ERASER_RUBBER = '<path d="M22 14h72v92H24c-9 0-15-6-16-15-1-9-1-53 0-62 1-9 6-15 14-15z" fill="#F29CA3" stroke="' + INK + '" stroke-width="3" stroke-linejoin="round"/>' +
     '<path d="M16 26c-2 16-2 50 0 66" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" opacity="0.45"/>' +
     '<path d="M9 72c1 10 5 18 13 21" stroke="#6B6A66" stroke-width="7" stroke-linecap="round" opacity="0.28"/>' +
-    '<path d="M30 22h60" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity="0.5"/>' +
-    '<rect x="78" y="8" width="134" height="102" rx="7" fill="#3E6FB0" stroke="' + INK + '" stroke-width="3"/>' +
+    '<path d="M30 22h60" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity="0.5"/>';
+  var ERASER_SLEEVE = '<rect x="78" y="8" width="134" height="102" rx="7" fill="#3E6FB0" stroke="' + INK + '" stroke-width="3"/>' +
     '<rect x="78" y="44" width="134" height="22" fill="#FFFFFF" stroke="' + INK + '" stroke-width="2.4"/>' +
     '<rect x="78" y="70" width="134" height="5" fill="' + INK + '"/>' +
     '<path d="M90 20h108" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity="0.35"/>' +
-    '<circle cx="104" cy="55" r="4" fill="#F29CA3" stroke="' + INK + '" stroke-width="1.6"/><circle cx="118" cy="55" r="4" fill="#3E6FB0" stroke="' + INK + '" stroke-width="1.6"/>'];
+    '<circle cx="104" cy="55" r="4" fill="#F29CA3" stroke="' + INK + '" stroke-width="1.6"/><circle cx="118" cy="55" r="4" fill="#3E6FB0" stroke="' + INK + '" stroke-width="1.6"/>';
 
-  function eraser(w, h) { return svg(ERASER[0], ERASER[1], w || '100%', h || '100%'); }
+  function eraser(wear) {
+    var k = 1 - Math.min(wear || 0, 1) * 0.6;
+    var body = ERASER_SHADOW + '<g transform="translate(' + (94 * (1 - k)).toFixed(2) + ' 0) scale(' + k.toFixed(3) + ' 1)">' + ERASER_RUBBER + '</g>' + ERASER_SLEEVE;
+    return svg('0 0 220 124', body, '100%', '100%');
+  }
 
   // カスの絵（けいとうの色つき）。tint は 形で切りぬいた 色の そう（カラフルは 何色も まざる）
   function kasuPic(info, opt) {

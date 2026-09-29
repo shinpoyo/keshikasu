@@ -1,6 +1,6 @@
 // あつめる・ずかん（企画書 7章、10章）
-// つぶを「まるめる」と あたらしい カスが 1ぴき できる。だんかい（STAGE）は この周に あつめた つぶで ふえ、
-// まるめると そのなかから ランダム。けいとうは いま まぜている ざいりょうで きまる。ずかんの しゅるい 1つにつき /s +2%
+// 「けしゴムの かみ」で「まるめる」と あたらしい カスが 1ぴき できる。だんかい（STAGE）は この周に あつめた つぶで ふえ、
+// まるめると そのなかから ランダム。いろは かった ざいりょうから ランダム。ずかんの しゅるい 1つにつき /s +2%
 (function (K) {
   'use strict';
   var E = {};
@@ -59,8 +59,8 @@
   E.register = function (id) {
     var z = S().zukan[id];
     if (z) { z.n = (z.n || 1) + 1; return false; }
-    var matId = null;
-    K.data.materials.forEach(function (m) { if (m.trait === S().trait && m.cost > 0) matId = m.id; });
+    var matId = null, tr = E.info(id).trait;
+    K.data.materials.forEach(function (m) { if (m.trait === tr && m.cost > 0) matId = m.id; });
     S().zukan[id] = { at: Date.now(), mat: matId, n: 1 };
     return true;
   };
@@ -94,13 +94,47 @@
     return null;
   }
 
-  // まるめる ねだん: いまの だんかいの きほん × 1.35^(この だんかいで まるめた かず)
-  var ROLL_BASE = [10, 60, 4000, 4e5, 4e8, 4e11, 4e14];
-  E.rollCost = function () {
+  // --- まるめる（ガチャ）---
+  // けしゴムを こすると すこしずつ ちいさく なり、つかいきると「けしゴムの かみ」が 1まい もらえる。
+  // かみ 1まいで 1かい まるめる。いろは もっている ざいりょうから ランダム。
+  // ダブったら スタンプ 1こ（10こで すきな カスと こうかん）。10かい つづけて ダブったら つぎは かならず あたらしい カス
+  E.WEAR_LIFE = 80;   // こする かいすうで 1こ つかいきる
+  E.TIER_TICKETS = 2; // あたらしい STAGE が でたら もらえる かみ
+  E.STAMPS = 10;      // こうかんに ひつような スタンプ
+  E.PITY = 10;        // この かいすうめは かならず あたらしい
+
+  // こすった ぶん けしゴムが へる。つかいきったら true
+  E.wear = function () {
     var s = S();
-    var d = K.game.hasShard('discount') ? 0.95 : 1;
-    return Math.ceil(ROLL_BASE[s.stage - 1] * Math.pow(1.35, s.rollsAtTier || 0) * d);
+    s.wear = (s.wear || 0) + 1;
+    if (s.wear < E.WEAR_LIFE) return false;
+    s.wear = 0;
+    s.tickets = (s.tickets || 0) + 1;
+    s.stats.erasers = (s.stats.erasers || 0) + 1;
+    return true;
   };
+  E.wearRatio = function () { return Math.min((S().wear || 0) / E.WEAR_LIFE, 1); };
+
+  // まるめると でる いろ: まぜない（はいいろ）＋ かった ざいりょう（いまの STAGE で つかえる もの）
+  E.pool = function () {
+    var out = ['plain'];
+    K.data.materials.forEach(function (m) {
+      if (m.cost > 0 && S().mats[m.id] && K.game.materialUnlocked(m) && out.indexOf(m.trait) < 0) out.push(m.trait);
+    });
+    return out;
+  };
+
+  // いま まるめて でる かのうせいが ある まだ みつけていない カス
+  E.missing = function () {
+    var out = [], pool = E.pool();
+    for (var n = 1; n <= S().stage; n++) {
+      pool.forEach(function (tr) { var id = K.speciesId(n, tr); if (!S().zukan[id]) out.push(id); });
+    }
+    return out;
+  };
+
+  // あと なんかいで あたらしい カスが かくていか
+  E.pityLeft = function () { return E.PITY - (S().dry || 0); };
 
   // でる だんかい: いちばん うえ 40%、ひとつ した 25%、のこりは それより したから
   function pickStage() {
@@ -110,36 +144,64 @@
     if (r < 0.65 || top === 2) return top - 1;
     return 1 + Math.floor(Math.random() * (top - 2));
   }
+  function pickId() {
+    var pool = E.pool();
+    return K.speciesId(pickStage(), pool[Math.floor(Math.random() * pool.length)]);
+  }
 
-  // まるめる。ダブったら 1かいだけ ひきなおし、それでも ダブったら ねだんの はんぶんが かえってくる
   E.roll = function () {
     var s = S();
-    var cost = E.rollCost();
-    if (s.crumbs < cost) return null;
-    s.crumbs -= cost;
-    s.rollsAtTier = (s.rollsAtTier || 0) + 1;
+    if ((s.tickets || 0) < 1) return null;
+    s.tickets -= 1;
     s.stats.rolls = (s.stats.rolls || 0) + 1;
     var sp = special();
-    var id = sp || K.speciesId(pickStage(), s.trait);
-    if (!sp && s.zukan[id]) {
-      var again = K.speciesId(pickStage(), s.trait);
-      if (!s.zukan[again]) id = again;
+    var id = sp;
+    if (!id) {
+      var missing = E.missing();
+      if (missing.length && (s.dry || 0) >= E.PITY - 1) {
+        id = missing[Math.floor(Math.random() * missing.length)];
+      } else {
+        id = pickId();
+        if (s.zukan[id]) { var again = pickId(); if (!s.zukan[again]) id = again; }
+      }
     }
     var isNew = E.register(id);
-    s.species = id;
     K.rt.maxRubRate = 0;
-    var refund = 0;
-    if (isNew) E.queue.push({ type: 'roll', from: '2-plain', to: id, stage: sp ? null : parseInt(id, 10), isNew: true });
-    else { refund = Math.floor(cost / 2); s.crumbs += refund; }
-    return { id: id, isNew: isNew, refund: refund };
+    if (isNew) {
+      s.dry = 0;
+      s.species = id;
+      s.trait = E.info(id).trait || s.trait;
+      E.queue.push({ type: 'roll', from: '2-plain', to: id, stage: sp ? null : parseInt(id, 10), isNew: true });
+    } else {
+      // ダブりは スタンプに なる。つくえの カスは そのまま（たいかに みえないように）
+      // もう でる ものが ぜんぶ そろっているときは 天井を かぞえない
+      s.dry = E.missing().length ? (s.dry || 0) + 1 : 0;
+      s.stamps = (s.stamps || 0) + 1;
+    }
+    return { id: id, isNew: isNew };
+  };
+
+  // スタンプで こうかん できるか（まだ みつけていなくて、いま まるめて でる かのうせいが ある もの）
+  E.canTrade = function (id) {
+    return E.missing().indexOf(id) >= 0;
+  };
+  E.trade = function (id) {
+    var s = S();
+    if (!E.canTrade(id) || (s.stamps || 0) < E.STAMPS) return false;
+    s.stamps -= E.STAMPS;
+    E.register(id);
+    s.species = id;
+    s.trait = E.info(id).trait || s.trait;
+    E.queue.push({ type: 'roll', from: '2-plain', to: id, stage: parseInt(id, 10), isNew: true });
+    return true;
   };
 
   // あつめた つぶで つぎの だんかいが でるように なる
   E.check = function () {
     var target = E.stageFor(S().totalCrumbs);
     if (target > S().stage) {
+      S().tickets = (S().tickets || 0) + E.TIER_TICKETS * (target - S().stage);
       S().stage = target;
-      S().rollsAtTier = 0;
       E.unlocked.push(target);
     }
   };
