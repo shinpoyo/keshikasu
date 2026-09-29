@@ -134,6 +134,7 @@
     if (Math.random() < 0.015) K.ui.say(K.news.monologue('rub'));
   }
 
+  // こする はんていは つくえ ぜんたい（消しゴムでも カスでも 紙でも）。ずっと タップするので ゆるく
   function bindKasu() {
     var btn = $('eraser-btn');
     var stage = $('kasu-stage');
@@ -142,47 +143,38 @@
       var r = stage.getBoundingClientRect();
       return [e.clientX - r.left, e.clientY - r.top];
     };
-    btn.addEventListener('pointerdown', function (e) {
+    stage.addEventListener('pointerdown', function (e) {
       if (e.button > 0 || !e.isTrusted) return;
       e.preventDefault();
       K.sound.unlock();
       var p = at(e);
       rub(p[0], p[1]);
       drag = { x: e.clientX, dir: 0, run: 0 };
-      try { btn.setPointerCapture(e.pointerId); } catch (err) { /* なし */ }
+      try { stage.setPointerCapture(e.pointerId); } catch (err) { /* なし */ }
     });
     // おしたまま 左右に うごかしても こすれる（むきが かわるたびに 1かい）
-    btn.addEventListener('pointermove', function (e) {
+    stage.addEventListener('pointermove', function (e) {
       if (!drag || !e.isTrusted) return;
       var d = e.clientX - drag.x;
       drag.x = e.clientX;
       if (!d) return;
       var dir = d > 0 ? 1 : -1;
       if (dir !== drag.dir) {
-        if (drag.run >= 14) { var p = at(e); rub(p[0], p[1]); }
+        if (drag.run >= 8) { var p = at(e); rub(p[0], p[1]); }
         drag.dir = dir; drag.run = 0;
       }
       drag.run += Math.abs(d);
     });
     var end = function () { drag = null; };
-    btn.addEventListener('pointerup', end);
-    btn.addEventListener('pointercancel', end);
+    stage.addEventListener('pointerup', end);
+    stage.addEventListener('pointercancel', end);
     // キーボード（Enter / Space）
     btn.addEventListener('click', function (e) {
       if (e.detail !== 0 || !e.isTrusted) return;
       var r = stage.getBoundingClientRect();
       rub(r.width * 0.7, r.height * 0.35);
     });
-    btn.addEventListener('contextmenu', function (e) { e.preventDefault(); });
-    // カスを さわると もじもじ するだけ
-    var saidAt = 0;
-    $('kasu').addEventListener('pointerdown', function (e) {
-      e.preventDefault();
-      var ka = $('kasu');
-      if (now() < K.rt.blownUntil) return;
-      ka.classList.remove('shy'); void ka.offsetWidth; ka.classList.add('shy');
-      if (now() - saidAt > 4000) { saidAt = now(); K.ui.say(K.news.monologue('touch')); }
-    });
+    stage.addEventListener('contextmenu', function (e) { e.preventDefault(); });
   }
 
   function praise() {

@@ -25,7 +25,7 @@
     namingOk: 'Use this name',
 
     tut1Title: 'Try rubbing the eraser',
-    tut1Body: 'Tap the eraser to make "crumbs". You can also drag it back and forth. Save up crumbs to call buddies.',
+    tut1Body: 'Tap anywhere on the desk to rub the eraser and make "crumbs". You can also drag it back and forth. Save up crumbs to call buddies.',
     tut2Title: 'Call a buddy',
     tut2Body: 'Get a "Finger" in the Shop. It rubs for you automatically.',
     tut2BodyMobile: 'Open the Shop tab below and get a "Finger". It rubs for you.',
