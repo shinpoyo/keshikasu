@@ -27,6 +27,7 @@
       wear: 0,                 // いまの けしゴムを こすった かず（js/evolution.js life() で 1まい）
       dry: 0,                  // つづけて ダブった かず（天井）
       stamps: 0,               // ダブりで もらえる スタンプ（こうかん用）
+      rollLog: [],             // さいきん まるめた けっか { id, n: 1=あたらしい }（あたらしい じゅん、12こ）
       mats: {},                // かった ざいりょう id: true（いちど かえば ずっと）
       species: '1-plain',
       zukan: {},               // speciesId: { at: 日時, mat: 材料id }

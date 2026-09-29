@@ -72,15 +72,79 @@
     var next = K.evo.nextNeed();
     $('kasu-next').textContent = next == null ? t('maxEvo') : t('nextEvo', { p: Math.floor(K.evo.progress() * 100) });
     $('evo-bar').style.width = (K.evo.progress() * 100).toFixed(1) + '%';
-    var tk = s.tickets || 0;
-    $('roll-btn').disabled = tk < 1;
-    $('roll-price').innerHTML = '<span class="price tickets' + (tk < 1 ? ' no' : '') + '">' + K.art.ui('sleeve', 16) + '×' + K.fmt(tk) + '</span>';
-    var left = K.evo.missing().length;
-    $('roll-sub').textContent = !left ? t('rollAllFound')
-      : t('rollSub', { f: K.evo.foundCount(), t: K.evo.TOTAL, k: K.evo.pityLeft() });
-    $('stamp-count').textContent = t('stampCount', { n: s.stamps || 0, m: K.evo.STAMPS });
     U.renderEraser();
     U.renderMess();
+  };
+
+  // --- まるめる（ガチャの ページ）---
+  var gachaSig = '';
+  U.rolling = false;
+  U.renderGacha = function (force) {
+    var s = S(), E = K.evo;
+    var tk = s.tickets || 0;
+    // したの メニューと PC の きりかえに かみの まいすう
+    $('gacha-badge').hidden = tk < 1 || U.tab === 'gacha';
+    $('gacha-badge').textContent = tk > 99 ? '99+' : tk;
+    document.querySelectorAll('.mid-badge').forEach(function (el) { el.hidden = tk < 1 || U.mid === 'gacha'; el.textContent = tk > 99 ? '99+' : tk; });
+    var life = E.life(), left = life - (s.wear || 0);
+    $('gm-wear-text').textContent = t('gNextSleeveVal', { n: K.fmt(left) });
+    $('gm-wear-bar').style.width = (E.wearRatio() * 100).toFixed(1) + '%';
+    var active = U.tab === 'gacha' || (U.mid === 'gacha' && !U.narrow());
+    var missing = E.missing().length;
+    var sig = [K.lang(), tk, s.dry, s.stamps, s.stage, Object.keys(s.mats).join(','), E.foundCount(), (s.rollLog || []).length && s.rollLog[0].id, U.rolling, missing].join('|');
+    if ((sig === gachaSig && !force) || !active) return;
+    gachaSig = sig;
+    if (!$('gacha-machine').firstChild) $('gacha-machine').innerHTML = K.art.gachaMachine();
+    $('gm-tickets').textContent = '×' + K.fmt(tk);
+    $('roll-btn').disabled = tk < 1 || U.rolling;
+    $('roll-sub').textContent = tk < 1 ? t('rollNoTicket') : !missing ? t('rollAllFound') : t('rollSub', { f: E.foundCount(), t: E.TOTAL, k: E.pityLeft() });
+    // 天井
+    var dry = missing ? (s.dry || 0) : 0, ph = '';
+    for (var i = 0; i < E.PITY; i++) ph += '<i class="' + (i < dry ? 'on' : '') + (i === E.PITY - 1 ? ' last' : '') + '"></i>';
+    $('gm-pity').innerHTML = ph;
+    $('gm-pity-text').textContent = missing ? t('gPityVal', { k: E.pityLeft() }) : t('gPityNone');
+    // スタンプ
+    var st = s.stamps || 0, sh = '';
+    for (var j = 0; j < E.STAMPS; j++) sh += '<i class="' + (j < st % E.STAMPS || (st >= E.STAMPS) ? 'on' : '') + '"></i>';
+    $('gm-stamps').innerHTML = sh;
+    $('gm-stamp-text').textContent = K.fmt(st) + ' / ' + E.STAMPS;
+    // でる いろ
+    $('gm-colors').innerHTML = E.pool().map(function (id) {
+      var tr = E.traitById[id];
+      return '<span class="gm-color"><span class="chip-dot" style="background:' + (tr.chipBg || tr.chip) + '"></span>' + esc(K.L(tr.name)) + '</span>';
+    }).join('');
+    // でる STAGE
+    var r = E.stageRates(), rh = '';
+    for (var n = s.stage; n >= 1; n--) {
+      rh += '<span class="gm-rate"><span class="badge badge-stage">' + esc(t('stageBadge', { n: n })) + '</span><span class="gm-rate-bar"><i style="width:' + (r[n] * 100).toFixed(1) + '%"></i></span><b>' + Math.round(r[n] * 100) + '%</b></span>';
+    }
+    $('gm-rates').innerHTML = rh;
+    // さいきん
+    var log = s.rollLog || [];
+    $('gm-history').innerHTML = log.length ? log.map(function (x) {
+      var info = E.info(x.id);
+      return '<span class="gm-h' + (x.n ? ' new' : '') + '" title="' + esc(K.L(info.name)) + '">' + K.art.kasuPic(info) + (x.n ? '<span class="badge badge-new">' + esc(t('newBadge')) + '</span>' : '') + '</span>';
+    }).join('') : '<span class="gm-empty">' + esc(t('gHistoryNone')) + '</span>';
+  };
+
+  // ダブったときの けっか（あたらしい ときは しんかの 演出が でる）
+  U.showRollResult = function (r) {
+    var el = $('gm-result');
+    var info = K.evo.info(r.id);
+    el.hidden = false;
+    el.className = 'gacha-result ' + (r.isNew ? 'new' : 'dup');
+    el.innerHTML = '<span class="gr-pic">' + K.art.kasuPic(info) + '</span><span class="gr-text"><b>' + esc(K.L(info.name)) + '</b><small>' +
+      esc(r.isNew ? t('rolled') : t('gDupNote', { n: S().stamps, m: K.evo.STAMPS })) + '</small></span>';
+    el.style.animation = 'none'; void el.offsetWidth; el.style.animation = '';
+  };
+
+  // PC: まんなかの れつを「つくえ」と「まるめる」で きりかえる
+  U.mid = 'desk';
+  U.setMid = function (mid) {
+    U.mid = mid;
+    $('panes').setAttribute('data-mid', mid);
+    document.querySelectorAll('.mid-switch [data-mid]').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-mid') === mid)); });
+    if (mid === 'gacha') U.renderGacha(true); else U.renderDesk(true);
   };
 
   // けしゴムの へりぐあい（10だんかいで かきなおす）
@@ -99,7 +163,7 @@
     U.renderEraser();
     var el = $('eraser-btn');
     el.classList.remove('fresh'); void el.offsetWidth; el.classList.add('fresh');
-    var tk = $('roll-btn');
+    var tk = $('gm-tickets');
     tk.classList.remove('got'); void tk.offsetWidth; tk.classList.add('got');
     U.toast('<b>' + esc(t('eraserDone')) + '</b> ' + esc(t('ticketPlus')));
     K.sound.play('upgrade');
@@ -496,6 +560,9 @@
     if (tab === 'menu' && K.screens) K.screens.renderMenu();
     if (tab === 'shop') { $('shop-badge').hidden = true; U.renderShop(true); }
     if (tab === 'desk') U.renderDesk(true);
+    if (tab === 'gacha') U.renderGacha(true);
+    // スマホで えらんだ ページを PC に もどした ときも まんなかを あわせる
+    if (tab === 'gacha' || tab === 'desk') U.setMid(tab);
   };
 
   U.renderAll = function () {
@@ -506,6 +573,7 @@
     U.renderCounts();
     U.renderDesk(true);
     U.renderShop(true);
+    U.renderGacha(true);
   };
 
   K.ui = U;

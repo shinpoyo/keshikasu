@@ -100,6 +100,7 @@
     K.ui.renderShop();
     K.ui.renderBldStats();
     K.ui.renderDesk();
+    K.ui.renderGacha();
     K.ui.renderGolden();
     K.ui.renderBuff();
     K.screens.coachTick();
@@ -294,19 +295,24 @@
     });
   }
 
-  // まるめる
+  // まるめる: マシンの つまみを まわしてから けっかを だす
   function roll() {
-    if (K.screens.evoOpen()) return;
-    var r = K.evo.roll();
-    if (!r) return;
+    if (K.screens.evoOpen() || K.ui.rolling || (S().tickets || 0) < 1) return;
     markAction();
-    var ka = $('kasu');
-    ka.classList.remove('rolled'); void ka.offsetWidth; ka.classList.add('rolled');
-    if (!r.isNew) {
-      K.sound.play('buy');
-      K.ui.toast(esc(t('rollDup', { name: K.L(K.evo.info(r.id).name), n: S().stamps, m: K.evo.STAMPS })));
-    }
-    K.ui.renderKasu();
+    K.ui.rolling = true;
+    var m = $('gacha-machine');
+    m.classList.remove('turning'); void m.offsetWidth; m.classList.add('turning');
+    K.sound.play('buy');
+    setTimeout(function () {
+      K.ui.rolling = false;
+      m.classList.remove('turning');
+      var r = K.evo.roll();
+      if (!r) return;
+      K.ui.showRollResult(r);
+      if (!r.isNew) K.sound.play('upgrade');
+      K.ui.renderKasu();
+      K.ui.renderGacha(true);
+    }, S().settings.reduceMotion ? 0 : 800);
   }
 
   function bindGlobal() {
@@ -331,6 +337,8 @@
         K.screens.open(name);
         return;
       }
+      var mid = e.target.closest('[data-mid]');
+      if (mid) { K.ui.setMid(mid.getAttribute('data-mid')); return; }
       var tab = e.target.closest('[data-tab]');
       if (tab) { K.ui.setTab(tab.getAttribute('data-tab')); return; }
       if (e.target.closest('[data-close]')) K.screens.close();
@@ -366,6 +374,7 @@
     K.screens.show('screen-game');
     K.ui.renderAll();
     K.ui.setTab('kasu');
+    K.ui.setMid('desk');
     K.ui.nextNews();
     markAction();
     K.rt.sessionStart = now();

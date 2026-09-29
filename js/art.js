@@ -121,6 +121,29 @@
     return '<span class="kpic"><img src="' + info.art + '" alt="" draggable="false"' + f + (opt.lazy ? ' loading="lazy"' : '') + '>' + tint + '</span>';
   }
 
+  // まるめマシン（ガチャの きかい）。ガラスの なかに まるめた カス、下は 消しゴムの かみの いろ
+  function gachaMachine() {
+    var balls = [[70, 105, 15, '#A9A49B'], [100, 112, 16, '#2B2A28'], [130, 104, 15, '#E7B533'], [84, 80, 14, '#C9A676'],
+      [116, 78, 15, '#F29CA3'], [100, 52, 13, '#9FC7E8'], [62, 72, 11, '#E9E4DA'], [140, 74, 12, '#8BD86A'], [52, 100, 9, '#6B6A66'], [148, 100, 9, '#9A7CFF']];
+    var b = balls.map(function (x) {
+      return '<circle cx="' + x[0] + '" cy="' + x[1] + '" r="' + x[2] + '" fill="' + x[3] + '" stroke="' + INK + '" stroke-width="2"/>' +
+        '<path d="M' + (x[0] - x[2] * 0.45) + ' ' + (x[1] - x[2] * 0.35) + 'q' + (x[2] * 0.3) + ' ' + (-x[2] * 0.3) + ' ' + (x[2] * 0.6) + ' ' + (-x[2] * 0.2) + '" stroke="#FFFFFF" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.6"/>';
+    }).join('');
+    return svg('0 0 200 250',
+      '<ellipse cx="100" cy="242" rx="80" ry="6" fill="#5C401E" opacity="0.15"/>' +
+      '<rect x="88" y="6" width="24" height="10" rx="4" fill="#F29CA3" stroke="' + INK + '" stroke-width="3"/>' +
+      '<circle cx="100" cy="84" r="72" fill="#EEF4F8" stroke="' + INK + '" stroke-width="3"/>' +
+      '<g class="gm-balls">' + b + '</g>' +
+      '<path d="M52 44a58 58 0 0 1 30-18" stroke="#FFFFFF" stroke-width="7" fill="none" stroke-linecap="round" opacity="0.9"/>' +
+      '<rect x="26" y="140" width="148" height="96" rx="12" fill="#3E6FB0" stroke="' + INK + '" stroke-width="3"/>' +
+      '<rect x="26" y="162" width="148" height="30" fill="#FFFFFF" stroke="' + INK + '" stroke-width="2.4"/>' +
+      '<rect x="26" y="196" width="148" height="5" fill="' + INK + '"/>' +
+      '<rect x="80" y="208" width="40" height="20" rx="6" fill="#2B2A28" stroke="' + INK + '" stroke-width="2.4"/>' +
+      '<g class="gm-knob"><circle cx="100" cy="177" r="19" fill="#F29CA3" stroke="' + INK + '" stroke-width="3"/><rect x="84" y="173" width="32" height="8" rx="4" fill="#FFFFFF" stroke="' + INK + '" stroke-width="2"/></g>' +
+      '<circle cx="45" cy="177" r="4" fill="#F29CA3" stroke="' + INK + '" stroke-width="1.6"/><circle cx="155" cy="177" r="4" fill="#3E6FB0" stroke="' + INK + '" stroke-width="1.6"/>',
+      '100%', '100%');
+  }
+
   // ぶたいの 絵（400×400、はしは きりとって つかう）。UI と おなじ フラットな タッチ
   function windows(x0, y0, cols, rows, w, h, gx, gy, fill, lit) {
     var o = '';
@@ -196,5 +219,5 @@
     return inner ? '<svg viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">' + inner + '</svg>' : '';
   }
 
-  K.art = { svg: svg, scene: scene, building: building, upIcon: upIcon, ui: ui, kasuSrc: kasuSrc, kasuPic: kasuPic, eraser: eraser, BUILDING: BUILDING };
+  K.art = { svg: svg, scene: scene, building: building, upIcon: upIcon, ui: ui, kasuSrc: kasuSrc, kasuPic: kasuPic, eraser: eraser, gachaMachine: gachaMachine, BUILDING: BUILDING };
 })(window.K = window.K || {});

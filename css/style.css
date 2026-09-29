@@ -902,7 +902,7 @@ textarea.savebox {
   .pane-menu { flex-direction: column; gap: 14px; }
   .tabs {
     position: absolute; left: 0; right: 0; bottom: 0; z-index: 40; height: calc(76px + env(safe-area-inset-bottom));
-    padding: 8px 12px calc(12px + env(safe-area-inset-bottom)); display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px;
+    padding: 8px 8px calc(12px + env(safe-area-inset-bottom)); display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 2px;
     background: var(--paper-2); border-top: 2px solid var(--line);
   }
   .tabs button {
@@ -971,10 +971,6 @@ textarea.savebox {
 :root[data-theme="dark"] .toast b { color: #8A6410; }
 
 /* --- ガチャ（けしゴムの かみ）・スタンプ・ちらかり --- */
-.btn-roll .price.tickets { display: inline-flex; align-items: center; gap: 3px; }
-.btn-roll .price.tickets svg { width: 18px; height: 14px; }
-.btn-roll .stamp-count { opacity: .65; }
-.btn-roll.got { animation: ticket-got .6s ease-out; }
 @keyframes ticket-got { 0% { transform: scale(1); } 30% { transform: scale(1.06); } 100% { transform: scale(1); } }
 .eraser-btn.fresh .eraser-art { animation: eraser-fresh .6s ease-out; }
 @keyframes eraser-fresh { 0% { opacity: 0; transform: translateY(-30px) scale(1.15); } 60% { opacity: 1; transform: translateY(4px); } 100% { transform: none; } }
@@ -1003,4 +999,83 @@ textarea.savebox {
 @media (prefers-reduced-motion: reduce) {
   .kasu-mess.blowing .mess-dot.on { animation: none; opacity: 0; }
   .eraser-btn.fresh .eraser-art { animation: none; }
+}
+
+/* --- まるめる（ガチャ）の ページ --- */
+.mid-switch { align-self: flex-start; }
+.mid-switch button { position: relative; }
+.mid-badge {
+  display: inline-block; min-width: 18px; height: 18px; margin-left: 6px; padding: 0 5px; border-radius: 999px; vertical-align: 1px;
+  background: var(--eraser-pink); border: 1.5px solid var(--ink); font-family: var(--font-num); font-weight: 900; font-size: 10px; line-height: 15px; color: var(--on-accent);
+}
+.mid-badge[hidden] { display: none; }
+.pane-gacha { flex: 1; min-width: 0; padding: 24px 28px; display: none; flex-direction: column; gap: 16px; overflow-y: auto; }
+#panes[data-mid="gacha"] .pane-desk { display: none; }
+#panes[data-mid="gacha"] .pane-gacha { display: flex; }
+.gacha-main { display: flex; align-items: center; gap: 24px; padding: 18px 20px; border-radius: 18px; background: var(--card); border: 2px solid var(--line); }
+.gacha-machine { width: 170px; flex-shrink: 0; aspect-ratio: 200 / 250; }
+.gacha-machine svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.gacha-machine .gm-knob { transform-origin: 100px 177px; transform-box: view-box; }
+.gacha-machine .gm-balls { transform-origin: 100px 84px; transform-box: view-box; }
+.gacha-machine.turning .gm-knob { animation: gm-knob .8s cubic-bezier(.4,.1,.3,1); }
+.gacha-machine.turning .gm-balls { animation: gm-shake .8s ease-in-out; }
+@keyframes gm-knob { to { transform: rotate(360deg); } }
+@keyframes gm-shake { 0%, 100% { transform: none; } 20% { transform: rotate(-8deg) translateY(-3px); } 45% { transform: rotate(7deg); } 70% { transform: rotate(-4deg) translateY(-2px); } }
+.gacha-side { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 12px; }
+.gacha-tickets { display: flex; align-items: center; gap: 8px; font-family: var(--font-jp); font-weight: 700; font-size: 14px; }
+.gacha-tickets svg { width: 30px; height: 22px; }
+.gacha-tickets b { margin-left: auto; font-family: var(--font-num); font-weight: 900; font-size: 30px; }
+.gacha-tickets b.got { animation: ticket-got .6s ease-out; }
+@keyframes ticket-got { 0% { transform: scale(1); } 30% { transform: scale(1.3); color: var(--eraser-pink); } 100% { transform: scale(1); } }
+.pane-gacha .btn-roll { min-height: 64px; }
+.pane-gacha .btn-roll b { font-size: 22px; }
+.gacha-result { display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 14px; background: var(--paper); border: 2px dashed var(--line); animation: gr-in .35s ease-out; }
+.gacha-result.new { border-color: var(--eraser-pink); border-style: solid; }
+.gr-pic { width: 48px; height: 48px; flex-shrink: 0; }
+.gr-pic .kpic, .gm-h .kpic { width: 100%; height: 100%; }
+.gr-text { display: flex; flex-direction: column; min-width: 0; font-family: var(--font-jp); }
+.gr-text b { font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.gr-text small { font-size: 12px; font-weight: 700; color: var(--graphite); }
+@keyframes gr-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.gacha-cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.gcard { display: flex; flex-direction: column; gap: 6px; padding: 12px 14px; border-radius: 14px; background: var(--card); border: 2px solid var(--line); min-width: 0; }
+.gcard-wide { grid-column: 1 / -1; }
+.gcard-label { font-family: var(--font-jp); font-weight: 700; font-size: 12px; color: var(--graphite); }
+.gcard-val { font-family: var(--font-jp); font-weight: 900; font-size: 17px; }
+.gcard-note { font-family: var(--font-jp); font-weight: 700; font-size: 11px; color: var(--graphite); }
+.gcard .bar { width: 100%; max-width: none; }
+.gcard .btn-small { align-self: flex-start; min-height: 32px; padding: 4px 12px; font-size: 13px; }
+.pips { display: flex; gap: 4px; }
+.pips i { flex: 1; height: 10px; border-radius: 999px; background: var(--line); }
+.pips i.on { background: var(--graphite); }
+.pips i.last { background: var(--gold); }
+.pips-stamp i { height: auto; aspect-ratio: 1; max-width: 14px; border-radius: 50%; flex: 1 1 0; }
+.pips-stamp i.on { background: var(--eraser-pink); box-shadow: inset 0 0 0 1.5px var(--ink); }
+.gm-colors { display: flex; flex-wrap: wrap; gap: 6px 12px; }
+.gm-color { display: inline-flex; align-items: center; gap: 5px; font-family: var(--font-jp); font-weight: 700; font-size: 13px; }
+.gm-rates { display: flex; flex-direction: column; gap: 6px; }
+.gm-rate { display: flex; align-items: center; gap: 10px; }
+.gm-rate .badge { flex-shrink: 0; min-width: 72px; text-align: center; }
+.gm-rate-bar { flex: 1; height: 8px; border-radius: 999px; background: var(--line); overflow: hidden; }
+.gm-rate-bar i { display: block; height: 100%; background: var(--blue, #3E6FB0); border-radius: 999px; }
+.gm-rate b { width: 42px; text-align: right; font-family: var(--font-num); font-weight: 900; font-size: 14px; }
+.gacha-history { display: flex; flex-direction: column; gap: 8px; }
+.gm-history { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px; }
+.gm-h { position: relative; aspect-ratio: 1; padding: 6px; border-radius: 12px; background: var(--card); border: 2px solid var(--line); }
+.gm-h.new { border-color: var(--eraser-pink); }
+.gm-h .badge { position: absolute; top: -8px; right: -6px; font-size: 9px; padding: 1px 5px; }
+.gm-empty { grid-column: 1 / -1; font-family: var(--font-jp); font-weight: 700; font-size: 13px; color: var(--graphite); }
+@media (max-width: 900px) {
+  .mid-switch { display: none; }
+  .pane-gacha { padding-top: 12px; gap: 12px; }
+  .gacha-main { padding: 14px; gap: 14px; }
+  .gacha-machine { width: 120px; }
+  .gacha-tickets b { font-size: 24px; }
+  .gacha-cards { gap: 8px; }
+  .gcard { padding: 10px 12px; }
+  .gm-history { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .tabs button { font-size: 10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gacha-machine.turning .gm-knob, .gacha-machine.turning .gm-balls { animation: none; }
 }

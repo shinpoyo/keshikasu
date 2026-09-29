@@ -138,6 +138,17 @@
   E.pityLeft = function () { return E.PITY - (S().dry || 0); };
 
   // でる だんかい: いちばん うえ 40%、ひとつ した 25%、のこりは それより したから
+  // でる だんかいの わりあい（ガチャの ページに だす）
+  E.stageRates = function () {
+    var top = S().stage, r = {};
+    if (top === 1) { r[1] = 1; return r; }
+    r[top] = 0.4;
+    if (top === 2) { r[1] = 0.6; return r; }
+    r[top - 1] = 0.25;
+    for (var n = 1; n <= top - 2; n++) r[n] = 0.35 / (top - 2);
+    return r;
+  };
+
   function pickStage() {
     var top = S().stage, r = Math.random();
     if (top === 1) return 1;
@@ -179,6 +190,7 @@
       s.dry = E.missing().length ? (s.dry || 0) + 1 : 0;
       s.stamps = (s.stamps || 0) + 1;
     }
+    s.rollLog = [{ id: id, n: isNew ? 1 : 0 }].concat(s.rollLog || []).slice(0, 12);
     return { id: id, isNew: isNew };
   };
 
