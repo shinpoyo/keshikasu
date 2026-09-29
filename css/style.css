@@ -271,7 +271,7 @@ h1, h2, h3 { font-family: var(--font-jp); font-weight: 900; margin: 0; }
 .kasu-stage:not([data-scene="desk"]) .kasu-paper { opacity: 0; }
 .kasu-paper { transition: opacity .8s ease; }
 .kasu-stage[data-scene="space"] .float-num { color: #FFF6D6; text-shadow: 0 1px 0 rgba(0,0,0,.5); }
-.kasu-stage[data-scene="space"] .speck { background: #CFCBC2; }
+.kasu-stage[data-scene="space"] .speck { filter: invert(.85); }
 .kasu-stage.lv6 { box-shadow: inset 0 0 0 1px rgba(92,64,30,.12), 0 8px 0 var(--line), 0 0 0 3px var(--gold); }
 .kasu-stage.lv7 { box-shadow: inset 0 0 0 1px rgba(92,64,30,.12), 0 8px 0 var(--line), 0 0 0 3px #8FA7C8, 0 0 28px rgba(143,167,200,.5); }
 .kasu-stage.golden-on { box-shadow: 0 0 0 3px var(--gold), 0 0 40px rgba(231,181,51,.6); }
@@ -284,10 +284,15 @@ h1, h2, h3 { font-family: var(--font-jp); font-weight: 900; margin: 0; }
 }
 .golden-on .float-num { color: var(--gold-deep); }
 @keyframes floatup { from { opacity: 1; transform: translate(-50%, 0); } to { opacity: 0; transform: translate(-50%, -70px); } }
+/* こすって とぶ カスは ひょろひょろの ひも（4しゅるいの 形を ランダムに） */
 .speck {
-  position: absolute; width: 7px; height: 4px; margin: -2px 0 0 -3px; border-radius: 45% 55% 40% 60%; background: #55534F; opacity: 0;
+  position: absolute; width: 28px; height: 9px; margin: -4px 0 0 -14px; opacity: 0;
+  background: url(../art/speck-1.svg) center / 100% 100% no-repeat;
   animation: speck .65s cubic-bezier(.3,.1,.5,1) forwards;
 }
+.speck.k2 { background-image: url(../art/speck-2.svg); }
+.speck.k3 { background-image: url(../art/speck-3.svg); }
+.speck.k4 { background-image: url(../art/speck-4.svg); }
 @keyframes speck {
   0% { transform: none; opacity: 1; }
   40% { transform: translate(var(--mx), var(--my)) rotate(var(--r)); opacity: 1; }
