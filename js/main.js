@@ -38,7 +38,7 @@
     var s = S();
     s.lastTick = n;
     var cps = K.game.cps();
-    if (cps > 0) K.game.earn(cps * dt, false);
+    if (cps > 0) { K.game.earn(cps * dt, false); K.game.addProduced(dt * K.game.cpsMult()); }
     s.stats.playTime += dt;
 
     // 放置
@@ -98,6 +98,7 @@
     K.ui.renderCounts();
     K.ui.renderKasu();
     K.ui.renderShop();
+    K.ui.renderBldStats();
     K.ui.renderDesk();
     K.ui.renderGolden();
     K.ui.renderBuff();
@@ -214,6 +215,13 @@
 
   function bindShop() {
     $('shop-list').addEventListener('click', function (e) {
+      var info = e.target.closest('[data-info]');
+      if (info) {
+        var iid = info.getAttribute('data-info');
+        K.ui.openInfo = K.ui.openInfo === iid ? null : iid;
+        K.ui.renderShop(true);
+        return;
+      }
       var el = e.target.closest('.bld[data-b]');
       if (!el) return;
       var id = el.getAttribute('data-b');
@@ -227,6 +235,13 @@
       var again = document.querySelector('.bld[data-b="' + id + '"]');
       if (again) again.classList.add('bump');
     });
+    // PC: なかまに カーソルを のせると くわしい 数字（クッキークリッカーと おなじ）
+    $('shop-list').addEventListener('mouseover', function (e) {
+      var el = e.target.closest('.bld[data-b]');
+      if (el) K.ui.showTip(el.getAttribute('data-b'));
+      else K.ui.hideTip();
+    });
+    $('shop-list').addEventListener('mouseleave', function () { K.ui.hideTip(); });
     $('up-grid').addEventListener('click', function (e) {
       var el = e.target.closest('[data-up]');
       if (!el) return;
@@ -319,6 +334,7 @@
     var o = K.store.offlineGain(now());
     if (o.gain <= 0) return false;
     K.game.earn(o.gain, false);
+    K.game.addProduced(o.sec * K.store.offlineRate());
     S().lastTick = now();
     lastTick = now();
     var show = function () {

@@ -23,6 +23,7 @@
     s.totalCrumbs = 0;
     s.handmade = 0;
     s.buildings = f.buildings;
+    s.produced = {};
     s.upgrades = {};
     s.trait = 'plain';
     s.stage = 1;

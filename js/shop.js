@@ -122,6 +122,20 @@
     return G.unitCps(id) * S().buildings[id] * G.globalMult();
   };
 
+  // ぜんたいの /s のうち この なかまの わりあい（0〜1）
+  G.share = function (id) {
+    var all = G.baseCps();
+    return all > 0 ? G.buildingCps(id) / all : 0;
+  };
+
+  // なかまごとの「これまでに だした つぶ」を たす。sec は バフこみの びょう数
+  G.addProduced = function (sec) {
+    var p = S().produced;
+    K.data.buildings.forEach(function (b) {
+      if (S().buildings[b.id]) p[b.id] = (p[b.id] || 0) + G.buildingCps(b.id) * sec;
+    });
+  };
+
   // バフなしの /s（オフライン進行に使う）
   G.baseCps = function () {
     var sum = 0;
