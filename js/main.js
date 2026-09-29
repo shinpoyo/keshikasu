@@ -59,7 +59,10 @@
     K.golden.update();
     K.evo.check();
     while (K.evo.unlocked.length) {
-      K.ui.toast('<b>' + esc(t('tierUnlocked', { n: K.evo.unlocked.shift() })) + '</b>');
+      var tier = K.evo.unlocked.shift();
+      K.ui.toast('<b>' + esc(t('tierUnlocked', { n: tier })) + '</b>');
+      var sc = K.sceneFor(tier);
+      if (sc.from === tier && tier > 1) K.ui.toast(esc(t('sceneChanged', { s: K.L(sc.name) })));
       K.sound.play('upgrade');
     }
 

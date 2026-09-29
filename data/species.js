@@ -78,6 +78,21 @@
       line: { ja: 'けしゴムに なって、また カスに なった。10かい いじょう。', en: 'Became an eraser, then a crumb again. Over ten times.' } }
   ];
 
+  // ぶたい。でるように なった STAGE（state.stage）で かわる。絵は js/art.js の scene()
+  K.data.scenes = [
+    { id: 'desk', from: 1, name: { ja: 'つくえ', en: 'Desk' } },
+    { id: 'classroom', from: 3, name: { ja: 'きょうしつ', en: 'Classroom' } },
+    { id: 'school', from: 4, name: { ja: 'がっこう', en: 'School' } },
+    { id: 'town', from: 5, name: { ja: 'まち', en: 'Town' } },
+    { id: 'sky', from: 6, name: { ja: 'そら', en: 'Sky' } },
+    { id: 'space', from: 7, name: { ja: 'うちゅう', en: 'Space' } }
+  ];
+  K.sceneFor = function (stage) {
+    var sc = K.data.scenes[0];
+    K.data.scenes.forEach(function (x) { if (stage >= x.from) sc = x; });
+    return sc;
+  };
+
   // 種類名: だんかい＋けいとう＋カス
   K.speciesId = function (stage, trait) { return stage + '-' + trait; };
 })(window.K = window.K || {});

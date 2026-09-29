@@ -210,7 +210,7 @@ h1, h2, h3 { font-family: var(--font-jp); font-weight: 900; margin: 0; }
 }
 /* つくえの カス（さわると もじもじ するだけ） */
 .kasu {
-  position: absolute; left: 3%; top: 26%; width: 64%; height: 66%;
+  position: absolute; left: 18%; top: 33%; width: 64%; height: 64%;
   touch-action: manipulation; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none;
 }
 .kasu-body { position: absolute; inset: 0; display: block; transition: transform .6s cubic-bezier(.5,-0.4,.3,1.4), opacity .3s; }
@@ -240,9 +240,9 @@ h1, h2, h3 { font-family: var(--font-jp); font-weight: 900; margin: 0; }
 
 /* こする 消しゴム */
 .eraser-btn {
-  position: absolute; right: 2%; top: 5%; width: 52%; aspect-ratio: 220 / 124; padding: 0; border: none; background: transparent; cursor: grab;
+  position: absolute; left: 24%; top: 4%; width: 52%; aspect-ratio: 220 / 124; padding: 0; border: none; background: transparent; cursor: grab;
   touch-action: none; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none;
-  transform: rotate(-14deg); border-radius: 18px;
+  transform: rotate(-8deg); border-radius: 18px;
 }
 .eraser-btn:active { cursor: grabbing; }
 .eraser-btn:focus-visible { outline: 3px solid var(--blue, #3E6FB0); outline-offset: 4px; }
@@ -256,6 +256,14 @@ h1, h2, h3 { font-family: var(--font-jp); font-weight: 900; margin: 0; }
   65% { transform: translate(5%, -1%) rotate(1.5deg); }
   100% { transform: none; }
 }
+/* ぶたい（STAGE が でるように なると ひろがっていく）。つくえ いがいは 紙を かくす */
+.kasu-scene { position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity .8s ease; }
+.kasu-scene svg { display: block; width: 100%; height: 100%; }
+.kasu-stage:not([data-scene="desk"]) .kasu-scene { opacity: 1; }
+.kasu-stage:not([data-scene="desk"]) .kasu-paper { opacity: 0; }
+.kasu-paper { transition: opacity .8s ease; }
+.kasu-stage[data-scene="space"] .float-num { color: #FFF6D6; text-shadow: 0 1px 0 rgba(0,0,0,.5); }
+.kasu-stage[data-scene="space"] .speck { background: #CFCBC2; }
 .kasu-stage.lv6 { box-shadow: inset 0 0 0 1px rgba(92,64,30,.12), 0 8px 0 var(--line), 0 0 0 3px var(--gold); }
 .kasu-stage.lv7 { box-shadow: inset 0 0 0 1px rgba(92,64,30,.12), 0 8px 0 var(--line), 0 0 0 3px #8FA7C8, 0 0 28px rgba(143,167,200,.5); }
 .kasu-stage.golden-on { box-shadow: 0 0 0 3px var(--gold), 0 0 40px rgba(231,181,51,.6); }
@@ -642,13 +650,13 @@ textarea.savebox {
 .sleep-overlay p { font-family: var(--font-jp); font-weight: 700; font-size: 18px; margin: 0; }
 
 /* ---------- しんかの演出 ---------- */
-/* 0〜2.2s: ひかる シルエットが いれかわる（だんだん はやく）・光が あつまる・ゆれる
-   2.2s: まっしろ フラッシュ → あたらしい カス、紙ふぶき、ほし。まぜた ときは 半分の じかん */
+/* 0〜3.6s: ひかる シルエットが いれかわる（だんだん はやく）・光が あつまる・ゆれる
+   3.6s: まっしろ フラッシュ → あたらしい カス、紙ふぶき、ほし。まぜた ときは 半分の じかん */
 .evo {
   position: fixed; inset: 0; z-index: 80; display: flex; flex-direction: column; align-items: center; justify-content: center;
   background: radial-gradient(circle at 50% 40%, #3A3226 0%, #1C1B19 62%); color: #F6F1E7; overflow: hidden; padding: 24px;
   cursor: pointer; animation: evo-dark .4s ease both;
-  --reveal: 2.2s;
+  --reveal: 3.6s;
 }
 .evo.mix { --reveal: 1.1s; background: radial-gradient(circle at 50% 40%, #33303A 0%, #1C1B19 62%); }
 .evo.lv7 { background: radial-gradient(circle at 50% 40%, #2E3350 0%, #12131F 65%); }

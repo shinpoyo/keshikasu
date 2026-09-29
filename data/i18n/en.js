@@ -54,6 +54,7 @@
     roll: 'Roll',
     rollSub: 'Up to STAGE {n} ・ Crumbpedia {f} / {t}',
     rollDup: 'Duplicate! {v} crumbs back',
+    sceneChanged: 'The stage grew into the {s}!',
     tierUnlocked: 'STAGE {n} crumbs can now appear!',
     mixedToast: 'Next crumbs will be "{t}"',
     putOnDesk: 'Put on desk',

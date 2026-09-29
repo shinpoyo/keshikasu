@@ -66,17 +66,17 @@
     },
     // しんかの ためる音: だんだん たかく はやくなる
     charge: function () {
-      var t0 = 0, gap = 0.22, f = 330;
-      while (t0 < 2.1) { tone(f, t0, 0.12, 'square', 0.035); t0 += gap; gap = Math.max(0.05, gap * 0.86); f *= 1.045; }
+      var t0 = 0, gap = 0.3, f = 300;
+      while (t0 < 3.5) { tone(f, t0, 0.12, 'square', 0.035); t0 += gap; gap = Math.max(0.05, gap * 0.9); f *= 1.035; }
       var c = ac(); if (!c) return;
       var o = c.createOscillator(), g = c.createGain();
       o.type = 'sawtooth';
       o.frequency.setValueAtTime(110, c.currentTime);
-      o.frequency.exponentialRampToValueAtTime(880, c.currentTime + 2.15);
+      o.frequency.exponentialRampToValueAtTime(880, c.currentTime + 3.55);
       g.gain.setValueAtTime(0.0001, c.currentTime);
-      g.gain.exponentialRampToValueAtTime(0.03, c.currentTime + 1.8);
-      g.gain.exponentialRampToValueAtTime(0.0001, c.currentTime + 2.2);
-      o.connect(g); g.connect(c.destination); o.start(); o.stop(c.currentTime + 2.25);
+      g.gain.exponentialRampToValueAtTime(0.03, c.currentTime + 3.2);
+      g.gain.exponentialRampToValueAtTime(0.0001, c.currentTime + 3.6);
+      o.connect(g); g.connect(c.destination); o.start(); o.stop(c.currentTime + 3.65);
     },
     mixing: function () { [392, 494, 587, 698, 784].forEach(function (f, i) { tone(f, i * 0.12, 0.2, 'sine', 0.07); }); },
     achievement: function () { tone(784, 0, 0.1, 'sine', 0.08); tone(1175, 0.08, 0.2, 'sine', 0.08); },
