@@ -10,7 +10,7 @@
   - カスの絵: `design/art/`（`make.py` / `strand.py` で SVG 生成）
   - おじいちゃんの絵: `design/art/grandpa.py`（やさしい顔版）
 - 作業履歴: `docs/worklog.md`
-- 実装コード: まだなし
+- 実装コード: `index.html` / `css/` / `js/` / `data/` / `art/`（ブランチ `impl/core-game` で1回めを実装。ビルド不要、`index.html` をブラウザで開けば動く）
 
 ## 決まっていること
 - ブラウザの静的サイト（HTML / CSS / vanilla JS）、GitHub Pages で公開予定
@@ -18,6 +18,13 @@
 - カスはリアル寄りのイラスト、UI はフラット
 - 作業履歴はマークダウンで残す。回答は日本語
 
+## コードの地図
+- `js/main.js` ゲームループ・入力・起動 / `js/ui.js` メイン画面の表示 / `js/screens.js` タイトル・ダイアログ・しんかの演出
+- `js/shop.js` 値段・/s・アップグレード / `js/evolution.js` しんか・ずかん / `js/golden.js` / `js/ascend.js` 転生 / `js/state.js` 保存
+- 数値や文章は `data/`（なかま・アップグレード・種類・ニュース・ひとりごと・じっせき・かけらの おみせ・画面の文字）
+- ブラウザのコンソールで `K.debug.give(1e9)`（つぶを ふやす）、`K.debug.golden()`（ゴールデンカスを出す）
+
 ## つぎにやること
-1. 実装を始める（企画書 13章の方針どおり、デザインモックから）
-2. GitHub Pages で公開する
+1. PR を確認してマージ
+2. GitHub Pages で公開する（Settings → Pages → main の / (root)）
+3. のこり: ニュースを80本以上に、STAGE 6・7 と特別種の専用イラスト、バランス調整

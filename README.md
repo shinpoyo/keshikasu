@@ -9,6 +9,16 @@
 - 作業履歴: [docs/worklog.md](docs/worklog.md)
 - 引き継ぎメモ: [docs/HANDOFF.md](docs/HANDOFF.md)
 
-## 実装の進め方
-Claude Code に `docs/spec.md` を渡し、13章の方針どおりデザインモックから実装を始めます。
-静的サイト（HTML / CSS / JS）で、GitHub Pages で公開します。
+## あそびかた（ローカル）
+ビルドは いりません。`index.html` をブラウザで開くか、このフォルダで
+`python3 -m http.server` を実行して http://localhost:8000/ を開きます。
+
+## 公開
+静的サイト（HTML / CSS / JS）なので、GitHub Pages（main ブランチの / (root)）でそのまま公開できます。
+
+## ファイル
+- `index.html` … 入り口
+- `css/tokens.css`・`css/style.css` … 色・文字などのデザイントークンと見た目
+- `js/` … ゲームのしくみ（ループ、店、しんか、ゴールデンカス、転生、保存、音、画面）
+- `data/` … 数値と文章（なかま、アップグレード、種類、ニュース、ひとりごと、じっせき、画面の文字 ja/en）
+- `art/` … カスの絵（`design/art/` で生成した SVG）

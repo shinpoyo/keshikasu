@@ -1,0 +1,59 @@
+/* デザイントークン（企画書 13-2・13-3）。色・文字・余白・角丸・影はここにまとめる */
+:root {
+  --paper: #F6F1E7;
+  --paper-2: #FBF8F1;
+  --paper-3: #F3EDE1;
+  --line: #E4DCCB;
+  --line-2: #CDBFA5;
+  --desk: #D9B98C;
+  --desk-top: #E3C79D;
+  --desk-ink: #4A3A22;
+  --desk-grain: repeating-linear-gradient(176deg, #D2B287 0px, #D8BA90 7px, #CFAE82 13px, #D6B78C 22px);
+  --note: #FAF8F3;
+  --note-line: #DCE3EC;
+  --ink: #2B2A28;
+  --ink-soft: #4A4946;
+  --graphite: #6B6A66;
+  --muted: #A59A86;
+  --eraser-pink: #F29CA3;
+  --eraser-blue: #3E6FB0;
+  --gold: #E7B533;
+  --gold-deep: #8A6410;
+  --gold-soft: #FFF6D6;
+  --danger: #B0413E;
+  --card: #FFFFFF;
+  --shadow-press: 0 4px 0 var(--ink);
+  --shadow-soft: 0 12px 32px rgba(60, 40, 15, 0.18);
+
+  --font-jp: 'Zen Maru Gothic', 'M PLUS Rounded 1c', 'Hiragino Maru Gothic ProN', sans-serif;
+  --font-num: 'Nunito', 'Zen Maru Gothic', sans-serif;
+
+  --r-s: 9px;
+  --r-m: 12px;
+  --r-l: 14px;
+  --r-xl: 18px;
+  --r-2xl: 22px;
+  --tap: 48px;
+}
+
+/* よるの つくえ（ダークモード）。設定でオンにしたとき */
+:root[data-theme="dark"] {
+  --paper: #22211F;
+  --paper-2: #2A2926;
+  --paper-3: #33312D;
+  --line: #3F3C36;
+  --line-2: #58534A;
+  --desk: #6E5536;
+  --desk-top: #7A5F3D;
+  --desk-ink: #F3E3C4;
+  --desk-grain: repeating-linear-gradient(176deg, #5E472C 0px, #654D30 7px, #5A4429 13px, #624A2E 22px);
+  --note: #E9E5DB;
+  --note-line: #C9D0DA;
+  --ink: #F1ECE2;
+  --ink-soft: #D6D0C4;
+  --graphite: #B3ADA2;
+  --muted: #8D8578;
+  --card: #2F2D29;
+  --shadow-press: 0 4px 0 #0E0D0C;
+  --shadow-soft: 0 12px 32px rgba(0, 0, 0, 0.45);
+}

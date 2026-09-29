@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>けしカス / Eraser Crumbs</title>
+<meta name="description" content="けしゴムの カスを そだてる ゲームです。 A game about raising an eraser crumb.">
+<meta name="theme-color" content="#F6F1E7">
+<link rel="icon" href="art/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="app">
+
+  <!-- タイトル -->
+  <section id="screen-title" class="screen" hidden></section>
+
+  <!-- なまえを つける -->
+  <section id="screen-naming" class="screen" hidden></section>
+
+  <!-- ゲーム本体 -->
+  <section id="screen-game" class="screen" hidden>
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-logo" data-ui="logo"></span>
+        <span class="brand-text">
+          <span class="brand-name" data-t="gameName"></span>
+          <span class="brand-sub" data-t="gameNameSub"></span>
+        </span>
+      </div>
+      <div class="news" aria-live="off">
+        <span class="news-label"><span class="only-wide" data-t="news"></span><span class="only-narrow" data-t="newsShort"></span></span>
+        <span class="news-track"><span class="news-text" id="news-text"></span></span>
+      </div>
+      <nav class="topnav" aria-label="menu">
+        <button type="button" class="navbtn" data-open="zukan"><span data-ui="zukan"></span><span data-t="zukan"></span></button>
+        <button type="button" class="navbtn" data-open="achievements"><span data-ui="ach"></span><span data-t="achievements"></span></button>
+        <button type="button" class="navbtn" data-open="stats"><span data-ui="stats"></span><span data-t="stats"></span></button>
+        <button type="button" class="navbtn navbtn-icon" data-open="settings" data-t-aria="settings"><span data-ui="settings"></span></button>
+        <button type="button" class="rebirth-btn" id="rebirth-btn" data-open="rebirth"><span data-ui="eraser"></span><span data-t="rebirth"></span></button>
+      </nav>
+      <button type="button" class="mobile-zukan" data-open="zukan" data-t="zukan"></button>
+    </header>
+
+    <div class="buffbar" id="buffbar" hidden></div>
+
+    <main class="panes" id="panes">
+      <!-- カス -->
+      <section class="pane pane-kasu" id="pane-kasu" data-pane="kasu">
+        <div class="count">
+          <span class="count-num" id="crumbs"></span>
+          <span class="count-unit"><span data-t="crumbs"></span><span class="only-narrow"> ・ <b id="cps-inline"></b></span></span>
+          <span class="count-cps only-wide" id="cps"></span>
+        </div>
+        <div class="kasu-stage" id="kasu-stage">
+          <div class="kasu-paper"></div>
+          <button type="button" class="kasu-btn" id="kasu-btn">
+            <span class="kasu-body" id="kasu-body"><img id="kasu-img" alt="" draggable="false"><span class="kasu-crown" hidden></span></span>
+          </button>
+          <div class="kasu-fx" id="kasu-fx" aria-hidden="true"></div>
+        </div>
+        <div class="kasu-info">
+          <div class="kasu-name-row">
+            <span class="badge badge-stage" id="stage-badge"></span>
+            <span class="kasu-name" id="kasu-name"></span>
+          </div>
+          <span class="kasu-pet" id="kasu-pet"></span>
+          <span class="kasu-next" id="kasu-next"></span>
+          <div class="bar"><div class="bar-fill" id="evo-bar"></div></div>
+        </div>
+        <div class="bubble" id="bubble" aria-live="polite">「……」</div>
+        <div class="actions">
+          <button type="button" class="btn btn-pink" id="praise-btn"><span data-ui="praise"></span><span id="praise-label" data-t="praise"></span></button>
+          <button type="button" class="btn" id="blow-btn"><span data-ui="blow"></span><span data-t="blow"></span></button>
+        </div>
+      </section>
+
+      <!-- つくえ -->
+      <section class="pane pane-desk" id="pane-desk" data-pane="desk">
+        <div class="pane-head">
+          <h2 data-t="desk"></h2>
+          <span class="pane-sub" data-t="deskSub"></span>
+        </div>
+        <div class="only-narrow count count-small">
+          <span class="count-num" data-mirror="crumbs"></span>
+          <span class="count-unit"><span data-t="crumbs"></span> ・ <b data-mirror="cps-inline"></b></span>
+        </div>
+        <div class="desk-rows" id="desk-rows"></div>
+      </section>
+
+      <!-- みせ -->
+      <aside class="pane pane-shop" id="pane-shop" data-pane="shop">
+        <div class="only-narrow count count-small">
+          <span class="count-num" data-mirror="crumbs"></span>
+          <span class="count-unit"><span data-t="crumbs"></span> ・ <b data-mirror="cps-inline"></b></span>
+        </div>
+        <div class="pane-head">
+          <h2 data-t="shop"></h2>
+          <div class="seg" role="group" id="bulk">
+            <button type="button" data-mode="buy" class="seg-mode"><span data-t="buy"></span></button>
+            <button type="button" data-mode="sell" class="seg-mode"><span data-t="sell"></span></button>
+            <span class="seg-gap"></span>
+            <button type="button" data-bulk="1">x1</button>
+            <button type="button" data-bulk="10">x10</button>
+            <button type="button" data-bulk="100">x100</button>
+          </div>
+        </div>
+        <div class="shop-scroll">
+          <div class="shop-group">
+            <span class="group-label" data-t="upgradesLabel"></span>
+            <div class="up-grid" id="up-grid"></div>
+            <div class="up-detail" id="up-detail" hidden></div>
+          </div>
+          <div class="shop-group" id="mat-group" hidden>
+            <span class="group-label"><span data-t="materialsLabel"></span> <small id="mat-current"></small></span>
+            <div class="mat-list" id="mat-list"></div>
+          </div>
+          <div class="shop-group">
+            <span class="group-label" data-t="buddiesLabel"></span>
+            <div class="shop-list" id="shop-list"></div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- メニュー（スマホ） -->
+      <section class="pane pane-menu" id="pane-menu" data-pane="menu"></section>
+    </main>
+
+    <button type="button" class="golden" id="golden" hidden><img src="art/kasu-gold.svg" alt=""></button>
+
+    <nav class="tabs" aria-label="tabs">
+      <button type="button" data-tab="kasu"><span data-ui="tabKasu"></span><span data-t="tabKasu"></span></button>
+      <button type="button" data-tab="desk"><span data-ui="tabDesk"></span><span data-t="tabDesk"></span></button>
+      <button type="button" data-tab="shop"><span data-ui="tabShop"></span><span data-t="tabShop"></span><span class="tab-badge" id="shop-badge" hidden></span></button>
+      <button type="button" data-tab="menu"><span data-ui="tabMenu"></span><span data-t="tabMenu"></span></button>
+    </nav>
+
+    <div class="coach" id="coach" hidden></div>
+  </section>
+
+  <!-- ダイアログ（PCは中央のカード、スマホは全画面） -->
+  <div class="modal" id="modal" hidden>
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-card" id="modal-card" role="dialog" aria-modal="true"></div>
+  </div>
+
+  <!-- しんかの演出 -->
+  <div class="evo" id="evo" hidden></div>
+
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+</div>
+
+<script src="js/format.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/art.js"></script>
+<script src="data/buildings.js"></script>
+<script src="data/upgrades.js"></script>
+<script src="data/species.js"></script>
+<script src="data/shardshop.js"></script>
+<script src="data/news.js"></script>
+<script src="data/monologues.js"></script>
+<script src="data/achievements.js"></script>
+<script src="data/i18n/ja.js"></script>
+<script src="data/i18n/en.js"></script>
+<script src="js/state.js"></script>
+<script src="js/shop.js"></script>
+<script src="js/evolution.js"></script>
+<script src="js/golden.js"></script>
+<script src="js/news.js"></script>
+<script src="js/ascend.js"></script>
+<script src="js/achieve.js"></script>
+<script src="js/sound.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/screens.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
