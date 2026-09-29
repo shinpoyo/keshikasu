@@ -11,7 +11,8 @@
       case 'total': return s.allTimeCrumbs >= a.n;
       case 'cps': return K.game.baseCps() >= a.n;
       case 'building': return s.buildings[a.b] >= a.n;
-      case 'stage': return s.stage >= a.n;
+      case 'stage': return K.evo.maxStageFound() >= a.n;
+      case 'rolls': return (st.rolls || 0) >= a.n;
       case 'zukan': return K.evo.foundCount() >= a.n;
       case 'mix': return st.mixes >= a.n;
       case 'rebirth': return st.rebirths >= a.n;

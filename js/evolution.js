@@ -1,4 +1,6 @@
-// しんか・ずかん（企画書 7章、10章）
+// あつめる・ずかん（企画書 7章、10章）
+// つぶを「まるめる」と あたらしい カスが 1ぴき できる。だんかい（STAGE）は この周に あつめた つぶで ふえ、
+// まるめると そのなかから ランダム。けいとうは いま まぜている ざいりょうで きまる。ずかんの しゅるい 1つにつき /s +2%
 (function (K) {
   'use strict';
   var E = {};
@@ -55,14 +57,25 @@
   };
 
   E.register = function (id) {
-    if (S().zukan[id]) return false;
+    var z = S().zukan[id];
+    if (z) { z.n = (z.n || 1) + 1; return false; }
     var matId = null;
-    K.data.materials.forEach(function (m) { if (m.trait === S().trait) matId = m.id; });
-    S().zukan[id] = { at: Date.now(), mat: matId };
+    K.data.materials.forEach(function (m) { if (m.trait === S().trait && m.cost > 0) matId = m.id; });
+    S().zukan[id] = { at: Date.now(), mat: matId, n: 1 };
     return true;
   };
 
   E.foundCount = function () { return Object.keys(S().zukan).length; };
+
+  // ずかんの ボーナス（クッキークリッカーの ミルクと 子ネコ の かわり）
+  E.BONUS = 0.02;
+  E.bonusMult = function () { return 1 + E.BONUS * E.foundCount(); };
+
+  E.maxStageFound = function () {
+    var m = 0;
+    Object.keys(S().zukan).forEach(function (id) { var n = parseInt(id, 10); if (n > m) m = n; });
+    return m;
+  };
 
   function special() {
     var s = S(), now = new Date();
@@ -81,32 +94,62 @@
     return null;
   }
 
-  function evolveTo(n) {
+  // まるめる ねだん: いまの だんかいの きほん × 1.35^(この だんかいで まるめた かず)
+  var ROLL_BASE = [10, 60, 4000, 4e5, 4e8, 4e11, 4e14];
+  E.rollCost = function () {
     var s = S();
-    var from = s.species;
-    var sp = special();
-    var id = sp || K.speciesId(n, s.trait);
-    s.stage = n;
-    s.species = id;
-    var isNew = E.register(id);
-    K.rt.maxRubRate = 0;
-    E.queue.push({ type: 'evolve', from: from, to: id, stage: n, isNew: isNew });
-  }
-
-  // 毎フレーム呼ぶ。1回に1だんかいずつ上げる
-  E.check = function () {
-    var target = E.stageFor(S().totalCrumbs);
-    if (target > S().stage) evolveTo(S().stage + 1);
+    var d = K.game.hasShard('discount') ? 0.95 : 1;
+    return Math.ceil(ROLL_BASE[s.stage - 1] * Math.pow(1.35, s.rollsAtTier || 0) * d);
   };
 
-  // 材料を まぜた → いまの だんかいの まま けいとうが かわる
-  E.mix = function () {
+  // でる だんかい: いちばん うえ 40%、ひとつ した 25%、のこりは それより したから
+  function pickStage() {
+    var top = S().stage, r = Math.random();
+    if (top === 1) return 1;
+    if (r < 0.4) return top;
+    if (r < 0.65 || top === 2) return top - 1;
+    return 1 + Math.floor(Math.random() * (top - 2));
+  }
+
+  // まるめる。ダブったら 1かいだけ ひきなおし、それでも ダブったら ねだんの はんぶんが かえってくる
+  E.roll = function () {
     var s = S();
-    var from = s.species;
-    var id = K.speciesId(s.stage, s.trait);
-    s.species = id;
+    var cost = E.rollCost();
+    if (s.crumbs < cost) return null;
+    s.crumbs -= cost;
+    s.rollsAtTier = (s.rollsAtTier || 0) + 1;
+    s.stats.rolls = (s.stats.rolls || 0) + 1;
+    var sp = special();
+    var id = sp || K.speciesId(pickStage(), s.trait);
+    if (!sp && s.zukan[id]) {
+      var again = K.speciesId(pickStage(), s.trait);
+      if (!s.zukan[again]) id = again;
+    }
     var isNew = E.register(id);
-    E.queue.push({ type: 'mix', from: from, to: id, stage: s.stage, isNew: isNew });
+    s.species = id;
+    K.rt.maxRubRate = 0;
+    var refund = 0;
+    if (isNew) E.queue.push({ type: 'roll', from: '2-plain', to: id, stage: sp ? null : parseInt(id, 10), isNew: true });
+    else { refund = Math.floor(cost / 2); s.crumbs += refund; }
+    return { id: id, isNew: isNew, refund: refund };
+  };
+
+  // あつめた つぶで つぎの だんかいが でるように なる
+  E.check = function () {
+    var target = E.stageFor(S().totalCrumbs);
+    if (target > S().stage) {
+      S().stage = target;
+      S().rollsAtTier = 0;
+      E.unlocked.push(target);
+    }
+  };
+  E.unlocked = [];
+
+  // ずかんから えらんで つくえに おく
+  E.setDesk = function (id) {
+    if (!S().zukan[id]) return false;
+    S().species = id;
+    return true;
   };
 
   E.title = function () {

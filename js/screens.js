@@ -192,8 +192,8 @@
     cells += '<div class="z-row"><span class="z-rowlabel">SPECIAL<b>' + esc(t('special')) + '</b></span>' +
       K.data.specials.map(function (sp) { return zcell(sp.id); }).join('') + '</div>';
     var sel = state.zukanSel || s.species;
-    return head(t('zukanTitle'), '<span class="head-count">' + t('zukanCount', { n: K.evo.foundCount(), t: K.evo.TOTAL }) + '</span>') +
-      '<p class="lead">' + esc(t('titlePrefix', { t: K.L(K.evo.title()) })) + '</p>' +
+    return head(t('zukanTitle'), '<span class="head-count">' + t('zukanCount', { n: K.evo.foundCount(), t: K.evo.TOTAL }) + '</span><span class="head-pill">+' + Math.round(K.evo.BONUS * 100 * K.evo.foundCount()) + '% /s</span>') +
+      '<p class="lead">' + esc(t('titlePrefix', { t: K.L(K.evo.title()) })) + ' ・ ' + esc(t('zukanBonus')) + '</p>' +
       '<div class="zukan-layout"><div class="zukan-table">' + cells + '</div>' + zdetail(sel) + '</div>';
   };
   function zcell(id) {
@@ -223,11 +223,18 @@
       '<h3>' + esc(K.L(info.name)) + '</h3><span class="z-en">' + esc(other) + '</span>' +
       '<p class="z-quote">' + esc(K.quote(K.L(info.line))) + '</p>' +
       '<div class="z-meta"><span>' + esc(t('foundOn')) + '</span><b>' + K.fmtDate(found.at) + '</b>' +
-      '<span>' + esc(t('mixedWith')) + '</span><b>' + esc(mat ? K.L(mat.name) : t('mixedNone')) + '</b></div></div></div>';
+      '<span>' + esc(t('mixedWith')) + '</span><b>' + esc(mat ? K.L(mat.name) : t('mixedNone')) + '</b>' +
+      '<span>' + esc(t('ownedCount')) + '</span><b>' + K.fmt(found.n || 1) + '</b></div>' +
+      (s.species === id ? '<span class="z-ondesk">' + esc(t('onDesk')) + '</span>'
+        : '<button type="button" class="btn z-desk-btn" data-desk="' + id + '">' + esc(t('putOnDesk')) + '</button>') +
+      '</div></div>';
   }
   AFTER.zukan = function (card) {
     card.querySelectorAll('[data-z]').forEach(function (b) {
       b.onclick = function () { state.zukanSel = b.getAttribute('data-z'); SC.refresh(); };
+    });
+    card.querySelectorAll('[data-desk]').forEach(function (b) {
+      b.onclick = function () { if (K.evo.setDesk(b.getAttribute('data-desk'))) { K.ui.renderKasu(); SC.refresh(); } };
     });
   };
 
@@ -288,6 +295,7 @@
       [t('stRunCrumbs'), K.fmt(s.totalCrumbs)],
       [t('stHandmade'), K.fmt(s.handmade)],
       [t('stStage'), 'STAGE ' + s.stage],
+      [t('stRolls'), K.fmt(st.rolls || 0)],
       [t('stBuddies'), K.fmt(buddies)],
       [t('stUpgrades'), Object.keys(s.upgrades).length],
       [t('stPraises'), K.fmt(s.mood.praises)],
@@ -477,14 +485,15 @@
   // ---------- しんかの演出 ----------
   var evoOpen = false;
   SC.evoOpen = function () { return evoOpen; };
-  // しんかの演出。ひかる シルエットが いれかわりながら はやくなり → まっしろに フラッシュ → あたらしい カス
+  // あたらしい カスの 演出（まるめて NEW が でた とき）。ひかる シルエットが いれかわりながら はやくなり → まっしろに フラッシュ → あたらしい カス
   // だんかいが あがるほど 紙ふぶきと 光が ふえる。まぜた ときは みじかい うずまき
   SC.showEvolution = function (ev) {
     evoOpen = true;
     var from = K.evo.info(ev.from), to = K.evo.info(ev.to);
     var isMix = ev.type === 'mix';
+    var isRoll = ev.type === 'roll';
     var reduce = !!S().settings.reduceMotion;
-    var power = isMix ? 0 : Math.min(ev.stage || 1, 7); // 2〜7
+    var power = isMix ? 0 : Math.min(ev.stage || 7, 7); // だんかい（とくべつは 7 あつかい）
     var fx = '';
     if (!reduce) {
       var colors = to.special ? ['#E7B533', '#FFF6D6', '#F29CA3', '#FFD83F']
@@ -507,7 +516,7 @@
       }
     }
     var line = K.L(to.line);
-    if (!to.special && to.stage === ev.stage && !isMix) line = K.L(K.data.stages[ev.stage - 1].line);
+    if (ev.type === 'evolve' && !to.special && to.stage === ev.stage) line = K.L(K.data.stages[ev.stage - 1].line);
     var el = $('evo');
     el.className = 'evo' + (isMix ? ' mix' : ' lv' + power) + (to.special ? ' special' : '') + (reduce ? ' reduced' : '');
     el.innerHTML = '<div class="evo-rays"></div><div class="evo-rays evo-rays2"></div>' +
@@ -517,9 +526,9 @@
           '<div class="evo-morph"><span class="evo-from">' + K.art.kasuPic(from) + '</span><span class="evo-to">' + K.art.kasuPic(to) + '</span></div>' +
           '<div class="evo-reveal">' + K.art.kasuPic(to) + '</div>' +
         '</div>' +
-        '<span class="evo-kicker">' + (isMix ? 'MIX' : t('evolution')) + '</span>' +
-        '<h1 class="evo-title">' + esc(isMix ? t('mixed') : t('congrats')) + '</h1>' +
-        '<p class="evo-result">' + t(isMix ? 'mixResult' : 'evoResult', { name: esc(K.L(to.name)) }) + '</p>' +
+        '<span class="evo-kicker">' + (isMix ? 'MIX' : isRoll ? (to.special ? t('specialBadge') : t('newKasu') + ' ・ ' + t('stageBadge', { n: to.stage })) : t('evolution')) + '</span>' +
+        '<h1 class="evo-title">' + esc(isMix ? t('mixed') : isRoll ? t('rolled') : t('congrats')) + '</h1>' +
+        '<p class="evo-result">' + t(isMix ? 'mixResult' : isRoll ? 'rollResult' : 'evoResult', { name: esc(K.L(to.name)) }) + '</p>' +
         '<p class="evo-line">' + esc(line) + '</p>' +
         (ev.isNew ? '<span class="evo-new">' + esc(t('zukanNew', { n: K.evo.foundCount(), t: K.evo.TOTAL })) + '</span>' : '') +
         '<span class="evo-tap">' + esc(t('tapToClose')) + '</span>' +

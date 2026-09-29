@@ -44,9 +44,9 @@
       $('kasu').setAttribute('aria-label', K.L(info.name));
       if (!$('eraser').firstChild) $('eraser').innerHTML = K.art.eraser();
       var st = $('kasu-stage');
-      st.classList.toggle('lv6', s.stage === 6);
-      st.classList.toggle('lv7', s.stage >= 7);
-      $('stage-badge').textContent = info.special ? t('specialBadge') : t('stageBadge', { n: s.stage });
+      st.classList.toggle('lv6', info.stage === 6);
+      st.classList.toggle('lv7', info.stage >= 7);
+      $('stage-badge').textContent = info.special ? t('specialBadge') : t('stageBadge', { n: info.stage });
       $('stage-badge').className = 'badge ' + (info.special ? 'badge-special' : 'badge-stage');
       $('kasu-name').textContent = K.L(info.name);
       $('eraser-btn').setAttribute('aria-label', t('kasuLabel'));
@@ -55,6 +55,11 @@
     var next = K.evo.nextNeed();
     $('kasu-next').textContent = next == null ? t('maxEvo') : t('nextEvo', { p: Math.floor(K.evo.progress() * 100) });
     $('evo-bar').style.width = (K.evo.progress() * 100).toFixed(1) + '%';
+    var cost = K.evo.rollCost();
+    var can = s.crumbs >= cost;
+    $('roll-btn').disabled = !can;
+    $('roll-price').innerHTML = U.priceHtml(cost, can);
+    $('roll-sub').textContent = t('rollSub', { n: s.stage, f: K.evo.foundCount(), t: K.evo.TOTAL });
   };
 
   // --- 数字 ---

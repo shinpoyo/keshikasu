@@ -1,4 +1,4 @@
-// しんか（企画書 7章）: 7だんかい × 7けいとう ＋ とくべつ 7しゅ = 56しゅるい
+// カスの しゅるい（企画書 7章）: 7だんかい × 7けいとう ＋ とくべつ 7しゅ = 56しゅるい。まるめると 1ぴき できる（js/evolution.js）
 (function (K) {
   'use strict';
   K.data = K.data || {};
@@ -46,11 +46,11 @@
       lines: { ja: ['まぶしくて ごめん。', 'きんいろ。でも カス。', 'おかねには ならない。'], en: ['Sorry for being so bright.', 'Gold. Still a crumb.', 'Not worth any money.'] } }
   ];
 
-  // とくべつな進化（隠し）。check は進化の瞬間に呼ばれる（js/evolution.js）
+  // とくべつな カス（隠し）。まるめた ときに じょうけんを みたして いれば でる（js/evolution.js）
   K.data.specials = [
     { id: 'lucky', img: 'art/special-lucky.svg',
       name: { ja: 'ラッキー カス', en: 'Lucky Crumb' },
-      hint: { ja: 'キラキラ している ときに しんかすると…？', en: 'Evolve while something is sparkling...?' },
+      hint: { ja: 'キラキラ している ときに まるめると…？', en: 'Roll while something is sparkling...?' },
       line: { ja: 'たまたま ひかっていた。うんも じつりょく。', en: 'It happened to be glowing. Luck is a skill too.' } },
     { id: 'toasty', img: 'art/special-toasty.svg',
       name: { ja: 'あつあつ カス', en: 'Toasty Crumb' },
@@ -58,7 +58,7 @@
       line: { ja: 'こすりすぎて あったかい。やけどに ちゅうい。', en: 'Rubbed so much it is warm. Careful.' } },
     { id: 'night', img: 'art/special-night.svg',
       name: { ja: 'よふかし カス', en: 'Night Owl Crumb' },
-      hint: { ja: 'よるの おそい じかんに しんかすると…？', en: 'Evolve very late at night...?' },
+      hint: { ja: 'よるの おそい じかんに まるめると…？', en: 'Roll very late at night...?' },
       line: { ja: 'ねむれない よる。カスも おなじ。', en: 'A sleepless night. The crumb too.' } },
     { id: 'king', img: 'art/special-king.svg',
       name: { ja: 'じしょう カスのおうさま', en: 'Self-Proclaimed Crumb King' },
