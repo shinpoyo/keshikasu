@@ -8,6 +8,8 @@ body {
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: transparent;
   overscroll-behavior: none;
+  -webkit-text-size-adjust: 100%; text-size-adjust: 100%;
+  touch-action: manipulation; /* スマホで れんだ しても ズームしない */
 }
 :root { --on-accent: #2B2A28; }
 button { font-family: inherit; color: inherit; }
@@ -19,6 +21,7 @@ h1, h2, h3 { font-family: var(--font-jp); font-weight: 900; margin: 0; }
 .num { font-family: var(--font-num); font-variant-numeric: tabular-nums; }
 
 #app { height: 100%; }
+@supports (height: 100dvh) { #app { height: 100dvh; } } /* スマホの アドレスバーに かくれない */
 .screen { height: 100%; }
 
 /* ---------- ボタン ---------- */
@@ -56,12 +59,16 @@ h1, h2, h3 { font-family: var(--font-jp); font-weight: 900; margin: 0; }
 
 /* ---------- タイトル ---------- */
 #screen-title {
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  display: flex; flex-direction: column; align-items: center;
   padding: 32px 16px; gap: 22px; overflow: auto;
   background:
     radial-gradient(circle at 50% 38%, rgba(255,255,255,.55), transparent 60%),
     var(--paper);
 }
+/* 画面が ひくい スマホでも つぶれず スクロールできるように */
+#screen-title > *, #screen-naming > * { flex-shrink: 0; }
+#screen-title > :first-child, #screen-naming > :first-child { margin-top: auto; }
+#screen-title > :last-child, #screen-naming > :last-child { margin-bottom: auto; }
 .title-logo { display: flex; flex-direction: column; align-items: center; gap: 6px; }
 .title-sub { font-weight: 900; font-size: 13px; letter-spacing: .3em; color: var(--graphite); }
 .title-name { font-family: var(--font-jp); font-weight: 900; font-size: clamp(48px, 9vw, 88px); letter-spacing: .04em; line-height: 1.05; }
@@ -85,7 +92,7 @@ h1, h2, h3 { font-family: var(--font-jp); font-weight: 900; margin: 0; }
 
 /* ---------- なまえ ---------- */
 #screen-naming {
-  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px;
+  display: flex; flex-direction: column; align-items: center; gap: 18px;
   padding: 32px 16px; overflow: auto;
 }
 .naming-day { font-weight: 900; font-size: 13px; letter-spacing: .3em; color: var(--eraser-pink); }
@@ -200,7 +207,7 @@ h1, h2, h3 { font-family: var(--font-jp); font-weight: 900; margin: 0; }
 }
 .kasu-btn {
   position: absolute; inset: 2%; padding: 0; border: none; background: transparent; cursor: pointer;
-  touch-action: manipulation; -webkit-user-select: none; user-select: none;
+  touch-action: manipulation; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none;
 }
 .kasu-body { position: absolute; inset: 0; display: block; transition: transform .6s cubic-bezier(.5,-0.4,.3,1.4), opacity .3s; }
 .kasu-body img { width: 100%; height: 100%; display: block; pointer-events: none; }
@@ -655,7 +662,7 @@ textarea.savebox {
   .only-wide { display: none !important; }
   .only-narrow { display: inline; }
   div.only-narrow { display: flex; }
-  .topbar { height: auto; padding: 10px 16px 0; flex-wrap: wrap; gap: 10px; border-bottom: none; background: transparent; }
+  .topbar { height: auto; padding: calc(10px + env(safe-area-inset-top)) 16px 0; flex-wrap: wrap; gap: 10px; border-bottom: none; background: transparent; }
   .brand-logo svg { width: 30px; height: 30px; }
   .brand-name { font-size: 20px; }
   .brand-sub { display: none; }
@@ -706,7 +713,14 @@ textarea.savebox {
     background: var(--eraser-pink); border: 1.5px solid var(--ink); font-family: var(--font-num); font-weight: 900; font-size: 10px; line-height: 15px; color: var(--on-accent);
   }
   .golden { width: 60px; height: 60px; }
-  .coach { bottom: 92px; }
+  /* せまい 画面では 上に。カスや みせの なかまを かくさない */
+  .coach { top: calc(8px + env(safe-area-inset-top)); bottom: auto; padding: 12px 16px; gap: 2px; }
+  .coach-title { font-size: 17px; }
+  .coach-body { font-size: 13px; line-height: 1.5; }
+  .coach-foot { margin-top: 0; }
+  .coach-foot button { min-height: 36px; }
+  /* 「とばす」だけの ときは 右上に よせて ひくく */
+  .coach:not([data-step="3"]) .coach-foot { position: absolute; top: 4px; right: 6px; }
   .modal { padding: 0; }
   .modal-card, .modal-card.wide, .modal-card.mid { width: 100%; height: 100%; max-height: none; border-radius: 0; padding: 20px 16px calc(24px + env(safe-area-inset-bottom)); }
   .reb-scene, .welcome-scene { margin: -20px -16px 0; border-radius: 0; }
@@ -722,10 +736,17 @@ textarea.savebox {
   .ach-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
   .shard-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
   .shard-item { min-height: 150px; padding: 12px; }
-  .toasts { left: 16px; right: 16px; top: auto; bottom: 92px; align-items: center; }
+  .toasts { left: 16px; right: 16px; top: auto; bottom: calc(92px + env(safe-area-inset-bottom)); align-items: center; }
+  .toast { font-size: 13px; padding: 8px 14px; }
+  .toast:not(:last-child) { display: none; } /* せまい 画面では あたらしい 1まいだけ */
   #screen-game.gold-mode .pane-kasu { background: transparent; }
 }
 @media (max-width: 380px) {
+  .brand { gap: 8px; }
+  .brand-logo svg { width: 26px; height: 26px; }
+  .brand-name { font-size: 17px; letter-spacing: 0; }
+  .mobile-zukan { padding: 0 10px; font-size: 12px; }
+  .naming-title { font-size: 24px; }
   .shard-grid { grid-template-columns: 1fr; }
   .desk-row-name { width: 76px; }
 }
