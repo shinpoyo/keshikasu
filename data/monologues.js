@@ -78,13 +78,6 @@
       m('いい けしき だった', 'Nice view out there.'),
       m('なんで ふいたの', 'Why did you blow me away?')
     ],
-    touch: [
-      m('ぼくを こすっても カスは でないよ', 'Rubbing me will not make more crumbs.'),
-      m('こするのは けしゴムの ほう', 'Rub the eraser, not me.'),
-      m('くすぐったい', 'That tickles.'),
-      m('さわっても ふえないよ', 'Touching me will not multiply me.'),
-      m('ぼくは もう けずれない', 'I cannot be worn down any further.')
-    ],
     rub: [
       m('くすぐったい', 'That tickles.'),
       m('もうすこし みぎ', 'A little to the right.'),
