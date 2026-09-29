@@ -6,7 +6,7 @@
   var S = function () { return K.state; };
   var t = function (k, v) { return K.t(k, v); };
   var esc = function (s) { return K.ui.esc(s); };
-  var VERSION = '0.10'; // index.html の ?v= と そろえる（ブラウザの キャッシュで 古い js が のこらないように）
+  var VERSION = '0.11'; // index.html の ?v= と そろえる（ブラウザの キャッシュで 古い js が のこらないように）
 
   function show(id) {
     ['screen-title', 'screen-naming', 'screen-game'].forEach(function (s) { $(s).hidden = s !== id; });
@@ -502,6 +502,14 @@
     var from = K.evo.info(ev.from), to = K.evo.info(ev.to);
     var isMix = ev.type === 'mix';
     var isRoll = ev.type === 'roll';
+    // まるめる: シルエットで なにが できるか わからないように、けっかとは ちがう 2つの かたちを いれかえる
+    var decoyA = from, decoyB = to;
+    if (isRoll) {
+      var st = [1, 2, 3, 4, 5, 6, 7].filter(function (n) { return n !== to.stage; });
+      var pick = function () { return st.splice(Math.floor(Math.random() * st.length), 1)[0]; };
+      decoyA = K.evo.info(K.speciesId(pick(), 'plain'));
+      decoyB = K.evo.info(K.speciesId(pick(), 'plain'));
+    }
     var reduce = !!S().settings.reduceMotion;
     var power = isMix ? 0 : Math.min(ev.stage || 7, 7); // だんかい（とくべつは 7 あつかい）
     var fx = '';
@@ -533,7 +541,7 @@
       '<div class="evo-rings">' + (isMix ? '<i></i>' : '<i></i><i></i><i></i>') + '</div>' + fx +
       '<div class="evo-inner">' +
         '<div class="evo-stagebox">' +
-          '<div class="evo-morph"><span class="evo-from">' + K.art.kasuPic(from) + '</span><span class="evo-to">' + K.art.kasuPic(to) + '</span></div>' +
+          '<div class="evo-morph"><span class="evo-from">' + K.art.kasuPic(decoyA) + '</span><span class="evo-to">' + K.art.kasuPic(decoyB) + '</span></div>' +
           '<div class="evo-reveal">' + K.art.kasuPic(to) + '</div>' +
         '</div>' +
         '<span class="evo-kicker">' + (isMix ? 'MIX' : isRoll ? (to.special ? t('specialBadge') : t('newKasu') + ' ・ ' + t('stageBadge', { n: to.stage })) : t('evolution')) + '</span>' +
@@ -544,6 +552,10 @@
         '<span class="evo-tap">' + esc(t('tapToClose')) + '</span>' +
       '</div><div class="evo-flash"></div>';
     el.hidden = false;
+    // 集中線・わっか・つぶを カスの まんなかに あわせる（文字の 行数で カスの 位置が かわるので）
+    var box = el.querySelector('.evo-stagebox').getBoundingClientRect();
+    el.style.setProperty('--cx', Math.round(box.left + box.width / 2) + 'px');
+    el.style.setProperty('--cy', Math.round(box.top + box.height / 2) + 'px');
     if (!reduce) K.sound.play(isMix ? 'mixing' : 'charge');
     var revealAt = reduce ? 0 : (isMix ? 1100 : 3600); // css の --reveal と そろえる
     var timers = [setTimeout(function () { K.sound.play(isMix ? 'upgrade' : 'evolve'); }, revealAt)];
