@@ -7,7 +7,7 @@
   function n(when, ja, en) { return { when: when, ja: ja, en: en }; }
   K.data.news = [
     // --- いつでも ---
-    n({}, 'つくえの うえで カスが みつかる。けいさつは「ふつうの カス」と はっぴょう。', 'Crumb found on a desk. Police say it is "just a normal crumb."'),
+    n({}, 'つくえの うえで カスが みつかる。おとしものとして とどけられたが、もちぬしは あらわれず。', 'Crumb found on a desk and turned in as lost property. No owner has come forward.'),
     n({}, 'けしゴムの かどを つかう ひと、ぜんこくで ふえる。', 'More people nationwide are using the corners of their erasers.'),
     n({}, 'がくしゃ「カスは けしゴムの おもいで」と はっぴょう。', 'Scientist announces: "Crumbs are the memories of erasers."'),
     n({}, 'きょうの てんき: はれ ときどき カス。', "Today's weather: sunny with occasional crumbs."),
@@ -72,13 +72,13 @@
     n({ b: ['moon', 25] }, 'よぞらに つきが たくさん。ロマンチックでは ない。', 'Many moons in the night sky. Not romantic.'),
 
     // --- タイムマシン ---
-    n({ b: ['timemachine', 1] }, 'タイムマシン、きのうの カスを もってくる。きのうの ひと こまる。', 'Time machine brings yesterday\'s crumbs. Yesterday\'s people are confused.'),
+    n({ b: ['timemachine', 1] }, 'タイムマシン、なぜか いつも 5ふん まえに しか いけない。', 'The time machine can only ever go back five minutes.'),
     n({ b: ['timemachine', 10] }, 'みらいの じぶんから てがみ。「カスは たいせつに」。', 'Letter from future self: "Take care of the crumbs."'),
     n({ b: ['timemachine', 50] }, 'れきしの きょうかしょ、けしカスの ページが ふえる。', 'History textbooks add more pages about crumbs.'),
 
     // --- パラレルつくえ ---
     n({ b: ['paralleldesk', 1] }, 'べつの せかいの つくえ、こちらと ほぼ おなじ。カスの いろだけ ちがう。', 'Desk from another world is almost the same. Only the crumb color differs.'),
-    n({ b: ['paralleldesk', 10] }, 'べつの せかいの きみも、いま こすっている。', 'The you from another world is rubbing right now too.'),
+    n({ b: ['paralleldesk', 10] }, 'べつの せかいの つくえでは、カスが ひとを こすっているらしい。', 'On the desk in another world, the crumbs rub the people.'),
 
     // --- うちゅうの いし ---
     n({ b: ['universe', 1] }, 'うちゅう、なにかを いおうとして やめる。', 'The universe starts to say something, then stops.'),
@@ -156,7 +156,7 @@
     n({ night: true }, 'よいこは もう ねる じかん です。カスも ねます。', 'It is time for good kids to sleep. The crumbs too.'),
 
     // --- なかま（ついか） ---
-    n({ b: ['finger', 25] }, 'ゆび たち、ささやかな ストライキ。3びょうで おわる。', 'The fingers go on a tiny strike. It lasts three seconds.'),
+    n({ b: ['finger', 25] }, 'ゆび たち、じゃんけんで こする じゅんばんを きめる。ずっと あいこ。', 'The fingers play rock-paper-scissors to decide who rubs next. Always a tie.'),
     n({ b: ['grandpa', 10] }, 'おじいちゃん たち、あめを くれる。なぜか ポケットに いつも ある。', 'The grandpas hand out candy. They always have some in their pockets.'),
     n({ b: ['classroom', 25] }, 'きょうしつの こくばん、「カス」と だけ かいてある。', 'The blackboard in every classroom just says "crumb."'),
     n({ b: ['roller', 5] }, 'ロードローラーの うんてんしゅ、「こまかい ことは きにしない」。', 'Road roller driver: "I don\'t sweat the small stuff."'),
