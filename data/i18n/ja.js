@@ -54,6 +54,7 @@
     roll: 'まるめる',
     rollSub: 'STAGE {n} まで でる ・ ずかん {f} / {t}',
     rollDup: 'ダブった！ {v} つぶ かえってきた',
+    sceneChanged: 'ぶたいが「{s}」に ひろがった！',
     tierUnlocked: 'STAGE {n} の カスが でるように なった！',
     mixedToast: 'つぎに まるめる カスは「{t}」',
     putOnDesk: 'つくえに おく',

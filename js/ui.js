@@ -34,8 +34,15 @@
 
   // --- カス ---
   var lastSpecies = null;
+  var lastScene = null;
   U.renderKasu = function () {
     var s = S();
+    var sc = K.sceneFor(s.stage).id;
+    if (sc !== lastScene) {
+      lastScene = sc;
+      $('kasu-stage').setAttribute('data-scene', sc);
+      $('kasu-scene').innerHTML = K.art.scene(sc);
+    }
     if (lastSpecies !== s.species || U.forceKasu) {
       U.forceKasu = false;
       lastSpecies = s.species;

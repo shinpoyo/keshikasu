@@ -6,7 +6,7 @@
   var S = function () { return K.state; };
   var t = function (k, v) { return K.t(k, v); };
   var esc = function (s) { return K.ui.esc(s); };
-  var VERSION = '0.4'; // index.html の ?v= と そろえる（ブラウザの キャッシュで 古い js が のこらないように）
+  var VERSION = '0.5'; // index.html の ?v= と そろえる（ブラウザの キャッシュで 古い js が のこらないように）
 
   function show(id) {
     ['screen-title', 'screen-naming', 'screen-game'].forEach(function (s) { $(s).hidden = s !== id; });
@@ -503,16 +503,16 @@
       // あつまる ひかりの つぶ
       for (i = 0; i < (isMix ? 14 : 28); i++) {
         var ang = Math.random() * Math.PI * 2, dist = 180 + Math.random() * 260;
-        fx += '<span class="evo-spark" style="--sx:' + Math.round(Math.cos(ang) * dist) + 'px;--sy:' + Math.round(Math.sin(ang) * dist) + 'px;animation-delay:' + (0.2 + Math.random() * (isMix ? 0.8 : 1.7)).toFixed(2) + 's"></span>';
+        fx += '<span class="evo-spark" style="--sx:' + Math.round(Math.cos(ang) * dist) + 'px;--sy:' + Math.round(Math.sin(ang) * dist) + 'px;animation-delay:' + (0.2 + Math.random() * (isMix ? 0.8 : 3.0)).toFixed(2) + 's"></span>';
       }
       // 紙ふぶき（フラッシュの あと）
       var n = isMix ? 0 : 30 + power * 14;
       for (i = 0; i < n; i++) {
         var a2 = Math.random() * Math.PI * 2, d2 = 160 + Math.random() * 420;
-        fx += '<span class="evo-burst" style="background:' + colors[i % colors.length] + ';--bx:' + Math.round(Math.cos(a2) * d2) + 'px;--by:' + Math.round(Math.sin(a2) * d2 - 120) + 'px;--rot:' + Math.round(Math.random() * 900) + 'deg;animation-delay:' + (2.2 + Math.random() * 0.25).toFixed(2) + 's;animation-duration:' + (1.8 + Math.random() * 1.6).toFixed(2) + 's"></span>';
+        fx += '<span class="evo-burst" style="background:' + colors[i % colors.length] + ';--bx:' + Math.round(Math.cos(a2) * d2) + 'px;--by:' + Math.round(Math.sin(a2) * d2 - 120) + 'px;--rot:' + Math.round(Math.random() * 900) + 'deg;animation-delay:' + (3.6 + Math.random() * 0.25).toFixed(2) + 's;animation-duration:' + (1.8 + Math.random() * 1.6).toFixed(2) + 's"></span>';
       }
       for (i = 0; i < (isMix ? 0 : 10 + power * 3); i++) {
-        fx += '<span class="evo-star" style="left:' + (Math.random() * 100).toFixed(1) + '%;top:' + (Math.random() * 100).toFixed(1) + '%;animation-delay:' + (2.4 + Math.random() * 2).toFixed(2) + 's"></span>';
+        fx += '<span class="evo-star" style="left:' + (Math.random() * 100).toFixed(1) + '%;top:' + (Math.random() * 100).toFixed(1) + '%;animation-delay:' + (3.8 + Math.random() * 2).toFixed(2) + 's"></span>';
       }
     }
     var line = K.L(to.line);
@@ -535,11 +535,11 @@
       '</div><div class="evo-flash"></div>';
     el.hidden = false;
     if (!reduce) K.sound.play(isMix ? 'mixing' : 'charge');
-    var revealAt = reduce ? 0 : (isMix ? 1100 : 2200);
+    var revealAt = reduce ? 0 : (isMix ? 1100 : 3600); // css の --reveal と そろえる
     var timers = [setTimeout(function () { K.sound.play(isMix ? 'upgrade' : 'evolve'); }, revealAt)];
     // スキップ不可。そのあと タップで とじる（自動でも とじる）
     var canClose = false;
-    var minTime = reduce ? 800 : (isMix ? 2000 : 4000);
+    var minTime = reduce ? 800 : (isMix ? 2000 : 5600);
     timers.push(setTimeout(function () { canClose = true; }, minTime));
     var close = function () {
       if (!canClose) return;

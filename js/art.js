@@ -114,5 +114,80 @@
     return '<span class="kpic"><img src="' + info.art + '" alt="" draggable="false"' + f + (opt.lazy ? ' loading="lazy"' : '') + '>' + tint + '</span>';
   }
 
-  K.art = { svg: svg, building: building, upIcon: upIcon, ui: ui, kasuSrc: kasuSrc, kasuPic: kasuPic, eraser: eraser, BUILDING: BUILDING };
+  // ぶたいの 絵（400×400、はしは きりとって つかう）。UI と おなじ フラットな タッチ
+  function windows(x0, y0, cols, rows, w, h, gx, gy, fill, lit) {
+    var o = '';
+    for (var r = 0; r < rows; r++) for (var c = 0; c < cols; c++) {
+      var on = lit && ((r * 7 + c * 3) % 5 === 0);
+      o += '<rect x="' + (x0 + c * (w + gx)) + '" y="' + (y0 + r * (h + gy)) + '" width="' + w + '" height="' + h + '" rx="1.5" fill="' + (on ? lit : fill) + '"/>';
+    }
+    return o;
+  }
+  function stars(n, seed, maxY, color) {
+    var o = '', x = seed;
+    for (var i = 0; i < n; i++) {
+      x = (x * 9301 + 49297) % 233280;
+      var px = (x / 233280) * 400;
+      x = (x * 9301 + 49297) % 233280;
+      var py = (x / 233280) * maxY;
+      o += '<circle cx="' + px.toFixed(1) + '" cy="' + py.toFixed(1) + '" r="' + (i % 5 === 0 ? 2 : 1.1) + '" fill="' + color + '" opacity="' + (0.5 + (i % 3) * 0.2) + '"/>';
+    }
+    return o;
+  }
+  var SCENE = {
+    classroom:
+      '<rect width="400" height="400" fill="#EDE3CC"/>' +
+      '<rect x="0" y="232" width="400" height="168" fill="#C9A071"/>' +
+      '<path d="M0 262h400M0 300h400M0 346h400" stroke="#B38A5D" stroke-width="2"/>' +
+      '<rect x="0" y="224" width="400" height="10" fill="#B38A5D"/>' +
+      '<rect x="36" y="34" width="328" height="150" rx="6" fill="#2F5242" stroke="#7A5530" stroke-width="10"/>' +
+      '<path d="M70 86c20-12 40 10 58-4M72 120h90M200 70l30 40M232 70l-30 40M268 96h60" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" fill="none" opacity="0.75"/>' +
+      '<rect x="60" y="184" width="280" height="8" rx="2" fill="#7A5530"/>' +
+      '<rect x="120" y="186" width="18" height="5" rx="2" fill="#FFFFFF"/><rect x="146" y="186" width="14" height="5" rx="2" fill="#F29CA3"/>' +
+      '<circle cx="372" cy="210" r="0"/>',
+    school:
+      '<defs><linearGradient id="scSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9FD3EE"/><stop offset="1" stop-color="#E4F4FB"/></linearGradient></defs>' +
+      '<rect width="400" height="400" fill="url(#scSky)"/>' +
+      '<ellipse cx="80" cy="60" rx="40" ry="14" fill="#FFFFFF" opacity="0.9"/><ellipse cx="300" cy="44" rx="50" ry="15" fill="#FFFFFF" opacity="0.85"/>' +
+      '<rect x="60" y="92" width="280" height="130" fill="#F6F0E3" stroke="#2B2A28" stroke-width="3"/>' +
+      '<rect x="176" y="64" width="48" height="40" fill="#F6F0E3" stroke="#2B2A28" stroke-width="3"/>' +
+      '<circle cx="200" cy="84" r="12" fill="#FFFFFF" stroke="#2B2A28" stroke-width="2.4"/><path d="M200 77v7l5 3" stroke="#2B2A28" stroke-width="2" fill="none" stroke-linecap="round"/>' +
+      windows(76, 108, 8, 3, 22, 20, 11, 14, '#8FA7C8') +
+      '<rect x="180" y="184" width="40" height="38" fill="#C9A071" stroke="#2B2A28" stroke-width="2.4"/>' +
+      '<rect x="0" y="222" width="400" height="178" fill="#DCC49A"/>' +
+      '<path d="M20 300c80-16 280-16 360 0" stroke="#FFFFFF" stroke-width="3" fill="none" opacity="0.7"/>' +
+      '<rect x="0" y="218" width="400" height="6" fill="#A9BF95"/>',
+    town:
+      '<defs><linearGradient id="scDusk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F5B98C"/><stop offset="0.6" stop-color="#FAD9B5"/><stop offset="1" stop-color="#FCEBD6"/></linearGradient></defs>' +
+      '<rect width="400" height="400" fill="url(#scDusk)"/>' +
+      '<circle cx="320" cy="70" r="26" fill="#FFE7A8" opacity="0.9"/>' +
+      '<g fill="#B6B9D2">' + '<rect x="0" y="120" width="50" height="120"/><rect x="60" y="90" width="44" height="150"/><rect x="250" y="100" width="46" height="140"/><rect x="350" y="130" width="50" height="110"/></g>' +
+      '<g fill="#8FA7C8" stroke="#2B2A28" stroke-width="2.4">' + '<rect x="24" y="150" width="60" height="100"/><rect x="96" y="120" width="54" height="130"/><rect x="160" y="160" width="70" height="90"/><rect x="238" y="130" width="52" height="120"/><rect x="300" y="110" width="64" height="140"/></g>' +
+      windows(34, 162, 3, 5, 10, 10, 8, 8, '#6F86A8', '#FFE7A8') + windows(106, 132, 3, 7, 9, 10, 8, 6, '#6F86A8', '#FFE7A8') +
+      windows(172, 172, 4, 4, 10, 10, 6, 8, '#6F86A8', '#FFE7A8') + windows(248, 142, 3, 6, 9, 10, 7, 7, '#6F86A8', '#FFE7A8') + windows(312, 124, 4, 7, 9, 10, 5, 6, '#6F86A8', '#FFE7A8') +
+      '<rect x="0" y="250" width="400" height="150" fill="#9A9690"/>' +
+      '<path d="M0 320h400" stroke="#FFFFFF" stroke-width="5" stroke-dasharray="26 18" opacity="0.8"/>' +
+      '<rect x="0" y="246" width="400" height="8" fill="#C9C4BB"/>',
+    sky:
+      '<defs><linearGradient id="scBlue" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5BAEE6"/><stop offset="1" stop-color="#CDEBFA"/></linearGradient></defs>' +
+      '<rect width="400" height="400" fill="url(#scBlue)"/>' +
+      '<circle cx="330" cy="60" r="30" fill="#FFF3C4"/><circle cx="330" cy="60" r="44" fill="#FFF3C4" opacity="0.3"/>' +
+      '<g fill="#FFFFFF"><ellipse cx="70" cy="110" rx="46" ry="14" opacity="0.8"/><ellipse cx="250" cy="150" rx="38" ry="11" opacity="0.7"/>' +
+      '<path d="M-20 400V300c20-30 60-34 80-14 16-30 64-34 84-6 18-26 70-26 86 4 20-24 66-22 80 8 24-18 70-10 90 16V400z"/></g>' +
+      '<path d="M-20 318c40 10 400 10 440 0" stroke="#E4F1FA" stroke-width="3" fill="none"/>',
+    space:
+      '<rect width="400" height="400" fill="#141627"/>' +
+      '<ellipse cx="120" cy="140" rx="160" ry="60" fill="#2E3350" opacity="0.6" transform="rotate(-20 120 140)"/>' +
+      stars(70, 7, 400, '#FFF6D6') +
+      '<circle cx="330" cy="330" r="46" fill="#3E6FB0"/><path d="M300 310c14 4 18 18 34 14 12-3 16 10 30 8M296 344c16-6 24 6 40 0" stroke="#A9BF95" stroke-width="10" fill="none" stroke-linecap="round"/>' +
+      '<circle cx="330" cy="330" r="46" fill="none" stroke="#8FA7C8" stroke-width="3"/>' +
+      '<circle cx="64" cy="70" r="16" fill="#F3E3A6"/><circle cx="58" cy="66" r="3" fill="#E0CB84"/>' +
+      '<ellipse cx="220" cy="80" rx="26" ry="7" fill="none" stroke="#E7B533" stroke-width="3"/><circle cx="220" cy="80" r="13" fill="#E7B533"/>'
+  };
+  function scene(id) {
+    var inner = SCENE[id];
+    return inner ? '<svg viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">' + inner + '</svg>' : '';
+  }
+
+  K.art = { svg: svg, scene: scene, building: building, upIcon: upIcon, ui: ui, kasuSrc: kasuSrc, kasuPic: kasuPic, eraser: eraser, BUILDING: BUILDING };
 })(window.K = window.K || {});
