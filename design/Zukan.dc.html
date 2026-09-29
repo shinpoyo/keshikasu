@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>けしカス ずかん</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&amp;family=Zen+Maru+Gothic:wght@500;700;900&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F6F1E7;font-family:"Nunito","Zen Maru Gothic",sans-serif;color:#2B2A28}
+a{color:#3E6FB0}a:hover{color:#2C5590}
+button{font-family:inherit}
+</style>
+</helmet>
+<div style="width: 1440px; height: 900px; box-sizing: border-box; display: flex; flex-direction: column; background: #F6F1E7; font-family: 'Nunito', 'Zen Maru Gothic', sans-serif; color: #2B2A28; overflow: hidden">
+
+  <header style="height: 84px; flex-shrink: 0; box-sizing: border-box; padding: 0 40px; display: flex; align-items: center; gap: 24px; border-bottom: 2px solid #E4DCCB; background: #FBF8F1">
+    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#2B2A28" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"></path><path d="M4 21V5"></path><path d="M9 8h6"></path></svg>
+    <h1 style="margin: 0; font-family: 'Zen Maru Gothic', sans-serif; font-weight: 900; font-size: 28px">ずかん</h1>
+    <div style="display: flex; align-items: center; gap: 12px">
+      <span style="font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 22px; font-variant-numeric: tabular-nums">16 <span style="color: #6B6A66; font-size: 16px">/ 56</span></span>
+      <div style="width: 200px; height: 10px; border-radius: 999px; background: #E4DCCB; overflow: hidden"><div style="width: 28.6%; height: 100%; border-radius: 999px; background: #3E6FB0"></div></div>
+      <span style="padding: 4px 12px; border-radius: 999px; background: #F3EDE1; border: 1.5px solid #CDBFA5; font-family: 'Zen Maru Gothic', sans-serif; font-weight: 700; font-size: 13px">しょうごう: カスはかせ みならい</span>
+    </div>
+    <a href="Main.dc.html" aria-label="とじる" style="margin-left: auto; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; border: 2px solid #2B2A28; border-radius: 14px; background: #FFFFFF">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2B2A28" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></a>
+  </header>
+
+  <div style="flex-grow: 1; min-height: 0; display: flex; gap: 32px; box-sizing: border-box; padding: 24px 40px 28px">
+
+    <section style="flex-grow: 1; min-width: 0; display: flex; flex-direction: column; gap: 8px" aria-label="カスの いちらん">
+      <div style="display: flex; gap: 8px; padding-left: 128px">
+        <sc-for list="{{traits}}" as="t" hint-placeholder-count="7">
+          <div style="flex: 1 1 0; min-width: 0; height: 32px; display: flex; align-items: center; justify-content: center; gap: 6px; font-family: 'Zen Maru Gothic', sans-serif; font-weight: 900; font-size: 13px">
+            <span style="width: 12px; height: 12px; border-radius: 50%; background: {{t.chip}}; border: 1.5px solid #2B2A28"></span>{{t.name}}</div>
+        </sc-for>
+      </div>
+
+      <sc-for list="{{rows}}" as="r" hint-placeholder-count="8">
+        <div style="display: flex; gap: 8px; align-items: stretch">
+          <div style="width: 120px; flex-shrink: 0; display: flex; flex-direction: column; justify-content: center; gap: 2px">
+            <span style="font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 11px; letter-spacing: 0.08em; color: #6B6A66">{{r.label}}</span>
+            <span style="font-family: 'Zen Maru Gothic', sans-serif; font-weight: 900; font-size: 14px">{{r.name}}</span>
+          </div>
+          <sc-for list="{{r.cells}}" as="c" hint-placeholder-count="7">
+            <button type="button" aria-label="{{c.aria}}" style="flex: 1 1 0; min-width: 0; height: 76px; box-sizing: border-box; padding: 0; display: flex; align-items: center; justify-content: center; border: {{c.border}}; border-radius: 12px; background: {{c.bg}}; box-shadow: {{c.shadow}}; overflow: hidden; cursor: pointer">
+              <sc-if value="{{c.hasImg}}" hint-placeholder-val="{{true}}">
+                <img src="{{c.img}}" alt="" style="width: 76px; height: 76px; filter: {{c.filter}}">
+              </sc-if>
+              <sc-if value="{{c.noImg}}" hint-placeholder-val="{{false}}">
+                <span style="font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 20px; color: #B8AD98">?</span>
+              </sc-if>
+            </button>
+          </sc-for>
+        </div>
+      </sc-for>
+    </section>
+
+    <aside style="width: 360px; flex-shrink: 0; box-sizing: border-box; padding: 24px; display: flex; flex-direction: column; gap: 14px; border-radius: 22px; background: #FFFFFF; border: 2px solid #2B2A28; box-shadow: 0 6px 0 #2B2A28" aria-label="えらんだ カス">
+      <div style="position: relative; height: 260px; border-radius: 14px; overflow: hidden; background: repeating-linear-gradient(176deg, #D2B287 0px, #D8BA90 7px, #CFAE82 13px, #D6B78C 22px)">
+        <div style="position: absolute; left: 20px; top: 16px; right: 20px; bottom: 16px; border-radius: 3px; transform: rotate(-2deg); background: repeating-linear-gradient(180deg, #FAF8F3 0px, #FAF8F3 23px, #DCE3EC 23px, #DCE3EC 24px); box-shadow: 0 8px 18px rgba(60,40,15,0.25)"></div>
+        <img src="/_blob/d0bbb2a0c5793b3a19780974d72add99" alt="こんもりの くろカス" style="position: absolute; left: 50%; top: 50%; width: 250px; height: 250px; margin-left: -125px; margin-top: -125px; filter: brightness(0.55) contrast(1.4)">
+      </div>
+      <div style="display: flex; gap: 6px">
+        <span style="padding: 3px 10px; border-radius: 999px; background: #3E6FB0; color: #FFFFFF; font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 12px">STAGE 3</span>
+        <span style="padding: 3px 10px; border-radius: 999px; background: #2B2A28; color: #FFFFFF; font-family: 'Zen Maru Gothic', sans-serif; font-weight: 700; font-size: 12px">くろ</span>
+        <span style="padding: 3px 10px; border-radius: 999px; background: #F29CA3; color: #2B2A28; font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 12px">NEW</span>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 2px">
+        <h2 style="margin: 0; font-family: 'Zen Maru Gothic', sans-serif; font-weight: 900; font-size: 24px">こんもりの くろカス</h2>
+        <span style="font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 13px; color: #6B6A66">Heaped Graphite Crumb</span>
+      </div>
+      <p style="margin: 0; padding: 12px 14px; border-radius: 12px; background: #F6F1E7; font-family: 'Zen Maru Gothic', sans-serif; font-weight: 700; font-size: 15px; line-height: 1.6">「えんぴつの きもちが すこし わかる」</p>
+      <dl style="margin: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 12px; font-family: 'Zen Maru Gothic', sans-serif; font-size: 13px">
+        <dt style="color: #6B6A66; font-weight: 700">みつけた ひ</dt><dd style="margin: 0; font-family: 'Nunito', sans-serif; font-weight: 800">2026.09.29</dd>
+        <dt style="color: #6B6A66; font-weight: 700">まぜたもの</dt><dd style="margin: 0; font-weight: 700">えんぴつの こな</dd>
+      </dl>
+    </aside>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const imgs = ['/_blob/ff300876a7820703adeac29b272f1480', '/_blob/54eb8f6f4a00503d427f3a7c53900987', '/_blob/d0bbb2a0c5793b3a19780974d72add99', '/_blob/ddc0460e1f7a54972a69f53735477b5e', '/_blob/c4c8c004f7d5df72c74959e82b80b71a', '', ''];
+    const traits = [
+      { name: 'ノーマル', chip: '#A9A49B', filter: 'none' },
+      { name: 'くろ', chip: '#2B2A28', filter: 'brightness(0.55) contrast(1.4)' },
+      { name: 'カラフル', chip: '#C77DD6', filter: 'sepia(1) saturate(6) hue-rotate(280deg) brightness(1.15)' },
+      { name: 'ねばねば', chip: '#9FC7E8', filter: 'contrast(1.25) brightness(1.2) drop-shadow(0 0 2px #FFFFFF)' },
+      { name: 'もふもふ', chip: '#E9E4DA', filter: 'blur(0.7px) brightness(1.5) contrast(0.8)' },
+      { name: 'ざらざら', chip: '#C9A676', filter: 'sepia(0.6) contrast(1.7) brightness(1.05)' },
+      { name: 'キラキラ', chip: '#E7B533', filter: 'sepia(1) saturate(4) hue-rotate(5deg) brightness(1.35)' }
+    ];
+    const stageNames = ['にょろにょろ', 'ちらばった', 'こんもり', 'まるまった', 'かおが うかんだ', 'でんせつの', 'うちゅうの'];
+    const foundCount = [5, 4, 3, 2, 1, 0, 0];
+    const cell = (img, filter, found, selected, aria) => ({
+      img: img, hasImg: !!img, noImg: !img,
+      filter: found ? filter : 'brightness(0) opacity(0.14)',
+      border: selected ? '3px solid #3E6FB0' : (found ? '2px solid #2B2A28' : '2px dashed #CDBFA5'),
+      bg: found ? '#FAF8F3' : 'transparent',
+      shadow: selected ? '0 0 0 4px rgba(62,111,176,0.2)' : 'none',
+      aria: found ? aria : 'まだ みつけていない'
+    });
+    const rows = stageNames.map((sn, si) => ({
+      label: 'STAGE ' + (si + 1),
+      name: sn,
+      cells: traits.map((t, ti) => cell(imgs[si], t.filter, ti < foundCount[si], si === 2 && ti === 1, sn + ' ' + t.name))
+    }));
+    const specials = ['じしょう おうさま', 'たびする', 'さとった', 'あつあつ', 'よふかし', 'ラッキー', 'うまれかわった'];
+    rows.push({
+      label: 'SPECIAL',
+      name: 'とくべつ',
+      cells: specials.map((n, i) => cell(i === 4 ? imgs[1] : '', 'brightness(0.45) sepia(1) hue-rotate(190deg) saturate(3)', i === 4, false, n + ' カス'))
+    });
+    return { traits, rows };
+  }
+}
+</script>
+</body>
+</html>
