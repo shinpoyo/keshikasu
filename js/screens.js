@@ -14,7 +14,7 @@
   SC.show = show;
 
   function deskScene(src, cls) {
-    return '<div class="title-desk ' + (cls || '') + '"><div class="kasu-paper"></div><img src="' + src + '" alt=""></div>';
+    return '<div class="title-desk ' + (cls || '') + '"><div class="kasu-paper"></div><img src="' + src + '" alt=""><span class="title-eraser">' + K.art.eraser() + '</span></div>';
   }
 
   // ---------- タイトル ----------
@@ -130,7 +130,7 @@
     };
     $('pane-menu').innerHTML = '<div class="pane-head"><h2>' + esc(t('menu')) + '</h2></div><div class="menu-list">' +
       item('zukan', K.art.ui('zukan', 24), t('zukan'), '', K.evo.foundCount() + ' / ' + K.evo.TOTAL) +
-      item('achievements', K.art.ui('ach', 24), t('achievements'), '', K.game.achievementCount() + ' / ' + K.data.achievements.length) +
+      item('achievements', K.art.ui('ach', 24), t('achievements'), '', K.game.achievementCount() + ' / ' + K.game.achievementTotal) +
       item('stats', K.art.ui('stats', 24), t('stats')) +
       item('shardshop', K.art.upIcon('shard', 24), t('shardShop'), '', s.shards + ' ' + t('shardsUnit')) +
       item('rebirth', K.art.ui('eraser', 24), t('rebirth'), pend > 0 ? t('rebirthMenuHint', { n: pend }) : '', '', pend > 0 ? 'gold' : '') +
@@ -179,7 +179,7 @@
     card.classList.add('wide');
     var s = S();
     var cells = '<div class="z-row"><span></span>' + K.data.traits.map(function (tr) {
-      return '<span class="z-head"><span class="chip-dot" style="background:' + tr.chip + '"></span>' + esc(K.L(tr.name)) + '</span>';
+      return '<span class="z-head"><span class="chip-dot" style="background:' + (tr.chipBg || tr.chip) + '"></span>' + esc(K.L(tr.name)) + '</span>';
     }).join('') + '</div>';
     K.data.stages.forEach(function (st) {
       cells += '<div class="z-row"><span class="z-rowlabel">STAGE ' + st.n + '<b>' + esc(K.L(st.name)) + '</b></span>';
@@ -203,7 +203,7 @@
     var isNew = found && Date.now() - found.at < 10 * 60 * 1000;
     var sel = (state.zukanSel || s.species) === id;
     return '<button type="button" class="z-cell' + (found ? '' : ' unk') + (sel ? ' sel' : '') + '" data-z="' + id + '" aria-label="' + esc(found ? K.L(info.name) : t('notFound')) + '">' +
-      '<img src="' + info.art + '" alt="" style="' + (found && info.filter !== 'none' ? 'filter:' + info.filter : '') + '" loading="lazy">' +
+      K.art.kasuPic(info, { plain: !found, lazy: true }) +
       (found ? '' : '<span class="z-q">?</span>') +
       (isNew ? '<span class="badge badge-new z-new">' + t('newBadge') + '</span>' : '') + '</button>';
   }
@@ -218,7 +218,7 @@
     }
     var mat = found.mat ? K.game.materialById[found.mat] : null;
     var other = K.lang() === 'ja' ? info.name.en : info.name.ja;
-    return '<div class="z-detail"><div class="z-detail-img"><img src="' + info.art + '" alt="" style="' + (info.filter !== 'none' ? 'filter:' + info.filter : '') + '"></div>' +
+    return '<div class="z-detail"><div class="z-detail-img">' + K.art.kasuPic(info) + '</div>' +
       '<div class="z-detail-body"><span class="badge ' + (info.special ? 'badge-special' : 'badge-stage') + '" style="align-self:flex-start">' + (info.special ? t('specialBadge') : t('stageBadge', { n: info.stage })) + '</span>' +
       '<h3>' + esc(K.L(info.name)) + '</h3><span class="z-en">' + esc(other) + '</span>' +
       '<p class="z-quote">' + esc(K.quote(K.L(info.line))) + '</p>' +
@@ -237,7 +237,8 @@
     card.classList.add('wide');
     var s = S();
     var n = K.game.achievementCount();
-    var list = K.data.achievements.filter(function (a) { return state.achCat === 'all' || a.cat === state.achCat; });
+    // かげの じっせきは とったときだけ 出す
+    var list = K.data.achievements.filter(function (a) { return (state.achCat === 'all' || a.cat === state.achCat) && (!a.shadow || s.achievements[a.id]); });
     var sel = null;
     K.data.achievements.forEach(function (a) { if (a.id === state.achSel) sel = a; });
     var grid = list.map(function (a) {
@@ -254,11 +255,11 @@
         '<h3>' + esc(secret ? '？？？' : K.L(sel.name)) + '</h3>' +
         '<span class="z-en">' + esc(secret ? '' : (K.lang() === 'ja' ? sel.name.en : sel.name.ja)) + '</span>' +
         '<p class="lead">' + esc(secret ? t('achLocked') : K.L(sel.desc)) + '</p>' +
-        (got ? '<p class="z-quote">' + esc(K.quote(K.L(sel.quote))) + '</p><span class="z-en">' + K.fmtDate(got) + ' ・ +1% /s</span>' : '') + '</div>';
+        (got ? '<p class="z-quote">' + esc(K.quote(K.L(sel.quote))) + '</p><span class="z-en">' + K.fmtDate(got) + (sel.shadow ? '' : ' ・ +1% /s') + '</span>' : '') + '</div>';
     } else {
       detail = '<div class="ach-detail"><p class="lead">' + esc(t('achBonus')) + '</p></div>';
     }
-    return head(t('achTitle'), '<span class="head-count">' + n + ' / ' + K.data.achievements.length + '</span><span class="head-pill">+' + n + '% /s</span>') +
+    return head(t('achTitle'), '<span class="head-count">' + n + ' / ' + K.game.achievementTotal + '</span><span class="head-pill">+' + n + '% /s</span>') +
       '<p class="lead">' + esc(t('achBonus')) + '</p>' +
       '<div class="cats">' + CATS.map(function (c) {
         return '<button type="button" class="cat" data-cat="' + c[0] + '" aria-pressed="' + (state.achCat === c[0]) + '"><i style="background:' + c[2] + '"></i>' + esc(t(c[1])) + '</button>';
@@ -297,7 +298,7 @@
       [t('stShards'), s.shards],
       [t('stGolden'), st.golden],
       [t('stFound'), K.evo.foundCount() + ' / ' + K.evo.TOTAL],
-      [t('stAch'), K.game.achievementCount() + ' / ' + K.data.achievements.length],
+      [t('stAch'), K.game.achievementCount() + ' / ' + K.game.achievementTotal],
       [t('stStarted'), K.fmtDate(st.firstPlay)]
     ];
     var lines = function (rows) { return rows.map(function (r) { return '<div class="stat-line"><span>' + esc(r[0]) + '</span><b>' + esc(r[1]) + '</b></div>'; }).join(''); };
@@ -443,7 +444,7 @@
   SC.welcome = function (sec, gain, onClose) { welcomeData = { sec: sec, gain: gain }; SC.onWelcomeClose = onClose; SC.open('welcome'); };
   RENDER.welcome = function () {
     var d = K.fmtDuration(welcomeData.sec);
-    return '<div class="welcome-scene"><img src="' + K.art.kasuSrc(S().stage) + '" alt="" style="' + (K.evo.info(S().species).filter !== 'none' ? 'filter:' + K.evo.info(S().species).filter : '') + '"><span class="zzz">z z z</span></div>' +
+    return '<div class="welcome-scene">' + K.art.kasuPic(K.evo.info(S().species)) + '<span class="zzz">z z z</span></div>' +
       '<h1 class="center">' + esc(t('welcomeTitle')) + '</h1>' +
       '<div class="bubble">' + esc(K.quote(t('welcomeLine'))) + '</div>' +
       '<p class="lead center">' + esc(d.h ? t('welcomeWhile', { h: d.h, m: d.m }) : t('welcomeWhileM', { m: d.m })) + '</p>' +
@@ -476,44 +477,69 @@
   // ---------- しんかの演出 ----------
   var evoOpen = false;
   SC.evoOpen = function () { return evoOpen; };
+  // しんかの演出。ひかる シルエットが いれかわりながら はやくなり → まっしろに フラッシュ → あたらしい カス
+  // だんかいが あがるほど 紙ふぶきと 光が ふえる。まぜた ときは みじかい うずまき
   SC.showEvolution = function (ev) {
     evoOpen = true;
     var from = K.evo.info(ev.from), to = K.evo.info(ev.to);
-    var st = function (i) { return i.filter !== 'none' ? 'filter:' + i.filter : ''; };
     var isMix = ev.type === 'mix';
-    var confetti = '';
-    if (!S().settings.reduceMotion && !isMix) {
-      var colors = ['#F29CA3', '#3E6FB0', '#E7B533', '#F6F1E7'];
-      for (var i = 0; i < 40; i++) {
-        confetti += '<span class="confetti" style="left:' + (Math.random() * 100) + '%;background:' + colors[i % 4] + ';--dx:' + (Math.random() * 200 - 100) + 'px;--rot:' + (Math.random() * 720) + 'deg;animation-duration:' + (2.5 + Math.random() * 2) + 's;animation-delay:' + (0.4 + Math.random() * 1.5) + 's"></span>';
+    var reduce = !!S().settings.reduceMotion;
+    var power = isMix ? 0 : Math.min(ev.stage || 1, 7); // 2〜7
+    var fx = '';
+    if (!reduce) {
+      var colors = to.special ? ['#E7B533', '#FFF6D6', '#F29CA3', '#FFD83F']
+        : power >= 7 ? ['#8FA7C8', '#FFF6D6', '#9A7CFF', '#36B5F0', '#E7B533']
+        : ['#F29CA3', '#3E6FB0', '#E7B533', '#F6F1E7'];
+      var i;
+      // あつまる ひかりの つぶ
+      for (i = 0; i < (isMix ? 14 : 28); i++) {
+        var ang = Math.random() * Math.PI * 2, dist = 180 + Math.random() * 260;
+        fx += '<span class="evo-spark" style="--sx:' + Math.round(Math.cos(ang) * dist) + 'px;--sy:' + Math.round(Math.sin(ang) * dist) + 'px;animation-delay:' + (0.2 + Math.random() * (isMix ? 0.8 : 1.7)).toFixed(2) + 's"></span>';
+      }
+      // 紙ふぶき（フラッシュの あと）
+      var n = isMix ? 0 : 30 + power * 14;
+      for (i = 0; i < n; i++) {
+        var a2 = Math.random() * Math.PI * 2, d2 = 160 + Math.random() * 420;
+        fx += '<span class="evo-burst" style="background:' + colors[i % colors.length] + ';--bx:' + Math.round(Math.cos(a2) * d2) + 'px;--by:' + Math.round(Math.sin(a2) * d2 - 120) + 'px;--rot:' + Math.round(Math.random() * 900) + 'deg;animation-delay:' + (2.2 + Math.random() * 0.25).toFixed(2) + 's;animation-duration:' + (1.8 + Math.random() * 1.6).toFixed(2) + 's"></span>';
+      }
+      for (i = 0; i < (isMix ? 0 : 10 + power * 3); i++) {
+        fx += '<span class="evo-star" style="left:' + (Math.random() * 100).toFixed(1) + '%;top:' + (Math.random() * 100).toFixed(1) + '%;animation-delay:' + (2.4 + Math.random() * 2).toFixed(2) + 's"></span>';
       }
     }
     var line = K.L(to.line);
     if (!to.special && to.stage === ev.stage && !isMix) line = K.L(K.data.stages[ev.stage - 1].line);
     var el = $('evo');
-    el.className = 'evo' + (isMix ? ' mix' : '');
-    el.innerHTML = '<div class="evo-glow"></div><div class="evo-rings">' + (isMix ? '<i></i>' : '<i></i><i></i><i></i>') + '</div>' + confetti +
-      '<div class="evo-inner"><span class="evo-kicker">' + (isMix ? 'MIX' : t('evolution')) + '</span>' +
-      '<h1 class="evo-title">' + esc(isMix ? t('mixed') : t('congrats')) + '</h1>' +
-      '<div class="evo-pair"><div class="evo-card"><span><img src="' + from.art + '" alt="" style="' + st(from) + '"></span><small>' + esc(t('before')) + '</small></div>' +
-      '<span class="evo-arrow">' + K.art.svg('0 0 24 24', '<path d="M4 12h14M13 6l6 6-6 6" fill="none" stroke="#E7B533" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>', 30, 30) + '</span>' +
-      '<div class="evo-card after"><span><img src="' + to.art + '" alt="" style="' + st(to) + '"></span><small>' + esc(t('after')) + '</small></div></div>' +
-      '<p class="evo-result">' + t(isMix ? 'mixResult' : 'evoResult', { name: esc(K.L(to.name)) }) + '</p>' +
-      '<p class="evo-line">' + esc(line) + '</p>' +
-      (ev.isNew ? '<span class="evo-new">' + esc(t('zukanNew', { n: K.evo.foundCount(), t: K.evo.TOTAL })) + '</span>' : '') +
-      '<span class="evo-tap">' + esc(t('tapToClose')) + '</span></div>';
+    el.className = 'evo' + (isMix ? ' mix' : ' lv' + power) + (to.special ? ' special' : '') + (reduce ? ' reduced' : '');
+    el.innerHTML = '<div class="evo-rays"></div><div class="evo-rays evo-rays2"></div>' +
+      '<div class="evo-rings">' + (isMix ? '<i></i>' : '<i></i><i></i><i></i>') + '</div>' + fx +
+      '<div class="evo-inner">' +
+        '<div class="evo-stagebox">' +
+          '<div class="evo-morph"><span class="evo-from">' + K.art.kasuPic(from) + '</span><span class="evo-to">' + K.art.kasuPic(to) + '</span></div>' +
+          '<div class="evo-reveal">' + K.art.kasuPic(to) + '</div>' +
+        '</div>' +
+        '<span class="evo-kicker">' + (isMix ? 'MIX' : t('evolution')) + '</span>' +
+        '<h1 class="evo-title">' + esc(isMix ? t('mixed') : t('congrats')) + '</h1>' +
+        '<p class="evo-result">' + t(isMix ? 'mixResult' : 'evoResult', { name: esc(K.L(to.name)) }) + '</p>' +
+        '<p class="evo-line">' + esc(line) + '</p>' +
+        (ev.isNew ? '<span class="evo-new">' + esc(t('zukanNew', { n: K.evo.foundCount(), t: K.evo.TOTAL })) + '</span>' : '') +
+        '<span class="evo-tap">' + esc(t('tapToClose')) + '</span>' +
+      '</div><div class="evo-flash"></div>';
     el.hidden = false;
-    // スキップ不可の 約3秒。そのあと タップで とじる（自動でも とじる）
+    if (!reduce) K.sound.play(isMix ? 'mixing' : 'charge');
+    var revealAt = reduce ? 0 : (isMix ? 1100 : 2200);
+    var timers = [setTimeout(function () { K.sound.play(isMix ? 'upgrade' : 'evolve'); }, revealAt)];
+    // スキップ不可。そのあと タップで とじる（自動でも とじる）
     var canClose = false;
-    var minTime = S().settings.reduceMotion ? 800 : (isMix ? 1600 : 3000);
-    setTimeout(function () { canClose = true; }, minTime);
+    var minTime = reduce ? 800 : (isMix ? 2000 : 4000);
+    timers.push(setTimeout(function () { canClose = true; }, minTime));
     var close = function () {
       if (!canClose) return;
+      timers.forEach(clearTimeout);
       el.hidden = true; el.innerHTML = ''; evoOpen = false;
       K.ui.say(K.news.monologue(isMix ? 'mix' : 'evolve'));
     };
     el.onclick = close;
-    setTimeout(function () { canClose = true; close(); }, minTime + 5000);
+    timers.push(setTimeout(function () { canClose = true; close(); }, minTime + 6000));
   };
 
   K.screens = SC;

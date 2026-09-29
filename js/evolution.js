@@ -51,7 +51,7 @@
     };
     var line = tr.id === 'plain' ? st.line : { ja: tr.lines.ja[(n - 1) % 3], en: tr.lines.en[(n - 1) % 3] };
     return { id: id, special: false, stage: n, trait: tr.id, name: name, line: line,
-      art: K.art.kasuSrc(n), filter: tr.filter };
+      art: K.art.kasuSrc(n), filter: tr.filter, tint: tr.tint || null };
   };
 
   E.register = function (id) {
@@ -91,7 +91,6 @@
     var isNew = E.register(id);
     K.rt.maxRubRate = 0;
     E.queue.push({ type: 'evolve', from: from, to: id, stage: n, isNew: isNew });
-    if (K.sound) K.sound.play('evolve');
   }
 
   // 毎フレーム呼ぶ。1回に1だんかいずつ上げる

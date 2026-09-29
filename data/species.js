@@ -28,7 +28,8 @@
     { id: 'graphite', chip: '#2B2A28', filter: 'brightness(0.55) contrast(1.4)',
       name: { ja: 'くろ', en: 'Graphite' }, word: { ja: 'くろ', en: 'Graphite' },
       lines: { ja: ['えんぴつの きもちが すこし わかる。', 'くろい。ちょっと ひかる。', 'かいた もじを おもいだす。'], en: ['Understands pencils a little.', 'Black. Slightly shiny.', 'Remembers the letters it once was.'] } },
-    { id: 'rainbow', chip: '#C77DD6', filter: 'sepia(1) saturate(6) hue-rotate(280deg) brightness(1.15)',
+    // カラフルは フィルターで うすい はいいろに してから、にじ色の そうを かさねる（art.js の kasuPic）
+    { id: 'rainbow', chip: '#C77DD6', chipBg: 'conic-gradient(#FF5A5F, #FFC23F, #8BD86A, #3FB6FF, #9A7CFF, #FF6FD1, #FF5A5F)', filter: 'grayscale(1) brightness(2.3) contrast(0.9)', tint: 'rainbow',
       name: { ja: 'カラフル', en: 'Rainbow' }, word: { ja: 'カラフル', en: 'Rainbow' },
       lines: { ja: ['24しょくぶん たのしい。', 'どの いろが ほんとうの ぼく？', 'ぬりえの あとの におい。'], en: ['As fun as 24 colors.', 'Which color is the real me?', 'Smells like a coloring book.'] } },
     { id: 'sticky', chip: '#9FC7E8', filter: 'contrast(1.25) brightness(1.2) drop-shadow(0 0 2px #FFFFFF)',

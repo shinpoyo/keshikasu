@@ -25,6 +25,7 @@
       species: '1-plain',
       zukan: {},               // speciesId: { at: 日時, mat: 材料id }
       achievements: {},        // id: 日時
+      cheated: null,           // ズルが ばれた { at, why }（js/guard.js）
       shards: 0,               // もっている かけら
       shardsEarned: 0,         // これまでに もらった かけら
       shardUpgrades: {},
@@ -60,6 +61,7 @@
   function save() {
     K.state.lastSave = Date.now();
     try {
+      K.state.sum = K.guard.sign(K.state);
       localStorage.setItem(KEY, JSON.stringify(K.state));
       return true;
     } catch (e) {
@@ -67,15 +69,24 @@
     }
   }
 
+  // しるしが あわなくても 読みこむ（ズルは ゆるす）。ただし ばれた ことは のこる
+  function checked(data) {
+    var ok = K.guard.verify(data);
+    var st = merge(fresh(), data);
+    if (!ok && !st.cheated) st.cheated = { at: Date.now(), why: 'save' };
+    return st;
+  }
+
   function load() {
     var raw = null;
     try { raw = localStorage.getItem(KEY); } catch (e) { raw = null; }
     if (!raw) return null;
-    try { return merge(fresh(), JSON.parse(raw)); } catch (e) { return null; }
+    try { return checked(JSON.parse(raw)); } catch (e) { return null; }
   }
 
   // セーブの書き出し（テキスト）。クッキークリッカーと同じく base64 の文字
   function exportText() {
+    K.state.sum = K.guard.sign(K.state);
     var json = JSON.stringify(K.state);
     return 'KESHIKASU1:' + btoa(unescape(encodeURIComponent(json)));
   }
@@ -87,7 +98,7 @@
       var json = decodeURIComponent(escape(atob(text.slice(11))));
       var data = JSON.parse(json);
       if (!data || typeof data !== 'object' || typeof data.crumbs !== 'number') return null;
-      return merge(fresh(), data);
+      return checked(data);
     } catch (e) {
       return null;
     }

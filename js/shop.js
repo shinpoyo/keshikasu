@@ -103,7 +103,13 @@
     return base;
   };
 
-  G.achievementCount = function () { return Object.keys(S().achievements).length; };
+  // かげの じっせき（ズルなど）は かぞえない。/s の ボーナスにも ならない（クッキークリッカーの shadow achievement）
+  G.achievementCount = function () {
+    return Object.keys(S().achievements).filter(function (id) { return !G.shadowIds[id]; }).length;
+  };
+  G.shadowIds = {};
+  K.data.achievements.forEach(function (a) { if (a.shadow) G.shadowIds[a.id] = true; });
+  G.achievementTotal = K.data.achievements.filter(function (a) { return !a.shadow; }).length;
 
   G.globalMult = function () {
     var m = (1 + 0.01 * G.achievementCount()) * (1 + 0.01 * S().shards);

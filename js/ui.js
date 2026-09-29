@@ -40,17 +40,16 @@
       U.forceKasu = false;
       lastSpecies = s.species;
       var info = K.evo.info(s.species);
-      var img = $('kasu-img');
-      img.src = info.art;
-      img.style.filter = info.filter === 'none' ? '' : info.filter;
-      img.alt = K.L(info.name);
+      $('kasu-body').innerHTML = K.art.kasuPic(info);
+      $('kasu').setAttribute('aria-label', K.L(info.name));
+      if (!$('eraser').firstChild) $('eraser').innerHTML = K.art.eraser();
       var st = $('kasu-stage');
       st.classList.toggle('lv6', s.stage === 6);
       st.classList.toggle('lv7', s.stage >= 7);
       $('stage-badge').textContent = info.special ? t('specialBadge') : t('stageBadge', { n: s.stage });
       $('stage-badge').className = 'badge ' + (info.special ? 'badge-special' : 'badge-stage');
       $('kasu-name').textContent = K.L(info.name);
-      $('kasu-btn').setAttribute('aria-label', t('kasuLabel'));
+      $('eraser-btn').setAttribute('aria-label', t('kasuLabel'));
     }
     $('kasu-pet').textContent = s.name ? K.quote(s.name) : '';
     var next = K.evo.nextNeed();
@@ -169,7 +168,7 @@
       mh += '<button type="button" class="mat ' + (can ? 'can' : 'cant') + '" data-mat="' + m.id + '">' +
         '<span class="mat-ico">' + K.art.upIcon(m.id, 26) + '</span>' +
         '<span class="mat-text"><span class="mat-name">' + esc(K.L(m.name)) + '</span><span class="mat-desc">' + esc(K.L(m.desc)) + '</span></span>' +
-        '<span class="chip-dot" style="background:' + tr.chip + '"></span>' + U.priceHtml(m.cost, can) + '</button>';
+        '<span class="chip-dot" style="background:' + (tr.chipBg || tr.chip) + '"></span>' + U.priceHtml(m.cost, can) + '</button>';
     });
     $('mat-group').hidden = !mats.length && s.trait === 'plain';
     $('mat-list').innerHTML = mh;
@@ -289,16 +288,35 @@
     el.style.top = (y - 20) + 'px';
     fx.appendChild(el);
     setTimeout(function () { el.remove(); }, 1000);
+  };
+
+  // こすった 消しゴムの はしから カスが でて、つくえの カスに あつまる
+  U.rubFx = function () {
     if (S().settings.reduceMotion) return;
-    for (var i = 0; i < 4; i++) {
+    var fx = $('kasu-fx');
+    var base = $('kasu-stage').getBoundingClientRect();
+    var er = $('eraser').getBoundingClientRect();
+    var ka = $('kasu-body').getBoundingClientRect();
+    // 消しゴムの 左下（こすれる はし）
+    var x0 = er.left - base.left + er.width * 0.12;
+    var y0 = er.top - base.top + er.height * 0.78;
+    var x1 = ka.left - base.left + ka.width * 0.5;
+    var y1 = ka.top - base.top + ka.height * 0.5;
+    var n = 3 + Math.floor(Math.random() * 3);
+    for (var i = 0; i < n; i++) {
       var sp = document.createElement('span');
       sp.className = 'speck';
-      sp.style.left = x + 'px';
-      sp.style.top = y + 'px';
-      sp.style.setProperty('--dx', (Math.random() * 80 - 40) + 'px');
-      sp.style.setProperty('--dy', (Math.random() * 50 - 10) + 'px');
+      sp.style.left = (x0 + Math.random() * 16 - 8) + 'px';
+      sp.style.top = (y0 + Math.random() * 10 - 5) + 'px';
+      var dx = x1 - x0 + (Math.random() * 60 - 30), dy = y1 - y0 + (Math.random() * 50 - 25);
+      sp.style.setProperty('--mx', (dx * 0.35 + Math.random() * 30 - 15) + 'px');
+      sp.style.setProperty('--my', (Math.min(dy, 0) * 0.3 - 20 - Math.random() * 30) + 'px');
+      sp.style.setProperty('--dx', dx + 'px');
+      sp.style.setProperty('--dy', dy + 'px');
+      sp.style.setProperty('--r', (Math.random() * 360) + 'deg');
+      sp.style.animationDelay = (i * 25) + 'ms';
       fx.appendChild(sp);
-      (function (n) { setTimeout(function () { n.remove(); }, 600); })(sp);
+      (function (el) { setTimeout(function () { el.remove(); }, 800); })(sp);
     }
   };
 
@@ -314,6 +332,7 @@
   };
 
   U.medalColor = function (a) {
+    if (a.shadow) return '#5A5956';
     return { rub: '#F29CA3', buddy: '#8FA7C8', evolve: '#A9A49B', golden: '#E7B533', secret: '#CDBFA5' }[a.cat] || '#A9A49B';
   };
 

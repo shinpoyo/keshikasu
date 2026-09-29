@@ -64,6 +64,21 @@
       [523, 659, 784, 1047, 1319].forEach(function (f) { tone(f, 0.7, 1.6, 'sine', 0.07); });
       tone(262, 0.7, 1.6, 'triangle', 0.08);
     },
+    // しんかの ためる音: だんだん たかく はやくなる
+    charge: function () {
+      var t0 = 0, gap = 0.22, f = 330;
+      while (t0 < 2.1) { tone(f, t0, 0.12, 'square', 0.035); t0 += gap; gap = Math.max(0.05, gap * 0.86); f *= 1.045; }
+      var c = ac(); if (!c) return;
+      var o = c.createOscillator(), g = c.createGain();
+      o.type = 'sawtooth';
+      o.frequency.setValueAtTime(110, c.currentTime);
+      o.frequency.exponentialRampToValueAtTime(880, c.currentTime + 2.15);
+      g.gain.setValueAtTime(0.0001, c.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.03, c.currentTime + 1.8);
+      g.gain.exponentialRampToValueAtTime(0.0001, c.currentTime + 2.2);
+      o.connect(g); g.connect(c.destination); o.start(); o.stop(c.currentTime + 2.25);
+    },
+    mixing: function () { [392, 494, 587, 698, 784].forEach(function (f, i) { tone(f, i * 0.12, 0.2, 'sine', 0.07); }); },
     achievement: function () { tone(784, 0, 0.1, 'sine', 0.08); tone(1175, 0.08, 0.2, 'sine', 0.08); },
     rebirth: function () {
       [784, 659, 523, 392].forEach(function (f, i) { tone(f, i * 0.22, 0.5, 'sine', 0.1); });

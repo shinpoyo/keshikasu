@@ -24,8 +24,8 @@
     namingNote: 'The name is saved only on this device.',
     namingOk: 'Use this name',
 
-    tut1Title: 'Try rubbing the crumb',
-    tut1Body: 'Tap to collect "crumbs". Save up crumbs to call buddies.',
+    tut1Title: 'Try rubbing the eraser',
+    tut1Body: 'Tap the eraser to make "crumbs". You can also drag it back and forth. Save up crumbs to call buddies.',
     tut2Title: 'Call a buddy',
     tut2Body: 'Get a "Finger" in the Shop. It rubs for you automatically.',
     tut2BodyMobile: 'Open the Shop tab below and get a "Finger". It rubs for you.',
@@ -54,7 +54,7 @@
     praise: 'Praise',
     praiseWait: 'Praise {s}',
     blow: 'Blow',
-    kasuLabel: 'Crumb (tap to rub)',
+    kasuLabel: 'Eraser (tap to rub)',
     nameSuffix: '',
 
     desk: 'Desk',
