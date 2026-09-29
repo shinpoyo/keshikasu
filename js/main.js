@@ -128,7 +128,8 @@
     K.rt.blowStreak = 0;
     markAction();
     var er = $('eraser-btn');
-    er.classList.remove('rubbing'); void er.offsetWidth; er.classList.add('rubbing');
+    var sh = document.querySelector('.eraser-shadow');
+    [er, sh].forEach(function (el) { el.classList.remove('rubbing'); void el.offsetWidth; el.classList.add('rubbing'); });
     var ka = $('kasu');
     setTimeout(function () { ka.classList.remove('gain'); void ka.offsetWidth; ka.classList.add('gain'); }, 260);
     K.ui.floatNum(x, y, '+' + K.fmt(p, { decimals: 1 }));
@@ -310,7 +311,7 @@
     });
     window.addEventListener('pagehide', function () { K.store.save(); });
     document.addEventListener('visibilitychange', function () { if (document.hidden) K.store.save(); });
-    window.addEventListener('resize', function () { K.ui.renderShop(true); });
+    window.addEventListener('resize', function () { K.ui.placeForWidth(); K.ui.renderShop(true); });
   }
 
   // ---------- オフライン ----------
@@ -387,6 +388,7 @@
     K.state = saved || K.store.fresh();
     M.applySettings();
     bindGlobal();
+    K.ui.placeForWidth();
     K.ui.applyStatic();
     K.screens.title(!!(saved && saved.started));
     // デバッグ用（コンソールから K.debug.give(1e9) など）。つかうと ズルの じっせきが つく
