@@ -46,8 +46,8 @@
 
   GD.EFFECTS = {
     lucky: { name: { ja: 'ラッキー！', en: 'Lucky!' } },
-    frenzy: { name: { ja: 'キラキラタイム！', en: 'Sparkle Frenzy!' }, desc: { ja: '/s が 7ばい', en: '/s x7' }, dur: 77 },
-    scrub: { name: { ja: 'ごりごりタイム！', en: 'Scrub Frenzy!' }, desc: { ja: 'こする ちからが 777ばい', en: 'Rubbing x777' }, dur: 13 }
+    frenzy: { name: { ja: 'キラキラタイム！', en: 'Sparkle Frenzy!' }, desc: { ja: '/s が 7ばい', en: '/s x7' }, short: { ja: 'x7', en: 'x7' }, dur: 77 },
+    scrub: { name: { ja: 'ごりごりタイム！', en: 'Scrub Frenzy!' }, desc: { ja: 'こする ちからが 777ばい', en: 'Rubbing x777' }, short: { ja: 'こする x777', en: 'Rub x777' }, dur: 13 }
   };
 
   // 押した → 効果を1つ。戻り値は画面に出す情報
