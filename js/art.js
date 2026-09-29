@@ -81,9 +81,9 @@
     return u ? svg(u[0], u[1], size || 20, size || 20) : '';
   }
 
-  // カスの本体（だんかいの絵）。stage 6・7 は stage 5 の絵に演出を重ねる
+  // カスの本体（だんかいの絵）。design/art/make.py と special.py で生成
   function kasuSrc(stage) {
-    var n = Math.min(Math.max(stage, 1), 5);
+    var n = Math.min(Math.max(stage, 1), 7);
     return 'art/kasu-stage' + n + '.svg';
   }
 

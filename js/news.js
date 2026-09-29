@@ -14,6 +14,10 @@
     if (w.rebirth && s.stats.rebirths < w.rebirth) return false;
     if (w.golden && s.stats.golden < w.golden) return false;
     if (w.trait && s.trait !== w.trait) return false;
+    if (w.found && !s.zukan[w.found]) return false;
+    if (w.praise && s.stats.praises < w.praise) return false;
+    if (w.blow && s.stats.blows < w.blow) return false;
+    if (w.night && new Date().getHours() >= 5) return false;
     return true;
   }
 

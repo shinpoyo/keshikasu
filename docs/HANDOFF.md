@@ -7,9 +7,10 @@
 - 企画書: `docs/spec.md`（v3。実装仕様はこれが正）
 - デザイン: `design/*.dc.html`（22画面）。見た目はデザイン案が正（企画書 13-6）
   - デザインキャンバス: https://claude.ai/artifact/Bk1CgW2k5jTsoFFaUXVGR5
-  - カスの絵: `design/art/`（`make.py` / `strand.py` で SVG 生成）
+  - カスの絵: `design/art/`（`make.py` / `strand.py` で SVG 生成、STAGE 6・7 と特別種は `special.py`）
   - おじいちゃんの絵: `design/art/grandpa.py`（やさしい顔版）
 - 作業履歴: `docs/worklog.md`
+- セーブ: ブラウザの localStorage（キー `keshikasu.save`）。クッキーではない
 - 実装コード: `index.html` / `css/` / `js/` / `data/` / `art/`（ブランチ `impl/core-game` で1回めを実装。ビルド不要、`index.html` をブラウザで開けば動く）
 
 ## 決まっていること
@@ -27,4 +28,4 @@
 ## つぎにやること
 1. PR を確認してマージ
 2. GitHub Pages で公開する（Settings → Pages → main の / (root)）
-3. のこり: ニュースを80本以上に、STAGE 6・7 と特別種の専用イラスト、バランス調整
+3. のこり: バランス調整（ニュース112本・STAGE 6・7 と特別種の絵は 2回めで済）

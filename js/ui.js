@@ -44,7 +44,6 @@
       img.src = info.art;
       img.style.filter = info.filter === 'none' ? '' : info.filter;
       img.alt = K.L(info.name);
-      document.querySelector('.kasu-crown').hidden = !info.crown;
       var st = $('kasu-stage');
       st.classList.toggle('lv6', s.stage === 6);
       st.classList.toggle('lv7', s.stage >= 7);

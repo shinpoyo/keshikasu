@@ -39,8 +39,8 @@
   E.info = function (id) {
     if (specialById[id]) {
       var sp = specialById[id];
-      return { id: id, special: true, stage: sp.art, trait: null, name: sp.name, line: sp.line, hint: sp.hint,
-        art: K.art.kasuSrc(sp.art), filter: sp.filter, crown: sp.crown };
+      return { id: id, special: true, stage: null, trait: null, name: sp.name, line: sp.line, hint: sp.hint,
+        art: sp.img, filter: 'none' };
     }
     var parts = id.split('-');
     var n = +parts[0], tr = traitById[parts[1]] || traitById.plain;
