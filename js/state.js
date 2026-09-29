@@ -86,6 +86,30 @@
       st.tickets = 3;
     }
     if (!ok && !st.cheated) st.cheated = { at: Date.now(), why: 'save' };
+    return clean(st);
+  }
+
+  // こわれた・いじった セーブで 画面が うごかなく ならないよう、しらない カスの id を すてる
+  function knownId(id) {
+    if (typeof id !== 'string') return false;
+    if (K.data.specials.some(function (x) { return x.id === id; })) return true;
+    var p = id.split('-'), n = Number(p[0]);
+    return p.length === 2 && n % 1 === 0 && n >= 1 && n <= K.data.stages.length &&
+      K.data.traits.some(function (t) { return t.id === p[1]; });
+  }
+
+  function clean(st) {
+    var z = {};
+    Object.keys(st.zukan || {}).forEach(function (id) {
+      var e = st.zukan[id];
+      if (knownId(id) && e && typeof e === 'object') z[id] = e;
+    });
+    st.zukan = z;
+    st.rollLog = Array.isArray(st.rollLog) ? st.rollLog.filter(function (x) { return x && knownId(x.id); }) : [];
+    if (!knownId(st.species)) st.species = '1-plain';
+    if (!K.data.traits.some(function (t) { return t.id === st.trait; })) st.trait = 'plain';
+    st.stage = Math.min(Math.max(Math.floor(st.stage) || 1, 1), K.data.stages.length);
+    if (st.settings.lang !== 'ja' && st.settings.lang !== 'en') st.settings.lang = K.defaultLang();
     return st;
   }
 
