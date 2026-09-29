@@ -1,5 +1,6 @@
 // カスニュース（企画書 6-5）。when の条件を満たすものから選ばれる
-// when: { b: [施設id, 数], stage: 最低だんかい, maxStage: 最高だんかい, total: この周の合計つぶ, rebirth: 転生回数, golden: ゴールデンの数 }
+// when: { b: [施設id, 数], stage: 最低だんかい, maxStage: 最高だんかい, total: この周の合計つぶ, rebirth: 転生回数, golden: ゴールデンの数,
+//         trait: いまの けいとう, found: ずかんに ある種類, praise: ほめた回数, blow: ふいた回数, night: 0〜5じ }
 (function (K) {
   'use strict';
   K.data = K.data || {};
@@ -109,6 +110,58 @@
     // --- 転生 ---
     n({ rebirth: 1 }, 'けしゴムに もどった カス、「なんだか なつかしい」。', 'Crumb that returned to eraser form: "Feels familiar."'),
     n({ rebirth: 1 }, 'けしゴムの かけら、ポケットで ひっそり ひかる。', 'Eraser shards glow quietly in a pocket.'),
-    n({ rebirth: 5 }, 'なんども うまれかわる カス、ほんにん「なれた」。', 'Crumb reborn many times says: "I am used to it."')
+    n({ rebirth: 5 }, 'なんども うまれかわる カス、ほんにん「なれた」。', 'Crumb reborn many times says: "I am used to it."'),
+
+    // --- いつでも（ついか） ---
+    n({}, 'けしゴムの においが すきな ひと、ひそかに おおい。', 'Secretly, many people love the smell of erasers.'),
+    n({}, 'ある しょうがくせい「けしカスは ともだち」。せんせい「そうか」。', 'A student says: "Crumbs are my friends." Teacher: "I see."'),
+    n({}, 'けしゴムの カバーを はずす ひと と はずさない ひと、はんぶんずつ。', 'Half of people remove the eraser sleeve. Half do not.'),
+    n({}, 'まちがえた もじ、けされる まえに「ありがとう」と いう。', 'A wrong letter says "thank you" before being erased.'),
+    n({}, 'けしカスを あつめる しゅみ、ひとに いうと すこし こまられる。', 'Collecting crumbs as a hobby makes people a little confused.'),
+    n({}, 'つくえの ひきだしの おく、なぞの カスが みつかる。いつのものか ふめい。', 'Mystery crumb found at the back of a desk drawer. Age unknown.'),
+    n({}, 'えんぴつ と けしゴム、きょうも いっしょに かえる。', 'Pencil and eraser walk home together again today.'),
+    n({}, 'シャープペンの しんが おれた。カスは なにも いわなかった。', 'A pencil lead snapped. The crumb said nothing.'),
+    n({}, 'けしゴムを さいごまで つかいきった ひと、ひょうしょう される。', 'Person who used an eraser all the way to the end receives an award.'),
+    n({}, 'カスの ただしい よみかた、「かす」で あっていた。', 'The correct way to read "crumb" turns out to be "crumb."'),
+    n({}, 'ひとびと、つくえを ふく まえに すこし まよう ように なる。', 'People now hesitate a little before wiping their desks.'),
+    n({}, 'がようし の うえの カス、「ここは ひろい」。', 'Crumb on drawing paper: "It is so spacious here."'),
+    n({}, 'けしゴムを ふたつに わった ひと、ちょっと こうかい。', 'Person who broke an eraser in half feels a little regret.'),
+    n({}, 'よくあさ、つくえの カスが すこし うごいていた きがする。', 'The next morning, the crumbs seemed to have moved a little.'),
+
+    // --- けいとう ---
+    n({ trait: 'graphite' }, 'えんぴつの こな いりの カス、すこし かしこそうに みえる。', 'Crumb with pencil dust looks a little smarter.'),
+    n({ trait: 'rainbow' }, 'にじいろの カス、ぬりえ ぎょうかいが ちゅうもく。', 'Rainbow crumb draws attention from the coloring book industry.'),
+    n({ trait: 'sticky' }, 'ねばねばの カス、つくえから はなれないと さわぎに。', 'Sticky crumb will not leave the desk. Commotion follows.'),
+    n({ trait: 'fluffy' }, 'もふもふの カス、ねこと まちがえられる。', 'Fluffy crumb mistaken for a cat.'),
+    n({ trait: 'gritty' }, 'ざらざらの カス、「ボールペンも けせる」と じしん。', 'Gritty crumb claims it can erase ink too.'),
+    n({ trait: 'golden' }, 'きんいろの カス、ほうせきやさんが「うちでは かえない」。', 'Jeweler says of the golden crumb: "We can\'t buy that."'),
+
+    // --- とくべつな しんか ---
+    n({ found: 'king' }, 'じしょう おうさまの カス、こくみんは まだ いない。', 'Self-proclaimed crumb king still has no citizens.'),
+    n({ found: 'wander' }, 'たびする カスから えはがき。「つくえの むこうは ゆかでした」。', 'Postcard from the wandering crumb: "Past the desk was the floor."'),
+    n({ found: 'zen' }, 'さとった カス、「なにも しない」を 3じかん つづける。', 'Enlightened crumb continues doing nothing for three hours.'),
+    n({ found: 'toasty' }, 'あつあつ カス、ふゆの あいだ だけ にんきもの。', 'Toasty crumb is popular only in winter.'),
+    n({ found: 'night' }, 'よふかし カス、あさ おきられず ちこく。', 'Night owl crumb oversleeps and is late.'),
+    n({ found: 'lucky' }, 'ラッキー カス、くじびきで ティッシュを あてる。', 'Lucky crumb wins a box of tissues in a raffle.'),
+    n({ found: 'reborn' }, 'なんども うまれかわった カス、「まえの まえの ぼくに よろしく」。', 'Reborn crumb: "Say hi to the me before the me before."'),
+
+    // --- ほめる・ふく ---
+    n({ praise: 10 }, 'ほめられた カス、すこし まるく なった という ほうこく。', 'Reports say the praised crumb got a little rounder.'),
+    n({ praise: 50 }, 'カス、ほめられすぎて ちょうしに のる。', 'The crumb has been praised too much and is getting cocky.'),
+    n({ blow: 5 }, 'ふーっと ふかれた カス、となりの つくえで はっけん。', 'Blown-away crumb found on the next desk over.'),
+    n({ blow: 20 }, 'カス、かぜの よみかたを おぼえる。', 'The crumb has learned to read the wind.'),
+
+    // --- よる ---
+    n({ night: true }, 'しんや、つくえの カスたちが ひそひそ はなしている。', 'Late at night, the crumbs on the desk are whispering.'),
+    n({ night: true }, 'よいこは もう ねる じかん です。カスも ねます。', 'It is time for good kids to sleep. The crumbs too.'),
+
+    // --- なかま（ついか） ---
+    n({ b: ['finger', 25] }, 'ゆび たち、ささやかな ストライキ。3びょうで おわる。', 'The fingers go on a tiny strike. It lasts three seconds.'),
+    n({ b: ['grandpa', 10] }, 'おじいちゃん たち、あめを くれる。なぜか ポケットに いつも ある。', 'The grandpas hand out candy. They always have some in their pockets.'),
+    n({ b: ['classroom', 25] }, 'きょうしつの こくばん、「カス」と だけ かいてある。', 'The blackboard in every classroom just says "crumb."'),
+    n({ b: ['roller', 5] }, 'ロードローラーの うんてんしゅ、「こまかい ことは きにしない」。', 'Road roller driver: "I don\'t sweat the small stuff."'),
+    n({ b: ['moon', 10] }, 'つきが ふえすぎて、よるが すこし あかるい。', 'Too many moons. The night is a little brighter.'),
+    n({ b: ['universe', 5] }, 'うちゅうの いし、すこし だけ わらった きがする。', 'The Will of the Universe seemed to smile a little.'),
+    n({ b: ['other', 5] }, 'もうひとりの カスと こちらの カス、どちらも「こっちが ほんもの」と しゅちょう。', 'The Other Crumb and our crumb both say they are the real one.')
   ];
 })(window.K = window.K || {});
