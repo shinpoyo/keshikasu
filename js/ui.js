@@ -131,7 +131,7 @@
     var mats = K.game.availableMaterials();
     var vis = K.game.visibleBuildings();
     // 「買える／買えない」が変わったときだけ描きなおす
-    var sig = [K.lang(), U.bulk, U.mode, U.selUpgrade, s.trait,
+    var sig = [K.lang(), U.bulk, U.mode, U.selUpgrade, U.openInfo, s.trait,
       ups.map(function (u) { return u.id + (s.crumbs >= u.cost ? '1' : '0'); }).join(','),
       mats.map(function (m) { return m.id + (s.crumbs >= m.cost ? '1' : '0'); }).join(','),
       vis.map(function (v) { return v.b.id + s.buildings[v.b.id] + (s.crumbs >= K.game.price(v.b.id, U.bulk) ? '1' : '0') + v.locked; }).join(',')
@@ -191,8 +191,8 @@
     vis.forEach(function (v) {
       var b = v.b;
       if (v.locked) {
-        bh += '<div class="bld cant" aria-disabled="true"><span class="bld-ico">' + K.art.ui('lock', 26) + '</span>' +
-          '<span class="bld-text"><span class="bld-name">' + esc(t('locked')) + '</span>' + U.priceHtml(b.cost, false) + '</span></div>';
+        bh += '<div class="bld-wrap"><div class="bld cant" aria-disabled="true"><span class="bld-ico">' + K.art.ui('lock', 26) + '</span>' +
+          '<span class="bld-text"><span class="bld-name">' + esc(t('locked')) + '</span>' + U.priceHtml(b.cost, false) + '</span></div></div>';
         return;
       }
       var owned = s.buildings[b.id];
@@ -201,19 +201,83 @@
       var price = sell ? K.game.sellValue(b.id, amount) : K.game.price(b.id, amount);
       var can = sell ? owned > 0 : s.crumbs >= price;
       var rate = '+' + K.fmtPerSec(K.game.unitCps(b.id) * K.game.globalMult());
-      bh += '<button type="button" class="bld ' + (can ? 'can' : 'cant') + (sell ? ' sell' : '') + (becameAffordable[b.id] ? ' became' : '') + '" data-b="' + b.id + '" title="' + esc(K.L(b.line)) + '">' +
+      var open = U.openInfo === b.id;
+      bh += '<div class="bld-wrap' + (open ? ' open' : '') + '">' +
+        '<button type="button" class="bld ' + (can ? 'can' : 'cant') + (sell ? ' sell' : '') + (becameAffordable[b.id] ? ' became' : '') + '" data-b="' + b.id + '">' +
         '<span class="bld-ico">' + K.art.building(b.id, 32, 32) + '</span>' +
         '<span class="bld-text"><span class="bld-name">' + esc(K.L(b.name)) + (amount > 1 ? ' <small>x' + amount + '</small>' : '') + '</span>' +
         '<span class="bld-sub">' + (sell ? '<span class="price">' + crumbIcon() + '+' + K.fmt(price) + '</span>' : U.priceHtml(price, can)) + '<span class="bld-rate">' + rate + '</span></span></span>' +
-        '<span class="bld-own">' + (owned || '') + '</span></button>';
+        '<span class="bld-own">' + (owned || '') + '</span></button>' +
+        // スマホは ホバーが ないので、よこの ボタンで くわしく ひらく（PC は ホバーで でる）
+        '<button type="button" class="bld-info" data-info="' + b.id + '" aria-expanded="' + open + '" aria-label="' + esc(t('buddyInfo')) + '">' +
+        '<span class="bld-info-pct" data-pct="' + b.id + '">' + pct(K.game.share(b.id)) + '</span>' + K.art.ui('chev', 14) + '</button>' +
+        (open ? '<div class="bld-stats" data-stats="' + b.id + '">' + U.bldStatsHtml(b.id) + '</div>' : '') +
+        '</div>';
     });
     $('shop-list').innerHTML = bh;
+    if (tipId) U.showTip(tipId);
 
     // スマホの「みせ」タブの数字（買えるものの数）
     var n = ups.filter(function (u) { return s.crumbs >= u.cost; }).length +
       vis.filter(function (v) { return !v.locked && s.crumbs >= K.game.price(v.b.id, 1); }).length;
     $('shop-badge').hidden = n === 0 || U.tab === 'shop';
     $('shop-badge').textContent = n > 9 ? '9+' : n;
+  };
+
+  // --- なかまの くわしい 数字（クッキークリッカーの 施設の ツールチップ） ---
+  U.openInfo = null;   // スマホで ひらいている なかま
+  var tipId = null;    // PC で カーソルを のせている なかま
+  U.hoverTips = function () { return window.matchMedia('(hover: hover) and (pointer: fine)').matches; };
+
+  function pct(r) {
+    var v = r * 100;
+    if (v <= 0) return '0%';
+    if (v < 0.1) return '<0.1%';
+    return (v >= 99.95 ? '100' : v < 10 ? v.toFixed(1) : v.toFixed(0)) + '%';
+  }
+
+  U.bldStatsHtml = function (id) {
+    var s = S();
+    var b = K.game.buildingById[id];
+    var n = s.buildings[id];
+    var share = K.game.share(id);
+    var row = function (label, value) { return '<span class="bst-k">' + esc(label) + '</span><b class="bst-v">' + value + '</b>'; };
+    return '<div class="bst-line">' + esc(K.L(b.line)) + '</div>' +
+      '<div class="bst-grid">' +
+        row(t('statEach'), '+' + K.fmtPerSec(K.game.unitCps(id) * K.game.globalMult())) +
+        (n ? row(t('statAll', { n: K.fmt(n) }), '+' + K.fmtPerSec(K.game.buildingCps(id))) +
+          row(t('statShare'), pct(share)) +
+          '<span class="bst-bar" aria-hidden="true"><span style="width:' + Math.min(100, share * 100).toFixed(1) + '%"></span></span>'
+          : row(t('statAll', { n: 0 }), esc(t('statNone')))) +
+        row(t('statMade'), crumbIcon() + K.fmt(s.produced[id] || 0)) +
+      '</div>';
+  };
+
+  U.showTip = function (id) {
+    var tip = $('bld-tip');
+    var row = id && document.querySelector('.bld[data-b="' + id + '"]');
+    if (!row || !U.hoverTips()) { U.hideTip(); return; }
+    tipId = id;
+    var b = K.game.buildingById[id];
+    tip.innerHTML = '<div class="bst-head">' + K.art.building(id, 28, 28) + '<b>' + esc(K.L(b.name)) + '</b><span>x' + S().buildings[id] + '</span></div>' + U.bldStatsHtml(id);
+    tip.hidden = false;
+    var r = row.getBoundingClientRect();
+    var top = Math.max(8, Math.min(r.top, window.innerHeight - tip.offsetHeight - 8));
+    tip.style.top = top + 'px';
+    tip.style.left = Math.max(8, r.left - tip.offsetWidth - 12) + 'px';
+  };
+  U.hideTip = function () { tipId = null; $('bld-tip').hidden = true; };
+
+  // 数字は まいフレーム かわるので、ひらいている ものだけ 0.5びょうごとに かきなおす
+  var statsAt = 0;
+  U.renderBldStats = function () {
+    var n = Date.now();
+    if (n - statsAt < 500) return;
+    statsAt = n;
+    document.querySelectorAll('[data-pct]').forEach(function (el) { el.textContent = pct(K.game.share(el.getAttribute('data-pct'))); });
+    var box = U.openInfo && document.querySelector('[data-stats="' + U.openInfo + '"]');
+    if (box) box.innerHTML = U.bldStatsHtml(U.openInfo);
+    if (tipId) U.showTip(tipId);
   };
 
   // --- ニュース ---

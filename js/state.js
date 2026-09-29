@@ -19,6 +19,7 @@
       allTimeCrumbs: 0,        // 全周の合計（かけらを決める）
       handmade: 0,             // この周に こすって えた合計
       buildings: b,
+      produced: {},            // なかまごとの これまでに だした つぶ（この周）
       upgrades: {},            // id: true
       trait: 'plain',
       stage: 1,                // この周で でるように なった だんかい
