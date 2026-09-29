@@ -15,6 +15,17 @@
 
   U.narrow = function () { return window.matchMedia('(max-width: 900px)').matches; };
 
+  // スマホでは キラキラタイムと セリフを つくえの 中に のせて、1画面に おさめる（PC は もとの 場所）
+  U.placeForWidth = function () {
+    var narrow = U.narrow();
+    var stage = $('kasu-stage'), buff = $('buffbar'), bubble = $('bubble');
+    if (narrow && buff.parentNode !== stage) { stage.appendChild(buff); stage.appendChild(bubble); }
+    if (!narrow && buff.parentNode === stage) {
+      $('panes').parentNode.insertBefore(buff, $('panes'));
+      $('pane-kasu').insertBefore(bubble, document.querySelector('#pane-kasu .actions'));
+    }
+  };
+
   // --- 文字の反映（data-t / data-ui） ---
   U.applyStatic = function (root) {
     root = root || document;
@@ -347,6 +358,7 @@
     if (bar.hidden || bar.getAttribute('data-id') !== b.id) {
       bar.setAttribute('data-id', b.id);
       bar.innerHTML = '<img src="art/kasu-gold.svg" alt=""><span class="buff-text"><span class="buff-name">' + esc(K.L(e.name)) + '</span><span class="buff-desc">' + esc(K.L(e.desc)) + '</span></span>' +
+        '<span class="buff-short">' + esc(K.L(e.short)) + '</span>' +
         '<span class="buff-time" id="buff-time"></span><div class="buff-bar"><div id="buff-fill"></div></div>';
       bar.hidden = false;
     }
@@ -373,9 +385,9 @@
     var base = $('kasu-stage').getBoundingClientRect();
     var er = $('eraser').getBoundingClientRect();
     var ka = $('kasu-body').getBoundingClientRect();
-    // 消しゴムの 左下（こすれる はし）
-    var x0 = er.left - base.left + er.width * 0.12;
-    var y0 = er.top - base.top + er.height * 0.78;
+    // 消しゴムの 先（ななめに 立てた ピンクの かど。つくえに あたって いる ところ）
+    var x0 = er.left - base.left + er.width * 0.3;
+    var y0 = er.top - base.top + er.height * 0.94;
     var x1 = ka.left - base.left + ka.width * 0.5;
     var y1 = ka.top - base.top + ka.height * 0.5;
     var n = 3 + Math.floor(Math.random() * 3);
