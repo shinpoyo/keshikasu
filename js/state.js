@@ -23,7 +23,11 @@
       upgrades: {},            // id: true
       trait: 'plain',
       stage: 1,                // この周で でるように なった だんかい
-      rollsAtTier: 0,          // いまの だんかいで まるめた かず（ねだんが あがる）
+      tickets: 1,              // けしゴムの かみ（まるめる ガチャけん）。おかねでは かえない
+      wear: 0,                 // いまの けしゴムを こすった かず（js/evolution.js WEAR_LIFE で 1まい）
+      dry: 0,                  // つづけて ダブった かず（天井）
+      stamps: 0,               // ダブりで もらえる スタンプ（こうかん用）
+      mats: {},                // かった ざいりょう id: true（いちど かえば ずっと）
       species: '1-plain',
       zukan: {},               // speciesId: { at: 日時, mat: 材料id }
       achievements: {},        // id: 日時
@@ -75,6 +79,11 @@
   function checked(data) {
     var ok = K.guard.verify(data);
     var st = merge(fresh(), data);
+    // 0.5 までの セーブ: いま まぜていた ざいりょうを もっている ことに して、かみを すこし くばる
+    if (!('tickets' in data)) {
+      K.data.materials.forEach(function (m) { if (m.cost > 0 && m.trait === st.trait) st.mats[m.id] = true; });
+      st.tickets = 3;
+    }
     if (!ok && !st.cheated) st.cheated = { at: Date.now(), why: 'save' };
     return st;
   }

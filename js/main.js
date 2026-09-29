@@ -60,7 +60,7 @@
     K.evo.check();
     while (K.evo.unlocked.length) {
       var tier = K.evo.unlocked.shift();
-      K.ui.toast('<b>' + esc(t('tierUnlocked', { n: tier })) + '</b>');
+      K.ui.toast('<b>' + esc(t('tierUnlocked', { n: tier })) + '</b> ' + esc(t('ticketGift', { n: K.evo.TIER_TICKETS })));
       var sc = K.sceneFor(tier);
       if (sc.from === tier && tier > 1) K.ui.toast(esc(t('sceneChanged', { s: K.L(sc.name) })));
       K.sound.play('upgrade');
@@ -135,6 +135,9 @@
     setTimeout(function () { ka.classList.remove('gain'); void ka.offsetWidth; ka.classList.add('gain'); }, 260);
     K.ui.floatNum(x, y, '+' + K.fmt(p, { decimals: 1 }));
     K.ui.rubFx();
+    K.rt.mess = Math.min((K.rt.mess || 0) + 1, K.game.MESS_MAX);
+    if (K.evo.wear()) K.ui.eraserDone();
+    K.ui.renderEraser();
     K.sound.play('rub');
     if (Math.random() < 0.015) K.ui.say(K.news.monologue('rub'));
   }
@@ -185,7 +188,8 @@
   function praise() {
     var s = S(), n = now();
     if (n < K.rt.praiseReadyAt) return;
-    var cd = K.game.hasShard('praiseFast') ? 5 : 10;
+    // 30びょう ごきげん（/s ×1.5）。つぎに ほめられるのは 60びょう ご（ずっと おしっぱなしに ならないように）
+    var cd = K.game.hasShard('praiseFast') ? 40 : 60;
     K.rt.praiseUntil = n + 30000;
     K.rt.praiseReadyAt = n + cd * 1000;
     s.mood.praises++;
@@ -198,10 +202,19 @@
     K.sound.play('praise');
   }
 
+  // ふく: こすって ちらかった つぶを ふきあつめて まとめて もらう。3びょう カスが とんでいって こすれない
   function blow() {
     var s = S();
     if (now() < K.rt.blownUntil) return;
     K.rt.blownUntil = now() + 3000;
+    var gain = K.game.blowGain();
+    K.rt.mess = 0;
+    if (gain > 0) {
+      K.game.earn(gain, true);
+      var r = $('kasu-stage').getBoundingClientRect();
+      K.ui.floatNum(r.width * 0.5, r.height * 0.3, '+' + K.fmt(gain, { decimals: 1 }));
+    }
+    K.ui.blowMess();
     s.mood.blows++;
     s.stats.blows++;
     K.rt.blowStreak++;
@@ -266,7 +279,8 @@
       markAction();
       if (K.game.buyMaterial(el.getAttribute('data-mat'))) {
         K.sound.play('upgrade');
-        K.ui.toast(esc(t('mixedToast', { t: K.L(K.evo.traitById[S().trait].name) })));
+        var bought = K.game.materialById[el.getAttribute('data-mat')];
+        K.ui.toast(esc(t('mixedToast', { t: K.L(K.evo.traitById[bought.trait].name) })));
         K.ui.say(K.news.monologue('mix'));
         K.ui.renderShop(true);
       }
@@ -290,7 +304,7 @@
     ka.classList.remove('rolled'); void ka.offsetWidth; ka.classList.add('rolled');
     if (!r.isNew) {
       K.sound.play('buy');
-      K.ui.toast(esc(t('rollDup', { v: K.fmt(r.refund) })));
+      K.ui.toast(esc(t('rollDup', { name: K.L(K.evo.info(r.id).name), n: S().stamps, m: K.evo.STAMPS })));
     }
     K.ui.renderKasu();
   }

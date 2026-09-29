@@ -14,7 +14,8 @@
     lastAction: Date.now(),
     sessionStart: Date.now(),
     restShown: false,
-    blownUntil: 0
+    blownUntil: 0,
+    mess: 0                // こすって つくえに ちらかった つぶ（ふくと まとめて もらえる）
   };
 
   G.buildingById = {};
@@ -153,6 +154,10 @@
     return m;
   };
 
+  // ちらかり: こする たびに 1、さいだい 50。ふくと ちらかり × こする ちから × 0.5 を まとめて もらえる
+  G.MESS_MAX = 50;
+  G.blowGain = function () { return (K.rt.mess || 0) * G.clickPower() * 0.5; };
+
   G.cps = function () { return G.baseCps() * G.cpsMult(); };
 
   G.rubPercent = function () {
@@ -209,16 +214,16 @@
   };
 
   G.availableMaterials = function () {
-    return K.data.materials.filter(function (m) { return G.materialUnlocked(m) && S().trait !== m.trait; });
+    return K.data.materials.filter(function (m) { return m.cost > 0 && G.materialUnlocked(m) && !S().mats[m.id]; });
   };
 
   // まぜると、つぎに まるめる カスの けいとうが かわる（「まぜない」は ただ）
   G.buyMaterial = function (id) {
     var m = G.materialById[id];
-    if (!m || !G.materialUnlocked(m) || S().trait === m.trait || S().crumbs < m.cost) return false;
+    if (!m || m.cost <= 0 || !G.materialUnlocked(m) || S().mats[m.id] || S().crumbs < m.cost) return false;
     S().crumbs -= m.cost;
-    S().trait = m.trait;
-    if (m.cost > 0) S().stats.mixes++;
+    S().mats[m.id] = true;
+    S().stats.mixes++;
     return true;
   };
 

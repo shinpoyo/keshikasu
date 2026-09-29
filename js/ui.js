@@ -60,7 +60,6 @@
       var info = K.evo.info(s.species);
       $('kasu-body').innerHTML = K.art.kasuPic(info);
       $('kasu').setAttribute('aria-label', K.L(info.name));
-      if (!$('eraser').firstChild) $('eraser').innerHTML = K.art.eraser();
       var st = $('kasu-stage');
       st.classList.toggle('lv6', info.stage === 6);
       st.classList.toggle('lv7', info.stage >= 7);
@@ -73,11 +72,68 @@
     var next = K.evo.nextNeed();
     $('kasu-next').textContent = next == null ? t('maxEvo') : t('nextEvo', { p: Math.floor(K.evo.progress() * 100) });
     $('evo-bar').style.width = (K.evo.progress() * 100).toFixed(1) + '%';
-    var cost = K.evo.rollCost();
-    var can = s.crumbs >= cost;
-    $('roll-btn').disabled = !can;
-    $('roll-price').innerHTML = U.priceHtml(cost, can);
-    $('roll-sub').textContent = t('rollSub', { n: s.stage, f: K.evo.foundCount(), t: K.evo.TOTAL });
+    var tk = s.tickets || 0;
+    $('roll-btn').disabled = tk < 1;
+    $('roll-price').innerHTML = '<span class="price tickets' + (tk < 1 ? ' no' : '') + '">' + K.art.ui('sleeve', 16) + '×' + K.fmt(tk) + '</span>';
+    var left = K.evo.missing().length;
+    $('roll-sub').textContent = !left ? t('rollAllFound')
+      : t('rollSub', { f: K.evo.foundCount(), t: K.evo.TOTAL, k: K.evo.pityLeft() });
+    $('stamp-count').textContent = t('stampCount', { n: s.stamps || 0, m: K.evo.STAMPS });
+    U.renderEraser();
+    U.renderMess();
+  };
+
+  // けしゴムの へりぐあい（10だんかいで かきなおす）
+  var lastWear = -1;
+  U.renderEraser = function () {
+    var w = Math.floor(K.evo.wearRatio() * 10);
+    if (w === lastWear) return;
+    lastWear = w;
+    $('eraser').innerHTML = K.art.eraser(w / 10);
+    $('eraser-btn').style.setProperty('--wear', (K.evo.wearRatio()).toFixed(2));
+  };
+
+  // つかいきった！ あたらしい けしゴムと かみ 1まい
+  U.eraserDone = function () {
+    lastWear = -1;
+    U.renderEraser();
+    var el = $('eraser-btn');
+    el.classList.remove('fresh'); void el.offsetWidth; el.classList.add('fresh');
+    var tk = $('roll-btn');
+    tk.classList.remove('got'); void tk.offsetWidth; tk.classList.add('got');
+    U.toast('<b>' + esc(t('eraserDone')) + '</b> ' + esc(t('ticketPlus')));
+    K.sound.play('upgrade');
+  };
+
+  // つくえに ちらかった つぶ（ふくと とんでいく）
+  var MESS_DOTS = 24, messBuilt = false, lastMess = -1;
+  var blowingUntil = 0;
+  U.renderMess = function () {
+    if (Date.now() < blowingUntil) return;
+    var box = $('kasu-mess');
+    if (!messBuilt) {
+      messBuilt = true;
+      var h = '';
+      for (var i = 0; i < MESS_DOTS; i++) {
+        var a = Math.random() * Math.PI * 2, d = 18 + Math.random() * 30;
+        h += '<span class="mess-dot k' + (1 + (i % 4)) + '" style="left:' + (50 + Math.cos(a) * d).toFixed(1) + '%;top:' + (62 + Math.sin(a) * d * 0.45).toFixed(1) + '%;rotate:' + Math.floor(Math.random() * 360) + 'deg"></span>';
+      }
+      box.innerHTML = h;
+    }
+    var n = Math.round((K.rt.mess || 0) / K.game.MESS_MAX * MESS_DOTS);
+    if (n === lastMess) return;
+    lastMess = n;
+    var dots = box.children;
+    for (var j = 0; j < dots.length; j++) dots[j].classList.toggle('on', j < n);
+    var full = (K.rt.mess || 0) >= K.game.MESS_MAX;
+    $('blow-btn').classList.toggle('ready', full);
+    $('blow-btn').style.setProperty('--mess', ((K.rt.mess || 0) / K.game.MESS_MAX).toFixed(2));
+  };
+  U.blowMess = function () {
+    var box = $('kasu-mess');
+    blowingUntil = Date.now() + 700;
+    box.classList.remove('blowing'); void box.offsetWidth; box.classList.add('blowing');
+    setTimeout(function () { box.classList.remove('blowing'); lastMess = -1; U.renderMess(); }, 700);
   };
 
   // --- 数字 ---
@@ -142,7 +198,7 @@
     var mats = K.game.availableMaterials();
     var vis = K.game.visibleBuildings();
     // 「買える／買えない」が変わったときだけ描きなおす
-    var sig = [K.lang(), U.bulk, U.mode, U.selUpgrade, U.openInfo, s.trait,
+    var sig = [K.lang(), U.bulk, U.mode, U.selUpgrade, U.openInfo, Object.keys(s.mats).join(','),
       ups.map(function (u) { return u.id + (s.crumbs >= u.cost ? '1' : '0'); }).join(','),
       mats.map(function (m) { return m.id + (s.crumbs >= m.cost ? '1' : '0'); }).join(','),
       vis.map(function (v) { return v.b.id + s.buildings[v.b.id] + (s.crumbs >= K.game.price(v.b.id, U.bulk) ? '1' : '0') + v.locked; }).join(',')
@@ -193,9 +249,13 @@
         '<span class="mat-text"><span class="mat-name">' + esc(K.L(m.name)) + '</span><span class="mat-desc">' + esc(K.L(m.desc)) + '</span></span>' +
         '<span class="chip-dot" style="background:' + (tr.chipBg || tr.chip) + '"></span>' + U.priceHtml(m.cost, can) + '</button>';
     });
-    $('mat-group').hidden = !mats.length && s.trait === 'plain';
+    var pool = K.evo.pool();
+    $('mat-group').hidden = !mats.length && pool.length < 2;
     $('mat-list').innerHTML = mh;
-    $('mat-current').textContent = t('mixCurrent', { t: K.L(K.evo.traitById[s.trait].name) });
+    $('mat-current').innerHTML = esc(t('mixCurrent')) + ' ' + pool.map(function (id) {
+      var tr = K.evo.traitById[id];
+      return '<span class="chip-dot" title="' + esc(K.L(tr.name)) + '" style="background:' + (tr.chipBg || tr.chip) + '"></span>';
+    }).join('');
 
     // なかま
     var bh = '';
