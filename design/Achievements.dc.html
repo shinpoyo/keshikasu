@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>けしカス じっせき</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&amp;family=Zen+Maru+Gothic:wght@500;700;900&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F6F1E7;font-family:"Nunito","Zen Maru Gothic",sans-serif;color:#2B2A28}
+a{color:#3E6FB0}a:hover{color:#2C5590}
+button{font-family:inherit}
+</style>
+</helmet>
+<div style="width: 1440px; height: 900px; box-sizing: border-box; display: flex; flex-direction: column; background: #F6F1E7; font-family: 'Nunito', 'Zen Maru Gothic', sans-serif; color: #2B2A28; overflow: hidden">
+
+  <header style="height: 84px; flex-shrink: 0; box-sizing: border-box; padding: 0 40px; display: flex; align-items: center; gap: 24px; border-bottom: 2px solid #E4DCCB; background: #FBF8F1">
+    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#2B2A28" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="9" r="6"></circle><path d="M8.5 14 7 22l5-3 5 3-1.5-8"></path></svg>
+    <h1 style="margin: 0; font-family: 'Zen Maru Gothic', sans-serif; font-weight: 900; font-size: 28px">じっせき</h1>
+    <span style="font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 22px; font-variant-numeric: tabular-nums">23 <span style="color: #6B6A66; font-size: 16px">/ 100</span></span>
+    <span style="padding: 5px 12px; border-radius: 999px; background: #E7B533; font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 14px">+23% /s</span>
+    <span style="font-family: 'Zen Maru Gothic', sans-serif; font-weight: 500; font-size: 13px; color: #6B6A66">じっせき 1つで /s が 1% ふえます</span>
+    <nav style="margin-left: auto; display: flex; gap: 6px" aria-label="きりかえ">
+      <a href="Achievements.dc.html" style="height: 44px; padding: 0 16px; display: flex; align-items: center; border-radius: 12px; background: #2B2A28; color: #FFFFFF; font-family: 'Zen Maru Gothic', sans-serif; font-weight: 700; font-size: 14px; text-decoration: none">じっせき</a>
+      <a href="Stats.dc.html" style="height: 44px; padding: 0 16px; display: flex; align-items: center; border-radius: 12px; color: #2B2A28; font-family: 'Zen Maru Gothic', sans-serif; font-weight: 700; font-size: 14px; text-decoration: none">とうけい</a>
+    </nav>
+    <a href="Main.dc.html" aria-label="とじる" style="width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; border: 2px solid #2B2A28; border-radius: 14px; background: #FFFFFF">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2B2A28" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></a>
+  </header>
+
+  <div style="flex-grow: 1; min-height: 0; display: flex; gap: 32px; box-sizing: border-box; padding: 24px 40px 28px">
+    <section style="flex-grow: 1; min-width: 0; display: flex; flex-direction: column; gap: 14px" aria-label="じっせき いちらん">
+      <div style="display: flex; gap: 8px">
+        <sc-for list="{{cats}}" as="c" hint-placeholder-count="5">
+          <button type="button" style="height: 36px; padding: 0 14px; display: flex; align-items: center; gap: 6px; border: 1.5px solid {{c.border}}; border-radius: 999px; background: {{c.bg}}; color: {{c.fg}}; font-family: 'Zen Maru Gothic', sans-serif; font-weight: 700; font-size: 13px"><span style="width: 10px; height: 10px; border-radius: 50%; background: {{c.dot}}"></span>{{c.name}}</button>
+        </sc-for>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 10px">
+        <sc-for list="{{items}}" as="a" hint-placeholder-count="100">
+          <button type="button" aria-label="{{a.aria}}" style="height: 60px; padding: 0; display: flex; align-items: center; justify-content: center; border: {{a.border}}; border-radius: 14px; background: {{a.bg}}; box-shadow: {{a.shadow}}">
+            <sc-if value="{{a.got}}" hint-placeholder-val="{{true}}">
+              <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><path d="M11 22 8 32l9-4 9 4-3-10" fill="#3E6FB0" stroke="#2B2A28" stroke-width="1.6" stroke-linejoin="round"></path><circle cx="17" cy="14" r="11" fill="{{a.color}}" stroke="#2B2A28" stroke-width="2"></circle><circle cx="17" cy="14" r="6.5" fill="none" stroke="#FFFFFF" stroke-width="1.6" opacity="0.7"></circle></svg>
+            </sc-if>
+            <sc-if value="{{a.locked}}" hint-placeholder-val="{{false}}">
+              <span style="font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 16px; color: #B8AD98">?</span>
+            </sc-if>
+          </button>
+        </sc-for>
+      </div>
+    </section>
+
+    <aside style="width: 340px; flex-shrink: 0; box-sizing: border-box; padding: 24px; display: flex; flex-direction: column; gap: 14px; border-radius: 22px; background: #FFFFFF; border: 2px solid #2B2A28; box-shadow: 0 6px 0 #2B2A28" aria-label="えらんだ じっせき">
+      <div style="height: 150px; display: flex; align-items: center; justify-content: center; border-radius: 14px; background: #F6F1E7">
+        <svg width="96" height="96" viewBox="0 0 34 34" aria-hidden="true"><path d="M11 22 8 32l9-4 9 4-3-10" fill="#3E6FB0" stroke="#2B2A28" stroke-width="1.2" stroke-linejoin="round"></path><circle cx="17" cy="14" r="11" fill="#8FA7C8" stroke="#2B2A28" stroke-width="1.4"></circle><circle cx="17" cy="14" r="6.5" fill="none" stroke="#FFFFFF" stroke-width="1.2" opacity="0.7"></circle></svg>
+      </div>
+      <span style="align-self: flex-start; padding: 3px 10px; border-radius: 999px; background: #3E6FB0; color: #FFFFFF; font-family: 'Zen Maru Gothic', sans-serif; font-weight: 700; font-size: 12px">なかま</span>
+      <h2 style="margin: 0; font-family: 'Zen Maru Gothic', sans-serif; font-weight: 900; font-size: 24px">アリの ぎょうれつ</h2>
+      <span style="font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 13px; color: #6B6A66">Ant Parade</span>
+      <p style="margin: 0; font-family: 'Zen Maru Gothic', sans-serif; font-weight: 700; font-size: 15px; line-height: 1.6">アリさんを 25ひき あつめた。</p>
+      <p style="margin: 0; padding: 12px 14px; border-radius: 12px; background: #F6F1E7; font-family: 'Zen Maru Gothic', sans-serif; font-weight: 500; font-size: 14px; line-height: 1.6; color: #4A4946">「みんな おなじ ほうを むいている」</p>
+      <span style="margin-top: auto; font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 13px; color: #6B6A66">2026.09.29 ・ +1% /s</span>
+    </aside>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const cats = [
+      { name: 'ぜんぶ', dot: '#2B2A28', sel: true },
+      { name: 'こする', dot: '#F29CA3' },
+      { name: 'なかま', dot: '#8FA7C8' },
+      { name: 'しんか', dot: '#6B6A66' },
+      { name: 'ゴールデン', dot: '#E7B533' },
+      { name: 'ひみつ', dot: '#CDBFA5' }
+    ].map((c) => Object.assign(c, { bg: c.sel ? '#2B2A28' : '#FFFFFF', fg: c.sel ? '#FFFFFF' : '#2B2A28', border: c.sel ? '#2B2A28' : '#E4DCCB' }));
+    const palette = ['#F29CA3', '#8FA7C8', '#A9A49B', '#E7B533'];
+    const gotIdx = [0, 1, 2, 3, 4, 10, 11, 12, 13, 20, 21, 22, 30, 31, 40, 41, 42, 50, 51, 60, 61, 70, 80];
+    const items = Array.from({ length: 100 }, (_, i) => {
+      const got = gotIdx.indexOf(i) >= 0;
+      const sel = i === 12;
+      return {
+        got: got, locked: !got,
+        color: palette[i % 4],
+        border: sel ? '3px solid #3E6FB0' : (got ? '2px solid #2B2A28' : '2px dashed #CDBFA5'),
+        bg: got ? '#FFFFFF' : 'transparent',
+        shadow: sel ? '0 0 0 4px rgba(62,111,176,0.2)' : 'none',
+        aria: got ? 'じっせき ' + (i + 1) : 'まだ ひみつ'
+      };
+    });
+    return { cats, items };
+  }
+}
+</script>
+</body>
+</html>

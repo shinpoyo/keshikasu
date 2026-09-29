@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>けしカス スマホ つくえ</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&amp;family=Zen+Maru+Gothic:wght@500;700;900&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F6F1E7;font-family:"Nunito","Zen Maru Gothic",sans-serif;color:#2B2A28}
+a{color:#3E6FB0}a:hover{color:#2C5590}
+button{font-family:inherit}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; position: relative; display: flex; flex-direction: column; background: #F6F1E7; font-family: 'Nunito', 'Zen Maru Gothic', sans-serif; color: #2B2A28; overflow: hidden">
+
+  <header style="flex-shrink: 0; box-sizing: border-box; padding: 14px 16px 12px; display: flex; align-items: center; gap: 12px; background: #FBF8F1; border-bottom: 2px solid #E4DCCB">
+    <span style="width: 48px; height: 48px; flex-shrink: 0; border-radius: 12px; overflow: hidden; background: #FAF8F3; border: 1.5px solid #E4DCCB"><img src="/_blob/d0bbb2a0c5793b3a19780974d72add99" alt="" style="width: 48px; height: 48px"></span>
+    <div style="display: flex; flex-direction: column; line-height: 1.1">
+      <span style="font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 28px; font-variant-numeric: tabular-nums">23,456</span>
+      <span style="font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 13px; color: #6B6A66">つぶ ・ +48.2 /s</span>
+    </div>
+  </header>
+
+  <div style="flex-grow: 1; min-height: 0; box-sizing: border-box; padding: 16px 16px 100px; display: flex; flex-direction: column; gap: 10px">
+    <div style="display: flex; align-items: baseline; justify-content: space-between">
+      <h1 style="margin: 0; font-family: 'Zen Maru Gothic', sans-serif; font-weight: 900; font-size: 22px">つくえ</h1>
+      <span style="font-family: 'Zen Maru Gothic', sans-serif; font-weight: 500; font-size: 12px; color: #6B6A66">なかまが はたらいています</span>
+    </div>
+
+    <sc-for list="{{rows}}" as="row" hint-placeholder-count="4">
+      <div style="height: 112px; flex-shrink: 0; box-sizing: border-box; padding: 10px 14px; display: flex; flex-direction: column; gap: 6px; border-radius: 16px; background: linear-gradient(180deg, #E3C79D 0%, #D9B98C 100%); box-shadow: inset 0 -4px 0 rgba(92,64,30,0.14)">
+        <div style="display: flex; align-items: baseline; justify-content: space-between">
+          <span style="font-family: 'Zen Maru Gothic', sans-serif; font-weight: 900; font-size: 14px">{{row.name}} <span style="font-family: 'Nunito', sans-serif; font-weight: 900; color: #4A3A22">x{{row.count}}</span></span>
+          <span style="font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 12px; color: #4A3A22; font-variant-numeric: tabular-nums">{{row.rate}}</span>
+        </div>
+        <div style="flex-grow: 1; display: flex; flex-wrap: wrap; gap: 2px 4px; align-items: center; overflow: hidden">
+          <sc-for list="{{row.units}}" as="u" hint-placeholder-count="10">
+            <sc-if value="{{row.isFinger}}" hint-placeholder-val="{{true}}"><svg width="20" height="28" viewBox="0 0 26 34" aria-hidden="true"><rect x="7" y="2" width="12" height="28" rx="6" fill="#F4D7BE" stroke="#2B2A28" stroke-width="2"></rect><rect x="9.5" y="4.5" width="7" height="7" rx="3" fill="#FFFFFF" stroke="#2B2A28" stroke-width="1.4"></rect></svg></sc-if>
+            <sc-if value="{{row.isAnt}}" hint-placeholder-val="{{false}}"><svg width="28" height="18" viewBox="0 0 34 22" aria-hidden="true"><path d="M8 14 3 20M12 14l-2 7M18 14l2 7M22 14l6 6M10 8 6 3M24 8l4-5" stroke="#2B2A28" stroke-width="1.6" stroke-linecap="round"></path><ellipse cx="7" cy="11" rx="5" ry="4.5" fill="#2B2A28"></ellipse><ellipse cx="15" cy="12" rx="4" ry="3.5" fill="#2B2A28"></ellipse><ellipse cx="25" cy="11" rx="7" ry="5.5" fill="#2B2A28"></ellipse><circle cx="30" cy="5" r="2.5" fill="#A9A49B" stroke="#2B2A28" stroke-width="1"></circle></svg></sc-if>
+            <sc-if value="{{row.isGrandpa}}" hint-placeholder-val="{{false}}"><svg width="28" height="34" viewBox="0 0 36 44" aria-hidden="true"><path d="M6 44c0-10 5-16 12-16s12 6 12 16" fill="#8FA7C8" stroke="#2B2A28" stroke-width="2"></path><circle cx="18" cy="17" r="11" fill="#F4D7BE" stroke="#2B2A28" stroke-width="2"></circle><circle cx="13.5" cy="17" r="3.2" fill="none" stroke="#2B2A28" stroke-width="1.6"></circle><circle cx="22.5" cy="17" r="3.2" fill="none" stroke="#2B2A28" stroke-width="1.6"></circle></svg></sc-if>
+            <sc-if value="{{row.isClass}}" hint-placeholder-val="{{false}}"><svg width="40" height="34" viewBox="0 0 52 44" aria-hidden="true"><path d="M4 16 26 4l22 12" fill="none" stroke="#2B2A28" stroke-width="2.2" stroke-linejoin="round"></path><rect x="7" y="16" width="38" height="26" rx="2" fill="#FBF8F1" stroke="#2B2A28" stroke-width="2.2"></rect><rect x="12" y="20" width="28" height="11" rx="1.5" fill="#3C5A48"></rect><rect x="22" y="33" width="8" height="9" fill="#F29CA3" stroke="#2B2A28" stroke-width="1.4"></rect></svg></sc-if>
+          </sc-for>
+        </div>
+      </div>
+    </sc-for>
+
+    <div style="height: 80px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; border-radius: 16px; border: 2px dashed #CDBFA5; font-family: 'Zen Maru Gothic', sans-serif; font-weight: 700; font-size: 14px; color: #6B6A66">つぎの なかまを まっています</div>
+  </div>
+
+  <nav style="position: absolute; left: 0; right: 0; bottom: 0; height: 84px; box-sizing: border-box; padding: 8px 12px 20px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px; background: #FBF8F1; border-top: 2px solid #E4DCCB" aria-label="タブ">
+    <a href="Mobile.dc.html" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; border-radius: 12px; color: #2B2A28; text-decoration: none; font-family: 'Zen Maru Gothic', sans-serif; font-weight: 700; font-size: 11px">
+      <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M11.5 3.5c5-.5 9 3 9 8.3s-3.7 8.7-8.6 8.7-9-3.2-9-8.2 3.6-8.3 8.6-8.8z" fill="none" stroke="#2B2A28" stroke-width="2"></path></svg>カス</a>
+    <a href="Desk.dc.html" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; border-radius: 12px; background: #2B2A28; color: #FFFFFF; text-decoration: none; font-family: 'Zen Maru Gothic', sans-serif; font-weight: 700; font-size: 11px">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 9h18"></path><path d="M5 9v11M19 9v11"></path><path d="M3 5h18v4H3z"></path></svg>つくえ</a>
+    <a href="Shop.dc.html" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; border-radius: 12px; color: #2B2A28; text-decoration: none; font-family: 'Zen Maru Gothic', sans-serif; font-weight: 700; font-size: 11px">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2B2A28" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9h16l-1.5 11h-13z"></path><path d="M9 9V6a3 3 0 0 1 6 0v3"></path></svg>みせ</a>
+    <a href="Menu.dc.html" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; border-radius: 12px; color: #2B2A28; text-decoration: none; font-family: 'Zen Maru Gothic', sans-serif; font-weight: 700; font-size: 11px">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2B2A28" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>メニュー</a>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const units = (n) => Array.from({ length: n }, (_, i) => ({ i }));
+    const kind = (k) => ({ isFinger: k === 'finger', isAnt: k === 'ant', isGrandpa: k === 'grandpa', isClass: k === 'class' });
+    return {
+      rows: [
+        Object.assign({ name: 'ゆび', count: 35, rate: '+14 /s', units: units(24) }, kind('finger')),
+        Object.assign({ name: 'アリさん', count: 26, rate: '+104 /s', units: units(16) }, kind('ant')),
+        Object.assign({ name: 'しらない おじいちゃん', count: 12, rate: '+384 /s', units: units(10) }, kind('grandpa')),
+        Object.assign({ name: 'きょうしつ', count: 3, rate: '+564 /s', units: units(3) }, kind('class'))
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>けしカス かけらの おみせ</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&amp;family=Zen+Maru+Gothic:wght@500;700;900&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#E8EEF5;font-family:"Nunito","Zen Maru Gothic",sans-serif;color:#2B2A28}
+a{color:#3E6FB0}a:hover{color:#2C5590}
+button{font-family:inherit}
+</style>
+</helmet>
+<div style="width: 1440px; height: 900px; box-sizing: border-box; position: relative; display: flex; flex-direction: column; background: linear-gradient(180deg, #DDE7F2 0%, #EEF2F6 55%, #F6F1E7 100%); font-family: 'Nunito', 'Zen Maru Gothic', sans-serif; color: #2B2A28; overflow: hidden">
+
+  <svg width="1440" height="300" viewBox="0 0 1440 300" style="position: absolute; left: 0; top: 0" aria-hidden="true">
+    <g fill="#FFFFFF" opacity="0.75">
+      <ellipse cx="180" cy="120" rx="120" ry="34"></ellipse><ellipse cx="250" cy="100" rx="70" ry="36"></ellipse>
+      <ellipse cx="1240" cy="90" rx="140" ry="36"></ellipse><ellipse cx="1170" cy="72" rx="70" ry="34"></ellipse>
+      <ellipse cx="760" cy="210" rx="160" ry="26"></ellipse>
+    </g>
+  </svg>
+
+  <header style="position: relative; height: 96px; flex-shrink: 0; box-sizing: border-box; padding: 0 40px; display: flex; align-items: center; gap: 20px">
+    <svg width="44" height="44" viewBox="0 0 40 40" aria-hidden="true"><path d="M8 26 20 8l12 10-6 16H12z" fill="#F29CA3" stroke="#2B2A28" stroke-width="2.4" stroke-linejoin="round"></path><path d="M20 8l12 10" stroke="#FFFFFF" stroke-width="3" opacity="0.6"></path></svg>
+    <div style="display: flex; flex-direction: column">
+      <h1 style="margin: 0; font-family: 'Zen Maru Gothic', sans-serif; font-weight: 900; font-size: 28px">かけらの おみせ</h1>
+      <span style="font-family: 'Zen Maru Gothic', sans-serif; font-weight: 500; font-size: 14px; color: #4A4946">ここで かったものは、けしゴムに もどっても ずっと のこります。</span>
+    </div>
+    <div style="margin-left: auto; height: 52px; box-sizing: border-box; padding: 0 20px; display: flex; align-items: center; gap: 10px; border-radius: 16px; background: #FFFFFF; border: 2px solid #2B2A28; box-shadow: 0 4px 0 #2B2A28">
+      <svg width="24" height="24" viewBox="0 0 40 40" aria-hidden="true"><path d="M8 26 20 8l12 10-6 16H12z" fill="#F29CA3" stroke="#2B2A28" stroke-width="3" stroke-linejoin="round"></path></svg>
+      <span style="font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 24px; font-variant-numeric: tabular-nums">3</span>
+      <span style="font-family: 'Zen Maru Gothic', sans-serif; font-weight: 700; font-size: 13px; color: #6B6A66">かけら</span>
+    </div>
+    <a href="Menu.dc.html" aria-label="とじる" style="width: 52px; height: 52px; display: flex; align-items: center; justify-content: center; border: 2px solid #2B2A28; border-radius: 14px; background: #FFFFFF">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2B2A28" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></a>
+  </header>
+
+  <div style="position: relative; flex-grow: 1; box-sizing: border-box; padding: 20px 40px 36px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px">
+    <sc-for list="{{items}}" as="it" hint-placeholder-count="12">
+      <div style="box-sizing: border-box; padding: 18px; display: flex; flex-direction: column; gap: 8px; border-radius: 20px; background: {{it.bg}}; border: {{it.border}}; box-shadow: {{it.shadow}}; opacity: {{it.opacity}}">
+        <div style="display: flex; align-items: center; justify-content: space-between">
+          <span style="padding: 3px 10px; border-radius: 999px; background: {{it.tagBg}}; color: {{it.tagFg}}; font-family: 'Zen Maru Gothic', sans-serif; font-weight: 700; font-size: 12px">{{it.tag}}</span>
+          <span style="display: flex; align-items: center; gap: 4px; font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 16px; font-variant-numeric: tabular-nums"><svg width="14" height="14" viewBox="0 0 40 40" aria-hidden="true"><path d="M8 26 20 8l12 10-6 16H12z" fill="#F29CA3" stroke="#2B2A28" stroke-width="3.4" stroke-linejoin="round"></path></svg>{{it.cost}}</span>
+        </div>
+        <span style="font-family: 'Zen Maru Gothic', sans-serif; font-weight: 900; font-size: 17px">{{it.name}}</span>
+        <span style="font-family: 'Zen Maru Gothic', sans-serif; font-weight: 500; font-size: 13px; line-height: 1.55; color: #4A4946">{{it.desc}}</span>
+      </div>
+    </sc-for>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const st = {
+      owned: { tag: 'かった', tagBg: '#3E6FB0', tagFg: '#FFFFFF', bg: '#FFFFFF', border: '2px solid #3E6FB0', shadow: 'none', opacity: 1 },
+      can: { tag: 'かえる', tagBg: '#F29CA3', tagFg: '#2B2A28', bg: '#FFFFFF', border: '2px solid #2B2A28', shadow: '0 5px 0 #2B2A28', opacity: 1 },
+      cant: { tag: 'たりない', tagBg: '#EFE7D6', tagFg: '#6B6A66', bg: 'rgba(255,255,255,0.7)', border: '2px solid #E4DCCB', shadow: 'none', opacity: 0.85 },
+      secret: { tag: 'ひみつ', tagBg: '#EFE7D6', tagFg: '#6B6A66', bg: 'transparent', border: '2px dashed #CDBFA5', shadow: 'none', opacity: 0.8 }
+    };
+    const list = [
+      ['owned', 1, 'ねている あいだも', 'とじている あいだの つぶが 10% から 20% に なる。'],
+      ['owned', 2, 'えんぴつの こな もちこみ', 'はじめから 「えんぴつの こな」が まぜられる。'],
+      ['can', 3, 'ゴールデンカス でやすく', 'ゴールデンカスが 10% よく でてくる。'],
+      ['can', 3, 'ほめじょうず', 'ほめる の まちじかんが 10びょう から 5びょう に なる。'],
+      ['cant', 5, 'アリさんの ひっこし', 'はじめから アリさんが 10ぴき いる。'],
+      ['cant', 8, 'ゴールデンカス ながもち', 'ゴールデンカスの こうかが 1.5ばい ながく つづく。'],
+      ['cant', 10, 'ぐっすり ねむる', 'とじている あいだの つぶが 50% に なる。'],
+      ['cant', 15, 'なかまの ねびき', 'なかまの ねだんが ぜんぶ 5% やすく なる。'],
+      ['cant', 20, 'いろんな ざいりょう', 'はじめから ぜんぶの ざいりょうが まぜられる。'],
+      ['cant', 25, 'こする ちから', 'こすると /s の 1% ぶんも もらえる。'],
+      ['secret', 50, '？？？', 'だれも みたことが ない。'],
+      ['secret', 100, '？？？', 'けしゴムの かみさまだけが しっている。']
+    ];
+    const items = list.map((r) => Object.assign({ cost: r[1], name: r[2], desc: r[3] }, st[r[0]]));
+    return { items };
+  }
+}
+</script>
+</body>
+</html>

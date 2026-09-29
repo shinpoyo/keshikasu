@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>けしカス とうけい</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&amp;family=Zen+Maru+Gothic:wght@500;700;900&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F6F1E7;font-family:"Nunito","Zen Maru Gothic",sans-serif;color:#2B2A28}
+a{color:#3E6FB0}a:hover{color:#2C5590}
+</style>
+</helmet>
+<div style="width: 1440px; height: 900px; box-sizing: border-box; display: flex; flex-direction: column; background: #F6F1E7; font-family: 'Nunito', 'Zen Maru Gothic', sans-serif; color: #2B2A28; overflow: hidden">
+
+  <header style="height: 84px; flex-shrink: 0; box-sizing: border-box; padding: 0 40px; display: flex; align-items: center; gap: 24px; border-bottom: 2px solid #E4DCCB; background: #FBF8F1">
+    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#2B2A28" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10"></path><path d="M10 20V4"></path><path d="M16 20v-7"></path><path d="M21 20H3"></path></svg>
+    <h1 style="margin: 0; font-family: 'Zen Maru Gothic', sans-serif; font-weight: 900; font-size: 28px">とうけい</h1>
+    <nav style="margin-left: auto; display: flex; gap: 6px" aria-label="きりかえ">
+      <a href="Achievements.dc.html" style="height: 44px; padding: 0 16px; display: flex; align-items: center; border-radius: 12px; color: #2B2A28; font-family: 'Zen Maru Gothic', sans-serif; font-weight: 700; font-size: 14px; text-decoration: none">じっせき</a>
+      <a href="Stats.dc.html" style="height: 44px; padding: 0 16px; display: flex; align-items: center; border-radius: 12px; background: #2B2A28; color: #FFFFFF; font-family: 'Zen Maru Gothic', sans-serif; font-weight: 700; font-size: 14px; text-decoration: none">とうけい</a>
+    </nav>
+    <a href="Main.dc.html" aria-label="とじる" style="width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; border: 2px solid #2B2A28; border-radius: 14px; background: #FFFFFF">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2B2A28" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></a>
+  </header>
+
+  <div style="flex-grow: 1; min-height: 0; box-sizing: border-box; padding: 32px 40px; display: flex; flex-direction: column; gap: 28px">
+    <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px">
+      <sc-for list="{{big}}" as="b" hint-placeholder-count="4">
+        <div style="box-sizing: border-box; padding: 22px 24px; border-radius: 20px; background: #FFFFFF; border: 2px solid #2B2A28; box-shadow: 0 5px 0 #2B2A28; display: flex; flex-direction: column; gap: 6px">
+          <span style="font-family: 'Zen Maru Gothic', sans-serif; font-weight: 700; font-size: 14px; color: #6B6A66">{{b.label}}</span>
+          <span style="font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 40px; line-height: 1.1; font-variant-numeric: tabular-nums">{{b.value}}</span>
+          <span style="font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 12px; color: #6B6A66">{{b.en}}</span>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px">
+      <sc-for list="{{groups}}" as="g" hint-placeholder-count="2">
+        <section style="box-sizing: border-box; padding: 8px 24px; border-radius: 20px; background: #FFFFFF; border: 1.5px solid #E4DCCB">
+          <h2 style="margin: 14px 0 6px; font-family: 'Zen Maru Gothic', sans-serif; font-weight: 900; font-size: 17px">{{g.title}}</h2>
+          <sc-for list="{{g.rows}}" as="r" hint-placeholder-count="6">
+            <div style="height: 48px; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid #EFE7D6">
+              <span style="font-family: 'Zen Maru Gothic', sans-serif; font-weight: 700; font-size: 15px">{{r.k}}</span>
+              <span style="font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 17px; font-variant-numeric: tabular-nums">{{r.v}}</span>
+            </div>
+          </sc-for>
+        </section>
+      </sc-for>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      big: [
+        { label: 'これまでの つぶ', value: '4.821B', en: 'Crumbs all time' },
+        { label: 'いまの /s', value: '1.284M', en: 'Per second' },
+        { label: 'こすった かいすう', value: '38,442', en: 'Rubs' },
+        { label: 'あそんだ じかん', value: '14h 22m', en: 'Time played' }
+      ],
+      groups: [
+        { title: 'この しゅう', rows: [
+          { k: 'この しゅうの つぶ', v: '812.4M' },
+          { k: 'カスの だんかい', v: 'STAGE 4' },
+          { k: 'なかまの かず', v: '214' },
+          { k: 'アップグレード', v: '31' },
+          { k: 'ほめた かいすう', v: '96' },
+          { k: 'ふいた かいすう', v: '12' }
+        ] },
+        { title: 'ずっと', rows: [
+          { k: 'けしゴムに もどった かいすう', v: '2' },
+          { k: 'けしゴムの かけら', v: '3' },
+          { k: 'ゴールデンカス', v: '41' },
+          { k: 'みつけた カス', v: '16 / 56' },
+          { k: 'じっせき', v: '23 / 100' },
+          { k: 'はじめた ひ', v: '2026.09.29' }
+        ] }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>
