@@ -386,14 +386,15 @@
     var er = $('eraser').getBoundingClientRect();
     var ka = $('kasu-body').getBoundingClientRect();
     // 消しゴムの 先（ななめに 立てた ピンクの かど。つくえに あたって いる ところ）
-    var x0 = er.left - base.left + er.width * 0.3;
+    var x0 = er.left - base.left + er.width * 0.22;
     var y0 = er.top - base.top + er.height * 0.94;
     var x1 = ka.left - base.left + ka.width * 0.5;
     var y1 = ka.top - base.top + ka.height * 0.5;
     var n = 3 + Math.floor(Math.random() * 3);
     for (var i = 0; i < n; i++) {
       var sp = document.createElement('span');
-      sp.className = 'speck';
+      sp.className = 'speck k' + (1 + Math.floor(Math.random() * 4));
+      sp.style.scale = (0.8 + Math.random() * 0.6).toFixed(2);
       sp.style.left = (x0 + Math.random() * 16 - 8) + 'px';
       sp.style.top = (y0 + Math.random() * 10 - 5) + 'px';
       var dx = x1 - x0 + (Math.random() * 60 - 30), dy = y1 - y0 + (Math.random() * 50 - 25);
