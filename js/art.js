@@ -87,5 +87,29 @@
     return 'art/kasu-stage' + n + '.svg';
   }
 
-  K.art = { svg: svg, building: building, upIcon: upIcon, ui: ui, kasuSrc: kasuSrc, BUILDING: BUILDING };
+  // こする 消しゴム（大きい絵）。左はしが こすれて まるく、すこし よごれている
+  var ERASER = ['0 0 220 124',
+    '<ellipse cx="116" cy="112" rx="98" ry="9" fill="#5C401E" opacity="0.18"/>' +
+    '<path d="M22 14h72v92H24c-9 0-15-6-16-15-1-9-1-53 0-62 1-9 6-15 14-15z" fill="#F29CA3" stroke="' + INK + '" stroke-width="3" stroke-linejoin="round"/>' +
+    '<path d="M16 26c-2 16-2 50 0 66" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" opacity="0.45"/>' +
+    '<path d="M9 72c1 10 5 18 13 21" stroke="#6B6A66" stroke-width="7" stroke-linecap="round" opacity="0.28"/>' +
+    '<path d="M30 22h60" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity="0.5"/>' +
+    '<rect x="78" y="8" width="134" height="102" rx="7" fill="#3E6FB0" stroke="' + INK + '" stroke-width="3"/>' +
+    '<rect x="78" y="44" width="134" height="22" fill="#FFFFFF" stroke="' + INK + '" stroke-width="2.4"/>' +
+    '<rect x="78" y="70" width="134" height="5" fill="' + INK + '"/>' +
+    '<path d="M90 20h108" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity="0.35"/>' +
+    '<circle cx="104" cy="55" r="4" fill="#F29CA3" stroke="' + INK + '" stroke-width="1.6"/><circle cx="118" cy="55" r="4" fill="#3E6FB0" stroke="' + INK + '" stroke-width="1.6"/>'];
+
+  function eraser(w, h) { return svg(ERASER[0], ERASER[1], w || '100%', h || '100%'); }
+
+  // カスの絵（けいとうの色つき）。tint は 形で切りぬいた 色の そう（カラフルは 何色も まざる）
+  function kasuPic(info, opt) {
+    opt = opt || {};
+    var plain = !!opt.plain;
+    var f = plain || !info.filter || info.filter === 'none' ? '' : ' style="filter:' + info.filter + '"';
+    var tint = !plain && info.tint ? '<i class="kpic-tint kpic-' + info.tint + '" style="-webkit-mask-image:url(' + info.art + ');mask-image:url(' + info.art + ')"></i>' : '';
+    return '<span class="kpic"><img src="' + info.art + '" alt="" draggable="false"' + f + (opt.lazy ? ' loading="lazy"' : '') + '>' + tint + '</span>';
+  }
+
+  K.art = { svg: svg, building: building, upIcon: upIcon, ui: ui, kasuSrc: kasuSrc, kasuPic: kasuPic, eraser: eraser, BUILDING: BUILDING };
 })(window.K = window.K || {});

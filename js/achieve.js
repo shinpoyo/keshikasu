@@ -23,6 +23,7 @@
       case 'sell': return st.sold >= a.n;
       case 'night': return st.night >= a.n;
       case 'rested': return st.rested >= a.n;
+      case 'cheated': return !!s.cheated;
     }
     return false;
   }

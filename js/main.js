@@ -62,6 +62,7 @@
     achAcc += dt;
     if (achAcc >= 1) {
       achAcc = 0;
+      K.guard.check();
       var got = K.achieve.check();
       got.forEach(function (a) {
         K.ui.toast('<span class="ach-medal" style="background:' + K.ui.medalColor(a) + '"></span><span>' + esc(t('achGot')) + ' <b>' + esc(K.L(a.name)) + '</b></span>');
@@ -101,40 +102,83 @@
   }
 
   // ---------- 入力 ----------
+  // こするのは 消しゴム。カスを こすっても カスは でない
+  // 1びょうに 20かい より はやい こするは かぞえない（オートクリッカー対策。ほかの ズル対策は js/guard.js）
+  var RUB_GAP = 1000 / 20;
+  var lastRubAt = 0;
+
   function rub(x, y) {
     var s = S();
-    if (now() < K.rt.blownUntil) return;
+    var n = now();
+    if (n < K.rt.blownUntil) return;
+    if (n - lastRubAt < RUB_GAP) return;
+    lastRubAt = n;
     var p = K.game.clickPower();
     K.game.earn(p, true);
     s.stats.rubs++;
-    K.rt.rubTimes.push(now());
+    K.rt.rubTimes.push(n);
     K.rt.maxRubRate = Math.max(K.rt.maxRubRate, K.rt.rubTimes.length);
     K.rt.blowStreak = 0;
     markAction();
-    var btn = $('kasu-btn');
-    btn.classList.remove('squish'); void btn.offsetWidth; btn.classList.add('squish');
+    var er = $('eraser-btn');
+    er.classList.remove('rubbing'); void er.offsetWidth; er.classList.add('rubbing');
+    var ka = $('kasu');
+    setTimeout(function () { ka.classList.remove('gain'); void ka.offsetWidth; ka.classList.add('gain'); }, 260);
     K.ui.floatNum(x, y, '+' + K.fmt(p, { decimals: 1 }));
+    K.ui.rubFx();
     K.sound.play('rub');
     if (Math.random() < 0.015) K.ui.say(K.news.monologue('rub'));
   }
 
   function bindKasu() {
-    var btn = $('kasu-btn');
+    var btn = $('eraser-btn');
     var stage = $('kasu-stage');
+    var drag = null; // { x: さいごの x, dir: うごいている むき, run: その むきに うごいた きょり }
+    var at = function (e) {
+      var r = stage.getBoundingClientRect();
+      return [e.clientX - r.left, e.clientY - r.top];
+    };
     btn.addEventListener('pointerdown', function (e) {
-      if (e.button > 0) return;
+      if (e.button > 0 || !e.isTrusted) return;
       e.preventDefault();
       K.sound.unlock();
-      var r = stage.getBoundingClientRect();
-      rub(e.clientX - r.left, e.clientY - r.top);
+      var p = at(e);
+      rub(p[0], p[1]);
+      drag = { x: e.clientX, dir: 0, run: 0 };
+      try { btn.setPointerCapture(e.pointerId); } catch (err) { /* なし */ }
     });
+    // おしたまま 左右に うごかしても こすれる（むきが かわるたびに 1かい）
+    btn.addEventListener('pointermove', function (e) {
+      if (!drag || !e.isTrusted) return;
+      var d = e.clientX - drag.x;
+      drag.x = e.clientX;
+      if (!d) return;
+      var dir = d > 0 ? 1 : -1;
+      if (dir !== drag.dir) {
+        if (drag.run >= 14) { var p = at(e); rub(p[0], p[1]); }
+        drag.dir = dir; drag.run = 0;
+      }
+      drag.run += Math.abs(d);
+    });
+    var end = function () { drag = null; };
+    btn.addEventListener('pointerup', end);
+    btn.addEventListener('pointercancel', end);
     // キーボード（Enter / Space）
     btn.addEventListener('click', function (e) {
-      if (e.detail !== 0) return;
+      if (e.detail !== 0 || !e.isTrusted) return;
       var r = stage.getBoundingClientRect();
-      rub(r.width / 2, r.height / 2);
+      rub(r.width * 0.7, r.height * 0.35);
     });
     btn.addEventListener('contextmenu', function (e) { e.preventDefault(); });
+    // カスを さわると もじもじ するだけ
+    var saidAt = 0;
+    $('kasu').addEventListener('pointerdown', function (e) {
+      e.preventDefault();
+      var ka = $('kasu');
+      if (now() < K.rt.blownUntil) return;
+      ka.classList.remove('shy'); void ka.offsetWidth; ka.classList.add('shy');
+      if (now() - saidAt > 4000) { saidAt = now(); K.ui.say(K.news.monologue('touch')); }
+    });
   }
 
   function praise() {
@@ -147,7 +191,7 @@
     s.stats.praises++;
     K.rt.blowStreak = 0;
     markAction();
-    var btn = $('kasu-btn');
+    var btn = $('kasu');
     btn.classList.remove('shy'); void btn.offsetWidth; btn.classList.add('shy');
     K.ui.say(K.news.monologue('praise'));
     K.sound.play('praise');
@@ -162,7 +206,7 @@
     K.rt.blowStreak++;
     s.stats.maxBlowStreak = Math.max(s.stats.maxBlowStreak, K.rt.blowStreak);
     markAction();
-    var btn = $('kasu-btn');
+    var btn = $('kasu');
     btn.classList.remove('blown'); void btn.offsetWidth; btn.classList.add('blown');
     K.sound.play('blow');
     setTimeout(function () { btn.classList.remove('blown'); K.ui.say(K.news.monologue('blow')); }, 3000);
@@ -329,10 +373,10 @@
     bindGlobal();
     K.ui.applyStatic();
     K.screens.title(!!(saved && saved.started));
-    // デバッグ用（コンソールから K.debug.give(1e9) など）
+    // デバッグ用（コンソールから K.debug.give(1e9) など）。つかうと ズルの じっせきが つく
     K.debug = {
-      give: function (n) { K.game.earn(n, false); },
-      golden: function () { K.golden.spawnNow(); },
+      give: function (n) { K.guard.flag('debug'); K.game.earn(n, false); },
+      golden: function () { K.guard.flag('debug'); K.golden.spawnNow(); },
       skipTutorial: function () { S().tutorial = 9; K.screens.coach(); }
     };
   }

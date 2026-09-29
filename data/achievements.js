@@ -102,5 +102,11 @@
   add({ id: 's_rest', cat: 'secret', hidden: true, type: 'rested', n: 1, name: { ja: 'ひとやすみ', en: 'Taking a Break' },
     desc: { ja: 'ひとやすみ した。', en: 'Took a break.' }, quote: { ja: 'えらい。', en: 'Good job.' } });
 
+  // --- かげ（ズル）。数にも /s にも はいらない ---
+  add({ id: 's_cheated', cat: 'secret', hidden: true, shadow: true, type: 'cheated', n: 1,
+    name: { ja: 'ズルした カスは まずい', en: 'Cheated Crumbs Taste Awful' },
+    desc: { ja: 'ズルを した。（この じっせきは かぞえない）', en: 'You cheated. (This one does not count.)' },
+    quote: { ja: 'なんだか あじが しない。', en: 'Somehow it tastes like nothing.' } });
+
   K.data.achievements = list;
 })(window.K = window.K || {});
