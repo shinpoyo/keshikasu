@@ -95,6 +95,7 @@
       '<span class="coach-body">' + esc(body) + '</span>' +
       '<div class="coach-foot"><button type="button" class="coach-skip" id="coach-skip">' + esc(t('tutSkip')) + '</button>' +
       (step === 3 ? '<button type="button" class="coach-ok" id="coach-ok">' + esc(t('tutOk')) + '</button>' : '') + '</div>';
+    el.setAttribute('data-step', step); // CSS で 「とばす」の いちを かえる
     el.hidden = false;
     $('coach-skip').onclick = function () { s.tutorial = 9; SC.coach(); };
     if ($('coach-ok')) $('coach-ok').onclick = function () { s.tutorial = 9; SC.coach(); };
