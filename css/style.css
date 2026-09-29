@@ -969,3 +969,38 @@ textarea.savebox {
 :root[data-theme="dark"] .desk-row .u svg [fill="#2B2A28"] { fill: #1A1917; }
 :root[data-theme="dark"] .toast { background: #F1ECE2; color: #2B2A28; }
 :root[data-theme="dark"] .toast b { color: #8A6410; }
+
+/* --- ガチャ（けしゴムの かみ）・スタンプ・ちらかり --- */
+.btn-roll .price.tickets { display: inline-flex; align-items: center; gap: 3px; }
+.btn-roll .price.tickets svg { width: 18px; height: 14px; }
+.btn-roll .stamp-count { opacity: .65; }
+.btn-roll.got { animation: ticket-got .6s ease-out; }
+@keyframes ticket-got { 0% { transform: scale(1); } 30% { transform: scale(1.06); } 100% { transform: scale(1); } }
+.eraser-btn.fresh .eraser-art { animation: eraser-fresh .6s ease-out; }
+@keyframes eraser-fresh { 0% { opacity: 0; transform: translateY(-30px) scale(1.15); } 60% { opacity: 1; transform: translateY(4px); } 100% { transform: none; } }
+.kasu-mess { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
+.mess-dot {
+  position: absolute; width: 16px; height: 5px; margin: -2px 0 0 -8px; opacity: 0; transition: opacity .3s;
+  background: url(../art/speck-1.svg) center / 100% 100% no-repeat;
+}
+.mess-dot.k2 { background-image: url(../art/speck-2.svg); }
+.mess-dot.k3 { background-image: url(../art/speck-3.svg); }
+.mess-dot.k4 { background-image: url(../art/speck-4.svg); }
+.mess-dot.on { opacity: .55; }
+.kasu-stage[data-scene="space"] .mess-dot { filter: invert(.85); }
+.kasu-mess.blowing .mess-dot.on { animation: mess-blow .7s ease-in forwards; transition: none; }
+.kasu-mess.blowing .mess-dot:nth-child(odd).on { animation-duration: .55s; }
+@keyframes mess-blow { to { transform: translate(160px, -90px) rotate(200deg); opacity: 0; } }
+#blow-btn { position: relative; overflow: hidden; }
+#blow-btn::before {
+  content: ''; position: absolute; left: 0; bottom: 0; height: 4px; width: calc(var(--mess, 0) * 100%);
+  background: var(--graphite, #6B6A66); opacity: .5; transition: width .2s;
+}
+#blow-btn.ready { animation: roll-glow 1.6s ease-in-out infinite; }
+.z-trade-btn { display: inline-flex; align-items: center; gap: 6px; align-self: flex-start; margin-top: 8px; }
+.z-trade-btn svg { width: 16px; height: 16px; }
+#mat-current .chip-dot { display: inline-block; width: 10px; height: 10px; margin-left: 3px; vertical-align: -1px; }
+@media (prefers-reduced-motion: reduce) {
+  .kasu-mess.blowing .mess-dot.on { animation: none; opacity: 0; }
+  .eraser-btn.fresh .eraser-art { animation: none; }
+}

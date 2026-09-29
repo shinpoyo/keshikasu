@@ -174,7 +174,8 @@
       E.queue.push({ type: 'roll', from: '2-plain', to: id, stage: sp ? null : parseInt(id, 10), isNew: true });
     } else {
       // ダブりは スタンプに なる。つくえの カスは そのまま（たいかに みえないように）
-      s.dry = (s.dry || 0) + 1;
+      // もう でる ものが ぜんぶ そろっているときは 天井を かぞえない
+      s.dry = E.missing().length ? (s.dry || 0) + 1 : 0;
       s.stamps = (s.stamps || 0) + 1;
     }
     return { id: id, isNew: isNew };
@@ -199,8 +200,8 @@
   E.check = function () {
     var target = E.stageFor(S().totalCrumbs);
     if (target > S().stage) {
+      S().tickets = (S().tickets || 0) + E.TIER_TICKETS * (target - S().stage);
       S().stage = target;
-      S().tickets = (S().tickets || 0) + E.TIER_TICKETS;
       E.unlocked.push(target);
     }
   };

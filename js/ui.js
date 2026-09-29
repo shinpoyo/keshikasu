@@ -151,7 +151,10 @@
     // ほめる の まちじかん
     var wait = Math.ceil((K.rt.praiseReadyAt - Date.now()) / 1000);
     $('praise-btn').disabled = wait > 0;
-    $('praise-label').textContent = wait > 0 ? t('praiseWait', { s: wait }) : t('praise');
+    var happy = Math.ceil((K.rt.praiseUntil - Date.now()) / 1000);
+    $('praise-label').textContent = happy > 0 ? t('praiseHappy', { s: happy }) : wait > 0 ? t('praiseWait', { s: wait }) : t('praise');
+    $('praise-btn').title = t('praiseHelp');
+    $('blow-btn').title = t('blowHelp', { v: K.fmt(K.game.blowGain(), { decimals: 1 }) });
     // てんせいボタン
     var pend = K.ascend.pending();
     $('rebirth-btn').classList.toggle('ready', pend > 0);

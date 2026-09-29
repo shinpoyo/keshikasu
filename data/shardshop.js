@@ -14,7 +14,7 @@
       desc: { ja: 'ゴールデンカスが 10% よく でてくる。', en: 'Golden Crumbs appear 10% more often.' } },
     { id: 'praiseFast', cost: 3,
       name: { ja: 'ほめじょうず', en: 'Good at Praising' },
-      desc: { ja: 'ほめる の まちじかんが 10びょう から 5びょう に なる。', en: 'Praise cooldown goes from 10s to 5s.' } },
+      desc: { ja: 'ほめる の まちじかんが 60びょう から 40びょう に なる。', en: 'Praise cooldown goes from 60s to 40s.' } },
     { id: 'startAnts', cost: 5,
       name: { ja: 'アリさんの ひっこし', en: 'The Ants Move In' },
       desc: { ja: 'はじめから アリさんが 10ぴき いる。', en: 'Start with 10 Ants.' } },
