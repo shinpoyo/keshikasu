@@ -342,5 +342,17 @@
     return inner ? '<svg viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">' + inner + '</svg>' : '';
   }
 
+  // 絵の よみこみが しっぱいしたら（スマホの 電波が きれた・公開の いれかえ中 など）すこし まって よみなおす。
+  // ?r= を つけて、しっぱいした けっかが キャッシュに のこっていても とりなおす
+  document.addEventListener('error', function (e) {
+    var img = e.target;
+    if (!img || img.tagName !== 'IMG' || !/(^|\/)art\//.test(img.getAttribute('src') || '')) return;
+    var n = +(img.dataset.retry || 0);
+    if (n >= 3) return;
+    img.dataset.retry = n + 1;
+    var base = img.getAttribute('src').split('?')[0];
+    setTimeout(function () { img.src = base + '?r=' + (n + 1) + '-' + Date.now(); }, 400 * (n + 1));
+  }, true);
+
   K.art = { svg: svg, scene: scene, building: building, upIcon: upIcon, ui: ui, kasuSrc: kasuSrc, kasuPic: kasuPic, eraser: eraser, gachaMachine: gachaMachine, BUILDING: BUILDING, guest: guest, GUEST: GUEST, bigEraser: bigEraser };
 })(window.K = window.K || {});
