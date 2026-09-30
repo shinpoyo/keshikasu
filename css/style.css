@@ -223,6 +223,9 @@ h1, h2, h3 { font-family: var(--font-jp); font-weight: 900; margin: 0; text-wrap
 .kasu-body { position: absolute; inset: 0; display: block; transition: transform .6s cubic-bezier(.5,-0.4,.3,1.4), opacity .3s; }
 .kasu.gain .kasu-body { animation: gain .22s ease-out; }
 @keyframes gain { 0% { transform: scale(1); } 45% { transform: scale(1.045, .96); } 100% { transform: scale(1); } }
+.kasu.shy .kasu-body { animation: shy .9s ease; }
+@keyframes shy { 20% { transform: rotate(-4deg) scale(1.02); } 50% { transform: rotate(3deg); } 80% { transform: rotate(-1deg); } }
+/* ふく は ほかの うごきより つよい（ほめた あとでも ちゃんと とぶように、shy より あとに かく） */
 .kasu.blown .kasu-body { animation: blown 3s ease-in-out both; }
 @keyframes blown {
   0% { transform: none; opacity: 1; }
@@ -230,8 +233,6 @@ h1, h2, h3 { font-family: var(--font-jp); font-weight: 900; margin: 0; text-wrap
   80% { transform: translate(-160%, 30%) rotate(-40deg) scale(.6); opacity: 0; }
   100% { transform: none; opacity: 1; }
 }
-.kasu.shy .kasu-body { animation: shy .9s ease; }
-@keyframes shy { 20% { transform: rotate(-4deg) scale(1.02); } 50% { transform: rotate(3deg); } 80% { transform: rotate(-1deg); } }
 
 /* カスの絵。カラフルは 形で切りぬいた にじ色を かさねる */
 .kpic { position: relative; display: block; width: 100%; height: 100%; }

@@ -220,6 +220,7 @@
     stage.addEventListener('contextmenu', function (e) { e.preventDefault(); });
   }
 
+  var shyTimer = 0;
   function praise() {
     var s = S(), n = now();
     if (n < K.rt.praiseReadyAt) return;
@@ -233,6 +234,9 @@
     markAction();
     var btn = $('kasu');
     btn.classList.remove('shy'); void btn.offsetWidth; btn.classList.add('shy');
+    // もじもじ が おわったら クラスを はずす（のこっていると ふいても とばなかった）
+    clearTimeout(shyTimer);
+    shyTimer = setTimeout(function () { btn.classList.remove('shy'); }, 900);
     K.ui.say(K.news.monologue('praise'));
     K.sound.play('praise');
   }
@@ -256,7 +260,7 @@
     s.stats.maxBlowStreak = Math.max(s.stats.maxBlowStreak, K.rt.blowStreak);
     markAction();
     var btn = $('kasu');
-    btn.classList.remove('blown'); void btn.offsetWidth; btn.classList.add('blown');
+    btn.classList.remove('blown', 'shy', 'gain'); void btn.offsetWidth; btn.classList.add('blown');
     K.sound.play('blow');
     setTimeout(function () { btn.classList.remove('blown'); K.ui.say(K.news.monologue('blow')); }, 3000);
   }
