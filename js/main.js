@@ -56,7 +56,8 @@
     // こする はやさ（あつあつ）
     K.rt.rubTimes = K.rt.rubTimes.filter(function (x) { return n - x < 1000; });
 
-    K.golden.update();
+    K.guest.update();
+    sandTick(dt);
     K.evo.check();
     while (K.evo.unlocked.length) {
       var tier = K.evo.unlocked.shift();
@@ -101,7 +102,7 @@
     K.ui.renderBldStats();
     K.ui.renderDesk();
     K.ui.renderGacha();
-    K.ui.renderGolden();
+    K.ui.renderGuest();
     K.ui.renderBuff();
     K.screens.coachTick();
     if (K.evo.queue.length && !K.screens.evoOpen()) {
@@ -123,6 +124,7 @@
     if (n - lastRubAt < RUB_GAP) return;
     lastRubAt = n;
     var p = K.game.clickPower();
+    if (K.rt.kadoLeft > 0) { p *= 10; K.rt.kadoLeft--; } // かどけし
     K.game.earn(p, true);
     s.stats.rubs++;
     K.rt.rubTimes.push(n);
@@ -137,10 +139,36 @@
     K.ui.floatNum(x, y, '+' + K.fmt(p, { decimals: 1 }));
     K.ui.rubFx();
     K.rt.mess = Math.min((K.rt.mess || 0) + 1, K.game.MESS_MAX);
-    if (K.evo.wear()) K.ui.eraserDone();
-    K.ui.renderEraser();
+    wear();
     K.sound.play('rub');
     if (Math.random() < 0.015) K.ui.say(K.news.monologue('rub'));
+  }
+
+  // けしゴムが へる。すなけしが きている あいだは 2ばい はやい
+  function wear() {
+    var times = K.game.buffActive('sand') ? 2 : 1;
+    for (var i = 0; i < times; i++) if (K.evo.wear()) K.ui.eraserDone();
+    K.ui.renderEraser();
+  }
+
+  // すなけし: 1びょうに 10かい じどうで こする
+  var sandAcc = 0, sandN = 0;
+  function sandTick(dt) {
+    if (!K.game.buffActive('sand')) { sandAcc = 0; return; }
+    sandAcc += dt * 10;
+    while (sandAcc >= 1) {
+      sandAcc -= 1;
+      var p = K.game.clickPower();
+      K.game.earn(p, false);
+      K.rt.mess = Math.min((K.rt.mess || 0) + 1, K.game.MESS_MAX);
+      wear();
+      if (++sandN % 3 === 0) {
+        var er = $('eraser-btn');
+        er.classList.remove('rubbing'); void er.offsetWidth; er.classList.add('rubbing');
+        var st = $('kasu-stage').getBoundingClientRect(), eb = er.getBoundingClientRect();
+        K.ui.floatNum(eb.left - st.left + eb.width * (0.2 + Math.random() * 0.6), eb.top - st.top + eb.height * 0.6, '+' + K.fmt(p, { decimals: 1 }));
+      }
+    }
   }
 
   // こする はんていは つくえ ぜんたい（消しゴムでも カスでも 紙でも）。ずっと タップするので ゆるく
@@ -319,15 +347,11 @@
     $('roll-btn').onclick = roll;
     $('praise-btn').onclick = praise;
     $('blow-btn').onclick = blow;
-    $('golden').onclick = function () {
-      var r = K.golden.click();
-      $('golden').hidden = true;
+    $('guest').onclick = function () {
+      var r = K.guest.click();
       if (!r) return;
       markAction();
-      if (r.id === 'lucky') {
-        K.ui.toast('<b>' + esc(K.L(K.golden.EFFECTS.lucky.name)) + '</b> ' + esc(t('luckyGain', { v: K.fmt(r.gain) })));
-      }
-      K.ui.say(K.news.monologue('golden'));
+      K.ui.guestUsed(r);
     };
     document.addEventListener('click', function (e) {
       var o = e.target.closest('[data-open]');
@@ -386,7 +410,7 @@
       bindKasu();
       bindShop();
     }
-    if (!K.golden.nextAt) K.golden.schedule();
+    if (!K.guest.nextAt) K.guest.schedule();
     offlineCheck(false);
     s.lastTick = now();
     K.screens.coach();
@@ -433,7 +457,8 @@
     // デバッグ用（コンソールから K.debug.give(1e9) など）。つかうと ズルの じっせきが つく
     K.debug = {
       give: function (n) { K.guard.flag('debug'); K.game.earn(n, false); },
-      golden: function () { K.guard.flag('debug'); K.golden.spawnNow(); },
+      golden: function () { K.guard.flag('debug'); K.guest.spawnNow('golden'); },
+      guest: function (id) { K.guard.flag('debug'); K.guest.spawnNow(id); },
       skipTutorial: function () { S().tutorial = 9; K.screens.coach(); }
     };
   }

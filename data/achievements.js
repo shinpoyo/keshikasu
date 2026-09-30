@@ -87,8 +87,25 @@
   // --- ゴールデン ---
   [[1, 'キラッ', 'Sparkle'], [7, 'ラッキー セブン', 'Lucky Seven'], [27, 'キラキラ あつめ', 'Sparkle Collector'], [77, 'きんいろの ゆび', 'Golden Finger']].forEach(function (r, i) {
     add({ id: 'golden' + i, cat: 'golden', type: 'golden', n: r[0], name: { ja: r[1], en: r[2] },
-      desc: { ja: 'ゴールデンカスを ' + r[0] + 'こ おした。', en: 'Clicked ' + r[0] + ' Golden Crumb' + (r[0] > 1 ? 's' : '') + '.' },
+      desc: { ja: 'ゴールデンけしゴムを ' + r[0] + 'かい つかった。', en: 'Used ' + r[0] + ' Golden Eraser' + (r[0] > 1 ? 's' : '') + '.' },
       quote: { ja: 'まぶしい。', en: 'So bright.' } });
+  });
+
+  // --- ゲストけしゴム（はじめて つかった・つかった かず）---
+  [['kadokeshi', 'かどが いっぱい', 'So Many Corners', 'かどは まだ ある。', 'Still more corners.'],
+   ['sand', 'ざらざら', 'Gritty', 'つくえも けずれた きがする。', 'Feels like the desk got sanded too.'],
+   ['neri', 'ねりねり', 'Knead Knead', 'ぜんぶ まとまった。', 'It all came together.'],
+   ['kaori', 'いいにおい', 'Smells Nice', 'おなかが すいた。', 'Now I am hungry.'],
+   ['rocket', 'はっしゃ', 'Liftoff', 'つぎの こまは どこ？', 'Where did the next piece go?']].forEach(function (r) {
+    add({ id: 'guest_' + r[0], cat: 'golden', type: 'guest', g: r[0], n: 1, name: { ja: r[1], en: r[2] },
+      desc: { ja: K.data.guests.filter(function (g) { return g.id === r[0]; })[0].name.ja + 'を はじめて つかった。',
+        en: 'Used a ' + K.data.guests.filter(function (g) { return g.id === r[0]; })[0].name.en + ' for the first time.' },
+      quote: { ja: r[3], en: r[4] } });
+  });
+  [[10, 'おきゃくさん', 'Visitors'], [50, 'けしゴムの たまりば', 'Eraser Hangout'], [100, 'ふでばこ いっぱい', 'Full Pencil Case']].forEach(function (r, i) {
+    add({ id: 'guests' + i, cat: 'golden', type: 'guests', n: r[0], name: { ja: r[1], en: r[2] },
+      desc: { ja: 'やってきた けしゴムを ' + r[0] + 'かい つかった。', en: 'Used ' + r[0] + ' visiting erasers.' },
+      quote: { ja: 'また きてね。', en: 'Come again.' } });
   });
 
   // --- ひみつ ---

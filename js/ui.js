@@ -241,7 +241,7 @@
       var show = Math.min(n, 40);
       var prev = Math.min(prevCounts[b.id] || 0, 40);
       var units = '';
-      var size = b.id === 'grandpa' ? [36, 44] : b.id === 'classroom' || b.id === 'factory' || b.id === 'roller' || b.id === 'paralleldesk' ? [46, 38] : b.id === 'ant' ? [34, 22] : b.id === 'finger' ? [22, 30] : [34, 34];
+      var size = b.id === 'grandpa' ? [36, 44] : b.id === 'classroom' || b.id === 'factory' || b.id === 'roller' || b.id === 'paralleldesk' || b.id === 'bigeraser' || b.id === 'autoeraser' ? [46, 38] : b.id === 'friend' ? [38, 38] : b.id === 'ant' ? [34, 22] : b.id === 'finger' ? [22, 30] : [34, 34];
       for (var i = 0; i < show; i++) {
         units += '<span class="u' + (i >= prev ? ' u-new' : '') + '">' + K.art.building(b.id, size[0], size[1]) + '</span>';
       }
@@ -451,46 +451,83 @@
     if (hold !== false) bubbleTimer = setTimeout(function () { el.textContent = K.quote(K.lang() === 'ja' ? '……' : '...'); }, 9000);
   };
 
-  // --- ゴールデン ---
-  U.renderGolden = function () {
-    var g = K.golden.current;
-    var el = $('golden');
-    if (g) {
-      if (el.hidden) {
-        var panes = $('panes');
-        var r = panes.getBoundingClientRect();
-        var host = $('screen-game').getBoundingClientRect();
-        var size = U.narrow() ? 60 : 76;
-        el.style.left = Math.round(r.left - host.left + g.x * (r.width - size)) + 'px';
-        el.style.top = Math.round(r.top - host.top + g.y * (r.height - size - (U.narrow() ? 90 : 0))) + 'px';
-        el.hidden = false;
-        el.classList.remove('leaving');
-        el.setAttribute('aria-label', t('goldenLabel'));
-      }
-      if (g.until - Date.now() < 1500) el.classList.add('leaving');
-    } else if (!el.hidden) {
-      el.hidden = true;
+  // --- ゲストけしゴム（ゴールデンも）---
+  var guestSig = '';
+  U.renderGuest = function () {
+    var g = K.guest.current;
+    var el = $('guest');
+    if (!g) {
+      if (!el.hidden) { el.hidden = true; guestSig = ''; }
+      return;
     }
+    var info = K.guest.byId[g.id];
+    var left = g.id === 'rocket' ? K.guest.ROCKET_TAPS - g.taps : 0;
+    var label = g.taps > 0 ? t('guestMore', { n: left }) : t('guestCame', { n: K.L(info.name) });
+    var sig = g.id + '|' + g.taps + '|' + K.lang();
+    if (el.hidden) {
+      var panes = $('panes');
+      var r = panes.getBoundingClientRect();
+      var host = $('screen-game').getBoundingClientRect();
+      var size = U.narrow() ? 64 : 80;
+      el.style.left = Math.round(r.left - host.left + g.x * (r.width - size)) + 'px';
+      el.style.top = Math.round(r.top - host.top + 28 + g.y * (r.height - size - 28 - (U.narrow() ? 90 : 0))) + 'px';
+      el.hidden = false;
+      el.classList.remove('leaving');
+    }
+    if (sig !== guestSig) {
+      guestSig = sig;
+      el.setAttribute('data-id', g.id);
+      el.classList.toggle('is-golden', g.id === 'golden');
+      $('guest-art').innerHTML = K.art.guest(g.id, 56, 48);
+      $('guest-label').textContent = label;
+      el.setAttribute('aria-label', label);
+      if (g.taps > 0) { el.classList.remove('tapped'); void el.offsetWidth; el.classList.add('tapped'); }
+    }
+    el.classList.toggle('leaving', g.until - Date.now() < 1500);
   };
 
+  // つかった ときの おしらせ
+  U.guestUsed = function (r) {
+    var info = K.guest.byId[r.id], E = K.guest.EFFECTS;
+    var name = '<b>' + esc(K.L(info.name)) + '</b> ';
+    if (r.effect === 'lucky') U.toast('<b>' + esc(K.L(E.lucky.name)) + '</b> ' + esc(t('luckyGain', { v: K.fmt(r.gain) })));
+    else if (r.effect === 'kado') U.toast(name + esc(K.L(info.effect)));
+    else if (r.effect) U.toast('<b>' + esc(K.L(E[r.effect].name)) + '</b> ' + esc(K.L(E[r.effect].desc)));
+    else if (r.id === 'neri') U.toast(name + esc(K.L(info.effect)) + ' ' + esc(t('luckyGain', { v: K.fmt(r.gain) })));
+    else if (r.gain) U.toast(name + esc(t('luckyGain', { v: K.fmt(r.gain) })));
+    if (r.id === 'neri') U.renderMess();
+    if (r.stay) return;
+    $('guest').hidden = true;
+    guestSig = '';
+    U.say(r.id === 'golden' ? K.news.monologue('golden') : K.L(info.line));
+  };
+
+  // いま きいている こうか（いくつでも ならべる）
+  var buffSig = '';
   U.renderBuff = function () {
-    var b = K.rt.buff;
+    var list = K.guest.activeBuffs();
     var bar = $('buffbar');
-    var on = b && Date.now() < b.until;
-    $('screen-game').classList.toggle('gold-mode', !!on);
-    $('kasu-stage').classList.toggle('golden-on', !!on);
-    if (!on) { if (!bar.hidden) bar.hidden = true; return; }
-    var left = (b.until - Date.now()) / 1000;
-    var e = K.golden.EFFECTS[b.id];
-    if (bar.hidden || bar.getAttribute('data-id') !== b.id) {
-      bar.setAttribute('data-id', b.id);
-      bar.innerHTML = '<img src="art/kasu-gold.svg" alt=""><span class="buff-text"><span class="buff-name">' + esc(K.L(e.name)) + '</span><span class="buff-desc">' + esc(K.L(e.desc)) + '</span></span>' +
-        '<span class="buff-short">' + esc(K.L(e.short)) + '</span>' +
-        '<span class="buff-time" id="buff-time"></span><div class="buff-bar"><div id="buff-fill"></div></div>';
+    var gold = K.guest.goldActive();
+    $('screen-game').classList.toggle('gold-mode', gold);
+    $('kasu-stage').classList.toggle('golden-on', gold);
+    if (!list.length) { if (!bar.hidden) { bar.hidden = true; buffSig = ''; } return; }
+    var sig = list.map(function (b) { return b.id; }).join(',') + '|' + K.lang();
+    if (sig !== buffSig) {
+      buffSig = sig;
+      bar.innerHTML = list.map(function (b) {
+        var e = K.guest.EFFECTS[b.id];
+        return '<div class="buff' + (e.gold ? ' is-gold' : '') + '" data-id="' + b.id + '">' + K.art.guest(e.src, 36, 32) +
+          '<span class="buff-text"><span class="buff-name">' + esc(K.L(e.name)) + '</span><span class="buff-desc">' + esc(K.L(e.desc)) + '</span></span>' +
+          '<span class="buff-short">' + esc(K.L(e.short)) + '</span>' +
+          '<span class="buff-time"></span><div class="buff-bar"><div class="buff-fill"></div></div></div>';
+      }).join('');
       bar.hidden = false;
     }
-    $('buff-time').textContent = K.fmtClock(left);
-    $('buff-fill').style.width = Math.max(0, left / b.dur * 100) + '%';
+    list.forEach(function (b, i) {
+      var row = bar.children[i];
+      row.querySelector('.buff-time').textContent = b.count != null ? t('kadoLeft', { n: b.count }) : K.fmtClock(b.left);
+      row.querySelector('.buff-fill').style.width = Math.max(0, b.ratio * 100) + '%';
+    });
   };
 
   // --- こうか ---

@@ -49,14 +49,20 @@
   };
   var FIRST = {
     ant: [{ ja: 'アリさんの ながぐつ', en: 'Ant Boots' }, { ja: 'ちいさな ながぐつを はいた。6ぽんぶん。', en: 'Tiny boots. Six of them.' }],
+    friend: [{ ja: 'かしてあげる けしゴム', en: 'Lend an Eraser' }, { ja: 'かえって こないけど、カスは くる。', en: 'It never comes back, but the crumbs do.' }],
     grandpa: [{ ja: 'おじいちゃんの めがね', en: "Grandpa's Glasses" }, { ja: 'よく みえるように なった。カスが。', en: 'Now he can see clearly. The crumbs, that is.' }],
+    drill: [{ ja: 'あかペン', en: 'Red Pen' }, { ja: 'バツが ふえるほど カスも ふえる。', en: 'More red marks, more crumbs.' }],
     classroom: [{ ja: 'ぬきうち テスト', en: 'Pop Quiz' }, { ja: 'みんなが いっせいに けしはじめた。', en: 'Everyone started erasing at once.' }],
     club: [{ ja: 'ぶいん ぼしゅう ポスター', en: 'Recruiting Poster' }, { ja: '「きみも けさないか」', en: '"Want to erase with us?"' }],
+    autoeraser: [{ ja: 'でんち こうかん', en: 'New Batteries' }, { ja: 'ちからづよく なった。へるのも はやい。', en: 'Stronger now. Wears down faster, too.' }],
     factory: [{ ja: '24じかん うんてん', en: 'Night Shift' }, { ja: 'こうじょうは ねない。', en: 'The factory never sleeps.' }],
+    stamp: [{ ja: 'ちょうこくとう', en: 'Carving Knife' }, { ja: 'よく きれる。カスが よく でる。', en: 'Sharp. Lots of crumbs.' }],
     roller: [{ ja: 'ローラーの ワックス', en: 'Roller Wax' }, { ja: 'つるつるに なった。いみは ない。', en: 'Now it is slippery. For no reason.' }],
+    bigeraser: [{ ja: 'クレーン', en: 'Crane' }, { ja: 'やっと もちあがった。', en: 'Finally, it can be lifted.' }],
     moon: [{ ja: 'つきの うさぎ', en: 'Moon Rabbit' }, { ja: 'もちの かわりに カスを ついている。', en: 'It pounds crumbs instead of rice cakes.' }],
     timemachine: [{ ja: 'きのうの きのう', en: 'The Day Before Yesterday' }, { ja: 'もっと むかしの カスも もってくる。', en: 'Now it brings even older crumbs.' }],
     paralleldesk: [{ ja: 'べつの ぼく', en: 'Another Me' }, { ja: 'むこうの ぼくも こすっていた。', en: 'The other me was rubbing too.' }],
+    eplanet: [{ ja: 'じてんの スピードアップ', en: 'Faster Spin' }, { ja: '1にちが みじかく なった。', en: 'The day got shorter.' }],
     universe: [{ ja: 'うちゅうの いびき', en: 'Cosmic Snore' }, { ja: 'うちゅうが ねがえりを うった。', en: 'The universe rolled over in its sleep.' }],
     other: [{ ja: 'あくしゅ', en: 'Handshake' }, { ja: 'カスと カスが あくしゅした。', en: 'Crumb shook hands with crumb.' }]
   };
@@ -96,13 +102,13 @@
       desc: { ja: 'こすると /s の 1% ぶんも もらえる。', en: 'Rubbing also gives 1% of your /s.' } });
   });
 
-  // --- ゴールデンカス ---
-  list.push({ id: 'g1', type: 'golden', icon: 'golden', needGolden: 7, cost: 777777, kind: 'goldenFreq',
+  // --- ゴールデンけしゴム ---
+  list.push({ id: 'g1', type: 'golden', icon: 'golden', needGuests: 7, cost: 777777, kind: 'goldenFreq',
     name: { ja: 'ラッキーな いちにち', en: 'Lucky Day' },
-    desc: { ja: 'ゴールデンカスが 2ばい よく でる。', en: 'Golden Crumbs appear twice as often.' } });
-  list.push({ id: 'g2', type: 'golden', icon: 'golden', needGolden: 27, cost: 77777777, kind: 'goldenDur',
+    desc: { ja: 'ゴールデンけしゴムが 2ばい よく くる。', en: 'Golden Erasers show up twice as often.' } });
+  list.push({ id: 'g2', type: 'golden', icon: 'golden', needGuests: 27, cost: 77777777, kind: 'goldenDur',
     name: { ja: 'ちょっと ねばる キラキラ', en: 'Lingering Sparkle' },
-    desc: { ja: 'ゴールデンカスの こうかが 2ばい ながく つづく。', en: 'Golden Crumb effects last twice as long.' } });
+    desc: { ja: 'ゴールデンけしゴムの こうかが 2ばい ながく つづく。', en: 'Golden Eraser effects last twice as long.' } });
 
   K.data.upgrades = list;
 
@@ -124,7 +130,7 @@
       name: { ja: 'ほこり', en: 'Dust Bunny' },
       desc: { ja: 'まぜると、まるめた カスが もふもふに なる。', en: 'Mix it in and new crumbs get fluffy.' } },
     { id: 'sand', trait: 'gritty', stage: 4, cost: 3e6,
-      name: { ja: 'すなけし', en: 'Sand Eraser' },
+      name: { ja: 'すなけしの こな', en: 'Sand Eraser Dust' },
       desc: { ja: 'まぜると、まるめた カスが ざらざらに なる。', en: 'Mix it in and new crumbs get gritty.' } },
     { id: 'gold', trait: 'golden', stage: 5, cost: 3e9,
       name: { ja: 'きんの こな', en: 'Gold Dust' },
