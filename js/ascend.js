@@ -32,6 +32,8 @@
     if (s.shardUpgrades.startAnts) s.buildings.ant = 10;
     K.rt.buffs = {};
     K.rt.kadoLeft = 0;
+    K.rt.rocket = null;
+    K.rt.hold = [];
     K.rt.praiseUntil = 0;
     return gain;
   };

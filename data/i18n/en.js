@@ -137,7 +137,8 @@
     goldenLabel: 'Golden Eraser',
     luckyGain: '+{v} crumbs!',
     guestCame: '{n} is here!',
-    guestMore: '{n} more!',
+    rocketLeft: '{n} left',
+    rocketPop: 'A piece popped out!',
     kadoLeft: '{n} left',
     buffLeft: 'left',
 

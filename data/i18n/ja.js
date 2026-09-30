@@ -137,7 +137,8 @@
     goldenLabel: 'ゴールデンけしゴム',
     luckyGain: '+{v} つぶ！',
     guestCame: '{n}が きた！',
-    guestMore: 'あと {n}かい！',
+    rocketLeft: 'のこり {n}こ',
+    rocketPop: 'こまが とびだした！',
     kadoLeft: 'のこり {n}かい',
     buffLeft: 'のこり',
 

@@ -117,8 +117,9 @@
   // こする 消しゴム（大きい絵）。左はしが こすれて まるく、すこし よごれている。
   // wear は へりぐあい（0〜1）。ピンクの ところが みじかく なる
   var ERASER_SHADOW = '<ellipse cx="116" cy="112" rx="98" ry="9" fill="#5C401E" opacity="0.18"/>';
-  var ERASER_RUBBER = '<path d="M22 14h72v92H24c-9 0-15-6-16-15-1-9-1-53 0-62 1-9 6-15 14-15z" fill="#F29CA3" stroke="' + INK + '" stroke-width="3" stroke-linejoin="round"/>' +
-    '<path d="M16 26c-2 16-2 50 0 66" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" opacity="0.45"/>' +
+  // いつもの けしゴムは しろ（2026-09-30 ユーザーの きぼう）
+  var ERASER_RUBBER = '<path d="M22 14h72v92H24c-9 0-15-6-16-15-1-9-1-53 0-62 1-9 6-15 14-15z" fill="#FFFFFF" stroke="' + INK + '" stroke-width="3" stroke-linejoin="round"/>' +
+    '<path d="M16 26c-2 16-2 50 0 66" stroke="#E4DCCB" stroke-width="4" stroke-linecap="round" opacity="0.8"/>' +
     '<path d="M9 72c1 10 5 18 13 21" stroke="#6B6A66" stroke-width="7" stroke-linecap="round" opacity="0.28"/>' +
     '<path d="M30 22h60" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity="0.5"/>';
   var ERASER_SLEEVE = '<rect x="78" y="8" width="134" height="102" rx="7" fill="#3E6FB0" stroke="' + INK + '" stroke-width="3"/>' +
@@ -131,6 +132,107 @@
     var k = 1 - Math.min(wear || 0, 1) * 0.6;
     var body = ERASER_SHADOW + '<g transform="translate(' + (94 * (1 - k)).toFixed(2) + ' 0) scale(' + k.toFixed(3) + ' 1)">' + ERASER_RUBBER + '</g>' + ERASER_SLEEVE;
     return svg('0 0 220 124', body, '100%', '100%');
+  }
+
+  // もちかえた ゲストけしゴム（つくえの まんなか）。viewBox は いつもの けしゴムと おなじ、左が こする 先
+  var SH = ERASER_SHADOW;
+  var BIG = {};
+
+  // ゴールデン: いつもの かたちで、ぜんぶ きんいろ
+  BIG.golden = SH +
+    '<path d="M22 14h72v92H24c-9 0-15-6-16-15-1-9-1-53 0-62 1-9 6-15 14-15z" fill="#F7DC8A" stroke="' + INK + '" stroke-width="3" stroke-linejoin="round"/>' +
+    '<path d="M16 26c-2 16-2 50 0 66" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" opacity="0.7"/>' +
+    '<rect x="78" y="8" width="134" height="102" rx="7" fill="#E7B533" stroke="' + INK + '" stroke-width="3"/>' +
+    '<rect x="78" y="44" width="134" height="22" fill="#FFF6D6" stroke="' + INK + '" stroke-width="2.4"/>' +
+    '<path d="M90 20h108" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity="0.6"/>' +
+    '<path d="M145 49l2.4 4.8 5.3.8-3.8 3.7.9 5.3-4.8-2.5-4.8 2.5.9-5.3-3.8-3.7 5.3-.8z" fill="#E7B533" stroke="' + INK + '" stroke-width="1.4" stroke-linejoin="round"/>' +
+    '<path d="M40 30l6 6M42 84l6-4M186 88l8 4M196 26l6-6" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/>';
+
+  // かどけし: しろい キューブが ジグザグに ならぶ（かどが 28こ）。右は かみの スリーブ
+  BIG.kadokeshi = (function () {
+  // かみの スリーブなし。しろい キューブが 1つおきに とびだした かたまり（コクヨの カドケシ）
+  var s = SH, a = 32, x0 = 14, y0 = 14, e = 8, cols = 6, rows = 3;
+  var st = ' stroke="' + INK + '" stroke-width="2.2" stroke-linejoin="round"';
+  var cells = [];
+  for (var r = 0; r < rows; r++) for (var c = 0; c < cols; c++) cells.push([c, r, (r + c) % 2 === 0]);
+  cells.filter(function (q) { return !q[2]; }).forEach(function (q) {
+    var x = x0 + q[0] * a, y = y0 + q[1] * a;
+    s += '<rect x="' + x + '" y="' + y + '" width="' + a + '" height="' + a + '" fill="#DDD5C6"' + st + '/>';
+  });
+  cells.filter(function (q) { return q[2]; }).forEach(function (q) {
+    var x = x0 + q[0] * a, y = y0 + q[1] * a;
+    s += '<path d="M' + x + ' ' + y + 'l-' + e + ' -' + e + 'h' + a + 'l' + e + ' ' + e + 'z" fill="#FFFFFF"' + st + '/>' +
+      '<path d="M' + x + ' ' + y + 'l-' + e + ' -' + e + 'v' + a + 'l' + e + ' ' + e + 'z" fill="#EFE9DE"' + st + '/>' +
+      '<rect x="' + x + '" y="' + y + '" width="' + a + '" height="' + a + '" fill="#FFFFFF"' + st + '/>' +
+      '<path d="M' + (x + 6) + ' ' + (y + 7) + 'h' + (a - 14) + '" stroke="#E3DCCF" stroke-width="3" stroke-linecap="round"/>';
+  });
+  return s;
+    })();
+
+  // すなけし: 先が グレーの ざらざら、うしろが しろ。かみの スリーブ
+  BIG.sand = SH +
+    '<path d="M22 16h84v88H24c-9 0-15-6-16-14-1-9-1-51 0-60 1-8 6-14 14-14z" fill="#9C968C" stroke="' + INK + '" stroke-width="3" stroke-linejoin="round"/>' +
+    (function () {
+    var d = '', pts = [[22, 28], [34, 40], [18, 52], [44, 30], [30, 66], [50, 58], [20, 84], [40, 80], [58, 44], [62, 72], [74, 32], [80, 60], [70, 92], [90, 42], [92, 80], [52, 96], [26, 96], [84, 24]];
+    pts.forEach(function (p) { d += '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="2" fill="#E9E4DA"/>'; });
+    return d;
+    })() +
+    '<rect x="96" y="16" width="36" height="88" fill="#FBF8F1" stroke="' + INK + '" stroke-width="3"/>' +
+    '<rect x="120" y="10" width="92" height="98" rx="6" fill="#C9A676" stroke="' + INK + '" stroke-width="3"/>' +
+    '<rect x="120" y="40" width="92" height="30" fill="#FBF8F1" stroke="' + INK + '" stroke-width="2.4"/>' +
+    '<path d="M134 55h64" stroke="#9C968C" stroke-width="5" stroke-linecap="round" stroke-dasharray="2 7"/>';
+
+  // ねりけし: スリーブなし。こねた グレーの かたまり、ゆびの あと
+  BIG.neri = SH +
+    '<path d="M18 34c6-18 28-26 48-20 12-10 38-12 56-2 18-8 46-6 62 8 18 8 26 30 18 50 6 20-8 40-30 42-16 12-44 12-60 2-18 10-48 10-62-2-20 4-38-6-40-24-12-12-8-36 8-54z" fill="#8D96A0" stroke="' + INK + '" stroke-width="3" stroke-linejoin="round"/>' +
+    '<ellipse cx="70" cy="56" rx="14" ry="10" fill="#77808A"/><ellipse cx="128" cy="48" rx="12" ry="9" fill="#77808A"/><ellipse cx="156" cy="80" rx="14" ry="9" fill="#77808A"/><ellipse cx="96" cy="86" rx="10" ry="7" fill="#77808A"/>' +
+    '<path d="M40 36c10-8 22-10 32-8M150 26c10 0 20 4 26 10" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" opacity="0.4"/>' +
+    '<path d="M22 70c-6 4-10 10-8 16" stroke="' + INK + '" stroke-width="2.4" fill="none" stroke-linecap="round"/>';
+
+  // かおりつき: ピンクの ほんたい、いちごの スリーブ、においの もや
+  BIG.kaori = SH +
+    '<path d="M22 14h72v92H24c-9 0-15-6-16-15-1-9-1-53 0-62 1-9 6-15 14-15z" fill="#FFC2CC" stroke="' + INK + '" stroke-width="3" stroke-linejoin="round"/>' +
+    '<path d="M16 26c-2 16-2 50 0 66" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" opacity="0.6"/>' +
+    '<rect x="78" y="8" width="134" height="102" rx="7" fill="#E4556B" stroke="' + INK + '" stroke-width="3"/>' +
+    (function () {
+    var d = '', pts = [[92, 20], [110, 30], [130, 18], [150, 28], [172, 18], [196, 26], [100, 88], [124, 96], [146, 86], [170, 96], [194, 88], [88, 100]];
+    pts.forEach(function (p) { d += '<ellipse cx="' + p[0] + '" cy="' + p[1] + '" rx="2" ry="3" fill="#FFE9A8"/>'; });
+    return d;
+    })() +
+    '<rect x="78" y="40" width="134" height="36" fill="#FFFFFF" stroke="' + INK + '" stroke-width="2.4"/>' +
+    '<path d="M145 50c8-4 16 2 14 10-2 8-12 12-14 12s-12-4-14-12c-2-8 6-14 14-10z" fill="#E4556B" stroke="' + INK + '" stroke-width="1.8"/>' +
+    '<path d="M139 49c3-3 9-3 12 0-2 2-4 3-6 3s-4-1-6-3z" fill="#6FB36A" stroke="' + INK + '" stroke-width="1.4"/>' +
+    '<path d="M30 4c-4 4 4 6 0 10M48 2c-4 4 4 6 0 10" stroke="#F29CA3" stroke-width="3" fill="none" stroke-linecap="round"/>';
+
+  // ロケット: すきとおった つつに 3この こま。先の こまで こする
+  BIG.rocket = function (left) {
+  // ほそい すきとおった つつに いろんな いろの こまが ならぶ。左の さきから こまが でて、右は ピンクの キャップ
+  if (left == null) left = 5;
+  var cols = ['#8BD86A', '#6FC3EA', '#F57FAE', '#E8554E', '#F7DE4A', '#8BD86A', '#6FC3EA'];
+  var s = '<ellipse cx="116" cy="100" rx="90" ry="6" fill="#5C401E" opacity="0.16"/>';
+  // さきの こま（キャップの あなから でている）
+  s += '<rect x="6" y="46" width="22" height="30" rx="5" fill="' + cols[0] + '" stroke="' + INK + '" stroke-width="2.6"/>';
+  // ラメいりの すきとおった さき
+  s += '<path d="M60 38H40c-12 0-20 10-20 23s8 23 20 23h20z" fill="#F7C9D6" fill-opacity="0.75" stroke="' + INK + '" stroke-width="2.6" stroke-linejoin="round"/>' +
+    '<circle cx="34" cy="52" r="1.2" fill="#FFFFFF"/><circle cx="44" cy="70" r="1.2" fill="#FFFFFF"/><circle cx="50" cy="48" r="1" fill="#E4556B"/><circle cx="30" cy="68" r="1" fill="#E4556B"/>';
+  // つつ
+  s += '<rect x="58" y="42" width="140" height="38" rx="4" fill="#E9F4F6" fill-opacity="0.6" stroke="' + INK + '" stroke-width="2.6"/>';
+  // こま（のこりの かずだけ、さきの ほうから つめる）
+  var w = 136 / 4;
+  for (var i = 1; i < left; i++) {
+    var x = 60 + (i - 1) * w;
+    s += '<rect x="' + x + '" y="45" width="' + w + '" height="32" fill="' + cols[i % cols.length] + '" stroke="' + INK + '" stroke-width="1.8"/>';
+  }
+  s += '<path d="M64 48h128" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity="0.8"/>' +
+    '<rect x="194" y="36" width="16" height="50" rx="6" fill="#F57FAE" stroke="' + INK + '" stroke-width="2.6"/>' +
+    '<path d="M202 42v38" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" opacity="0.5"/>';
+  return s;
+  };
+
+  function bigEraser(id, left) {
+    var b = BIG[id];
+    if (!b) return '';
+    return svg('0 0 220 124', typeof b === 'function' ? b(left) : b, '100%', '100%');
   }
 
   // カスの絵（けいとうの色つき）。tint は 形で切りぬいた 色の そう（カラフルは 何色も まざる）
@@ -240,5 +342,5 @@
     return inner ? '<svg viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">' + inner + '</svg>' : '';
   }
 
-  K.art = { svg: svg, scene: scene, building: building, upIcon: upIcon, ui: ui, kasuSrc: kasuSrc, kasuPic: kasuPic, eraser: eraser, gachaMachine: gachaMachine, BUILDING: BUILDING, guest: guest, GUEST: GUEST };
+  K.art = { svg: svg, scene: scene, building: building, upIcon: upIcon, ui: ui, kasuSrc: kasuSrc, kasuPic: kasuPic, eraser: eraser, gachaMachine: gachaMachine, BUILDING: BUILDING, guest: guest, GUEST: GUEST, bigEraser: bigEraser };
 })(window.K = window.K || {});
