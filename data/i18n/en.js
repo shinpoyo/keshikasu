@@ -146,8 +146,6 @@
     zukanCount: '{n} / {t}',
     titlePrefix: 'Title: {t}',
     special: 'Special',
-    zTabColor: 'Colors',
-    zTabShape: 'Shapes',
     rolledShape: 'It rolled into a weird shape!',
     gShape: 'Shapes {p}%',
     foundOn: 'Found on',

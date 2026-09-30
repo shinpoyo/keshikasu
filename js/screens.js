@@ -142,7 +142,7 @@
 
   // ---------- ダイアログ ----------
   var current = null;
-  var state = { zukanSel: null, zukanTab: null, achSel: null, achCat: 'all' };
+  var state = { zukanSel: null, achSel: null, achCat: 'all' };
 
   function head(title, extra) {
     return '<div class="modal-head"><h1>' + esc(title) + '</h1>' + (extra || '') +
@@ -179,45 +179,21 @@
     card.classList.add('wide');
     var s = S();
     var sel = state.zukanSel || s.species;
-    var tab = state.zukanTab || (K.evo.shapeById[sel] ? 'shape' : 'color');
-    var count = function (list) { return list.filter(function (id) { return s.zukan[id]; }).length; };
-    var colorIds = [];
-    K.data.stages.forEach(function (st) { K.data.traits.forEach(function (tr) { colorIds.push(K.speciesId(st.n, tr.id)); }); });
-    K.data.specials.forEach(function (sp) { colorIds.push(sp.id); });
-    var shapeIds = K.data.shapes.map(function (x) { return x.id; });
-    var tabs = '<div class="z-tabs" role="tablist">' + [['color', 'zTabColor', colorIds], ['shape', 'zTabShape', shapeIds]].map(function (x) {
-      return '<button type="button" role="tab" class="z-tab" data-ztab="' + x[0] + '" aria-selected="' + (tab === x[0]) + '">' + esc(t(x[1])) +
-        '<small>' + count(x[2]) + ' / ' + x[2].length + '</small></button>';
-    }).join('') + '</div>';
-    if (tab === 'shape') {
-      var rows = '';
-      K.data.stages.forEach(function (st) {
-        var list = K.data.shapes.filter(function (x) { return x.stage === st.n; });
-        if (!list.length) return;
-        rows += '<div class="z-row"><span class="z-rowlabel">STAGE ' + st.n + '<b>' + esc(K.L(st.name)) + '</b></span>' +
-          list.map(function (x) { return zcell(x.id); }).join('') + '</div>';
-      });
-      return zhead() + tabs + '<div class="zukan-layout"><div class="zukan-table">' + rows + '</div>' + zdetail(sel) + '</div>';
-    }
-    var cells = '<div class="z-row"><span></span>' + K.data.traits.map(function (tr) {
-      return '<span class="z-head"><span class="chip-dot" style="background:' + (tr.chipBg || tr.chip) + '"></span>' + esc(K.L(tr.name)) + '</span>';
-    }).join('') + '</div>';
-    K.data.stages.forEach(function (st) {
-      cells += '<div class="z-row"><span class="z-rowlabel">STAGE ' + st.n + '<b>' + esc(K.L(st.name)) + '</b></span>';
-      K.data.traits.forEach(function (tr) {
-        var id = K.speciesId(st.n, tr.id);
-        cells += zcell(id);
-      });
-      cells += '</div>';
+    // No. じゅんに 1ほんで ならべる。STAGE ごとに みだしを いれる（とくべつは さいご）
+    var cells = '', cur = null;
+    K.evo.DEX.forEach(function (id) {
+      var st = K.evo.info(id).stage;
+      var key = st == null ? 'sp' : st;
+      if (key !== cur) {
+        cur = key;
+        cells += '<span class="z-group">' + (st == null ? 'SPECIAL ・ ' + esc(t('special')) : 'STAGE ' + st + ' ・ ' + esc(K.L(K.data.stages[st - 1].name))) + '</span>';
+      }
+      cells += zcell(id);
     });
-    cells += '<div class="z-row"><span class="z-rowlabel">SPECIAL<b>' + esc(t('special')) + '</b></span>' +
-      K.data.specials.map(function (sp) { return zcell(sp.id); }).join('') + '</div>';
-    return zhead() + tabs + '<div class="zukan-layout"><div class="zukan-table">' + cells + '</div>' + zdetail(sel) + '</div>';
-  };
-  function zhead() {
     return head(t('zukanTitle'), '<span class="head-count">' + t('zukanCount', { n: K.evo.foundCount(), t: K.evo.TOTAL }) + '</span><span class="head-pill">+' + Math.round(K.evo.BONUS * 100 * K.evo.foundCount()) + '% /s</span>') +
-      '<p class="lead">' + esc(t('titlePrefix', { t: K.L(K.evo.title()) })) + ' ・ ' + esc(t('zukanBonus')) + '</p>';
-  }
+      '<p class="lead">' + esc(t('titlePrefix', { t: K.L(K.evo.title()) })) + ' ・ ' + esc(t('zukanBonus')) + '</p>' +
+      '<div class="zukan-layout"><div class="zukan-grid">' + cells + '</div>' + zdetail(sel) + '</div>';
+  };
   function zcell(id) {
     var s = S();
     var info = K.evo.info(id);
@@ -226,7 +202,7 @@
     var sel = (state.zukanSel || s.species) === id;
     return '<button type="button" class="z-cell' + (found ? '' : ' unk') + (sel ? ' sel' : '') + '" data-z="' + id + '" aria-label="' + esc(found ? K.L(info.name) : t('notFound')) + '">' +
       K.art.kasuPic(info, { plain: !found, lazy: true }) +
-      (found ? '' : '<span class="z-q">?</span>') +
+      (found ? '' : '<span class="z-q">?</span>') + '<span class="z-no">' + K.evo.noLabel(id) + '</span>' +
       (isNew ? '<span class="badge badge-new z-new">' + t('newBadge') + '</span>' : '') + '</button>';
   }
   // スタンプで こうかん（いま まるめて でる かのうせいが ある ものだけ）
@@ -242,13 +218,13 @@
     var found = s.zukan[id];
     if (!found) {
       return '<div class="z-detail"><div class="z-detail-img"><img src="' + info.art + '" alt="" style="filter:brightness(0) opacity(.15)"></div>' +
-        '<div class="z-detail-body"><span class="badge ' + (info.special ? 'badge-special' : 'badge-stage') + '" style="align-self:flex-start">' + (info.special ? t('specialBadge') : t('stageBadge', { n: info.stage })) + '</span>' +
+        '<div class="z-detail-body"><span class="z-detail-no">' + K.evo.noLabel(id) + '</span><span class="badge ' + (info.special ? 'badge-special' : 'badge-stage') + '" style="align-self:flex-start">' + (info.special ? t('specialBadge') : t('stageBadge', { n: info.stage })) + '</span>' +
         '<h3>？？？</h3><p class="z-quote">' + esc(info.hint ? K.L(info.hint) : t('notFound')) + '</p>' + tradeBtn(id) + '</div></div>';
     }
     var mat = found.mat ? K.game.materialById[found.mat] : null;
     var other = K.lang() === 'ja' ? info.name.en : info.name.ja;
     return '<div class="z-detail"><div class="z-detail-img">' + K.art.kasuPic(info) + '</div>' +
-      '<div class="z-detail-body"><span class="badge ' + (info.special ? 'badge-special' : 'badge-stage') + '" style="align-self:flex-start">' + (info.special ? t('specialBadge') : t('stageBadge', { n: info.stage })) + '</span>' +
+      '<div class="z-detail-body"><span class="z-detail-no">' + K.evo.noLabel(id) + '</span><span class="badge ' + (info.special ? 'badge-special' : 'badge-stage') + '" style="align-self:flex-start">' + (info.special ? t('specialBadge') : t('stageBadge', { n: info.stage })) + '</span>' +
       '<h3>' + esc(K.L(info.name)) + '</h3><span class="z-en">' + esc(other) + '</span>' +
       '<p class="z-quote">' + esc(K.quote(K.L(info.line))) + '</p>' +
       '<div class="z-meta"><span>' + esc(t('foundOn')) + '</span><b>' + K.fmtDate(found.at) + '</b>' +
@@ -259,9 +235,6 @@
       '</div></div>';
   }
   AFTER.zukan = function (card) {
-    card.querySelectorAll('[data-ztab]').forEach(function (b) {
-      b.onclick = function () { state.zukanTab = b.getAttribute('data-ztab'); SC.refresh(); };
-    });
     card.querySelectorAll('[data-z]').forEach(function (b) {
       b.onclick = function () { state.zukanSel = b.getAttribute('data-z'); SC.refresh(); };
     });

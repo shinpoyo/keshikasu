@@ -148,6 +148,17 @@
     return out;
   };
 
+  // ずかんの ならび（No.）: STAGE ごとに いろ 7しゅ → その STAGE の かたち、さいごに とくべつ
+  E.DEX = [];
+  K.data.stages.forEach(function (st) {
+    K.data.traits.forEach(function (tr) { E.DEX.push(K.speciesId(st.n, tr.id)); });
+    K.data.shapes.forEach(function (x) { if (x.stage === st.n) E.DEX.push(x.id); });
+  });
+  K.data.specials.forEach(function (x) { E.DEX.push(x.id); });
+  var dexNo = {};
+  E.DEX.forEach(function (id, i) { dexNo[id] = i + 1; });
+  E.noLabel = function (id) { return 'No.' + ('00' + dexNo[id]).slice(-3); };
+
   // ずかんの STAGE（とくべつは null）
   E.stageOf = function (id) { return E.info(id).stage; };
 

@@ -146,8 +146,6 @@
     zukanCount: '{n} / {t}',
     titlePrefix: 'しょうごう: {t}',
     special: 'とくべつ',
-    zTabColor: 'いろ',
-    zTabShape: 'かたち',
     rolledShape: 'へんな かたちに まるまった！',
     gShape: 'かたち {p}%',
     foundOn: 'みつけた ひ',
