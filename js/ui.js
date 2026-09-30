@@ -167,9 +167,9 @@
   };
 
   // ロケットの こまが とびだした
-  U.rocketPop = function (gain) {
+  U.rocketPop = function (gain, big) {
     U.renderEraser();
-    U.toast('<b>' + esc(K.L(K.guest.byId.rocket.name)) + '</b> ' + esc(t('rocketPop')) + ' ' + esc(t('luckyGain', { v: K.fmt(gain) })));
+    U.toast('<b>' + esc(K.L(K.guest.byId.rocket.name)) + '</b> ' + esc(t(big ? 'rocketBig' : 'rocketPop')) + ' ' + esc(t('luckyGain', { v: K.fmt(gain) })));
     K.sound.play('upgrade');
   };
 
@@ -483,7 +483,8 @@
       return;
     }
     var info = K.guest.byId[g.id];
-    var label = t('guestCame', { n: K.L(info.name) });
+    var star = K.guest.stars(g.id);
+    var label = t('guestCame', { n: K.L(info.name) + (star ? ' ' + '★'.repeat(star) : '') });
     var sig = g.id + '|' + K.lang();
     if (el.hidden) {
       var panes = $('panes');
@@ -511,8 +512,9 @@
     var info = K.guest.byId[r.id], E = K.guest.EFFECTS;
     var name = '<b>' + esc(K.L(info.name)) + '</b> ';
     if (r.effect === 'lucky') U.toast('<b>' + esc(K.L(E.lucky.name)) + '</b> ' + esc(t('luckyGain', { v: K.fmt(r.gain) })));
-    else if (r.effect === 'kado') U.toast(name + esc(K.L(info.effect)));
+    else if (r.effect === 'kado') U.toast(name + esc(K.L(E.kado.desc)));
     else U.toast('<b>' + esc(K.L(E[r.effect].name)) + '</b> ' + esc(K.L(E[r.effect].desc)));
+    if (r.starUp) U.toast('<b>' + esc(t('starUp', { n: K.L(info.name), s: r.starUp })) + '</b> ' + esc(r.starUp >= 5 ? K.guest.star5Text(r.id) : t('starUpMore')));
     $('guest').hidden = true;
     U.renderEraser();
     guestSig = '';

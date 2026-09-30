@@ -6,7 +6,7 @@
   var S = function () { return K.state; };
   var t = function (k, v) { return K.t(k, v); };
   var esc = function (s) { return K.ui.esc(s); };
-  var VERSION = '0.27'; // index.html の ?v= と そろえる（ブラウザの キャッシュで 古い js が のこらないように）
+  var VERSION = '0.28'; // index.html の ?v= と そろえる（ブラウザの キャッシュで 古い js が のこらないように）
 
   function show(id) {
     ['screen-title', 'screen-naming', 'screen-game'].forEach(function (s) { $(s).hidden = s !== id; });
@@ -143,7 +143,7 @@
 
   // ---------- ダイアログ ----------
   var current = null;
-  var state = { zukanSel: null, achSel: null, achCat: 'all' };
+  var state = { zukanSel: null, zukanTab: 'kasu', achSel: null, achCat: 'all' };
 
   function head(title, extra) {
     return '<div class="modal-head"><h1>' + esc(title) + '</h1>' + (extra || '') +
@@ -179,6 +179,7 @@
   RENDER.zukan = function (card) {
     card.classList.add('wide');
     var s = S();
+    if (state.zukanTab === 'eraser') return head(t('zukanTitle')) + zukanTabs() + eraserPage();
     var sel = state.zukanSel || s.species;
     // No. じゅんに 1ほんで ならべる。STAGE ごとに みだしを いれる（とくべつは さいご）
     var cells = '', cur = null;
@@ -192,6 +193,7 @@
       cells += zcell(id);
     });
     return head(t('zukanTitle'), '<span class="head-count">' + t('zukanCount', { n: K.evo.foundCount(), t: K.evo.TOTAL }) + '</span><span class="head-pill">+' + Math.round(K.evo.BONUS * 100 * K.evo.foundCount()) + '% /s</span>') +
+      zukanTabs() +
       '<p class="lead">' + esc(t('titlePrefix', { t: K.L(K.evo.title()) })) + ' ・ ' + esc(t('zukanBonus', { n: Math.round(K.evo.BONUS * 100) })) + '</p>' +
       '<div class="zukan-layout"><div class="zukan-grid">' + cells + '</div>' + zdetail(sel) + '</div>';
   };
@@ -235,7 +237,40 @@
         : '<button type="button" class="btn z-desk-btn" data-desk="' + id + '">' + esc(t('putOnDesk')) + '</button>') +
       '</div></div>';
   }
+  // ずかんの ページ: カス と 消しゴム
+  function zukanTabs() {
+    return '<div class="seg zukan-tabs" role="group">' + [['kasu', 'zukanTabKasu'], ['eraser', 'zukanTabEraser']].map(function (x) {
+      return '<button type="button" data-ztab="' + x[0] + '" aria-pressed="' + (state.zukanTab === x[0]) + '">' + esc(t(x[1])) + '</button>';
+    }).join('') + '</div>';
+  }
+  // 消しゴムの ページ: 来る 消しゴムの ★と つよさ（ゴールデンは ★なし なので のせない）
+  var SEAL = '<svg class="er-seal" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="17" fill="#E7B533" stroke="#2B2A28" stroke-width="2.4"/><path d="M20 9l3.2 6.6 7.2 1-5.2 5.1 1.2 7.2L20 25.5l-6.4 3.4 1.2-7.2-5.2-5.1 7.2-1z" fill="#FFF6D6" stroke="#2B2A28" stroke-width="1.6" stroke-linejoin="round"/></svg>';
+  function eraserPage() {
+    var G = K.guest, top = K.evo.maxStageFound();
+    var cards = K.data.guests.filter(function (g) { return G.STAR[g.id]; }).map(function (g) {
+      if (g.stage > top) {
+        return '<div class="er-card locked"><div class="er-pic">' + K.art.bigEraser(g.id, 5) + '</div>' +
+          '<div class="er-body"><h3>？？？</h3><p class="er-note">' + esc(t('eraserLocked', { n: g.stage })) + '</p></div></div>';
+      }
+      var star = G.stars(g.id), max = star >= 5, left = G.toNext(g.id);
+      var from = star ? G.STAR_AT[star - 1] : 0, ratio = max ? 1 : (G.uses(g.id) - from) / (G.STAR_AT[star] - from);
+      var stars = '<span class="er-stars" aria-label="★' + star + '">' + '★'.repeat(star) + '<i>' + '★'.repeat(5 - star) + '</i></span>';
+      return '<div class="er-card' + (max ? ' max' : '') + '"><div class="er-pic">' + K.art.bigEraser(g.id, G.power(g.id, star).pieces || 5) + (max ? SEAL : '') + '</div>' +
+        '<div class="er-body"><h3>' + esc(K.L(g.name)) + ' ' + stars + '</h3>' +
+        '<p class="er-line">' + esc(K.quote(K.L(g.line))) + '</p>' +
+        '<p class="er-eff"><b>' + esc(t('eraserNow')) + '</b> ' + esc(G.effectText(g.id, star)) + '</p>' +
+        '<p class="er-next">' + esc(max ? t('eraserMax') : star ? t('eraserNext', { n: left, s: star + 1 }) : t('eraserUnused')) + '</p>' +
+        '<div class="er-bar"><span style="width:' + Math.round(ratio * 100) + '%"></span></div>' +
+        (max ? '' : '<p class="er-note">' + esc(t('eraserStar5')) + ': ' + esc(G.star5Text(g.id)) + '</p>') +
+        '</div></div>';
+    }).join('');
+    return '<p class="lead">' + esc(t('eraserLead')) + '</p><div class="er-grid">' + cards + '</div>';
+  }
+
   AFTER.zukan = function (card) {
+    card.querySelectorAll('[data-ztab]').forEach(function (b) {
+      b.onclick = function () { state.zukanTab = b.getAttribute('data-ztab'); SC.refresh(); };
+    });
     card.querySelectorAll('[data-z]').forEach(function (b) {
       b.onclick = function () { state.zukanSel = b.getAttribute('data-z'); SC.refresh(); };
     });
@@ -268,6 +303,7 @@
       case 'golden': return A.upIcon('golden', size);
       case 'guest': return A.guest(a.g, size, size);
       case 'guests': return A.guest('kadokeshi', size, size);
+      case 'star5': return A.guest(a.n === 1 ? 'kaori' : 'jumbo', size, size);
       case 'trades': case 'dups': case 'dry': return A.ui('stamp', size);
       case 'shardBuys': case 'shardsHeld': return A.upIcon('shard', size);
       case 'harvests': return A.ui('drawer', size);

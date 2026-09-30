@@ -58,6 +58,7 @@
 
     K.guest.update();
     sandTick(dt);
+    dendoTick(dt);
     K.evo.check();
     while (K.evo.unlocked.length) {
       var tier = K.evo.unlocked.shift();
@@ -124,8 +125,9 @@
     if (n - lastRubAt < RUB_GAP) return;
     lastRubAt = n;
     var p = K.game.clickPower();
-    if (K.rt.kadoLeft > 0) { p *= 10; K.rt.kadoLeft--; } // かどけし
-    var g = K.guest.onRub(p);                             // ねりけし・ロケット
+    if (K.rt.kadoLeft > 0) { p *= K.rt.kadoMult || 10; K.rt.kadoLeft--; } // かどけし
+    if (K.game.buffActive('dendo')) p *= K.rt.dendoMult || 3;              // 電動けしゴム
+    var g = K.guest.onRub(p);                             // ねりけし・ロケット・ジャンボ
     p += g.bonus;
     K.game.earn(p, true);
     s.stats.rubs++;
@@ -143,16 +145,20 @@
     if (!g.sticky) K.rt.mess = Math.min((K.rt.mess || 0) + 1, K.game.MESS_MAX);
     if (g.pop) {
       K.game.earn(g.pop, false);
-      K.ui.rocketPop(g.pop);
+      K.ui.rocketPop(g.pop, g.big);
+    }
+    if (g.jumbo) {
+      K.game.earn(g.jumbo, false);
+      K.ui.floatNum(x, y - 28, '+' + K.fmt(g.jumbo));
     }
     wear();
     K.sound.play('rub');
     if (Math.random() < 0.015) K.ui.say(K.news.monologue('rub'));
   }
 
-  // けしゴムが へる。すなけしが きている あいだは 2ばい はやい
+  // けしゴムが へる。すなけしが きている あいだは 2ばい はやい（★5 なら ふつう）
   function wear() {
-    var times = K.game.buffActive('sand') ? 2 : 1;
+    var times = K.game.buffActive('sand') && !K.rt.sandNoWear ? 2 : 1;
     for (var i = 0; i < times; i++) if (K.evo.wear()) K.ui.eraserDone();
     K.ui.renderEraser();
   }
@@ -177,6 +183,14 @@
     }
   }
 
+  // 電動けしゴム: おしっぱなしの あいだ 1びょうに 10かい こする
+  var press = null, dendoAcc = 0;
+  function dendoTick(dt) {
+    if (!press || !K.game.buffActive('dendo')) { dendoAcc = 0; return; }
+    dendoAcc += dt * 10;
+    while (dendoAcc >= 1) { dendoAcc -= 1; lastRubAt = 0; rub(press.x, press.y); }
+  }
+
   // こする はんていは つくえ ぜんたい（消しゴムでも カスでも 紙でも）。ずっと タップするので ゆるく
   function bindKasu() {
     var btn = $('eraser-btn');
@@ -193,11 +207,15 @@
       var p = at(e);
       rub(p[0], p[1]);
       drag = { x: e.clientX, dir: 0, run: 0 };
+      press = { x: p[0], y: p[1] };
+      dendoAcc = 0;
       try { stage.setPointerCapture(e.pointerId); } catch (err) { /* なし */ }
     });
     // おしたまま 左右に うごかしても こすれる（むきが かわるたびに 1かい）
     stage.addEventListener('pointermove', function (e) {
       if (!drag || !e.isTrusted) return;
+      var pp = at(e);
+      press = { x: pp[0], y: pp[1] };
       var d = e.clientX - drag.x;
       drag.x = e.clientX;
       if (!d) return;
@@ -208,7 +226,7 @@
       }
       drag.run += Math.abs(d);
     });
-    var end = function () { drag = null; };
+    var end = function () { drag = null; press = null; };
     stage.addEventListener('pointerup', end);
     stage.addEventListener('pointercancel', end);
     // キーボード（Enter / Space）

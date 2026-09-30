@@ -9,7 +9,10 @@
     praiseUntil: 0, praiseReadyAt: 0,
     buffs: {},             // id: { until, dur }（js/guest.js の EFFECTS）
     kadoLeft: 0,           // かどけし: のこりの こする かず
-    rocket: null,          // ロケットけしゴム: { left: のこりの こま, rubs }
+    kadoMax: 0, kadoMult: 10, // かどけし: ★で かわる
+    rocket: null,          // ロケットけしゴム: { left: のこりの こま, max, rubs, lastBig }
+    jumbo: null,           // ジャンボけしゴム: { left: のこりの こする かず, max, mins }
+    neriMult: 5, kaoriMult: 2, dendoMult: 3, sandNoWear: false, // ★で かわる つよさ
     hold: [],              // もっている ゲストけしゴムの id（あたらしい ものが うしろ）
     rubTimes: [],          // 直近のこする時刻（あつあつ判定）
     maxRubRate: 0,
@@ -171,7 +174,7 @@
     var m = 1;
     if (G.praiseActive()) m *= 1.5;
     if (G.buffActive('frenzy')) m *= 7;
-    if (G.buffActive('kaori')) m *= 2;
+    if (G.buffActive('kaori')) m *= K.rt.kaoriMult || 2;
     if (K.drawer && K.drawer.buffActive('cps2')) m *= 2;
     return m;
   };
