@@ -192,7 +192,7 @@
       cells += zcell(id);
     });
     return head(t('zukanTitle'), '<span class="head-count">' + t('zukanCount', { n: K.evo.foundCount(), t: K.evo.TOTAL }) + '</span><span class="head-pill">+' + Math.round(K.evo.BONUS * 100 * K.evo.foundCount()) + '% /s</span>') +
-      '<p class="lead">' + esc(t('titlePrefix', { t: K.L(K.evo.title()) })) + ' ・ ' + esc(t('zukanBonus')) + '</p>' +
+      '<p class="lead">' + esc(t('titlePrefix', { t: K.L(K.evo.title()) })) + ' ・ ' + esc(t('zukanBonus', { n: Math.round(K.evo.BONUS * 100) })) + '</p>' +
       '<div class="zukan-layout"><div class="zukan-grid">' + cells + '</div>' + zdetail(sel) + '</div>';
   };
   function zcell(id) {
@@ -403,25 +403,42 @@
       '<div class="stat-group"><h3>' + esc(t('stForever')) + '</h3>' + lines(ever) + '</div></div>';
   };
 
-  // かけらの おみせ
+  // かけらの おみせ: 系統ごとの「道」。上から じゅんに 買える
+  function branchIcon(br, size) {
+    var f = br.icon[0], id = br.icon[1];
+    return f === 'building' ? K.art.building(id, size, size) : K.art[f](id, size);
+  }
   RENDER.shardshop = function (card) {
     card.classList.add('wide');
-    var s = S();
-    var items = K.data.shardShop.map(function (it) {
-      var owned = !!s.shardUpgrades[it.id];
-      var secret = it.secret && !owned && s.shardsEarned < it.cost;
-      var can = K.ascend.canBuy(it);
-      var st = owned ? 'owned' : secret ? 'secret' : can ? 'can' : 'cant';
-      var tag = { owned: ['stOwned', '#3E6FB0', '#FFFFFF'], can: ['stCan', '#F29CA3', '#2B2A28'], cant: ['stCant', '#EFE7D6', '#6B6A66'], secret: ['stSecret', '#EFE7D6', '#6B6A66'] }[st];
-      return '<button type="button" class="shard-item ' + st + '" data-shard="' + it.id + '"' + (st === 'can' ? '' : ' aria-disabled="true"') + '>' +
-        '<span class="shard-top"><span class="shard-tag" style="background:' + tag[1] + ';color:' + tag[2] + '">' + esc(t(tag[0])) + '</span>' +
-        '<span class="shard-cost">' + K.art.upIcon('shard', 20) + it.cost + '</span></span>' +
-        '<span class="shard-name">' + esc(secret ? '？？？' : K.L(it.name)) + '</span>' +
-        '<span class="shard-desc">' + esc(secret ? K.L(it.hiddenDesc) : K.L(it.desc)) + '</span></button>';
+    var s = S(), byId = {};
+    K.data.shardShop.forEach(function (it) { byId[it.id] = it; });
+    var nx = K.ascend.next(), pend = K.ascend.pending();
+    var next = '<div class="shard-next">' + K.art.upIcon('shard', 34) + '<div class="shard-next-body"><b>' + esc(t('shardNext', { n: K.fmt(Math.ceil(nx.left)) })) + '</b>' +
+      '<small>' + esc(pend > 0 ? t('shardPending', { n: pend }) : t('shardPendingNone')) + '</small>' +
+      '<div class="bar"><div class="bar-fill" style="width:' + (nx.ratio * 100).toFixed(1) + '%"></div></div></div></div>';
+    var branches = K.data.shardBranches.map(function (br) {
+      var list = K.data.shardShop.filter(function (it) { return it.branch === br.id; });
+      var got = list.filter(function (it) { return s.shardUpgrades[it.id]; }).length;
+      var nodes = list.map(function (it) {
+        var owned = !!s.shardUpgrades[it.id];
+        var locked = !owned && it.requires && !s.shardUpgrades[it.requires];
+        var secret = it.secret && !owned && (locked || s.shardsEarned < it.cost);
+        var can = K.ascend.canBuy(it);
+        var st = owned ? 'owned' : locked ? 'lock' : can ? 'can' : 'cant';
+        var need = locked ? '<span class="shard-need">' + esc(t('shardNeed', { n: byId[it.requires].secret && !s.shardUpgrades[it.requires] ? '？？？' : K.L(byId[it.requires].name) })) + '</span>' : '';
+        return '<button type="button" class="shard-node ' + st + '" data-shard="' + it.id + '"' + (st === 'can' ? '' : ' aria-disabled="true"') + '>' +
+          '<span class="shard-dot" aria-hidden="true"></span>' +
+          '<span class="shard-main"><span class="shard-name">' + esc(secret ? '？？？' : K.L(it.name)) + '</span>' +
+          '<span class="shard-desc">' + esc(secret ? K.L(it.hiddenDesc) : K.L(it.desc)) + '</span>' + need + '</span>' +
+          (owned ? '<span class="shard-cost done">' + esc(t('stOwned')) + '</span>' : '<span class="shard-cost">' + K.art.upIcon('shard', 18) + it.cost + '</span>') + '</button>';
+      }).join('');
+      return '<section class="shard-branch"><div class="shard-bh"><span class="shard-bic">' + branchIcon(br, 26) + '</span>' + esc(K.L(br.name)) +
+        '<small>' + got + ' / ' + list.length + '</small></div>' + nodes + '</section>';
     }).join('');
     return head(t('shardShop'), '<span class="shard-have">' + K.art.upIcon('shard', 24) + s.shards + ' <small style="font-size:13px">' + esc(t('shardsUnit')) + '</small></span>') +
-      '<p class="lead">' + esc(t('shardShopDesc')) + ' ' + esc(t('shardBonus')) + '</p>' +
-      '<div class="shard-grid">' + items + '</div>';
+      next +
+      '<p class="lead">' + [t('shardShopDesc'), t('shardOrder'), t('shardBonus')].map(esc).join(K.lang() === 'ja' ? '' : ' ') + '</p>' +
+      '<div class="shard-branches">' + branches + '</div>';
   };
   // ---------- ひきだし ----------
   var drawerSel = null, drawerTimer = null;

@@ -75,7 +75,8 @@
   E.foundCount = function () { return Object.keys(S().zukan).length; };
 
   // ずかんの ボーナス（クッキークリッカーの ミルクと 子ネコ の かわり）
-  E.BONUS = 0.02;
+  // ずかん 1しゅるいの ボーナス（かけらの おみせ「ずかんの力」で 3%）
+  Object.defineProperty(E, 'BONUS', { get: function () { return K.game && K.game.hasShard('zukanPower') ? 0.03 : 0.02; } });
   E.bonusMult = function () { return 1 + E.BONUS * E.foundCount(); };
 
   E.maxStageFound = function () {
@@ -108,7 +109,7 @@
   // 1こ つかいきるまでの こする かいすう: さいしょは 80、つかいきる たびに +20、さいだい 1000
   E.life = function () { return Math.min(80 + 20 * (S().stats.erasers || 0), 1000); };
   E.TIER_TICKETS = 2; // あたらしい STAGE が でたら もらえる かみ
-  E.STAMPS = 10;      // こうかんに ひつような スタンプ
+  Object.defineProperty(E, 'STAMPS', { get: function () { return K.game.hasShard('stamps8') ? 8 : 10; } }); // こうかんに ひつような スタンプ
   E.PITY = 10;        // この かいすうめは かならず あたらしい
 
   // こすった ぶん けしゴムが へる。つかいきったら true
@@ -133,7 +134,7 @@
   };
 
   // かたちカス: まるめると この わりあいで でる。でるのは いまの STAGE までの もの
-  E.SHAPE_RATE = 0.25;
+  Object.defineProperty(E, 'SHAPE_RATE', { get: function () { return K.game.hasShard('shapeUp') ? 0.35 : 0.25; } });
   E.shapePool = function () {
     return K.data.shapes.filter(function (x) { return x.stage <= S().stage; }).map(function (x) { return x.id; });
   };
@@ -218,7 +219,7 @@
       // ダブりは スタンプに なる。つくえの カスは そのまま（たいかに みえないように）
       // もう でる ものが ぜんぶ そろっているときは 天井を かぞえない
       s.dry = E.missing().length ? (s.dry || 0) + 1 : 0;
-      s.stamps = (s.stamps || 0) + 1;
+      s.stamps = (s.stamps || 0) + (K.game.hasShard('dupJoy') ? 2 : 1);
     }
     s.rollLog = [{ id: id, n: isNew ? 1 : 0 }].concat(s.rollLog || []).slice(0, 12);
     if (!isNew) s.stats.dups = (s.stats.dups || 0) + 1;

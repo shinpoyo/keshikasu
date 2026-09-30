@@ -703,21 +703,41 @@ textarea.savebox {
 .stat-line b { font-family: var(--font-num); font-weight: 900; font-variant-numeric: tabular-nums; }
 
 /* かけらの おみせ */
-.shard-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px; }
-.shard-item {
-  padding: 14px 16px; border-radius: 18px; background: var(--card); border: 2px solid var(--ink);
-  display: flex; flex-direction: column; gap: 8px; text-align: left; cursor: pointer; min-height: 132px;
-}
-.shard-item.owned { border-color: var(--eraser-blue); }
-.shard-item.can { box-shadow: 0 5px 0 var(--ink); }
-.shard-item.cant { border-color: var(--line); background: var(--paper-2); opacity: .85; cursor: default; }
-.shard-item.secret { border: 2px dashed var(--line-2); background: transparent; opacity: .8; cursor: default; }
-.shard-top { display: flex; align-items: center; justify-content: space-between; }
-.shard-tag { padding: 3px 10px; border-radius: 999px; font-family: var(--font-jp); font-weight: 900; font-size: 12px; }
-.shard-cost { display: flex; align-items: center; gap: 4px; font-weight: 900; font-size: 18px; }
-.shard-cost svg { width: 20px; height: 20px; }
-.shard-name { font-family: var(--font-jp); font-weight: 900; font-size: 16px; }
-.shard-desc { font-family: var(--font-jp); font-weight: 500; font-size: 13px; line-height: 1.6; color: var(--ink-soft); }
+.shard-next { display: flex; align-items: center; gap: 12px; padding: 12px 16px; margin-bottom: 12px; border-radius: 18px; background: var(--card); border: 2px solid var(--line-2); }
+.shard-next > svg { flex-shrink: 0; }
+.shard-next-body { flex: 1; min-width: 0; }
+.shard-next b { font-family: var(--font-jp); font-weight: 900; font-size: 15px; }
+.shard-next small { display: block; color: var(--graphite); font-family: var(--font-jp); font-size: 12.5px; font-weight: 700; }
+.shard-next .bar { width: 100%; max-width: none; height: 10px; margin-top: 6px; }
+.shard-next .bar-fill { background: linear-gradient(90deg, #F29CA3, #E7B533); }
+.shard-branches { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; align-items: start; }
+.shard-branch { border-radius: 20px; background: var(--card); border: 2px solid var(--ink); padding: 14px 14px 8px; }
+.shard-bh { display: flex; align-items: center; gap: 10px; font-family: var(--font-jp); font-weight: 900; font-size: 16px; margin-bottom: 8px; }
+.shard-bic { width: 38px; height: 38px; border-radius: 12px; display: flex; align-items: center; justify-content: center; background: var(--paper-2); border: 2px solid var(--line-2); flex-shrink: 0; }
+.shard-bic svg { width: 26px; height: 26px; }
+.shard-bh small { margin-left: auto; font-family: var(--font-num); font-weight: 800; font-size: 13px; color: var(--graphite); }
+.shard-node { position: relative; width: 100%; display: flex; gap: 10px; align-items: flex-start; padding: 10px 10px 10px 36px; margin: 0 0 6px; border-radius: 14px; border: none; background: transparent; color: inherit; text-align: left; cursor: default; }
+.shard-node::before { content: ''; position: absolute; left: 15px; top: -8px; bottom: -8px; width: 3px; background: var(--line); }
+.shard-bh + .shard-node::before { top: 20px; }
+.shard-node:last-child::before { bottom: calc(100% - 20px); }
+.shard-bh + .shard-node:last-child::before { display: none; }
+.shard-dot { position: absolute; left: 7px; top: 12px; width: 19px; height: 19px; border-radius: 50%; border: 2.5px solid var(--ink); background: var(--card); z-index: 1; display: flex; align-items: center; justify-content: center; }
+.shard-node.owned { background: rgba(62, 111, 176, .12); }
+.shard-node.owned .shard-dot { background: var(--eraser-blue); border-color: var(--eraser-blue); }
+.shard-node.owned .shard-dot::after { content: ''; width: 8px; height: 4px; border: 2.5px solid #fff; border-top: 0; border-right: 0; transform: rotate(-45deg) translate(1px, -1px); }
+.shard-node.can { background: rgba(242, 156, 163, .2); box-shadow: inset 0 0 0 2px var(--eraser-pink); cursor: pointer; }
+.shard-node.can:hover { box-shadow: inset 0 0 0 3px var(--eraser-pink); }
+.shard-node.can .shard-dot { background: var(--eraser-pink); }
+.shard-node.cant .shard-main { opacity: .75; }
+.shard-node.lock { opacity: .55; }
+.shard-node.lock .shard-dot { border-style: dashed; }
+.shard-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.shard-name { font-family: var(--font-jp); font-weight: 900; font-size: 15px; line-height: 1.35; }
+.shard-desc { font-family: var(--font-jp); font-weight: 500; font-size: 12.5px; line-height: 1.5; color: var(--ink-soft); }
+.shard-need { align-self: flex-start; margin-top: 4px; padding: 0 8px; border-radius: 999px; background: var(--paper-2); color: var(--graphite); font-family: var(--font-jp); font-weight: 900; font-size: 11px; }
+.shard-cost { margin-left: auto; flex-shrink: 0; display: flex; align-items: center; gap: 3px; font-family: var(--font-num); font-weight: 900; font-size: 15px; }
+.shard-cost svg { width: 18px; height: 18px; }
+.shard-cost.done { font-family: var(--font-jp); font-size: 12px; color: var(--eraser-blue); }
 .shard-have { display: flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 999px; background: var(--card); border: 2px solid var(--ink); font-weight: 900; font-size: 20px; }
 .shard-have svg { width: 24px; height: 24px; }
 
@@ -1006,8 +1026,8 @@ textarea.savebox {
   .stat-card b { font-size: 24px; }
   .stat-groups { grid-template-columns: 1fr; }
   .ach-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; }
-  .shard-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-  .shard-item { min-height: 150px; padding: 12px; }
+  .shard-branches { grid-template-columns: 1fr; gap: 12px; }
+  .shard-next { padding: 10px 12px; }
   .toasts { left: 16px; right: 16px; top: auto; bottom: calc(92px + env(safe-area-inset-bottom)); align-items: center; }
   .toast { font-size: 13px; padding: 8px 14px; }
   .toast:not(:last-child) { display: none; } /* せまい 画面では あたらしい 1まいだけ */
@@ -1019,7 +1039,6 @@ textarea.savebox {
   .brand-name { font-size: 17px; letter-spacing: 0; }
   .mobile-zukan { padding: 0 10px; font-size: 12px; }
   .naming-title { font-size: 24px; }
-  .shard-grid { grid-template-columns: 1fr; }
   .desk-row-name { width: 76px; }
 }
 
