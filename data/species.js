@@ -112,7 +112,9 @@
     { id: 'k-trex', stage: 6, img: 'art/katachi-trex.svg', name: { ja: 'きょうりゅうカス', en: 'Dinosaur Crumb' }, line: { ja: 'ほねはない。全部カス。', en: 'No bones. All crumb.' } },
     { id: 'k-human', stage: 6, img: 'art/katachi-human.svg', name: { ja: '人間カス', en: 'Human Crumb' }, line: { ja: 'ちょっと、きみににてる。', en: 'Looks a little like you.' } },
     { id: 'k-eraser', stage: 6, img: 'art/katachi-eraser.svg', name: { ja: '消しゴムカス', en: 'Eraser Crumb' }, line: { ja: 'カスでできた消しゴム。こするとカスが出る。', en: 'An eraser made of crumbs. Rub it and crumbs come out.' } },
-    { id: 'k-ufo', stage: 7, img: 'art/katachi-ufo.svg', name: { ja: 'UFOカス', en: 'UFO Crumb' }, line: { ja: 'つくえの外には出られない。', en: 'Cannot leave the desk.' } }
+    { id: 'k-ufo', stage: 7, img: 'art/katachi-ufo.svg', name: { ja: 'UFOカス', en: 'UFO Crumb' }, line: { ja: 'つくえの外には出られない。', en: 'Cannot leave the desk.' } },
+    { id: 'k-king', stage: 7, img: 'art/katachi-king.svg', name: { ja: 'カスキング', en: 'Crumb King' }, line: { ja: '本物の王さま。自分で言っているわけではない。', en: 'A real king. Not self-proclaimed.' } },
+    { id: 'k-god', stage: 7, img: 'art/katachi-god.svg', name: { ja: 'カス神', en: 'Crumb God' }, line: { ja: '手がいっぱい。何本あるかは神さまも知らない。', en: 'So many hands. Even the god does not know how many.' } }
   ];
 
   // ぶたい。でるように なった STAGE（state.stage）で かわる。絵は js/art.js の scene()

@@ -50,12 +50,15 @@ def fmt(poly):
 
 # STAGE 4 から でる かたちは 毛の ない かためた 質感（data/species.js の stage と そろえる）
 SCULPT = {'rabbit', 'crab', 'penguin', 'hedgehog', 'softcream', 'letter-a', 'octopus', 'whale', 'seahorse', 'robot',
-          'bicycle', 'plane', 'dragon', 'trex', 'human', 'eraser', 'ufo'}
+          'bicycle', 'plane', 'dragon', 'trex', 'human', 'eraser', 'ufo', 'king', 'god'}
+# キングと 神は royal.py で べつに かく（つるつるの 彫刻ふう）
+SMOOTH = {'king', 'god'}
 
 
 class Art:
     """ひも と かたまりを ためて、かげ → からだ → ひかり → けば の じゅんで かく"""
     sculpt = False  # True なら 毛・けば なしの かためた 質感
+    smooth = False  # True なら カスの もようも なしの つるつる
 
     def __init__(self, p, seed=1):
         self.p = p
@@ -140,7 +143,7 @@ class Art:
 
     def render(self, ground=None):
         p = self.p
-        out = [sculpt.defs(p)] if self.sculpt else []
+        out = [sculpt.defs(p, smooth=self.smooth)] if self.sculpt else []
         if ground:
             gx, gy, grx = ground
             out.append(f'<ellipse cx="{gx}" cy="{gy}" rx="{grx}" ry="{grx * 0.18:.1f}" fill="#000000" opacity="0.22" filter="url(#{p}sh)"></ellipse>')
@@ -155,8 +158,8 @@ class Art:
             out.append(wrap_a)
             out.append(f'<path d="{d}" transform="translate(3 6)" fill="#000000" opacity="0.26" fill-rule="evenodd" filter="url(#{p}sh)"></path>')
             if self.sculpt:
-                out.append(sculpt.solid(p, d, 'shadeT' if kind == 'tube' else 'shade', 'evenodd'))
-                if kind == 'tube' and ex['hi']:
+                out.append(sculpt.solid(p, d, 'shadeT' if kind == 'tube' else 'shade', 'evenodd', self.smooth))
+                if kind == 'tube' and ex['hi'] and not self.smooth:
                     out.append(f'<path d="{ex["hi"]}" fill="none" stroke="#C9C6BF" stroke-width="{max(1.2, ex["w"] * 0.18):.1f}" stroke-linecap="round" opacity="0.28"></path>')
                 out.append(wrap_b)
                 continue
@@ -594,6 +597,70 @@ def eraser():
     return a.render(ground=(200, 290, 130))
 
 
+def king():
+    # ほんものの カスキング。いすも マントも かんむりも ぜんぶ カス（かんむりと つえは キラキラの カス）
+    a = Art('kkg', 43)
+    # いす（せもたれ）
+    a.lump([(118, 318), (112, 170), (130, 92), (170, 70), (230, 70), (270, 92), (288, 170), (282, 318)], wob=0.02, hair=40, tone='brightness(1.45)')
+    a.lump([(104, 318), (104, 240), (138, 236), (140, 318)], wob=0.02, hair=10, tone='brightness(1.3)')
+    a.lump([(260, 318), (262, 236), (296, 240), (296, 318)], wob=0.02, hair=10, tone='brightness(1.3)')
+    # マント（あかい カス）
+    a.lump([(140, 316), (136, 230), (150, 170), (200, 150), (250, 170), (264, 230), (260, 316)], wob=0.03, hair=30, tone='sepia(1) saturate(3.5) hue-rotate(-40deg) brightness(0.95)')
+    # からだ と うで
+    a.lump([(168, 250), (164, 196), (182, 170), (218, 170), (236, 196), (232, 250)], hair=20)
+    a.tube([(174, 196), (150, 232), (178, 250)], 16, taper=0.2)
+    a.tube([(226, 196), (254, 226), (262, 240)], 16, taper=0.2)
+    # あし と だい
+    a.tube([(184, 250), (180, 300), (170, 318)], 18, taper=0.1)
+    a.tube([(216, 250), (220, 300), (230, 318)], 18, taper=0.1)
+    a.lump([(96, 318), (304, 318), (316, 344), (84, 344)], wob=0.02, hair=30)
+    # つえ（キラキラ）
+    a.tube([(262, 330), (268, 230), (272, 150)], 9, taper=0.1, tone='sepia(1) saturate(4) hue-rotate(5deg) brightness(1.35)')
+    a.oval(273, 142, 13, 13, hair=8, tone='sepia(1) saturate(4) hue-rotate(5deg) brightness(1.35)')
+    # あたま と かんむり
+    a.oval(200, 146, 30, 30, hair=20)
+    a.lump([(168, 124), (164, 92), (182, 108), (200, 84), (218, 108), (236, 92), (232, 124)], wob=0.02, hair=10, tone='sepia(1) saturate(4) hue-rotate(5deg) brightness(1.35)')
+    a.eye(190, 148, 0.7); a.eye(212, 148, 0.7)
+    a.raw(sparkle(300, 110, 10) + sparkle(120, 80, 7) + sparkle(250, 70, 6))
+    return a.render(ground=(200, 346, 130))
+
+
+def god():
+    # カスの かみさま。てが いっぱい（ほんものの けしカスアートの ように）
+    a = Art('kgd', 44)
+    # うしろの わっか
+    a.tube(arc_pts(200, 170, 128, 128, 0, 360, 24)[:-1], 7, closed=True, tone='sepia(1) saturate(4) hue-rotate(5deg) brightness(1.35)')
+    # うしろに ひろがる たくさんの て
+    r = random.Random(4)
+    for layer, (n, lo, hi_, w) in enumerate(((22, 92, 108, 8), (16, 62, 76, 9))):
+        for i in range(n):
+            ang = math.radians(-205 + 230 * i / (n - 1) + r.uniform(-2, 2) + layer * 5)
+            l = r.uniform(lo, hi_)
+            x0, y0 = 200 + 16 * math.cos(ang), 200 + 10 * math.sin(ang)
+            x2, y2 = 200 + l * math.cos(ang), 196 + l * 0.92 * math.sin(ang)
+            bend = 10 if i % 2 else -10
+            x1 = (x0 + x2) / 2 - bend * math.sin(ang); y1 = (y0 + y2) / 2 + bend * math.cos(ang)
+            a.tube([(x0, y0), (x1, y1), (x2, y2)], w, taper=0.25)
+            a.oval(x2 + 4 * math.cos(ang), y2 + 4 * math.sin(ang), 8, 6, rot=math.degrees(ang), hair=0)
+    # はすの だい
+    for dx in (-60, -30, 0, 30, 60):
+        a.lump([(200 + dx - 18, 332), (200 + dx - 14, 306), (200 + dx, 292), (200 + dx + 14, 306), (200 + dx + 18, 332)], wob=0.02, hair=6)
+    a.lump([(130, 332), (270, 332), (262, 350), (138, 350)], wob=0.02, hair=10)
+    # からだ（すそが ながい）
+    a.lump([(170, 300), (176, 228), (178, 180), (200, 166), (222, 180), (224, 228), (230, 300)], wob=0.02, hair=20)
+    # がっしょう
+    a.tube([(182, 190), (190, 214), (198, 200)], 10, taper=0.2)
+    a.tube([(218, 190), (210, 214), (202, 200)], 10, taper=0.2)
+    a.lump([(194, 206), (200, 176), (206, 206)], wob=0.02, hair=4)
+    # あたま と かみの まげ
+    a.oval(200, 146, 25, 27, hair=12)
+    a.oval(200, 114, 15, 12, hair=8)
+    a.lump([(186, 122), (190, 100), (200, 92), (210, 100), (214, 122)], wob=0.02, hair=6, tone='sepia(1) saturate(4) hue-rotate(5deg) brightness(1.35)')
+    a.raw('<g fill="none" stroke="#1C1B1A" stroke-width="2.4" stroke-linecap="round" opacity="0.7"><path d="M190 148 q5 3 9 0"></path><path d="M202 148 q5 3 9 0"></path></g>')
+    a.raw(sparkle(76, 80, 9) + sparkle(330, 90, 7) + sparkle(340, 250, 6))
+    return a.render()
+
+
 def ufo():
     a = Art('kf2', 40)
     a.raw('<path d="M160 240 L110 340 L290 340 L240 240 Z" fill="#F6D77A" opacity="0.35"></path>')
@@ -636,6 +703,7 @@ if __name__ == '__main__':
     os.makedirs(out, exist_ok=True)
     for name, fn in FILES:
         Art.sculpt = name in SCULPT
+        Art.smooth = name in SMOOTH
         with open(os.path.join(out, 'katachi-' + name + '.svg'), 'w') as f:
             f.write(fn())
     print('wrote', len(FILES))
