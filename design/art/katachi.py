@@ -51,7 +51,7 @@ def fmt(poly):
 # STAGE 4 から でる かたちは 毛の ない かためた 質感（data/species.js の stage と そろえる）
 SCULPT = {'rabbit', 'crab', 'penguin', 'hedgehog', 'softcream', 'letter-a', 'octopus', 'whale', 'seahorse', 'robot',
           'bicycle', 'plane', 'dragon', 'trex', 'human', 'eraser', 'ufo', 'king', 'god'}
-# キングと 神は もようも なしの つるつる
+# キングと 神は royal.py で べつに かく（つるつるの 彫刻ふう）
 SMOOTH = {'king', 'god'}
 
 
@@ -696,7 +696,6 @@ FILES = [
     ('robot', robot), ('plane', plane), ('softcream', softcream), ('letter-a', letter_a), ('heart', heart), ('star', star),
     ('glasses', glasses), ('ribbon', ribbon), ('bicycle', bicycle), ('onigiri', onigiri), ('donut', donut), ('tiny', tiny),
     ('eraser', eraser), ('ufo', ufo), ('bone', bone), ('longest', longest),
-    ('king', king), ('god', god),
 ]
 
 if __name__ == '__main__':
