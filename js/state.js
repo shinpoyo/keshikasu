@@ -41,7 +41,7 @@
       stats: {
         rubs: 0, rolls: 0, allHandmade: 0, golden: 0, guests: {}, playTime: 0, rebirths: 0,
         praises: 0, blows: 0, mixes: 0, sold: 0, maxBlowStreak: 0, maxIdle: 0,
-        night: 0, rested: 0, erasers: 0, firstPlay: now, runStart: now
+        night: 0, rested: 0, erasers: 0, trades: 0, dups: 0, desked: {}, firstPlay: now, runStart: now
       },
       settings: { lang: K.defaultLang(), sound: true, notation: 'short', reduceMotion: false, dark: false },
       lastSave: now,

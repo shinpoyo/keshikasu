@@ -6,7 +6,7 @@
   var S = function () { return K.state; };
   var t = function (k, v) { return K.t(k, v); };
   var esc = function (s) { return K.ui.esc(s); };
-  var VERSION = '0.25'; // index.html の ?v= と そろえる（ブラウザの キャッシュで 古い js が のこらないように）
+  var VERSION = '0.26'; // index.html の ?v= と そろえる（ブラウザの キャッシュで 古い js が のこらないように）
 
   function show(id) {
     ['screen-title', 'screen-naming', 'screen-game'].forEach(function (s) { $(s).hidden = s !== id; });
@@ -248,43 +248,121 @@
   };
 
   // じっせき
-  var CATS = [['all', 'catAll', '#2B2A28'], ['rub', 'catRub', '#F29CA3'], ['buddy', 'catBuddy', '#8FA7C8'], ['evolve', 'catEvolve', '#6B6A66'], ['golden', 'catGolden', '#E7B533'], ['secret', 'catSecret', '#CDBFA5']];
+  var CATS = [['rub', 'catRub'], ['buddy', 'catBuddy'], ['evolve', 'catEvolve'], ['golden', 'catGolden'], ['secret', 'catSecret']];
+  // じっせきの 絵: 何を すれば とれるかが 分かる 絵
+  function achIcon(a, size) {
+    var A = K.art, img = function (src) { return '<img src="' + src + '" alt="" style="width:' + size + 'px;height:' + size + 'px;object-fit:contain">'; };
+    switch (a.type) {
+      case 'rubs': case 'handmade': return A.upIcon('rub', size);
+      case 'total': return A.ui('crumb', size);
+      case 'cps': return A.upIcon('pencil', size);
+      case 'building': return A.building(a.b, size, size);
+      case 'stage': case 'dexStage': return img(A.kasuSrc(a.n));
+      case 'shapes': case 'shapesAll': return img('art/katachi-dragon.svg');
+      case 'specialsAll': return img('art/special-lucky.svg');
+      case 'royal': return img('art/katachi-king.svg');
+      case 'zukan': return A.ui('zukan', size);
+      case 'rolls': return A.ui('roll', size);
+      case 'mix': return A.upIcon('graphite', size);
+      case 'rebirth': case 'erasers': return A.ui('eraser', size);
+      case 'golden': return A.upIcon('golden', size);
+      case 'guest': return A.guest(a.g, size, size);
+      case 'guests': return A.guest('kadokeshi', size, size);
+      case 'trades': case 'dups': case 'dry': return A.ui('stamp', size);
+      case 'shardBuys': case 'shardsHeld': return A.upIcon('shard', size);
+      case 'harvests': return A.ui('drawer', size);
+      case 'playHours': case 'night': case 'rested': case 'idle': return A.building('moon', size, size);
+      case 'blowStreak': return A.ui('blow', size);
+      case 'praises': return A.ui('praise', size);
+      case 'named': return A.ui('logo', size);
+      case 'sell': return A.ui('tabShop', size);
+      case 'cheated': return A.ui('lock', size);
+    }
+    return A.upIcon('star', size);
+  }
+  function achRatio(a) {
+    if (a.type === 'stage') return 0; // 「STAGE ○ の カス」は 数で すすむ ものでは ない
+    var p = K.achieve.progress(a); return p.max > 0 ? Math.min(1, p.cur / p.max) : 0; }
+  // 1こ分の マス。ひみつで まだの ものは「?」、まだの ものは うすい 絵
+  function achCell(a, size, cls) {
+    var got = !!S().achievements[a.id];
+    if (!got && a.hidden) return '<span class="ach q' + (cls || '') + '">?</span>';
+    return '<span class="ach ' + (got ? (a.shadow ? 'shadow' : 't' + a.tier) : 'no') + (cls || '') + '">' + achIcon(a, size) + '</span>';
+  }
+  function achNums(a) {
+    var p = K.achieve.progress(a);
+    var u = p.unit ? t('achUnit_' + p.unit) : '';
+    var f = function (n) { return K.fmt(Math.floor(n)) + u; };
+    return { text: t('achProgress', { n: K.fmt(Math.floor(Math.min(p.cur, p.max))), m: f(p.max) }), left: t('achLeft', { n: f(Math.max(0, p.max - p.cur)) }) };
+  }
   RENDER.achievements = function (card) {
     card.classList.add('wide');
     var s = S();
     var n = K.game.achievementCount();
-    // かげの じっせきは とったときだけ 出す
-    var list = K.data.achievements.filter(function (a) { return (state.achCat === 'all' || a.cat === state.achCat) && (!a.shadow || s.achievements[a.id]); });
     var sel = null;
     K.data.achievements.forEach(function (a) { if (a.id === state.achSel) sel = a; });
-    var grid = list.map(function (a) {
-      var got = !!s.achievements[a.id];
-      return '<button type="button" class="ach' + (got ? '' : ' no') + (state.achSel === a.id ? ' sel' : '') + '" data-ach="' + a.id + '" aria-label="' + esc(got || !a.hidden ? K.L(a.name) : t('achLocked')) + '">' +
-        (got ? '<span class="ach-medal" style="background:' + K.ui.medalColor(a) + '"></span>' : '?') + '</button>';
-    }).join('');
-    var detail = '';
+    var tierName = function (a) { return t('achTier' + a.tier); };
+
+    // くわしく
+    var detail;
     if (sel) {
       var got = s.achievements[sel.id];
       var secret = !got && sel.hidden;
-      detail = '<div class="ach-detail"><span class="ach-medal" style="background:' + (got ? K.ui.medalColor(sel) : 'transparent') + ';' + (got ? '' : 'border-style:dashed') + '"></span>' +
-        '<span class="z-en">' + esc(t('cat' + sel.cat.charAt(0).toUpperCase() + sel.cat.slice(1))) + '</span>' +
+      var nums = achNums(sel);
+      detail = '<div class="ach-detail">' + achCell(sel, 44, ' big') +
+        '<div class="ach-detail-body"><span class="z-en">' + esc(t('cat' + sel.cat.charAt(0).toUpperCase() + sel.cat.slice(1))) + (secret || sel.shadow ? '' : ' ・ ' + esc(tierName(sel))) + '</span>' +
         '<h3>' + esc(secret ? '？？？' : K.L(sel.name)) + '</h3>' +
-        '<span class="z-en">' + esc(secret ? '' : (K.lang() === 'ja' ? sel.name.en : sel.name.ja)) + '</span>' +
         '<p class="lead">' + esc(secret ? t('achLocked') : K.L(sel.desc)) + '</p>' +
-        (got ? '<p class="z-quote">' + esc(K.quote(K.L(sel.quote))) + '</p><span class="z-en">' + K.fmtDate(got) + (sel.shadow ? '' : ' ・ +1% /s') + '</span>' : '') + '</div>';
+        (got ? '<p class="z-quote">' + esc(K.quote(K.L(sel.quote))) + '</p><span class="z-en">' + K.fmtDate(got) + (sel.shadow ? '' : ' ・ +1% /s') + '</span>'
+          : secret || sel.type === 'stage' ? '' : '<div class="bar"><div class="bar-fill" style="width:' + (achRatio(sel) * 100).toFixed(1) + '%"></div></div><p class="ach-left">' + esc(nums.text) + ' ・ ' + esc(nums.left) + '</p>') +
+        '</div></div>';
     } else {
-      detail = '<div class="ach-detail"><p class="lead">' + esc(t('achBonus')) + '</p></div>';
+      detail = '<div class="ach-detail"><p class="lead">' + esc(t('achTap')) + '</p></div>';
     }
+
+    // もうすぐ: まだの もので いちばん 近い 3こ
+    var soon = K.data.achievements.filter(function (a) { return !s.achievements[a.id] && !a.hidden && !a.shadow; })
+      .map(function (a) { return { a: a, r: achRatio(a) }; })
+      .filter(function (x) { return x.r > 0 && x.r < 1; })
+      .sort(function (x, y) { return y.r - x.r; }).slice(0, 3);
+    var soonHtml = soon.length ? '<h3 class="ach-h">' + esc(t('achSoon')) + '</h3><div class="ach-soon">' + soon.map(function (x) {
+      return '<button type="button" class="ach-soon-item" data-ach="' + x.a.id + '">' + achCell(x.a, 30) +
+        '<span class="ach-soon-body"><b>' + esc(K.L(x.a.name)) + '</b><small>' + esc(achNums(x.a).text) + '</small>' +
+        '<span class="bar"><span class="bar-fill" style="width:' + (x.r * 100).toFixed(1) + '%"></span></span></span></button>';
+    }).join('') + '</div>' : '';
+
+    // 系統ごと
+    var sections = CATS.map(function (c) {
+      var list = K.data.achievements.filter(function (a) { return a.cat === c[0] && (!a.shadow || s.achievements[a.id]); });
+      var gotN = list.filter(function (a) { return s.achievements[a.id] && !a.shadow; }).length;
+      var all = list.filter(function (a) { return !a.shadow; }).length;
+      var cells = list.map(function (a) {
+        var got = !!s.achievements[a.id], secret = !got && a.hidden;
+        var r = got || secret ? 0 : achRatio(a);
+        return '<button type="button" class="ach-btn' + (state.achSel === a.id ? ' sel' : '') + '" data-ach="' + a.id + '" aria-label="' + esc(secret ? t('achLocked') : K.L(a.name)) + '">' +
+          achCell(a, 30) + (r > 0 ? '<span class="ach-p"><i style="width:' + (r * 100).toFixed(1) + '%"></i></span>' : '') + '</button>';
+      }).join('');
+      return '<div class="ach-sec"><h3>' + esc(t(c[1])) + '</h3><div class="bar"><div class="bar-fill" style="width:' + (all ? gotN / all * 100 : 0).toFixed(1) + '%"></div></div><small>' + gotN + ' / ' + all + '</small></div>' +
+        '<div class="ach-grid">' + cells + '</div>';
+    }).join('');
+
+    var legend = '<div class="ach-legend"><span><i class="t1"></i>' + esc(t('achTier1')) + '</span><span><i class="t2"></i>' + esc(t('achTier2')) + '</span><span><i class="t3"></i>' + esc(t('achTier3')) + '</span><span><i class="no"></i>' + esc(t('achNotYet')) + '</span></div>';
+
     return head(t('achTitle'), '<span class="head-count">' + n + ' / ' + K.game.achievementTotal + '</span><span class="head-pill">+' + n + '% /s</span>') +
       '<p class="lead">' + esc(t('achBonus')) + '</p>' +
-      '<div class="cats">' + CATS.map(function (c) {
-        return '<button type="button" class="cat" data-cat="' + c[0] + '" aria-pressed="' + (state.achCat === c[0]) + '"><i style="background:' + c[2] + '"></i>' + esc(t(c[1])) + '</button>';
-      }).join('') + '</div>' +
-      '<div class="ach-layout"><div class="ach-grid">' + grid + '</div>' + detail + '</div>';
+      '<div class="ach-layout"><div class="ach-main">' + soonHtml + legend + sections + '</div>' + detail + '</div>';
   };
+  SC.achCell = achCell;
   AFTER.achievements = function (card) {
-    card.querySelectorAll('[data-cat]').forEach(function (b) { b.onclick = function () { state.achCat = b.getAttribute('data-cat'); SC.refresh(); }; });
-    card.querySelectorAll('[data-ach]').forEach(function (b) { b.onclick = function () { state.achSel = b.getAttribute('data-ach'); SC.refresh(); }; });
+    card.querySelectorAll('[data-ach]').forEach(function (b) {
+      b.onclick = function () {
+        state.achSel = b.getAttribute('data-ach');
+        SC.refresh();
+        // スマホは くわしくが 上に あるので そこまで もどす
+        var d = document.querySelector('.ach-detail');
+        if (d && window.matchMedia('(max-width: 900px)').matches) d.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      };
+    });
   };
 
   // とうけい
