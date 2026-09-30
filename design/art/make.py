@@ -1,5 +1,6 @@
 import sys, random, math
 from strand import strand, fibers_for
+import sculpt
 def defs(p):
     return f'''<defs><linearGradient id="{p}g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5F5E5B"></stop><stop offset="0.5" stop-color="#3D3C3A"></stop><stop offset="1" stop-color="#222120"></stop></linearGradient><radialGradient id="{p}bg" cx="0.38" cy="0.34" r="0.75"><stop offset="0" stop-color="#6A6864"></stop><stop offset="0.55" stop-color="#403F3C"></stop><stop offset="1" stop-color="#1F1E1D"></stop></radialGradient><filter id="{p}fz" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="3" result="n"></feTurbulence><feDisplacementMap in="SourceGraphic" in2="n" scale="4" xChannelSelector="R" yChannelSelector="G"></feDisplacementMap></filter><filter id="{p}gr" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency="1.6" numOctaves="2" seed="7" result="t"></feTurbulence><feColorMatrix in="t" type="matrix" values="0 0 0 0 0.62 0 0 0 0 0.61 0 0 0 0 0.59 0 0 0 0.55 -0.22" result="w"></feColorMatrix><feComposite in="w" in2="SourceGraphic" operator="in" result="wi"></feComposite><feMerge><feMergeNode in="SourceGraphic"></feMergeNode><feMergeNode in="wi"></feMergeNode></feMerge></filter><filter id="{p}sh" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="4"></feGaussianBlur></filter></defs>'''
 def strands_svg(p,specs,fibers=6,hl=True):
@@ -42,17 +43,9 @@ def stage(p,n):
         core=f'<ellipse cx="204" cy="236" rx="96" ry="30" fill="#000000" opacity="0.26" filter="url(#{p}sh)"></ellipse>'
         return '<g transform="translate(-60 -66) scale(1.3)">'+core+strands_svg(p,sp,2,hl=False)+f'<g fill="none" stroke="#B9B6AF" stroke-width="1" stroke-linecap="round" opacity="0.55">{"".join(light)}</g>'+flecks(p,[(90,260),(320,200),(300,300),(110,170),(260,130),(150,320)],4)+'</g>'
     if n in (4,5):
-        r=random.Random(40+n);hair=[]
-        for i in range(60):
-            a=r.uniform(0,6.283);rr=r.uniform(86,96)
-            x=200+rr*math.cos(a);y=200+rr*0.92*math.sin(a);l=r.uniform(4,11)
-            b=a+r.uniform(-0.8,0.8)
-            hair.append(f'<path d="M{x:.1f} {y:.1f} L{x+l*math.cos(b):.1f} {y+l*math.sin(b):.1f}"></path>')
-        ball=(f'<ellipse cx="208" cy="292" rx="96" ry="22" fill="#000000" opacity="0.32" filter="url(#{p}sh)"></ellipse>'
-              f'<g filter="url(#{p}fz)"><path d="M192 108 C236 98 288 128 292 186 C296 238 266 284 206 290 C150 296 112 262 106 212 C100 160 132 118 192 108 Z" fill="url(#{p}bg)" filter="url(#{p}gr)"></path></g>'
-              f'<path d="M150 150 C164 132 184 124 206 124" fill="none" stroke="#A3A19C" stroke-width="7" stroke-linecap="round" opacity="0.28" filter="url(#{p}sh)"></path>'
-              f'<g fill="none" stroke="#403F3D" stroke-width="1" stroke-linecap="round" opacity="0.8">{"".join(hair)}</g>'
-              f'<g fill="none" stroke="#2A2928" stroke-width="1.4" opacity="0.35"><path d="M130 220 C160 240 200 250 250 236"></path><path d="M170 140 C200 150 230 170 250 200"></path></g>')
+        # STAGE 4 から: 毛は なし。かためた カスの 質感（sculpt.py）
+        ball=(sculpt.defs(p)+f'<ellipse cx="208" cy="292" rx="96" ry="22" fill="#000000" opacity="0.32" filter="url(#{p}sh)"></ellipse>'
+              +sculpt.solid(p,"M192 108 C236 98 288 128 292 186 C296 238 266 284 206 290 C150 296 112 262 106 212 C100 160 132 118 192 108 Z"))
         if n==5:
             ball+=(f'<g filter="url(#{p}fz)" opacity="0.9">'
                    f'<ellipse cx="172" cy="182" rx="11" ry="7" fill="#1A1918" opacity="0.75"></ellipse>'

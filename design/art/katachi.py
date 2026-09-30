@@ -4,6 +4,7 @@
 import os, sys, math, random
 from make import defs
 from strand import fibers_for
+import sculpt
 
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'art')
 INK = '#2B2A28'
@@ -47,8 +48,14 @@ def fmt(poly):
     return 'M' + ' L'.join(f'{x:.1f} {y:.1f}' for x, y in poly) + 'Z'
 
 
+# STAGE 4 から でる かたちは 毛の ない かためた 質感（data/species.js の stage と そろえる）
+SCULPT = {'rabbit', 'crab', 'penguin', 'hedgehog', 'softcream', 'letter-a', 'octopus', 'whale', 'seahorse', 'robot',
+          'bicycle', 'plane', 'dragon', 'trex', 'human', 'eraser', 'ufo'}
+
+
 class Art:
     """ひも と かたまりを ためて、かげ → からだ → ひかり → けば の じゅんで かく"""
+    sculpt = False  # True なら 毛・けば なしの かためた 質感
 
     def __init__(self, p, seed=1):
         self.p = p
@@ -133,7 +140,7 @@ class Art:
 
     def render(self, ground=None):
         p = self.p
-        out = []
+        out = [sculpt.defs(p)] if self.sculpt else []
         if ground:
             gx, gy, grx = ground
             out.append(f'<ellipse cx="{gx}" cy="{gy}" rx="{grx}" ry="{grx * 0.18:.1f}" fill="#000000" opacity="0.22" filter="url(#{p}sh)"></ellipse>')
@@ -147,6 +154,12 @@ class Art:
                 wrap_a, wrap_b = f'<g style="filter:{tone}">', '</g>'
             out.append(wrap_a)
             out.append(f'<path d="{d}" transform="translate(3 6)" fill="#000000" opacity="0.26" fill-rule="evenodd" filter="url(#{p}sh)"></path>')
+            if self.sculpt:
+                out.append(sculpt.solid(p, d, 'shadeT' if kind == 'tube' else 'shade', 'evenodd'))
+                if kind == 'tube' and ex['hi']:
+                    out.append(f'<path d="{ex["hi"]}" fill="none" stroke="#C9C6BF" stroke-width="{max(1.2, ex["w"] * 0.18):.1f}" stroke-linecap="round" opacity="0.28"></path>')
+                out.append(wrap_b)
+                continue
             out.append(f'<g filter="url(#{p}fz)"><path d="{d}" fill="{fill}" fill-rule="evenodd" filter="url(#{p}gr)"></path></g>')
             if kind == 'tube':
                 if ex['hi']:
@@ -622,6 +635,7 @@ if __name__ == '__main__':
     out = sys.argv[1] if len(sys.argv) > 1 else OUT
     os.makedirs(out, exist_ok=True)
     for name, fn in FILES:
+        Art.sculpt = name in SCULPT
         with open(os.path.join(out, 'katachi-' + name + '.svg'), 'w') as f:
             f.write(fn())
     print('wrote', len(FILES))
