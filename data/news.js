@@ -155,7 +155,7 @@
     n({ night: true }, 'しんや、つくえの カスたちが ひそひそ はなしている。', 'Late at night, the crumbs on the desk are whispering.'),
     n({ night: true }, 'よいこは もう ねる じかん です。カスも ねます。', 'It is time for good kids to sleep. The crumbs too.'),
 
-    // --- なかま（ついか） ---
+    // --- どうぐ（ついか） ---
     n({ b: ['finger', 25] }, 'ゆび たち、じゃんけんで こする じゅんばんを きめる。ずっと あいこ。', 'The fingers play rock-paper-scissors to decide who rubs next. Always a tie.'),
     n({ b: ['grandpa', 10] }, 'おじいちゃん たち、あめを くれる。なぜか ポケットに いつも ある。', 'The grandpas hand out candy. They always have some in their pockets.'),
     n({ b: ['classroom', 25] }, 'きょうしつの こくばん、「カス」と だけ かいてある。', 'The blackboard in every classroom just says "crumb."'),

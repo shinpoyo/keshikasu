@@ -38,7 +38,7 @@
       quote: { ja: 'じっと しているだけで ふえる。', en: 'It grows while you sit still.' } });
   });
 
-  // --- なかま ---
+  // --- どうぐ ---
   var PAT = [
     [1, 'はじめての ', '', 'First ', ''],
     [25, '', 'が いっぱい', 'Lots of ', ''],
@@ -101,7 +101,7 @@
   add({ id: 's_idle', cat: 'secret', hidden: true, type: 'idle', n: 600, name: { ja: 'なにも しない', en: 'Doing Nothing' },
     desc: { ja: '10ぷん なにも しなかった。', en: 'Did nothing for 10 minutes.' }, quote: { ja: 'それも だいじ。', en: 'That matters too.' } });
   add({ id: 's_sell', cat: 'secret', hidden: true, type: 'sell', n: 1, name: { ja: 'おわかれ', en: 'Farewell' },
-    desc: { ja: 'なかまを うった。', en: 'Sold a buddy.' }, quote: { ja: 'また あおうね。', en: 'See you again.' } });
+    desc: { ja: 'どうぐを うった。', en: 'Sold a tool.' }, quote: { ja: 'また あおうね。', en: 'See you again.' } });
   add({ id: 's_night', cat: 'secret', hidden: true, type: 'night', n: 1, name: { ja: 'よふかし', en: 'Night Owl' },
     desc: { ja: 'よなかの 0じから 5じに あそんだ。', en: 'Played between midnight and 5 AM.' }, quote: { ja: 'はやく ねよう。', en: 'Go to bed.' } });
   add({ id: 's_rest', cat: 'secret', hidden: true, type: 'rested', n: 1, name: { ja: 'ひとやすみ', en: 'Taking a Break' },

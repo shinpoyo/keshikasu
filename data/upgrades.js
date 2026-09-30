@@ -17,7 +17,7 @@
       desc: { ja: 'つめは みじかい ほうが いい。ゆびと こする ちからが 2ばい。', en: 'Short nails are best. Fingers and rubbing are twice as strong.' } },
     { id: 'f4', need: 25, cost: 100000, kind: 'thousand', add: 0.1,
       name: { ja: 'せんの ゆび', en: 'A Thousand Fingers' },
-      desc: { ja: 'ゆびと こする ちからが、ゆび いがいの なかま 1つにつき +0.1。', en: 'Fingers and rubbing get +0.1 for each non-finger buddy.' } },
+      desc: { ja: 'ゆびと こする ちからが、ゆび いがいの どうぐ 1つにつき +0.1。', en: 'Fingers and rubbing get +0.1 for each non-finger tool.' } },
     { id: 'f5', need: 50, cost: 1e7, kind: 'thousandMult', mult: 5,
       name: { ja: 'まんの ゆび', en: 'Ten Thousand Fingers' },
       desc: { ja: '「せんの ゆび」の こうかが 5ばい。', en: '"A Thousand Fingers" is 5 times stronger.' } },

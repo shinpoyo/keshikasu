@@ -44,7 +44,7 @@
       m('もうひとりの ぼく…？', 'Another me...?', { b: 'other' })
     ],
     buy: [
-      m('なかまが ふえた', 'A new friend!'),
+      m('どうぐが ふえた', 'More tools!'),
       m('にぎやかに なってきた', 'Getting lively.'),
       m('よろしく おねがいします', 'Nice to meet you.'),
       m('つくえが せまく なってきた', 'The desk is getting crowded.')
