@@ -6,10 +6,38 @@
   var S = function () { return K.state; };
   var LIFETIME = 15;       // 画面に いる びょうすう
   var GOLDEN_CHANCE = 0.1; // ゴールデンが くる わりあい
-  GS.ROCKET_PIECES = 5;   // ロケットの こま
   GS.ROCKET_RUBS = 10;    // この かず こすると こまが 1こ とれる
-  GS.NERI_BONUS = 5;      // ねりけし: くっつけた カスは「ふく」の 5ばい
-  GS.KADO_RUBS = 28;
+
+  // ★: 使った かずで 上がる（生まれ変わっても のこる stats.guests で かぞえる）
+  GS.STAR_AT = [1, 3, 7, 15, 30];
+  // ★ごとの つよさ。i = ★-1（0〜4）。★5 は とくべつな おまけ つき
+  GS.STAR = {
+    kadokeshi: function (i) { return { rubs: 28 + i * 7, mult: i >= 4 ? 15 : 10 }; },
+    sand: function (i) { return { dur: 20 + i * 5, noWear: i >= 4 }; },
+    neri: function (i) { return { dur: [15, 18, 21, 24, 30][i], mult: i >= 4 ? 8 : 5 }; },
+    kaori: function (i) { return { dur: 60 + i * 15, mult: i >= 4 ? 3 : 2 }; },
+    rocket: function (i) { return { pieces: 5 + i, lastBig: i >= 4 }; },
+    dendo: function (i) { return { dur: 30 + i * 5, mult: i >= 4 ? 5 : 3 }; },
+    jumbo: function (i) { return { rubs: 7 + i, mins: i >= 4 ? 20 : 10 }; }
+  };
+
+  GS.uses = function (id) { var g = S().stats.guests; return (g && Number(g[id])) || 0; };
+  GS.stars = function (id) {
+    if (!GS.STAR[id]) return 0;
+    var n = GS.uses(id), s = 0;
+    GS.STAR_AT.forEach(function (a) { if (n >= a) s++; });
+    return s;
+  };
+  // その ★の つよさ（★0 = まだ 使って いない ときは ★1 の つよさ）
+  GS.power = function (id, star) {
+    if (star == null) star = GS.stars(id);
+    return GS.STAR[id](Math.max(0, Math.min(4, star - 1)));
+  };
+  // つぎの ★まで あと なん回（★5 なら 0）
+  GS.toNext = function (id) {
+    var s = GS.stars(id);
+    return s >= 5 ? 0 : GS.STAR_AT[s] - GS.uses(id);
+  };
 
   GS.current = null;   // { id, x, y, until }
   GS.nextAt = 0;
@@ -74,12 +102,42 @@
     lucky: { src: 'golden', name: { ja: 'ラッキー！', en: 'Lucky!' } },
     frenzy: { src: 'golden', gold: true, name: { ja: 'キラキラタイム！', en: 'Sparkle Frenzy!' }, desc: { ja: '/s が 7倍', en: '/s x7' }, short: { ja: 'x7', en: 'x7' }, dur: 77 },
     scrub: { src: 'golden', gold: true, name: { ja: 'ごりごりタイム！', en: 'Scrub Frenzy!' }, desc: { ja: 'こする力が 777倍', en: 'Rubbing x777' }, short: { ja: 'こする x777', en: 'Rub x777' }, dur: 13 },
-    kado: { src: 'kadokeshi', name: { ja: 'かどけし！', en: 'Corner Eraser!' }, desc: { ja: 'こするのが 10倍', en: 'Rubbing x10' }, short: { ja: 'x10', en: 'x10' } },
-    sand: { src: 'sand', name: { ja: 'ごしごしタイム！', en: 'Sanding Time!' }, desc: { ja: '自動でこする（消しゴムも早くへる）', en: 'Auto rubbing (your eraser wears faster)' }, short: { ja: '自動', en: 'Auto' }, dur: 20 },
-    kaori: { src: 'kaori', name: { ja: 'いいにおい！', en: 'Sweet Smell!' }, desc: { ja: '/s が 2倍', en: '/s x2' }, short: { ja: 'x2', en: 'x2' }, dur: 60 },
-    neri: { src: 'neri', name: { ja: 'ねりねりタイム！', en: 'Knead Time!' }, desc: { ja: 'こするとカスがくっついて 5倍', en: 'Rubbed crumbs stick on: x5' }, short: { ja: 'くっつく', en: 'Sticky' }, dur: 15 },
+    kado: { src: 'kadokeshi', name: { ja: 'かどけし！', en: 'Corner Eraser!' }, short: { ja: 'x10', en: 'x10' } },
+    sand: { src: 'sand', name: { ja: 'ごしごしタイム！', en: 'Sanding Time!' }, short: { ja: '自動', en: 'Auto' } },
+    kaori: { src: 'kaori', name: { ja: 'いいにおい！', en: 'Sweet Smell!' }, short: { ja: 'x2', en: 'x2' } },
+    neri: { src: 'neri', name: { ja: 'ねりねりタイム！', en: 'Knead Time!' }, short: { ja: 'くっつく', en: 'Sticky' } },
     rocket: { src: 'rocket', name: { ja: 'ロケット消しゴム！', en: 'Rocket Eraser!' }, desc: { ja: '10回こするとこまが飛び出す', en: 'Every 10 rubs, a piece pops out' }, short: { ja: 'こま', en: 'Pieces' } },
+    dendo: { src: 'dendo', name: { ja: 'ウィーン！', en: 'Whirrrr!' }, short: { ja: 'x3', en: 'x3' } },
+    jumbo: { src: 'jumbo', name: { ja: 'ジャンボ消しゴム！', en: 'Jumbo Eraser!' }, desc: { ja: 'こするたびに、どうぐ10分ぶんのカス', en: 'Each rub gives 10 minutes of tool output' }, short: { ja: 'ジャンボ', en: 'Jumbo' } },
     goldflash: { dur: 3 }
+  };
+
+  // ★で かわる 説明（遊ぶ 人に 見せる ことば）
+  GS.effectText = function (id, star, lang) {
+    var p = GS.power(id, star), ja = (lang || K.lang()) === 'ja';
+    switch (id) {
+      case 'kadokeshi': return ja ? '次の' + p.rubs + '回こするのが' + p.mult + '倍' : 'Next ' + p.rubs + ' rubs x' + p.mult;
+      case 'sand': return ja ? p.dur + '秒、自動でこする' + (p.noWear ? '' : '（消しゴムも早くへる）') : 'Auto rubbing for ' + p.dur + 's' + (p.noWear ? '' : ' (your eraser wears faster)');
+      case 'neri': return ja ? p.dur + '秒、こするとカスがくっついて' + p.mult + '倍' : 'For ' + p.dur + 's, rubbed crumbs stick on: x' + p.mult;
+      case 'kaori': return ja ? p.dur + '秒、/s が' + p.mult + '倍' : '/s x' + p.mult + ' for ' + p.dur + 's';
+      case 'rocket': return ja ? '10回こするとこまが飛び出す（' + p.pieces + 'こ）' + (p.lastBig ? '。最後のこまは大当たり' : '') : 'Every 10 rubs, a piece pops out (' + p.pieces + ')' + (p.lastBig ? '. The last one is a jackpot' : '');
+      case 'dendo': return ja ? p.dur + '秒、おしっぱなしでずっとこすれる。こするのが' + p.mult + '倍' : 'For ' + p.dur + 's, hold to keep rubbing. Rubbing x' + p.mult;
+      case 'jumbo': return ja ? p.rubs + '回だけ、こするたびにどうぐ' + p.mins + '分ぶんのカス' : p.rubs + ' rubs, each worth ' + p.mins + ' minutes of tool output';
+    }
+    return '';
+  };
+  // ★5 に なると つく おまけ
+  GS.star5Text = function (id) {
+    var ja = K.lang() === 'ja';
+    return {
+      kadokeshi: ja ? '10倍が15倍になる' : 'x10 becomes x15',
+      sand: ja ? '消しゴムが早くへらなくなる' : 'Your eraser stops wearing faster',
+      neri: ja ? '5倍が8倍になる' : 'x5 becomes x8',
+      kaori: ja ? '2倍が3倍になる' : 'x2 becomes x3',
+      rocket: ja ? '最後のこまが大当たりになる' : 'The last piece becomes a jackpot',
+      dendo: ja ? '3倍が5倍になる' : 'x3 becomes x5',
+      jumbo: ja ? '10分ぶんが20分ぶんになる' : '10 minutes becomes 20'
+    }[id] || '';
   };
 
   // いま もっている ゲストけしゴム（あたらしく つかった ものが まえ）
@@ -87,6 +145,7 @@
     if (id === 'golden') return K.game.buffActive('frenzy') || K.game.buffActive('scrub') || K.game.buffActive('goldflash');
     if (id === 'kadokeshi') return K.rt.kadoLeft > 0;
     if (id === 'rocket') return !!K.rt.rocket && K.rt.rocket.left > 0;
+    if (id === 'jumbo') return !!K.rt.jumbo && K.rt.jumbo.left > 0;
     return K.game.buffActive(id);
   }
   function hold(id) {
@@ -104,7 +163,7 @@
     var out = { bonus: 0, pop: 0 };
     if (K.game.buffActive('neri')) {
       // ちらかった カスも いま こすった カスも ぜんぶ くっつける
-      out.bonus = ((K.rt.mess || 0) + 1) * p * 0.5 * GS.NERI_BONUS;
+      out.bonus = ((K.rt.mess || 0) + 1) * p * 0.5 * (K.rt.neriMult || 5);
       K.rt.mess = 0;
       out.sticky = true;
     }
@@ -113,10 +172,26 @@
       r.rubs = 0;
       r.left--;
       out.pop = Math.max(K.game.cps() * 180, p * 30); // /s の 3ぷんぶん
-      if (r.left <= 0) K.rt.rocket = null;
+      if (r.left <= 0) {
+        if (r.lastBig) { out.pop *= 3; out.big = true; } // ★5: 最後の こまは 大当たり
+        K.rt.rocket = null;
+      }
+    }
+    var j = K.rt.jumbo;
+    if (j && j.left > 0) {
+      j.left--;
+      out.jumbo = Math.max(K.game.cps() * 60 * j.mins, p * 20);
+      if (j.left <= 0) K.rt.jumbo = null;
     }
     return out;
   };
+
+  // バーと おしらせに 出す ことばを いまの ★に あわせる
+  function setText(id, star) {
+    var e = GS.EFFECTS[id === 'kadokeshi' ? 'kado' : id], p = GS.power(id, star);
+    e.desc = { ja: GS.effectText(id, star, 'ja'), en: GS.effectText(id, star, 'en') };
+    if (p.mult) e.short = { ja: 'x' + p.mult, en: 'x' + p.mult };
+  }
 
   function addBuff(id, dur) {
     K.rt.buffs[id] = { until: Date.now() + dur * 1000, dur: dur };
@@ -134,7 +209,11 @@
     var cur = GS.current;
     if (!cur) return null;
     var id = cur.id, res = { id: id, effect: id };
+    var before = GS.stars(id);
     count(id);
+    var star = GS.stars(id);
+    if (GS.STAR[id] && star > before && before > 0) res.starUp = star; // はじめて 使った ときは ★1 なので いわない
+    var pw = GS.STAR[id] ? GS.power(id, star) : null;
     GS.current = null;
     GS.schedule();
 
@@ -150,13 +229,22 @@
         addBuff(res.effect, dur * durMult());
       }
     } else if (id === 'kadokeshi') {
-      K.rt.kadoLeft = GS.KADO_RUBS;
+      K.rt.kadoLeft = K.rt.kadoMax = pw.rubs;
+      K.rt.kadoMult = pw.mult;
       res.effect = 'kado';
     } else if (id === 'rocket') {
-      K.rt.rocket = { left: GS.ROCKET_PIECES, rubs: 0 };
+      K.rt.rocket = { left: pw.pieces, max: pw.pieces, rubs: 0, lastBig: pw.lastBig };
+    } else if (id === 'jumbo') {
+      K.rt.jumbo = { left: pw.rubs, max: pw.rubs, mins: pw.mins };
     } else {
-      addBuff(id, GS.EFFECTS[id].dur); // sand・neri・kaori
+      // sand・neri・kaori・dendo
+      if (id === 'neri') K.rt.neriMult = pw.mult;
+      if (id === 'kaori') K.rt.kaoriMult = pw.mult;
+      if (id === 'dendo') K.rt.dendoMult = pw.mult;
+      if (id === 'sand') K.rt.sandNoWear = pw.noWear;
+      addBuff(id, pw.dur);
     }
+    if (pw) setText(id, star);
     hold(id);
 
     if (K.sound) K.sound.play(id === 'golden' ? 'golden' : 'upgrade');
@@ -166,12 +254,13 @@
   // いま きいている こうか（あたらしい じゅん ではなく きまった じゅん）
   GS.activeBuffs = function () {
     var now = Date.now(), out = [];
-    ['frenzy', 'scrub', 'kaori', 'sand', 'neri'].forEach(function (id) {
+    ['frenzy', 'scrub', 'kaori', 'sand', 'neri', 'dendo'].forEach(function (id) {
       var b = K.rt.buffs[id];
       if (b && now < b.until) out.push({ id: id, left: (b.until - now) / 1000, ratio: (b.until - now) / 1000 / b.dur });
     });
-    if (K.rt.kadoLeft > 0) out.push({ id: 'kado', count: K.rt.kadoLeft, ratio: K.rt.kadoLeft / GS.KADO_RUBS });
-    if (K.rt.rocket) out.push({ id: 'rocket', pieces: K.rt.rocket.left, ratio: K.rt.rocket.left / GS.ROCKET_PIECES });
+    if (K.rt.kadoLeft > 0) out.push({ id: 'kado', count: K.rt.kadoLeft, ratio: K.rt.kadoLeft / (K.rt.kadoMax || 28) });
+    if (K.rt.rocket) out.push({ id: 'rocket', pieces: K.rt.rocket.left, ratio: K.rt.rocket.left / (K.rt.rocket.max || 5) });
+    if (K.rt.jumbo) out.push({ id: 'jumbo', count: K.rt.jumbo.left, ratio: K.rt.jumbo.left / K.rt.jumbo.max });
     if (K.drawer) out = out.concat(K.drawer.activeBuffs());
     return out;
   };

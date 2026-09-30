@@ -96,12 +96,19 @@
    ['sand', 'ざらざら', 'Gritty', 'つくえもけずれた気がする。', 'Feels like the desk got sanded too.'],
    ['neri', 'ねりねり', 'Knead Knead', '全部まとまった。', 'It all came together.'],
    ['kaori', 'いいにおい', 'Smells Nice', 'おなかがすいた。', 'Now I am hungry.'],
-   ['rocket', 'はっしゃ', 'Liftoff', '次のこまはどこ？', 'Where did the next piece go?']].forEach(function (r) {
+   ['rocket', 'はっしゃ', 'Liftoff', '次のこまはどこ？', 'Where did the next piece go?'],
+   ['dendo', 'ウィーン', 'Whirrrr', '手はまったくつかれない。', 'Your hand is not tired at all.'],
+   ['jumbo', '両手で', 'Two Hands', '消すより運ぶほうが大変。', 'Carrying it is harder than erasing.']].forEach(function (r) {
     add({ id: 'guest_' + r[0], cat: 'golden', type: 'guest', g: r[0], n: 1, name: { ja: r[1], en: r[2] },
       desc: { ja: K.data.guests.filter(function (g) { return g.id === r[0]; })[0].name.ja + 'をはじめて使った。',
         en: 'Used a ' + K.data.guests.filter(function (g) { return g.id === r[0]; })[0].name.en + ' for the first time.' },
       quote: { ja: r[3], en: r[4] } });
   });
+  // ★5（使うほど 強く なる 消しゴム）
+  add({ id: 'star5_1', cat: 'golden', type: 'star5', n: 1, name: { ja: '使いこんだ消しゴム', en: 'Well-Worn Eraser' },
+    desc: { ja: '消しゴムを1種類、★5にした。', en: 'Got one eraser to ★5.' }, quote: { ja: '手になじむ。', en: 'Fits right in your hand.' } });
+  add({ id: 'star5_all', cat: 'golden', type: 'star5', name: { ja: '消しゴム名人', en: 'Eraser Master' },
+    desc: { ja: '来る消しゴムを全部★5にした。', en: 'Got every visiting eraser to ★5.' }, quote: { ja: '筆箱が金のシールだらけ。', en: 'Your pencil case is covered in gold stickers.' } });
   [[10, 'お客さん', 'Visitors'], [50, '消しゴムのたまり場', 'Eraser Hangout'], [100, '筆箱いっぱい', 'Full Pencil Case']].forEach(function (r, i) {
     add({ id: 'guests' + i, cat: 'golden', type: 'guests', n: r[0], name: { ja: r[1], en: r[2] },
       desc: { ja: 'やってきた消しゴムを' + r[0] + '回使った。', en: 'Used ' + r[0] + ' visiting erasers.' },

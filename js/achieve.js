@@ -24,6 +24,7 @@
       case 'golden': return { cur: st.golden, max: a.n };
       case 'guest': return { cur: (st.guests || {})[a.g] || 0, max: a.n };
       case 'guests': return { cur: K.guest.total(), max: a.n };
+      case 'star5': ids = Object.keys(K.guest.STAR); return { cur: ids.filter(function (id) { return K.guest.stars(id) >= 5; }).length, max: a.n || ids.length };
       case 'blowStreak': return { cur: st.maxBlowStreak, max: a.n };
       case 'praises': return { cur: st.praises, max: a.n };
       case 'idle': return { cur: st.maxIdle, max: a.n };
