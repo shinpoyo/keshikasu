@@ -259,11 +259,11 @@
 
   E.title = function () {
     var n = E.foundCount();
-    if (n >= E.TOTAL) return { ja: 'カスの だいかみさま', en: 'Supreme Crumb Deity' };
-    if (n >= 56) return { ja: 'カスの かみさま', en: 'Crumb Deity' };
-    if (n >= 30) return { ja: 'カスはかせ', en: 'Crumb Scholar' };
-    if (n >= 10) return { ja: 'カスはかせ みならい', en: 'Crumb Scholar Trainee' };
-    return { ja: 'カスの ともだち', en: 'Crumb Friend' };
+    if (n >= E.TOTAL) return { ja: 'カスの大神様', en: 'Supreme Crumb Deity' };
+    if (n >= 56) return { ja: 'カスの神様', en: 'Crumb Deity' };
+    if (n >= 30) return { ja: 'カス博士', en: 'Crumb Scholar' };
+    if (n >= 10) return { ja: 'カス博士見習い', en: 'Crumb Scholar Trainee' };
+    return { ja: 'カスの友だち', en: 'Crumb Friend' };
   };
 
   K.evo = E;

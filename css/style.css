@@ -16,7 +16,9 @@ button { font-family: inherit; color: inherit; }
 button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px solid var(--eraser-blue); outline-offset: 2px; }
 [hidden] { display: none !important; }
 svg { display: block; flex-shrink: 0; }
-h1, h2, h3 { font-family: var(--font-jp); font-weight: 900; margin: 0; }
+h1, h2, h3 { font-family: var(--font-jp); font-weight: 900; margin: 0; text-wrap: balance; }
+/* スペースなしの 日本語でも ことばの とちゅうで 改行しない（対応ブラウザのみ） */
+:root:lang(ja) body { word-break: auto-phrase; }
 .jp { font-family: var(--font-jp); }
 .num { font-family: var(--font-num); font-variant-numeric: tabular-nums; }
 
