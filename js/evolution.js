@@ -222,6 +222,7 @@
       s.stamps = (s.stamps || 0) + (K.game.hasShard('dupJoy') ? 2 : 1);
     }
     s.rollLog = [{ id: id, n: isNew ? 1 : 0 }].concat(s.rollLog || []).slice(0, 12);
+    if (!isNew) s.stats.dups = (s.stats.dups || 0) + 1;
     return { id: id, isNew: isNew };
   };
 
@@ -233,6 +234,7 @@
     var s = S();
     if (!E.canTrade(id) || (s.stamps || 0) < E.STAMPS) return false;
     s.stamps -= E.STAMPS;
+    s.stats.trades = (s.stats.trades || 0) + 1;
     E.register(id);
     s.species = id;
     s.trait = E.info(id).trait || s.trait;

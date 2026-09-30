@@ -73,7 +73,7 @@
       K.guard.check();
       var got = K.achieve.check();
       got.forEach(function (a) {
-        K.ui.toast('<span class="ach-medal" style="background:' + K.ui.medalColor(a) + '"></span><span>' + esc(t('achGot')) + ' <b>' + esc(K.L(a.name)) + '</b></span>');
+        K.ui.toast(K.screens.achCell(a, 16) + '<span>' + esc(t('achGot')) + ' <b>' + esc(K.L(a.name)) + '</b></span>');
         K.sound.play('achievement');
       });
       if (got.length) K.ui.renderDesk(true);
