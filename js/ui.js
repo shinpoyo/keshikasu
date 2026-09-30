@@ -112,7 +112,7 @@
     $('gm-colors').innerHTML = E.pool().map(function (id) {
       var tr = E.traitById[id];
       return '<span class="gm-color"><span class="chip-dot" style="background:' + (tr.chipBg || tr.chip) + '"></span>' + esc(K.L(tr.name)) + '</span>';
-    }).join('');
+    }).join('') + (E.shapePool().length ? '<span class="gm-color gm-shape">' + K.art.ui('roll', 14) + esc(t('gShape', { p: Math.round(E.SHAPE_RATE * 100) })) + '</span>' : '');
     // でる STAGE
     var r = E.stageRates(), rh = '';
     for (var n = s.stage; n >= 1; n--) {

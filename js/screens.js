@@ -6,7 +6,7 @@
   var S = function () { return K.state; };
   var t = function (k, v) { return K.t(k, v); };
   var esc = function (s) { return K.ui.esc(s); };
-  var VERSION = '0.15'; // index.html の ?v= と そろえる（ブラウザの キャッシュで 古い js が のこらないように）
+  var VERSION = '0.16'; // index.html の ?v= と そろえる（ブラウザの キャッシュで 古い js が のこらないように）
 
   function show(id) {
     ['screen-title', 'screen-naming', 'screen-game'].forEach(function (s) { $(s).hidden = s !== id; });
@@ -142,7 +142,7 @@
 
   // ---------- ダイアログ ----------
   var current = null;
-  var state = { zukanSel: null, achSel: null, achCat: 'all' };
+  var state = { zukanSel: null, zukanTab: null, achSel: null, achCat: 'all' };
 
   function head(title, extra) {
     return '<div class="modal-head"><h1>' + esc(title) + '</h1>' + (extra || '') +
@@ -178,6 +178,27 @@
   RENDER.zukan = function (card) {
     card.classList.add('wide');
     var s = S();
+    var sel = state.zukanSel || s.species;
+    var tab = state.zukanTab || (K.evo.shapeById[sel] ? 'shape' : 'color');
+    var count = function (list) { return list.filter(function (id) { return s.zukan[id]; }).length; };
+    var colorIds = [];
+    K.data.stages.forEach(function (st) { K.data.traits.forEach(function (tr) { colorIds.push(K.speciesId(st.n, tr.id)); }); });
+    K.data.specials.forEach(function (sp) { colorIds.push(sp.id); });
+    var shapeIds = K.data.shapes.map(function (x) { return x.id; });
+    var tabs = '<div class="z-tabs" role="tablist">' + [['color', 'zTabColor', colorIds], ['shape', 'zTabShape', shapeIds]].map(function (x) {
+      return '<button type="button" role="tab" class="z-tab" data-ztab="' + x[0] + '" aria-selected="' + (tab === x[0]) + '">' + esc(t(x[1])) +
+        '<small>' + count(x[2]) + ' / ' + x[2].length + '</small></button>';
+    }).join('') + '</div>';
+    if (tab === 'shape') {
+      var rows = '';
+      K.data.stages.forEach(function (st) {
+        var list = K.data.shapes.filter(function (x) { return x.stage === st.n; });
+        if (!list.length) return;
+        rows += '<div class="z-row"><span class="z-rowlabel">STAGE ' + st.n + '<b>' + esc(K.L(st.name)) + '</b></span>' +
+          list.map(function (x) { return zcell(x.id); }).join('') + '</div>';
+      });
+      return zhead() + tabs + '<div class="zukan-layout"><div class="zukan-table">' + rows + '</div>' + zdetail(sel) + '</div>';
+    }
     var cells = '<div class="z-row"><span></span>' + K.data.traits.map(function (tr) {
       return '<span class="z-head"><span class="chip-dot" style="background:' + (tr.chipBg || tr.chip) + '"></span>' + esc(K.L(tr.name)) + '</span>';
     }).join('') + '</div>';
@@ -191,11 +212,12 @@
     });
     cells += '<div class="z-row"><span class="z-rowlabel">SPECIAL<b>' + esc(t('special')) + '</b></span>' +
       K.data.specials.map(function (sp) { return zcell(sp.id); }).join('') + '</div>';
-    var sel = state.zukanSel || s.species;
-    return head(t('zukanTitle'), '<span class="head-count">' + t('zukanCount', { n: K.evo.foundCount(), t: K.evo.TOTAL }) + '</span><span class="head-pill">+' + Math.round(K.evo.BONUS * 100 * K.evo.foundCount()) + '% /s</span>') +
-      '<p class="lead">' + esc(t('titlePrefix', { t: K.L(K.evo.title()) })) + ' ・ ' + esc(t('zukanBonus')) + '</p>' +
-      '<div class="zukan-layout"><div class="zukan-table">' + cells + '</div>' + zdetail(sel) + '</div>';
+    return zhead() + tabs + '<div class="zukan-layout"><div class="zukan-table">' + cells + '</div>' + zdetail(sel) + '</div>';
   };
+  function zhead() {
+    return head(t('zukanTitle'), '<span class="head-count">' + t('zukanCount', { n: K.evo.foundCount(), t: K.evo.TOTAL }) + '</span><span class="head-pill">+' + Math.round(K.evo.BONUS * 100 * K.evo.foundCount()) + '% /s</span>') +
+      '<p class="lead">' + esc(t('titlePrefix', { t: K.L(K.evo.title()) })) + ' ・ ' + esc(t('zukanBonus')) + '</p>';
+  }
   function zcell(id) {
     var s = S();
     var info = K.evo.info(id);
@@ -237,6 +259,9 @@
       '</div></div>';
   }
   AFTER.zukan = function (card) {
+    card.querySelectorAll('[data-ztab]').forEach(function (b) {
+      b.onclick = function () { state.zukanTab = b.getAttribute('data-ztab'); SC.refresh(); };
+    });
     card.querySelectorAll('[data-z]').forEach(function (b) {
       b.onclick = function () { state.zukanSel = b.getAttribute('data-z'); SC.refresh(); };
     });
@@ -545,7 +570,7 @@
           '<div class="evo-reveal">' + K.art.kasuPic(to) + '</div>' +
         '</div>' +
         '<span class="evo-kicker">' + (isMix ? 'MIX' : isRoll ? (to.special ? t('specialBadge') : t('newKasu') + ' ・ ' + t('stageBadge', { n: to.stage })) : t('evolution')) + '</span>' +
-        '<h1 class="evo-title">' + esc(isMix ? t('mixed') : isRoll ? t('rolled') : t('congrats')) + '</h1>' +
+        '<h1 class="evo-title">' + esc(isMix ? t('mixed') : isRoll ? t(to.shape ? 'rolledShape' : 'rolled') : t('congrats')) + '</h1>' +
         '<p class="evo-result">' + t(isMix ? 'mixResult' : isRoll ? 'rollResult' : 'evoResult', { name: esc(K.L(to.name)) }) + '</p>' +
         '<p class="evo-line">' + esc(line) + '</p>' +
         (ev.isNew ? '<span class="evo-new">' + esc(t('zukanNew', { n: K.evo.foundCount(), t: K.evo.TOTAL })) + '</span>' : '') +

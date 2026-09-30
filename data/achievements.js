@@ -65,7 +65,7 @@
       desc: { ja: 'STAGE ' + s.n + ' の カスを みつけた。', en: 'Found a STAGE ' + s.n + ' crumb.' },
       quote: { ja: s.line.ja, en: s.line.en } });
   });
-  [[10, 'カスはかせ みならい', 'Crumb Scholar Trainee'], [30, 'カスはかせ', 'Crumb Scholar'], [56, 'カスの かみさま', 'Crumb Deity']].forEach(function (r, i) {
+  [[10, 'カスはかせ みならい', 'Crumb Scholar Trainee'], [30, 'カスはかせ', 'Crumb Scholar'], [56, 'カスの かみさま', 'Crumb Deity'], [88, 'カスの だいかみさま', 'Supreme Crumb Deity']].forEach(function (r, i) {
     add({ id: 'zukan' + i, cat: 'evolve', type: 'zukan', n: r[0], name: { ja: r[1], en: r[2] },
       desc: { ja: 'ずかんに ' + r[0] + 'しゅるい とうろく した。', en: 'Found ' + r[0] + ' kinds in the Crumbpedia.' },
       quote: { ja: 'カスにも いろいろ ある。', en: 'There are all kinds of crumbs.' } });
