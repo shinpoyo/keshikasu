@@ -17,6 +17,8 @@
       case 'mix': return st.mixes >= a.n;
       case 'rebirth': return st.rebirths >= a.n;
       case 'golden': return st.golden >= a.n;
+      case 'guest': return ((st.guests || {})[a.g] || 0) >= a.n;
+      case 'guests': return K.guest.total() >= a.n;
       case 'blowStreak': return st.maxBlowStreak >= a.n;
       case 'praises': return st.praises >= a.n;
       case 'named': return s.named && !!s.name;

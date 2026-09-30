@@ -40,11 +40,21 @@
     n({ b: ['ant', 25] }, 'アリの ぎょうれつ、つくえを いっしゅう。', 'The ant line now circles the whole desk.'),
     n({ b: ['ant', 100] }, 'アリさん 100ぴき、ちいさな ながぐつを はいて いる。', 'A hundred ants, all wearing tiny boots.'),
 
+    // --- ともだち ---
+    n({ b: ['friend', 1] }, 'となりの せきの ともだち、だまって けしゴムを かしてくれる。', 'The friend in the next seat quietly lends you an eraser.'),
+    n({ b: ['friend', 10] }, 'ともだちの ともだちも きた。つくえが たりない。', 'Friends of friends came too. Not enough desks.'),
+    n({ b: ['friend', 50] }, 'クラス ぜんいん ともだちに。カスの せいで。', 'The whole class is friends now. Thanks to crumbs.'),
+
     // --- おじいちゃん ---
     n({ b: ['grandpa', 1] }, 'なぞの おじいちゃん、「むかしは よかった」と カスを こすりつづける。', 'Mysterious grandpa keeps rubbing crumbs, saying "the old days were better."'),
     n({ b: ['grandpa', 5] }, 'おじいちゃんたち、カスの むかしばなしで もりあがる。', 'Grandpas bond over old crumb stories.'),
     n({ b: ['grandpa', 25] }, 'おじいちゃん「わしが わかい ころは、カスは もっと おおきかった」。', 'Grandpa: "When I was young, crumbs were bigger."'),
     n({ b: ['grandpa', 50] }, 'おじいちゃんたち、だれも なまえを しらない。でも やさしい。', 'Nobody knows the grandpas\' names. But they are kind.'),
+
+    // --- かんじドリル ---
+    n({ b: ['drill', 1] }, 'かんじドリル、1ページめから けしゴムの あとだらけ。', 'Kanji drill covered in eraser marks from page one.'),
+    n({ b: ['drill', 10] }, '「ほね」の かんじ、きょうも まちがえられる。', 'The kanji for "bone" gets written wrong again today.'),
+    n({ b: ['drill', 50] }, 'かんじドリル、うすく なりすぎて むこうが みえる。', 'Kanji drill pages are now see-through.'),
 
     // --- きょうしつ ---
     n({ b: ['classroom', 1] }, 'テストの あと、きょうしつで カスが たいりょう はっせい。', 'Large amount of crumbs found in a classroom after a test.'),
@@ -56,15 +66,28 @@
     n({ b: ['club', 10] }, 'けしゴムぶ、ぶいんが ふえすぎて ぶしつが カスだらけ。', 'Eraser Club has too many members. The clubroom is full of crumbs.'),
     n({ b: ['club', 50] }, 'けしゴムぶ OB、いまでも まいにち けしている。', 'Eraser Club alumni still erase every day.'),
 
+    // --- ぜんじどう けしゴム ---
+    n({ b: ['autoeraser', 1] }, 'ぜんじどう けしゴム、なにも かいていない ところも けす。', 'Auto eraser also erases where nothing was written.'),
+    n({ b: ['autoeraser', 10] }, 'ぜんじどう けしゴム、よなかに かってに こすっていた。', 'Auto erasers were rubbing on their own in the middle of the night.'),
+    n({ b: ['autoeraser', 50] }, 'ぜんじどう けしゴム、でんちを かってに かいに いく。', 'Auto erasers now go buy their own batteries.'),
+
     // --- こうじょう ---
     n({ b: ['factory', 1] }, 'けしゴムこうじょう、なにを けしているのか しゃちょうも しらない。', 'Eraser factory boss does not know what the factory is erasing.'),
     n({ b: ['factory', 10] }, 'こうじょうの えんとつから、ほんのり カスの におい。', 'A faint crumb smell from the factory chimney.'),
     n({ b: ['factory', 50] }, 'こうじょう、ついに じぶんの かげも けしはじめる。', 'Factory begins erasing its own shadow.'),
 
+    // --- けしゴムはんこ ---
+    n({ b: ['stamp', 1] }, 'けしゴムはんこ、ほったら カスの ほうが おおかった。', 'Carved an eraser stamp. Made more crumbs than stamp.'),
+    n({ b: ['stamp', 10] }, 'けしゴムはんこの もよう、なぜか ぜんぶ カス。', 'Every eraser stamp design is a crumb, for some reason.'),
+
     // --- ロードローラー ---
     n({ b: ['roller', 1] }, 'つくえの うえに ロードローラー。だれも りゆうを きかない。', 'A road roller on the desk. Nobody asks why.'),
     n({ b: ['roller', 10] }, 'ロードローラー、カスを ぺったんこに して また まるめる。', 'Road rollers flatten crumbs, then roll them back up.'),
     n({ b: ['roller', 50] }, 'ロードローラーの じゅうたい、つくえの まんなかで はっせい。', 'Road roller traffic jam in the middle of the desk.'),
+
+    // --- ちょうおおがた けしゴム ---
+    n({ b: ['bigeraser', 1] }, 'ちょうおおがた けしゴム、きょうしつの ドアを とおらない。', 'Super-size eraser does not fit through the classroom door.'),
+    n({ b: ['bigeraser', 10] }, 'ちょうおおがた けしゴムで こうていの せんを けしてしまう。', 'Super-size eraser accidentally erases the lines on the school field.'),
 
     // --- つき ---
     n({ b: ['moon', 1] }, 'つき、すこし ちかくなる。しおの みちひきに えいきょう。', 'The moon moves a little closer. Tides are affected.'),
@@ -79,6 +102,10 @@
     // --- パラレルつくえ ---
     n({ b: ['paralleldesk', 1] }, 'べつの せかいの つくえ、こちらと ほぼ おなじ。カスの いろだけ ちがう。', 'Desk from another world is almost the same. Only the crumb color differs.'),
     n({ b: ['paralleldesk', 10] }, 'べつの せかいの つくえでは、カスが ひとを こすっているらしい。', 'On the desk in another world, the crumbs rub the people.'),
+
+    // --- けしゴムぼし ---
+    n({ b: ['eplanet', 1] }, 'あたらしい ほし はっけん。ぜんぶ けしゴム だった。', 'New planet discovered. It is all eraser.'),
+    n({ b: ['eplanet', 10] }, 'けしゴムぼしの カス、ながれぼしに なって ふってくる。', 'Crumbs from the Eraser Planet fall as shooting stars.'),
 
     // --- うちゅうの いし ---
     n({ b: ['universe', 1] }, 'うちゅう、なにかを いおうとして やめる。', 'The universe starts to say something, then stops.'),
@@ -105,7 +132,9 @@
 
     // --- ゴールデン ---
     n({ golden: 1 }, 'きんいろの カス もくげき じょうほう。「まぶしかった」。', 'Golden crumb sighting reported. "It was bright."'),
-    n({ golden: 7 }, 'ゴールデンカス、ラッキーアイテムに にんてい。', 'Golden crumbs officially named a lucky item.'),
+    n({ guests: 3 }, 'つくえに いろんな けしゴムが あそびに くる。ふでばこは からっぽ。', 'All kinds of erasers visit the desk. The pencil case is empty.'),
+    n({ guests: 20 }, 'かどけしの かど、ぜんぶで 28こ。かぞえた ひとが いる。', 'Someone counted the corners on a corner eraser: 28.'),
+    n({ golden: 7 }, 'ゴールデンけしゴム、ラッキーアイテムに にんてい。', 'Golden Erasers officially named a lucky item.'),
 
     // --- 転生 ---
     n({ rebirth: 1 }, 'けしゴムに もどった カス、「なんだか なつかしい」。', 'Crumb that returned to eraser form: "Feels familiar."'),

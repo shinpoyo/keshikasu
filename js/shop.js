@@ -7,7 +7,8 @@
   // 保存しない一時的な状態（バフなど）
   K.rt = {
     praiseUntil: 0, praiseReadyAt: 0,
-    buff: null,            // { id, until, dur }
+    buffs: {},             // id: { until, dur }（js/guest.js の EFFECTS）
+    kadoLeft: 0,           // かどけし: のこりの こする かず
     rubTimes: [],          // 直近のこする時刻（あつあつ判定）
     maxRubRate: 0,
     blowStreak: 0,
@@ -145,12 +146,13 @@
   };
 
   G.praiseActive = function () { return Date.now() < K.rt.praiseUntil; };
-  G.buffActive = function (id) { return K.rt.buff && K.rt.buff.id === id && Date.now() < K.rt.buff.until; };
+  G.buffActive = function (id) { var b = K.rt.buffs[id]; return !!b && Date.now() < b.until; };
 
   G.cpsMult = function () {
     var m = 1;
     if (G.praiseActive()) m *= 1.5;
     if (G.buffActive('frenzy')) m *= 7;
+    if (G.buffActive('kaori')) m *= 2;
     return m;
   };
 
@@ -188,7 +190,7 @@
     var s = S();
     if (u.building) return s.buildings[u.building] >= u.need;
     if (u.needHandmade != null) return s.handmade >= u.needHandmade;
-    if (u.needGolden != null) return s.stats.golden >= u.needGolden;
+    if (u.needGuests != null) return K.guest.total() >= u.needGuests;
     return true;
   };
 

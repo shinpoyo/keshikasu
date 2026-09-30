@@ -30,7 +30,8 @@
     s.mood = f.mood;
     s.stats.runStart = Date.now();
     if (s.shardUpgrades.startAnts) s.buildings.ant = 10;
-    K.rt.buff = null;
+    K.rt.buffs = {};
+    K.rt.kadoLeft = 0;
     K.rt.praiseUntil = 0;
     return gain;
   };

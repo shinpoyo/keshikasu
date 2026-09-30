@@ -80,7 +80,7 @@
   function special() {
     var s = S(), now = new Date();
     var checks = [
-      ['lucky', K.rt.buff && Date.now() < K.rt.buff.until],
+      ['lucky', K.guest.goldActive()],
       ['toasty', K.rt.maxRubRate >= 10],
       ['night', now.getHours() < 5],
       ['king', s.mood.praises >= 30],

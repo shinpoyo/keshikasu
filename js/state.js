@@ -38,7 +38,7 @@
       shardUpgrades: {},
       mood: { praises: 0, blows: 0, idle: 0 }, // この周の記録（特別な進化）
       stats: {
-        rubs: 0, rolls: 0, allHandmade: 0, golden: 0, playTime: 0, rebirths: 0,
+        rubs: 0, rolls: 0, allHandmade: 0, golden: 0, guests: {}, playTime: 0, rebirths: 0,
         praises: 0, blows: 0, mixes: 0, sold: 0, maxBlowStreak: 0, maxIdle: 0,
         night: 0, rested: 0, erasers: 0, firstPlay: now, runStart: now
       },

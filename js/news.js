@@ -13,6 +13,7 @@
     if (w.total && s.totalCrumbs < w.total) return false;
     if (w.rebirth && s.stats.rebirths < w.rebirth) return false;
     if (w.golden && s.stats.golden < w.golden) return false;
+    if (w.guests && K.guest.total() < w.guests) return false;
     if (w.trait && s.trait !== w.trait) return false;
     if (w.found && !s.zukan[w.found]) return false;
     if (w.praise && s.stats.praises < w.praise) return false;
