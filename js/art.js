@@ -64,10 +64,32 @@
     star: ['0 0 28 28', '<path d="M14 3l3 6.6 7.2.8-5.4 4.9 1.5 7.1L14 18.8l-6.3 3.6 1.5-7.1L3.8 10.4l7.2-.8z" fill="#E7B533" stroke="' + INK + '" stroke-width="1.6" stroke-linejoin="round"/>']
   };
 
+  UP.helper = ['0 0 28 28', '<circle cx="12" cy="12" r="7.5" fill="#FBF8F1" stroke="' + INK + '" stroke-width="2"/><path d="M17.5 17.5 24 24" stroke="' + INK + '" stroke-width="3" stroke-linecap="round"/><path d="M9 13.5c0-2.3 1.6-3.6 3.4-3.4 1.9.2 2.8 1.6 2.4 3.1-.4 1.6-2 2.2-3.4 2-1.5-.2-2.4-.7-2.4-1.7z" fill="#C8C2B8" stroke="' + INK + '" stroke-width="1.2"/>'];
   UP.none = UP.rub;
+
+  // 文房具シリーズ。c = おもな色（10こごとに ふつう → 青 → 金）
+  var ST_ICON = {
+    ruler: function (c) { return '<g transform="rotate(-20 14 14)"><rect x="3" y="9" width="22" height="10" rx="1.5" fill="' + c + '" stroke="' + INK + '" stroke-width="1.8"/><path d="M7 9v3M10.5 9v2M14 9v3M17.5 9v2M21 9v3" stroke="' + INK + '" stroke-width="1.4" stroke-linecap="round"/></g>'; },
+    clip: function (c) { return '<path d="M10 20V8a4 4 0 0 1 8 0v12a6 6 0 0 1-12 0V10" fill="none" stroke="' + INK + '" stroke-width="4.6" stroke-linecap="round"/><path d="M10 20V8a4 4 0 0 1 8 0v12a6 6 0 0 1-12 0V10" fill="none" stroke="' + c + '" stroke-width="2.2" stroke-linecap="round"/>'; },
+    sticky: function (c) { return '<path d="M5 5h18v12l-6 6H5z" fill="' + c + '" stroke="' + INK + '" stroke-width="1.8" stroke-linejoin="round"/><path d="M17 23v-6h6" fill="#FFFFFF" fill-opacity=".45" stroke="' + INK + '" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 10h9M9 14h6" stroke="' + INK + '" stroke-width="1.4" stroke-linecap="round"/>'; },
+    tape: function (c) { return '<circle cx="14" cy="14" r="10" fill="' + c + '" stroke="' + INK + '" stroke-width="1.8"/><circle cx="14" cy="14" r="4.5" fill="#FBF8F1" stroke="' + INK + '" stroke-width="1.8"/><path d="M23 17.5l3.5 5" stroke="' + INK + '" stroke-width="1.8" stroke-linecap="round"/>'; },
+    protractor: function (c) { return '<path d="M3 21a11 11 0 0 1 22 0z" fill="' + c + '" stroke="' + INK + '" stroke-width="1.8" stroke-linejoin="round"/><path d="M8.5 21a5.5 5.5 0 0 1 11 0" fill="#FBF8F1" stroke="' + INK + '" stroke-width="1.4"/><path d="M14 10v3M6.5 13.5l2 2M21.5 13.5l-2 2" stroke="' + INK + '" stroke-width="1.4" stroke-linecap="round"/>'; },
+    compass: function (c) { return '<circle cx="14" cy="5.5" r="2.6" fill="' + c + '" stroke="' + INK + '" stroke-width="1.6"/><path d="M13 8 7 24M15 8l6 16" stroke="' + INK + '" stroke-width="2.4" stroke-linecap="round"/><path d="M9.5 17h9" stroke="' + INK + '" stroke-width="1.4"/>'; },
+    stapler: function (c) { return '<path d="M4 20h20v3H4z" fill="#D5D9DF" stroke="' + INK + '" stroke-width="1.8" stroke-linejoin="round"/><path d="M5 17c0-4 3-6 7-6h11v5H9z" fill="' + c + '" stroke="' + INK + '" stroke-width="1.8" stroke-linejoin="round"/>'; },
+    pencase: function (c) { return '<rect x="3" y="9" width="22" height="12" rx="3" fill="' + c + '" stroke="' + INK + '" stroke-width="1.8"/><path d="M3 14h22" stroke="' + INK + '" stroke-width="1.4"/><rect x="12" y="12.5" width="4" height="3" rx="1" fill="#FBF8F1" stroke="' + INK + '" stroke-width="1.2"/>'; },
+    notebook: function (c) { return '<rect x="6" y="3" width="17" height="22" rx="2" fill="' + c + '" stroke="' + INK + '" stroke-width="1.8"/><rect x="10" y="7" width="10" height="5" rx="1" fill="#FBF8F1" stroke="' + INK + '" stroke-width="1.2"/><path d="M6 7H4M6 12H4M6 17H4M6 22H4" stroke="' + INK + '" stroke-width="1.6" stroke-linecap="round"/>'; },
+    scissors: function (c) { return '<path d="M8 4l10 14M20 4 10 18" stroke="' + INK + '" stroke-width="2.2" stroke-linecap="round"/><circle cx="8.5" cy="21.5" r="3.6" fill="' + c + '" stroke="' + INK + '" stroke-width="1.8"/><circle cx="19.5" cy="21.5" r="3.6" fill="' + c + '" stroke="' + INK + '" stroke-width="1.8"/>'; }
+  };
+  var ST_BASE = { ruler: '#F4D77A', clip: '#C6CCD6', sticky: '#F7E07B', tape: '#DDEBF2', protractor: '#CFE3D4', compass: '#F29CA3', stapler: '#3E6FB0', pencase: '#F29CA3', notebook: '#A9BF95', scissors: '#F29CA3' };
+  var ST_TIER = [null, '#9DBBE2', '#E7B533'];
 
   function upIcon(id, size) {
     size = size || 28;
+    if (id.indexOf('st-') === 0) {
+      var p = id.split('-'), tier = +p[2] || 1;
+      var c = tier === 1 ? ST_BASE[p[1]] : ST_TIER[tier - 1];
+      return ST_ICON[p[1]] ? svg('0 0 28 28', ST_ICON[p[1]](c), size, size) : svg(UP.star[0], UP.star[1], size, size);
+    }
     if (BUILDING[id]) {
       // 施設アップグレード: 施設アイコン＋小さな星
       var b = BUILDING[id];
