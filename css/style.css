@@ -579,6 +579,13 @@ h1, h2, h3 { font-family: var(--font-jp); font-weight: 900; margin: 0; text-wrap
 .modal-card.mid { width: 760px; }
 @keyframes rise { from { transform: translateY(16px); opacity: 0; } }
 .modal-head { display: flex; align-items: center; gap: 12px; }
+/* スクロールしても タイトルと × は 上に のこる（カードの padding の ぶん 上に のばして すきまを うめる） */
+.modal-card { --mpad: 24px; }
+.modal-card > .modal-head:first-child {
+  position: sticky; top: calc(-1 * var(--mpad)); z-index: 5;
+  margin: calc(-1 * var(--mpad)) calc(-1 * var(--mpad)) 0; padding: var(--mpad) var(--mpad) 10px;
+  background: var(--paper);
+}
 .modal-head h1 { font-size: 24px; flex: 1; }
 .icon-btn {
   width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
@@ -630,7 +637,7 @@ textarea.savebox {
 .z-cell.sel { box-shadow: 0 0 0 3px var(--eraser-blue); }
 .z-cell .z-new { position: absolute; right: 2px; top: 2px; font-size: 9px; padding: 1px 5px; }
 .z-cell .z-q { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-weight: 900; color: var(--muted); font-size: 18px; }
-.z-detail { padding: 18px; border-radius: 20px; background: var(--card); border: 2px solid var(--ink); display: flex; flex-direction: column; gap: 10px; align-self: start; position: sticky; top: 0; }
+.z-detail { padding: 18px; border-radius: 20px; background: var(--card); border: 2px solid var(--ink); display: flex; flex-direction: column; gap: 10px; align-self: start; position: sticky; top: 64px; }
 .z-detail-img { position: relative; width: 100%; aspect-ratio: 1; border-radius: 16px; background: #F4F1EA; overflow: hidden; }
 .z-detail-img img { width: 100%; height: 100%; }
 .z-detail h3 { font-size: 20px; }
@@ -965,7 +972,8 @@ textarea.savebox {
   /* 「とばす」だけの ときは 右上に よせて ひくく */
   .coach:not([data-step="3"]) .coach-foot { position: absolute; top: 4px; right: 6px; }
   .modal { padding: 0; }
-  .modal-card, .modal-card.wide, .modal-card.mid { width: 100%; height: 100%; max-height: none; border-radius: 0; padding: 20px 16px calc(24px + env(safe-area-inset-bottom)); }
+  .modal-card, .modal-card.wide, .modal-card.mid { width: 100%; height: 100%; max-height: none; border-radius: 0; padding: 20px 16px calc(24px + env(safe-area-inset-bottom)); --mpad: 20px; }
+  .modal-card > .modal-head:first-child { margin: -20px -16px 0; padding: 20px 16px 10px; }
   .reb-scene, .welcome-scene { margin: -20px -16px 0; border-radius: 0; }
   .zukan-layout, .ach-layout { grid-template-columns: 1fr; }
   .z-detail, .ach-detail { position: static; order: -1; }
