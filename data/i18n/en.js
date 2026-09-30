@@ -146,6 +146,8 @@
     zukanCount: '{n} / {t}',
     titlePrefix: 'Title: {t}',
     special: 'Special',
+    rolledShape: 'It rolled into a weird shape!',
+    gShape: 'Shapes {p}%',
     foundOn: 'Found on',
     mixedWith: 'Mixed with',
     mixedNone: 'Nothing',

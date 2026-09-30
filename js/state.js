@@ -93,6 +93,7 @@
   function knownId(id) {
     if (typeof id !== 'string') return false;
     if (K.data.specials.some(function (x) { return x.id === id; })) return true;
+    if (K.data.shapes.some(function (x) { return x.id === id; })) return true;
     var p = id.split('-'), n = Number(p[0]);
     return p.length === 2 && n % 1 === 0 && n >= 1 && n <= K.data.stages.length &&
       K.data.traits.some(function (t) { return t.id === p[1]; });

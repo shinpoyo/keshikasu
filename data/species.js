@@ -1,4 +1,4 @@
-// カスの しゅるい（企画書 7章）: 7だんかい × 7けいとう ＋ とくべつ 7しゅ = 56しゅるい。まるめると 1ぴき できる（js/evolution.js）
+// カスの しゅるい（企画書 7章）: 7だんかい × 7けいとう ＋ とくべつ 7しゅ ＋ かたちカス 32しゅ = 88しゅるい。まるめると 1ぴき できる（js/evolution.js）
 (function (K) {
   'use strict';
   K.data = K.data || {};
@@ -76,6 +76,43 @@
       name: { ja: 'なんども うまれかわった カス', en: 'Reborn Again Crumb' },
       hint: { ja: 'なんども けしゴムに もどると…？', en: 'Return to the eraser many times...?' },
       line: { ja: 'けしゴムに なって、また カスに なった。10かい いじょう。', en: 'Became an eraser, then a crumb again. Over ten times.' } }
+  ];
+
+  // かたちカス。まるめると ときどき へんな かたちに なる（ざいりょうとは かんけい なし）。stage = その STAGE が でるように なったら でる
+  // 絵は design/art/katachi.py で つくる
+  K.data.shapes = [
+    { id: 'k-tiny', stage: 1, img: 'art/katachi-tiny.svg', name: { ja: 'カスのカス', en: 'Crumb of a Crumb' }, line: { ja: 'ちいさすぎて みえない。でも いる。', en: 'Too small to see. But it is there.' } },
+    { id: 'k-snake', stage: 1, img: 'art/katachi-snake.svg', name: { ja: 'へびカス', en: 'Snake Crumb' }, line: { ja: 'ほぼ にょろにょろ。でも へびだと いいはる。', en: 'Basically squiggly. Insists it is a snake.' } },
+    { id: 'k-longest', stage: 1, img: 'art/katachi-longest.svg', name: { ja: 'ながーいカス', en: 'Loooong Crumb' }, line: { ja: 'せかいいち ながい。たぶん 1メートル。はかって いない。', en: 'The longest in the world. Maybe 1 meter. Nobody measured.' } },
+    { id: 'k-bone', stage: 1, img: 'art/katachi-bone.svg', name: { ja: 'ほねカス', en: 'Bone Crumb' }, line: { ja: 'いぬが ほしがる。あげない。', en: 'Dogs want it. Not giving it.' } },
+    { id: 'k-heart', stage: 1, img: 'art/katachi-heart.svg', name: { ja: 'ハートカス', en: 'Heart Crumb' }, line: { ja: 'すきな こに わたしたい。わたせない。', en: 'Wants to be given to someone special. Never is.' } },
+    { id: 'k-caterpillar', stage: 2, img: 'art/katachi-caterpillar.svg', name: { ja: 'いもむしカス', en: 'Caterpillar Crumb' }, line: { ja: 'ちょうちょに なる よていは ない。', en: 'No plans to become a butterfly.' } },
+    { id: 'k-snail', stage: 2, img: 'art/katachi-snail.svg', name: { ja: 'かたつむりカス', en: 'Snail Crumb' }, line: { ja: 'からも なかみも カス。', en: 'Crumb shell. Crumb inside.' } },
+    { id: 'k-glasses', stage: 2, img: 'art/katachi-glasses.svg', name: { ja: 'めがねカス', en: 'Glasses Crumb' }, line: { ja: 'かけても なにも みえない。', en: 'You cannot see anything through it.' } },
+    { id: 'k-star', stage: 2, img: 'art/katachi-star.svg', name: { ja: 'ほしカス', en: 'Star Crumb' }, line: { ja: 'ながれない。ねがいも かなえない。', en: 'Does not shoot. Does not grant wishes.' } },
+    { id: 'k-onigiri', stage: 2, img: 'art/katachi-onigiri.svg', name: { ja: 'おにぎりカス', en: 'Rice Ball Crumb' }, line: { ja: 'のりは えんぴつの カス。たべないでね。', en: 'The seaweed is pencil dust. Do not eat.' } },
+    { id: 'k-cat', stage: 3, img: 'art/katachi-cat.svg', name: { ja: 'ねこカス', en: 'Cat Crumb' }, line: { ja: 'まるまって ねている。おこすと ばらばらに なる。', en: 'Curled up asleep. Falls apart if you wake it.' } },
+    { id: 'k-dog', stage: 3, img: 'art/katachi-dog.svg', name: { ja: 'いぬカス', en: 'Dog Crumb' }, line: { ja: 'しっぽを ふりすぎて とれた。', en: 'Wagged its tail so hard it fell off.' } },
+    { id: 'k-chick', stage: 3, img: 'art/katachi-chick.svg', name: { ja: 'ひよこカス', en: 'Chick Crumb' }, line: { ja: 'ぴよ。とは いわない。', en: 'Does not say peep.' } },
+    { id: 'k-ribbon', stage: 3, img: 'art/katachi-ribbon.svg', name: { ja: 'リボンカス', en: 'Ribbon Crumb' }, line: { ja: 'ほどけない。むすんで いないから。', en: 'Cannot be untied. It was never tied.' } },
+    { id: 'k-donut', stage: 3, img: 'art/katachi-donut.svg', name: { ja: 'ドーナツカス', en: 'Donut Crumb' }, line: { ja: 'まんなかの あなは さいしょから ない。', en: 'The hole was missing from the start.' } },
+    { id: 'k-rabbit', stage: 4, img: 'art/katachi-rabbit.svg', name: { ja: 'うさぎカス', en: 'Rabbit Crumb' }, line: { ja: 'みみが ながい。すぐ ちぎれる。', en: 'Long ears. They snap off easily.' } },
+    { id: 'k-crab', stage: 4, img: 'art/katachi-crab.svg', name: { ja: 'かにカス', en: 'Crab Crumb' }, line: { ja: 'よこに あるく。けしゴムの ほうへ。', en: 'Walks sideways. Toward the eraser.' } },
+    { id: 'k-penguin', stage: 4, img: 'art/katachi-penguin.svg', name: { ja: 'ペンギンカス', en: 'Penguin Crumb' }, line: { ja: 'とべない。そもそも うごけない。', en: 'Cannot fly. Cannot move, really.' } },
+    { id: 'k-hedgehog', stage: 4, img: 'art/katachi-hedgehog.svg', name: { ja: 'ハリネズミカス', en: 'Hedgehog Crumb' }, line: { ja: 'はりは ぜんぶ ひょろひょろ。いたくない。', en: 'All the spikes are floppy. Does not hurt.' } },
+    { id: 'k-softcream', stage: 4, img: 'art/katachi-softcream.svg', name: { ja: 'ソフトクリームカス', en: 'Soft Serve Crumb' }, line: { ja: 'おいしそう。たべられない。コーンだけ ほんもの。', en: 'Looks tasty. Not edible. Only the cone is real.' } },
+    { id: 'k-letter-a', stage: 4, img: 'art/katachi-letter-a.svg', name: { ja: '「あ」カス', en: '"A" Crumb' }, line: { ja: 'かんじドリルで うまれた。ひらがなだけど。', en: 'Born from a kanji drill. It is hiragana, though.' } },
+    { id: 'k-octopus', stage: 5, img: 'art/katachi-octopus.svg', name: { ja: 'たこカス', en: 'Octopus Crumb' }, line: { ja: 'あしが 8ほん。かぞえたら 7ほん。', en: 'Eight legs. Counted seven.' } },
+    { id: 'k-whale', stage: 5, img: 'art/katachi-whale.svg', name: { ja: 'くじらカス', en: 'Whale Crumb' }, line: { ja: 'つくえの うみを およぐ。しおは ふかない。', en: 'Swims the desk sea. Does not spout.' } },
+    { id: 'k-seahorse', stage: 5, img: 'art/katachi-seahorse.svg', name: { ja: 'たつのおとしごカス', en: 'Seahorse Crumb' }, line: { ja: 'おとしご だけど、おとしもの では ない。', en: 'Not a horse. Not lost property, either.' } },
+    { id: 'k-robot', stage: 5, img: 'art/katachi-robot.svg', name: { ja: 'ロボットカス', en: 'Robot Crumb' }, line: { ja: 'しかくく したかった。むりだった。', en: 'Tried to be square. Could not.' } },
+    { id: 'k-bicycle', stage: 5, img: 'art/katachi-bicycle.svg', name: { ja: 'じてんしゃカス', en: 'Bicycle Crumb' }, line: { ja: 'のれない。こげない。たおれない。', en: 'Cannot ride it. Cannot pedal it. Will not fall over.' } },
+    { id: 'k-plane', stage: 5, img: 'art/katachi-plane.svg', name: { ja: 'ひこうきカス', en: 'Airplane Crumb' }, line: { ja: 'とばない。ふーっと すると すこし とぶ。', en: 'Does not fly. Blow on it and it flies a bit.' } },
+    { id: 'k-dragon', stage: 6, img: 'art/katachi-dragon.svg', name: { ja: 'カスドラゴン', en: 'Crumb Dragon' }, line: { ja: 'カスで できているので ひょろひょろ。ほのおは でない。けむりも カス。', en: 'Made of crumbs, so it is scrawny. No fire. Even the smoke is crumbs.' } },
+    { id: 'k-trex', stage: 6, img: 'art/katachi-trex.svg', name: { ja: 'きょうりゅうカス', en: 'Dinosaur Crumb' }, line: { ja: 'ほねは ない。ぜんぶ カス。', en: 'No bones. All crumb.' } },
+    { id: 'k-human', stage: 6, img: 'art/katachi-human.svg', name: { ja: 'にんげんカス', en: 'Human Crumb' }, line: { ja: 'ちょっと きみに にてる。', en: 'Looks a little like you.' } },
+    { id: 'k-eraser', stage: 6, img: 'art/katachi-eraser.svg', name: { ja: 'けしゴムカス', en: 'Eraser Crumb' }, line: { ja: 'カスで できた けしゴム。こすると カスが でる。', en: 'An eraser made of crumbs. Rub it and crumbs come out.' } },
+    { id: 'k-ufo', stage: 7, img: 'art/katachi-ufo.svg', name: { ja: 'UFOカス', en: 'UFO Crumb' }, line: { ja: 'つくえの そとには でられない。', en: 'Cannot leave the desk.' } }
   ];
 
   // ぶたい。でるように なった STAGE（state.stage）で かわる。絵は js/art.js の scene()

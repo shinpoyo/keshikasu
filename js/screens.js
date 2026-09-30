@@ -6,7 +6,7 @@
   var S = function () { return K.state; };
   var t = function (k, v) { return K.t(k, v); };
   var esc = function (s) { return K.ui.esc(s); };
-  var VERSION = '0.15'; // index.html の ?v= と そろえる（ブラウザの キャッシュで 古い js が のこらないように）
+  var VERSION = '0.16'; // index.html の ?v= と そろえる（ブラウザの キャッシュで 古い js が のこらないように）
 
   function show(id) {
     ['screen-title', 'screen-naming', 'screen-game'].forEach(function (s) { $(s).hidden = s !== id; });
@@ -178,23 +178,21 @@
   RENDER.zukan = function (card) {
     card.classList.add('wide');
     var s = S();
-    var cells = '<div class="z-row"><span></span>' + K.data.traits.map(function (tr) {
-      return '<span class="z-head"><span class="chip-dot" style="background:' + (tr.chipBg || tr.chip) + '"></span>' + esc(K.L(tr.name)) + '</span>';
-    }).join('') + '</div>';
-    K.data.stages.forEach(function (st) {
-      cells += '<div class="z-row"><span class="z-rowlabel">STAGE ' + st.n + '<b>' + esc(K.L(st.name)) + '</b></span>';
-      K.data.traits.forEach(function (tr) {
-        var id = K.speciesId(st.n, tr.id);
-        cells += zcell(id);
-      });
-      cells += '</div>';
-    });
-    cells += '<div class="z-row"><span class="z-rowlabel">SPECIAL<b>' + esc(t('special')) + '</b></span>' +
-      K.data.specials.map(function (sp) { return zcell(sp.id); }).join('') + '</div>';
     var sel = state.zukanSel || s.species;
+    // No. じゅんに 1ほんで ならべる。STAGE ごとに みだしを いれる（とくべつは さいご）
+    var cells = '', cur = null;
+    K.evo.DEX.forEach(function (id) {
+      var st = K.evo.info(id).stage;
+      var key = st == null ? 'sp' : st;
+      if (key !== cur) {
+        cur = key;
+        cells += '<span class="z-group">' + (st == null ? 'SPECIAL ・ ' + esc(t('special')) : 'STAGE ' + st + ' ・ ' + esc(K.L(K.data.stages[st - 1].name))) + '</span>';
+      }
+      cells += zcell(id);
+    });
     return head(t('zukanTitle'), '<span class="head-count">' + t('zukanCount', { n: K.evo.foundCount(), t: K.evo.TOTAL }) + '</span><span class="head-pill">+' + Math.round(K.evo.BONUS * 100 * K.evo.foundCount()) + '% /s</span>') +
       '<p class="lead">' + esc(t('titlePrefix', { t: K.L(K.evo.title()) })) + ' ・ ' + esc(t('zukanBonus')) + '</p>' +
-      '<div class="zukan-layout"><div class="zukan-table">' + cells + '</div>' + zdetail(sel) + '</div>';
+      '<div class="zukan-layout"><div class="zukan-grid">' + cells + '</div>' + zdetail(sel) + '</div>';
   };
   function zcell(id) {
     var s = S();
@@ -204,7 +202,7 @@
     var sel = (state.zukanSel || s.species) === id;
     return '<button type="button" class="z-cell' + (found ? '' : ' unk') + (sel ? ' sel' : '') + '" data-z="' + id + '" aria-label="' + esc(found ? K.L(info.name) : t('notFound')) + '">' +
       K.art.kasuPic(info, { plain: !found, lazy: true }) +
-      (found ? '' : '<span class="z-q">?</span>') +
+      (found ? '' : '<span class="z-q">?</span>') + '<span class="z-no">' + K.evo.noLabel(id) + '</span>' +
       (isNew ? '<span class="badge badge-new z-new">' + t('newBadge') + '</span>' : '') + '</button>';
   }
   // スタンプで こうかん（いま まるめて でる かのうせいが ある ものだけ）
@@ -220,13 +218,13 @@
     var found = s.zukan[id];
     if (!found) {
       return '<div class="z-detail"><div class="z-detail-img"><img src="' + info.art + '" alt="" style="filter:brightness(0) opacity(.15)"></div>' +
-        '<div class="z-detail-body"><span class="badge ' + (info.special ? 'badge-special' : 'badge-stage') + '" style="align-self:flex-start">' + (info.special ? t('specialBadge') : t('stageBadge', { n: info.stage })) + '</span>' +
+        '<div class="z-detail-body"><span class="z-detail-no">' + K.evo.noLabel(id) + '</span><span class="badge ' + (info.special ? 'badge-special' : 'badge-stage') + '" style="align-self:flex-start">' + (info.special ? t('specialBadge') : t('stageBadge', { n: info.stage })) + '</span>' +
         '<h3>？？？</h3><p class="z-quote">' + esc(info.hint ? K.L(info.hint) : t('notFound')) + '</p>' + tradeBtn(id) + '</div></div>';
     }
     var mat = found.mat ? K.game.materialById[found.mat] : null;
     var other = K.lang() === 'ja' ? info.name.en : info.name.ja;
     return '<div class="z-detail"><div class="z-detail-img">' + K.art.kasuPic(info) + '</div>' +
-      '<div class="z-detail-body"><span class="badge ' + (info.special ? 'badge-special' : 'badge-stage') + '" style="align-self:flex-start">' + (info.special ? t('specialBadge') : t('stageBadge', { n: info.stage })) + '</span>' +
+      '<div class="z-detail-body"><span class="z-detail-no">' + K.evo.noLabel(id) + '</span><span class="badge ' + (info.special ? 'badge-special' : 'badge-stage') + '" style="align-self:flex-start">' + (info.special ? t('specialBadge') : t('stageBadge', { n: info.stage })) + '</span>' +
       '<h3>' + esc(K.L(info.name)) + '</h3><span class="z-en">' + esc(other) + '</span>' +
       '<p class="z-quote">' + esc(K.quote(K.L(info.line))) + '</p>' +
       '<div class="z-meta"><span>' + esc(t('foundOn')) + '</span><b>' + K.fmtDate(found.at) + '</b>' +
@@ -545,7 +543,7 @@
           '<div class="evo-reveal">' + K.art.kasuPic(to) + '</div>' +
         '</div>' +
         '<span class="evo-kicker">' + (isMix ? 'MIX' : isRoll ? (to.special ? t('specialBadge') : t('newKasu') + ' ・ ' + t('stageBadge', { n: to.stage })) : t('evolution')) + '</span>' +
-        '<h1 class="evo-title">' + esc(isMix ? t('mixed') : isRoll ? t('rolled') : t('congrats')) + '</h1>' +
+        '<h1 class="evo-title">' + esc(isMix ? t('mixed') : isRoll ? t(to.shape ? 'rolledShape' : 'rolled') : t('congrats')) + '</h1>' +
         '<p class="evo-result">' + t(isMix ? 'mixResult' : isRoll ? 'rollResult' : 'evoResult', { name: esc(K.L(to.name)) }) + '</p>' +
         '<p class="evo-line">' + esc(line) + '</p>' +
         (ev.isNew ? '<span class="evo-new">' + esc(t('zukanNew', { n: K.evo.foundCount(), t: K.evo.TOTAL })) + '</span>' : '') +

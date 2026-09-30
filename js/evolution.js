@@ -5,12 +5,14 @@
   'use strict';
   var E = {};
   var S = function () { return K.state; };
-  var traitById = {}, specialById = {};
+  var traitById = {}, specialById = {}, shapeById = {};
   K.data.traits.forEach(function (t) { traitById[t.id] = t; });
   K.data.specials.forEach(function (s) { specialById[s.id] = s; });
+  K.data.shapes.forEach(function (s) { shapeById[s.id] = s; });
   E.traitById = traitById;
   E.specialById = specialById;
-  E.TOTAL = K.data.stages.length * K.data.traits.length + K.data.specials.length; // 56
+  E.shapeById = shapeById;
+  E.TOTAL = K.data.stages.length * K.data.traits.length + K.data.specials.length + K.data.shapes.length; // 88
 
   E.queue = []; // 画面に出す しんかの演出
 
@@ -44,6 +46,11 @@
       return { id: id, special: true, stage: null, trait: null, name: sp.name, line: sp.line, hint: sp.hint,
         art: sp.img, filter: 'none' };
     }
+    if (shapeById[id]) {
+      var sh = shapeById[id];
+      return { id: id, special: false, shape: true, stage: sh.stage, trait: null, name: sh.name, line: sh.line,
+        art: sh.img, filter: 'none' };
+    }
     var parts = id.split('-');
     var n = +parts[0], tr = traitById[parts[1]] || traitById.plain;
     var st = K.data.stages[n - 1];
@@ -73,7 +80,7 @@
 
   E.maxStageFound = function () {
     var m = 0;
-    Object.keys(S().zukan).forEach(function (id) { var n = parseInt(id, 10); if (n > m) m = n; });
+    Object.keys(S().zukan).forEach(function (id) { var n = shapeById[id] ? 0 : parseInt(id, 10); if (n > m) m = n; });
     return m;
   };
 
@@ -125,14 +132,35 @@
     return out;
   };
 
+  // かたちカス: まるめると この わりあいで でる。でるのは いまの STAGE までの もの
+  E.SHAPE_RATE = 0.25;
+  E.shapePool = function () {
+    return K.data.shapes.filter(function (x) { return x.stage <= S().stage; }).map(function (x) { return x.id; });
+  };
+
   // いま まるめて でる かのうせいが ある まだ みつけていない カス
   E.missing = function () {
     var out = [], pool = E.pool();
     for (var n = 1; n <= S().stage; n++) {
       pool.forEach(function (tr) { var id = K.speciesId(n, tr); if (!S().zukan[id]) out.push(id); });
     }
+    E.shapePool().forEach(function (id) { if (!S().zukan[id]) out.push(id); });
     return out;
   };
+
+  // ずかんの ならび（No.）: STAGE ごとに いろ 7しゅ → その STAGE の かたち、さいごに とくべつ
+  E.DEX = [];
+  K.data.stages.forEach(function (st) {
+    K.data.traits.forEach(function (tr) { E.DEX.push(K.speciesId(st.n, tr.id)); });
+    K.data.shapes.forEach(function (x) { if (x.stage === st.n) E.DEX.push(x.id); });
+  });
+  K.data.specials.forEach(function (x) { E.DEX.push(x.id); });
+  var dexNo = {};
+  E.DEX.forEach(function (id, i) { dexNo[id] = i + 1; });
+  E.noLabel = function (id) { return 'No.' + ('00' + dexNo[id]).slice(-3); };
+
+  // ずかんの STAGE（とくべつは null）
+  E.stageOf = function (id) { return E.info(id).stage; };
 
   // あと なんかいで あたらしい カスが かくていか
   E.pityLeft = function () { return E.PITY - (S().dry || 0); };
@@ -157,6 +185,8 @@
     return 1 + Math.floor(Math.random() * (top - 2));
   }
   function pickId() {
+    var shapes = E.shapePool();
+    if (shapes.length && Math.random() < E.SHAPE_RATE) return shapes[Math.floor(Math.random() * shapes.length)];
     var pool = E.pool();
     return K.speciesId(pickStage(), pool[Math.floor(Math.random() * pool.length)]);
   }
@@ -183,7 +213,7 @@
       s.dry = 0;
       s.species = id;
       s.trait = E.info(id).trait || s.trait;
-      E.queue.push({ type: 'roll', from: '2-plain', to: id, stage: sp ? null : parseInt(id, 10), isNew: true });
+      E.queue.push({ type: 'roll', from: '2-plain', to: id, stage: sp ? null : E.stageOf(id), isNew: true });
     } else {
       // ダブりは スタンプに なる。つくえの カスは そのまま（たいかに みえないように）
       // もう でる ものが ぜんぶ そろっているときは 天井を かぞえない
@@ -205,7 +235,7 @@
     E.register(id);
     s.species = id;
     s.trait = E.info(id).trait || s.trait;
-    E.queue.push({ type: 'roll', from: '2-plain', to: id, stage: parseInt(id, 10), isNew: true });
+    E.queue.push({ type: 'roll', from: '2-plain', to: id, stage: E.stageOf(id), isNew: true });
     return true;
   };
 
@@ -229,6 +259,7 @@
 
   E.title = function () {
     var n = E.foundCount();
+    if (n >= E.TOTAL) return { ja: 'カスの だいかみさま', en: 'Supreme Crumb Deity' };
     if (n >= 56) return { ja: 'カスの かみさま', en: 'Crumb Deity' };
     if (n >= 30) return { ja: 'カスはかせ', en: 'Crumb Scholar' };
     if (n >= 10) return { ja: 'カスはかせ みならい', en: 'Crumb Scholar Trainee' };

@@ -146,6 +146,8 @@
     zukanCount: '{n} / {t}',
     titlePrefix: 'しょうごう: {t}',
     special: 'とくべつ',
+    rolledShape: 'へんな かたちに まるまった！',
+    gShape: 'かたち {p}%',
     foundOn: 'みつけた ひ',
     mixedWith: 'まぜたもの',
     mixedNone: 'なし',

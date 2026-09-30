@@ -606,6 +606,11 @@ textarea.savebox {
 .warn { font-family: var(--font-jp); font-size: 13px; color: var(--danger); font-weight: 700; }
 
 /* ずかん */
+.zukan-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); gap: 6px; align-content: start; }
+.z-group { grid-column: 1 / -1; margin-top: 8px; font-family: var(--font-num); font-weight: 900; font-size: 11px; letter-spacing: .06em; color: var(--graphite); border-bottom: 2px solid var(--line); padding-bottom: 3px; }
+.z-group:first-child { margin-top: 0; }
+.z-cell .z-no { position: absolute; left: 4px; bottom: 2px; font-family: var(--font-num); font-weight: 800; font-size: 9px; color: var(--muted); letter-spacing: .02em; }
+.z-detail-no { display: block; font-family: var(--font-num); font-weight: 900; font-size: 12px; color: var(--muted); letter-spacing: .06em; }
 .zukan-layout { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 20px; }
 .zukan-table { display: flex; flex-direction: column; gap: 6px; overflow-x: auto; }
 .z-row { display: grid; grid-template-columns: 86px repeat(7, minmax(64px, 1fr)); gap: 6px; align-items: center; }
