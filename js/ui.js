@@ -324,7 +324,7 @@
       return '<span class="chip-dot" title="' + esc(K.L(tr.name)) + '" style="background:' + (tr.chipBg || tr.chip) + '"></span>';
     }).join('');
 
-    // なかま
+    // どうぐ
     var bh = '';
     vis.forEach(function (v) {
       var b = v.b;
@@ -362,9 +362,9 @@
     $('shop-badge').textContent = n > 9 ? '9+' : n;
   };
 
-  // --- なかまの くわしい 数字（クッキークリッカーの 施設の ツールチップ） ---
-  U.openInfo = null;   // スマホで ひらいている なかま
-  var tipId = null;    // PC で カーソルを のせている なかま
+  // --- どうぐの くわしい 数字（クッキークリッカーの 施設の ツールチップ） ---
+  U.openInfo = null;   // スマホで ひらいている どうぐ
+  var tipId = null;    // PC で カーソルを のせている どうぐ
   U.hoverTips = function () { return window.matchMedia('(hover: hover) and (pointer: fine)').matches; };
 
   function pct(r) {

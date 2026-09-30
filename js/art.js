@@ -7,7 +7,7 @@
     return '<svg viewBox="' + vb + '" width="' + w + '" height="' + h + '" aria-hidden="true" focusable="false"' + (extra || '') + '>' + inner + '</svg>';
   }
 
-  // なかま（施設）のアイコン。デザイン案（design/Main.dc.html）から移植＋のこりを同じタッチで追加
+  // どうぐ（施設）のアイコン。デザイン案（design/Main.dc.html）から移植＋のこりを同じタッチで追加
   var BUILDING = {
     finger: ['0 0 26 34', '<rect x="7" y="2" width="12" height="28" rx="6" fill="#F4D7BE" stroke="' + INK + '" stroke-width="1.8"/><rect x="9.5" y="4.5" width="7" height="7" rx="3" fill="#FFFFFF" stroke="' + INK + '" stroke-width="1.2"/><path d="M9 22h8" stroke="' + INK + '" stroke-width="1.2"/>'],
     ant: ['0 0 34 22', '<path d="M8 14 3 20M12 14l-2 7M18 14l2 7M22 14l6 6M10 8 6 3M24 8l4-5" stroke="' + INK + '" stroke-width="1.5" stroke-linecap="round"/><ellipse cx="7" cy="11" rx="5" ry="4.5" fill="' + INK + '"/><ellipse cx="15" cy="12" rx="4" ry="3.5" fill="' + INK + '"/><ellipse cx="25" cy="11" rx="7" ry="5.5" fill="' + INK + '"/><circle cx="30" cy="5" r="2.5" fill="#A9A49B" stroke="' + INK + '" stroke-width="1"/>'],

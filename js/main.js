@@ -249,7 +249,7 @@
       var again = document.querySelector('.bld[data-b="' + id + '"]');
       if (again) again.classList.add('bump');
     });
-    // PC: なかまに カーソルを のせると くわしい 数字（クッキークリッカーと おなじ）
+    // PC: どうぐに カーソルを のせると くわしい 数字（クッキークリッカーと おなじ）
     $('shop-list').addEventListener('mouseover', function (e) {
       var el = e.target.closest('.bld[data-b]');
       if (el) K.ui.showTip(el.getAttribute('data-b'));
