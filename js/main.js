@@ -125,6 +125,8 @@
     lastRubAt = n;
     var p = K.game.clickPower();
     if (K.rt.kadoLeft > 0) { p *= 10; K.rt.kadoLeft--; } // かどけし
+    var g = K.guest.onRub(p);                             // ねりけし・ロケット
+    p += g.bonus;
     K.game.earn(p, true);
     s.stats.rubs++;
     K.rt.rubTimes.push(n);
@@ -138,7 +140,11 @@
     setTimeout(function () { ka.classList.remove('gain'); void ka.offsetWidth; ka.classList.add('gain'); }, 260);
     K.ui.floatNum(x, y, '+' + K.fmt(p, { decimals: 1 }));
     K.ui.rubFx();
-    K.rt.mess = Math.min((K.rt.mess || 0) + 1, K.game.MESS_MAX);
+    if (!g.sticky) K.rt.mess = Math.min((K.rt.mess || 0) + 1, K.game.MESS_MAX);
+    if (g.pop) {
+      K.game.earn(g.pop, false);
+      K.ui.rocketPop(g.pop);
+    }
     wear();
     K.sound.play('rub');
     if (Math.random() < 0.015) K.ui.say(K.news.monologue('rub'));
@@ -160,7 +166,7 @@
       sandAcc -= 1;
       var p = K.game.clickPower();
       K.game.earn(p, false);
-      K.rt.mess = Math.min((K.rt.mess || 0) + 1, K.game.MESS_MAX);
+      if (!K.game.buffActive('neri')) K.rt.mess = Math.min((K.rt.mess || 0) + 1, K.game.MESS_MAX);
       wear();
       if (++sandN % 3 === 0) {
         var er = $('eraser-btn');

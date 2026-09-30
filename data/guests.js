@@ -1,4 +1,4 @@
-// ゲストけしゴム。いつもの けしゴムとは べつに、ときどき つくえに やってくる
+// ゲストけしゴム。ときどき つくえに やってきて、タップすると いつもの けしゴムと もちかえる
 // stage: その STAGE の カスを みつけたら くるように なる（0 = さいしょから）
 (function (K) {
   'use strict';
@@ -16,8 +16,7 @@
       line: { ja: 'ボールペンも けせる…かも', en: 'Might even erase ballpoint pen...' } },
     { id: 'neri', stage: 3,
       name: { ja: 'ねりけし', en: 'Kneaded Eraser' },
-      line: { ja: 'ちぎっても ちぎっても まとまる', en: 'Tear it apart, it comes back together.' },
-      effect: { ja: 'ちらかった カスを ぜんぶ まとめた', en: 'Picked up every crumb on the desk' } },
+      line: { ja: 'ちぎっても ちぎっても まとまる', en: 'Tear it apart, it comes back together.' } },
     { id: 'kaori', stage: 4,
       name: { ja: 'かおりつき けしゴム', en: 'Scented Eraser' },
       line: { ja: 'いちごの におい', en: 'Smells like strawberries.' } },

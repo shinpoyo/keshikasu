@@ -530,9 +530,16 @@ h1, h2, h3 { font-family: var(--font-jp); font-weight: 900; margin: 0; }
   font-family: var(--font-jp); font-weight: 900; font-size: 12px; box-shadow: 0 2px 0 #2B2A28; pointer-events: none;
 }
 .guest.is-golden .guest-label { background: #FFF6D6; }
-.guest.tapped .guest-art svg { animation: guest-pop .3s ease; }
-@keyframes guest-pop { 40% { transform: translateX(8px) scale(1.12); } }
-@media (prefers-reduced-motion: reduce) { .guest, .guest-art, .guest.tapped .guest-art svg { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .guest, .guest-art, .eraser-btn.swap .eraser-art { animation: none; } }
+/* もちかえた けしゴム: いれかわる ときに ぽんっと でる。カスの いろも その けしゴムの いろ */
+.eraser-btn.swap .eraser-art { animation: eraser-swap .45s cubic-bezier(.3,1.5,.5,1); }
+@keyframes eraser-swap { from { transform: scale(.4) rotate(-30deg); opacity: 0; } }
+.kasu-stage[data-hold="golden"] .speck { filter: sepia(1) saturate(5) hue-rotate(5deg) brightness(1.5); }
+.kasu-stage[data-hold="kadokeshi"] .speck { filter: grayscale(1) brightness(2.4) drop-shadow(0 0 1px #2B2A28); }
+.kasu-stage[data-hold="sand"] .speck { filter: sepia(.7) contrast(1.5) brightness(1.1); }
+.kasu-stage[data-hold="kaori"] .speck { filter: grayscale(1) sepia(1) hue-rotate(300deg) saturate(3) brightness(1.6); }
+.kasu-stage[data-hold="rocket"] .speck { filter: grayscale(1) sepia(1) hue-rotate(50deg) saturate(3) brightness(1.4); }
+.kasu-stage[data-hold="neri"] .speck { display: none; }
 .guest[hidden] { display: none; }
 @keyframes golden-in { from { transform: scale(0) rotate(-90deg); } to { transform: none; } }
 @keyframes golden-bob { 50% { transform: translateY(-6px) rotate(6deg); } }

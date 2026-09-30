@@ -147,14 +147,30 @@
     if (mid === 'gacha') U.renderGacha(true); else U.renderDesk(true);
   };
 
-  // けしゴムの へりぐあい（10だんかいで かきなおす）
-  var lastWear = -1;
+  // けしゴムの へりぐあい（10だんかいで かきなおす）。ゲストけしゴムを もっている あいだは その けしゴム
+  var lastWear = -1, lastHold = null;
   U.renderEraser = function () {
-    var w = Math.floor(K.evo.wearRatio() * 10);
-    if (w === lastWear) return;
+    var hold = K.guest.held();
+    var w = hold === 'rocket' ? K.rt.rocket.left : Math.floor(K.evo.wearRatio() * 10);
+    if (w === lastWear && hold === lastHold) return;
+    var swapped = hold !== lastHold;
     lastWear = w;
-    $('eraser').innerHTML = K.art.eraser(w / 10);
-    $('eraser-btn').style.setProperty('--wear', (K.evo.wearRatio()).toFixed(2));
+    lastHold = hold;
+    $('eraser').innerHTML = hold ? K.art.bigEraser(hold, w) : K.art.eraser(w / 10);
+    $('eraser-btn').style.setProperty('--wear', hold ? '0' : (K.evo.wearRatio()).toFixed(2));
+    var stage = $('kasu-stage');
+    if (hold) stage.setAttribute('data-hold', hold); else stage.removeAttribute('data-hold');
+    if (swapped) {
+      var btn = $('eraser-btn');
+      btn.classList.remove('swap'); void btn.offsetWidth; btn.classList.add('swap');
+    }
+  };
+
+  // ロケットの こまが とびだした
+  U.rocketPop = function (gain) {
+    U.renderEraser();
+    U.toast('<b>' + esc(K.L(K.guest.byId.rocket.name)) + '</b> ' + esc(t('rocketPop')) + ' ' + esc(t('luckyGain', { v: K.fmt(gain) })));
+    K.sound.play('upgrade');
   };
 
   // つかいきった！ あたらしい けしゴムと かみ 1まい
@@ -461,9 +477,8 @@
       return;
     }
     var info = K.guest.byId[g.id];
-    var left = g.id === 'rocket' ? K.guest.ROCKET_TAPS - g.taps : 0;
-    var label = g.taps > 0 ? t('guestMore', { n: left }) : t('guestCame', { n: K.L(info.name) });
-    var sig = g.id + '|' + g.taps + '|' + K.lang();
+    var label = t('guestCame', { n: K.L(info.name) });
+    var sig = g.id + '|' + K.lang();
     if (el.hidden) {
       var panes = $('panes');
       var r = panes.getBoundingClientRect();
@@ -481,7 +496,6 @@
       $('guest-art').innerHTML = K.art.guest(g.id, 56, 48);
       $('guest-label').textContent = label;
       el.setAttribute('aria-label', label);
-      if (g.taps > 0) { el.classList.remove('tapped'); void el.offsetWidth; el.classList.add('tapped'); }
     }
     el.classList.toggle('leaving', g.until - Date.now() < 1500);
   };
@@ -492,12 +506,9 @@
     var name = '<b>' + esc(K.L(info.name)) + '</b> ';
     if (r.effect === 'lucky') U.toast('<b>' + esc(K.L(E.lucky.name)) + '</b> ' + esc(t('luckyGain', { v: K.fmt(r.gain) })));
     else if (r.effect === 'kado') U.toast(name + esc(K.L(info.effect)));
-    else if (r.effect) U.toast('<b>' + esc(K.L(E[r.effect].name)) + '</b> ' + esc(K.L(E[r.effect].desc)));
-    else if (r.id === 'neri') U.toast(name + esc(K.L(info.effect)) + ' ' + esc(t('luckyGain', { v: K.fmt(r.gain) })));
-    else if (r.gain) U.toast(name + esc(t('luckyGain', { v: K.fmt(r.gain) })));
-    if (r.id === 'neri') U.renderMess();
-    if (r.stay) return;
+    else U.toast('<b>' + esc(K.L(E[r.effect].name)) + '</b> ' + esc(K.L(E[r.effect].desc)));
     $('guest').hidden = true;
+    U.renderEraser();
     guestSig = '';
     U.say(r.id === 'golden' ? K.news.monologue('golden') : K.L(info.line));
   };
@@ -525,7 +536,7 @@
     }
     list.forEach(function (b, i) {
       var row = bar.children[i];
-      row.querySelector('.buff-time').textContent = b.count != null ? t('kadoLeft', { n: b.count }) : K.fmtClock(b.left);
+      row.querySelector('.buff-time').textContent = b.count != null ? t('kadoLeft', { n: b.count }) : b.pieces != null ? t('rocketLeft', { n: b.pieces }) : K.fmtClock(b.left);
       row.querySelector('.buff-fill').style.width = Math.max(0, b.ratio * 100) + '%';
     });
   };

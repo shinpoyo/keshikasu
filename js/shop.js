@@ -9,6 +9,8 @@
     praiseUntil: 0, praiseReadyAt: 0,
     buffs: {},             // id: { until, dur }（js/guest.js の EFFECTS）
     kadoLeft: 0,           // かどけし: のこりの こする かず
+    rocket: null,          // ロケットけしゴム: { left: のこりの こま, rubs }
+    hold: [],              // もっている ゲストけしゴムの id（あたらしい ものが うしろ）
     rubTimes: [],          // 直近のこする時刻（あつあつ判定）
     maxRubRate: 0,
     blowStreak: 0,
