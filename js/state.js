@@ -149,6 +149,7 @@
   // オフライン進行: 閉じていた間の /s × 割合（最大8時間）
   function offlineRate() {
     var s = K.state.shardUpgrades;
+    if (s.offline80) return 0.8;
     if (s.offline50) return 0.5;
     if (s.offline20) return 0.2;
     return 0.1;

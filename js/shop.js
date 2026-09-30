@@ -34,7 +34,7 @@
   G.hasShard = hasShard;
 
   // --- 値段 ---
-  function discount() { return hasShard('discount') ? 0.95 : 1; }
+  function discount() { return hasShard('discount10') ? 0.9 : hasShard('discount') ? 0.95 : 1; }
 
   G.price = function (id, amount) {
     var b = G.buildingById[id];
@@ -134,6 +134,7 @@
     var m = (1 + 0.01 * G.achievementCount()) * (1 + 0.01 * S().shards) * K.evo.bonusMult();
     if (hasShard('secret50')) m *= 1.5;
     if (hasShard('secret100')) m *= 2;
+    if (hasShard('secret500')) m *= 3;
     m *= G.upgradeMult();
     return m;
   };
@@ -184,7 +185,8 @@
   G.rubPercent = function () {
     var p = 0;
     for (var i = 1; i <= 5; i++) if (has('r' + i)) p += 0.01;
-    if (hasShard('rubPower')) p += 0.01;
+    if (hasShard('rubPower3')) p += 0.03;
+    else if (hasShard('rubPower')) p += 0.01;
     return p;
   };
 

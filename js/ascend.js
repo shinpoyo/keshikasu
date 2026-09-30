@@ -10,6 +10,20 @@
     return Math.max(0, total - S().shardsEarned);
   };
 
+  // つぎの かけらまでに いる つぶと、その あいだで どこまで きたか（0〜1）
+  A.next = function () {
+    var all = S().allTimeCrumbs, n = Math.floor(Math.cbrt(all / 1e12));
+    var from = Math.pow(n, 3) * 1e12, to = Math.pow(n + 1, 3) * 1e12;
+    return { left: Math.max(0, to - all), ratio: Math.min(1, Math.max(0, (all - from) / (to - from))) };
+  };
+
+  // はじめから いる どうぐ（アリさん・指）
+  A.startBonus = function () {
+    var s = S();
+    if (s.shardUpgrades.startAnts && s.buildings.ant < 10) s.buildings.ant = 10;
+    if (s.shardUpgrades.startFingers && s.buildings.finger < 50) s.buildings.finger = 50;
+  };
+
   A.rebirth = function () {
     var s = S();
     var gain = A.pending();
@@ -29,7 +43,8 @@
     s.stage = 1;
     s.mood = f.mood;
     s.stats.runStart = Date.now();
-    if (s.shardUpgrades.startAnts) s.buildings.ant = 10;
+    A.startBonus();
+    if (s.shardUpgrades.paperGift) s.tickets = (s.tickets || 0) + 3;
     K.rt.buffs = {};
     K.rt.kadoLeft = 0;
     K.rt.rocket = null;
@@ -52,7 +67,7 @@
     if (!item || !A.canBuy(item)) return false;
     S().shards -= item.cost;
     S().shardUpgrades[id] = true;
-    if (id === 'startAnts' && S().buildings.ant < 10) S().buildings.ant = 10;
+    A.startBonus();
     return true;
   };
 
