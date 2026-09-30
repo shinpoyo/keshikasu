@@ -124,11 +124,66 @@
   add({ id: 's_rest', cat: 'secret', hidden: true, type: 'rested', n: 1, name: { ja: 'ひと休み', en: 'Taking a Break' },
     desc: { ja: 'ひと休みした。', en: 'Took a break.' }, quote: { ja: 'えらい。', en: 'Good job.' } });
 
+  // --- v2 で ふえた じっせき ---
+  // ずかん: STAGE ごとに 全部（色 7しゅ＋その STAGE の かたちカス）
+  [1, 2, 3, 4, 5, 6, 7].forEach(function (n) {
+    add({ id: 'dex' + n, cat: 'evolve', type: 'dexStage', n: n, name: { ja: 'STAGE ' + n + ' コンプリート', en: 'STAGE ' + n + ' Complete' },
+      desc: { ja: 'STAGE ' + n + ' のカスを全部見つけた。', en: 'Found every STAGE ' + n + ' crumb.' },
+      quote: { ja: 'みんなそろうと、つくえがせまい。', en: 'With everyone here, the desk feels small.' } });
+  });
+  add({ id: 'shape1', cat: 'evolve', type: 'shapes', n: 1, name: { ja: '変な形', en: 'Odd Shape' },
+    desc: { ja: 'はじめてかたちカスが出た。', en: 'Got a shaped crumb for the first time.' }, quote: { ja: 'わざとじゃない。', en: 'Not on purpose.' } });
+  add({ id: 'shapeAll', cat: 'evolve', type: 'shapesAll', n: 1, tier: 3, name: { ja: 'かたちカス全部', en: 'Every Shape' },
+    desc: { ja: 'かたちカスを全部見つけた。', en: 'Found every shaped crumb.' }, quote: { ja: 'カスは何にでもなれる。', en: 'Crumbs can become anything.' } });
+  add({ id: 'specialAll', cat: 'evolve', type: 'specialsAll', n: 1, tier: 3, name: { ja: 'とくべつなカス全部', en: 'Every Special' },
+    desc: { ja: 'とくべつなカスを全部見つけた。', en: 'Found every special crumb.' }, quote: { ja: 'とくべつが、ふつうになった。', en: 'Special became normal.' } });
+  add({ id: 'trade1', cat: 'evolve', type: 'trades', n: 1, name: { ja: 'スタンプこうかん', en: 'Stamp Trade' },
+    desc: { ja: 'はじめてスタンプでこうかんした。', en: 'Traded stamps for the first time.' }, quote: { ja: 'ためたかいがあった。', en: 'Worth saving up.' } });
+  add({ id: 'dups50', cat: 'evolve', type: 'dups', n: 50, name: { ja: 'ダブりの山', en: 'Pile of Duplicates' },
+    desc: { ja: 'ダブりが全部で50回出た。', en: 'Got 50 duplicates in all.' }, quote: { ja: 'ダブりも数が集まるとうれしい。', en: 'Duplicates are nice in bulk.' } });
+  add({ id: 'shard1', cat: 'evolve', type: 'shardBuys', n: 1, name: { ja: 'はじめてのお買いもの', en: 'First Purchase' },
+    desc: { ja: 'はじめてかけらを使った。', en: 'Spent shards for the first time.' }, quote: { ja: 'かけらは使うためにある。', en: 'Shards are for spending.' } });
+  add({ id: 'shardAll', cat: 'evolve', type: 'shardBuys', n: K.data.shardShop.length, name: { ja: 'お店をまるごと', en: 'Bought the Whole Shop' },
+    desc: { ja: 'かけらのお店のものを全部買った。', en: 'Bought everything in the Shard Shop.' }, quote: { ja: 'お店の人もびっくり。', en: 'Even the shopkeeper is surprised.' } });
+  add({ id: 'drawer1', cat: 'evolve', type: 'harvests', n: 1, name: { ja: 'ひきだしの中から', en: 'From the Drawer' },
+    desc: { ja: 'はじめてひきだしから取り出した。', en: 'Took something out of the drawer for the first time.' }, quote: { ja: 'しまったのをわすれていた。', en: 'Forgot it was in there.' } });
+  // 消しゴムを 使いきった・あそんだ 時間
+  [[1, '使いきった', 'Used It Up'], [10, '消しゴム10こ', '10 Erasers'], [100, '消しゴム100こ', '100 Erasers']].forEach(function (r, i) {
+    add({ id: 'eraser' + i, cat: 'rub', type: 'erasers', n: r[0], name: { ja: r[1], en: r[2] },
+      desc: { ja: '消しゴムを' + r[0] + 'こ使いきった。', en: 'Used up ' + r[0] + ' eraser' + (r[0] > 1 ? 's' : '') + '.' },
+      quote: { ja: '小さくなるまでがんばった。', en: 'Worked hard until it got tiny.' } });
+  });
+  [[1, 'ちょっとあそんだ', 'Played a Bit'], [10, 'けっこうあそんだ', 'Played a Lot'], [100, 'ずっとあそんだ', 'Played Forever']].forEach(function (r, i) {
+    add({ id: 'play' + i, cat: 'rub', type: 'playHours', n: r[0], name: { ja: r[1], en: r[2] },
+      desc: { ja: '全部で' + r[0] + '時間あそんだ。', en: 'Played for ' + r[0] + ' hour' + (r[0] > 1 ? 's' : '') + ' in all.' },
+      quote: { ja: 'カスも楽しかった。', en: 'The crumb had fun too.' } });
+  });
+  // ひみつ
+  add({ id: 's_royal', cat: 'secret', hidden: true, tier: 3, type: 'royal', n: 2, name: { ja: 'えらいカスたち', en: 'Very Important Crumbs' },
+    desc: { ja: 'カスキングとカス神を、両方つくえに置いた。', en: 'Put both the Crumb King and the Crumb God on the desk.' }, quote: { ja: 'つくえが少しおごそか。', en: 'The desk feels a bit solemn.' } });
+  add({ id: 's_unlucky', cat: 'secret', hidden: true, type: 'dry', n: 9, name: { ja: 'ついてない', en: 'Unlucky' },
+    desc: { ja: 'ダブりが9回続いた。', en: 'Got 9 duplicates in a row.' }, quote: { ja: '次はきっと新しい。', en: 'Next one is surely new.' } });
+  add({ id: 's_shards100', cat: 'secret', hidden: true, type: 'shardsHeld', n: 100, name: { ja: 'かけら持ち', en: 'Shard Hoarder' },
+    desc: { ja: 'かけらを100こ持った。', en: 'Held 100 shards at once.' }, quote: { ja: 'ポケットがじゃらじゃら。', en: 'Pockets jingling.' } });
+
   // --- かげ（ズル）。数にも /s にも はいらない ---
   add({ id: 's_cheated', cat: 'secret', hidden: true, shadow: true, type: 'cheated', n: 1,
     name: { ja: 'ズルしたカスはまずい', en: 'Cheated Crumbs Taste Awful' },
     desc: { ja: 'ズルをした。（このじっせきは数えない）', en: 'You cheated. (This one does not count.)' },
     quote: { ja: 'なんだか味がしない。', en: 'Somehow it tastes like nothing.' } });
+
+  // むずかしさ（1 銅・2 銀・3 金）: おなじ 種類の 中で n が 大きいほど 上。1つだけの ものは 銅（ひみつは 銀）
+  var groups = {};
+  list.forEach(function (a) { var k = a.type + ':' + (a.b || a.g || ''); (groups[k] = groups[k] || []).push(a); });
+  Object.keys(groups).forEach(function (k) {
+    var g = groups[k].slice().sort(function (x, y) { return x.n - y.n; });
+    g.forEach(function (a, i) {
+      if (a.tier) return;
+      if (g.length === 1) { a.tier = a.cat === 'secret' ? 2 : 1; return; }
+      var r = i / (g.length - 1);
+      a.tier = r < 0.34 ? 1 : r < 0.67 ? 2 : 3;
+    });
+  });
 
   K.data.achievements = list;
 })(window.K = window.K || {});
