@@ -22,6 +22,7 @@
     var m = 1;
     if (K.game.has('g1')) m *= 2;
     if (K.game.hasShard('goldenFreq')) m *= 1.1;
+    if (K.game.hasShard('goldenMore')) m *= 1.15;
     return m;
   }
 
@@ -145,7 +146,8 @@
         K.game.earn(res.gain, false);
         addBuff('goldflash', GS.EFFECTS.goldflash.dur); // すぐ おわるので 3びょうだけ きんいろに もちかえる
       } else {
-        addBuff(res.effect, GS.EFFECTS[res.effect].dur * durMult());
+        var dur = res.effect === 'frenzy' && K.game.hasShard('frenzyLong') ? 120 : GS.EFFECTS[res.effect].dur;
+        addBuff(res.effect, dur * durMult());
       }
     } else if (id === 'kadokeshi') {
       K.rt.kadoLeft = GS.KADO_RUBS;
