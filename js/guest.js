@@ -69,13 +69,13 @@
   // じかんで きえる こうか（K.rt.buffs）。src は アイコンに つかう けしゴム
   GS.EFFECTS = {
     lucky: { src: 'golden', name: { ja: 'ラッキー！', en: 'Lucky!' } },
-    frenzy: { src: 'golden', gold: true, name: { ja: 'キラキラタイム！', en: 'Sparkle Frenzy!' }, desc: { ja: '/s が 7ばい', en: '/s x7' }, short: { ja: 'x7', en: 'x7' }, dur: 77 },
-    scrub: { src: 'golden', gold: true, name: { ja: 'ごりごりタイム！', en: 'Scrub Frenzy!' }, desc: { ja: 'こする ちからが 777ばい', en: 'Rubbing x777' }, short: { ja: 'こする x777', en: 'Rub x777' }, dur: 13 },
-    kado: { src: 'kadokeshi', name: { ja: 'かどけし！', en: 'Corner Eraser!' }, desc: { ja: 'こするのが 10ばい', en: 'Rubbing x10' }, short: { ja: 'x10', en: 'x10' } },
-    sand: { src: 'sand', name: { ja: 'ごしごしタイム！', en: 'Sanding Time!' }, desc: { ja: 'じどうで こする（けしゴムも はやく へる）', en: 'Auto rubbing (your eraser wears faster)' }, short: { ja: 'じどう', en: 'Auto' }, dur: 20 },
-    kaori: { src: 'kaori', name: { ja: 'いいにおい！', en: 'Sweet Smell!' }, desc: { ja: '/s が 2ばい', en: '/s x2' }, short: { ja: 'x2', en: 'x2' }, dur: 60 },
-    neri: { src: 'neri', name: { ja: 'ねりねりタイム！', en: 'Knead Time!' }, desc: { ja: 'こすると カスが くっついて 5ばい', en: 'Rubbed crumbs stick on: x5' }, short: { ja: 'くっつく', en: 'Sticky' }, dur: 15 },
-    rocket: { src: 'rocket', name: { ja: 'ロケットけしゴム！', en: 'Rocket Eraser!' }, desc: { ja: '10かい こすると こまが とびだす', en: 'Every 10 rubs, a piece pops out' }, short: { ja: 'こま', en: 'Pieces' } },
+    frenzy: { src: 'golden', gold: true, name: { ja: 'キラキラタイム！', en: 'Sparkle Frenzy!' }, desc: { ja: '/s が 7倍', en: '/s x7' }, short: { ja: 'x7', en: 'x7' }, dur: 77 },
+    scrub: { src: 'golden', gold: true, name: { ja: 'ごりごりタイム！', en: 'Scrub Frenzy!' }, desc: { ja: 'こする力が 777倍', en: 'Rubbing x777' }, short: { ja: 'こする x777', en: 'Rub x777' }, dur: 13 },
+    kado: { src: 'kadokeshi', name: { ja: 'かどけし！', en: 'Corner Eraser!' }, desc: { ja: 'こするのが 10倍', en: 'Rubbing x10' }, short: { ja: 'x10', en: 'x10' } },
+    sand: { src: 'sand', name: { ja: 'ごしごしタイム！', en: 'Sanding Time!' }, desc: { ja: '自動でこする（消しゴムも早くへる）', en: 'Auto rubbing (your eraser wears faster)' }, short: { ja: '自動', en: 'Auto' }, dur: 20 },
+    kaori: { src: 'kaori', name: { ja: 'いいにおい！', en: 'Sweet Smell!' }, desc: { ja: '/s が 2倍', en: '/s x2' }, short: { ja: 'x2', en: 'x2' }, dur: 60 },
+    neri: { src: 'neri', name: { ja: 'ねりねりタイム！', en: 'Knead Time!' }, desc: { ja: 'こするとカスがくっついて 5倍', en: 'Rubbed crumbs stick on: x5' }, short: { ja: 'くっつく', en: 'Sticky' }, dur: 15 },
+    rocket: { src: 'rocket', name: { ja: 'ロケット消しゴム！', en: 'Rocket Eraser!' }, desc: { ja: '10回こするとこまが飛び出す', en: 'Every 10 rubs, a piece pops out' }, short: { ja: 'こま', en: 'Pieces' } },
     goldflash: { dur: 3 }
   };
 
