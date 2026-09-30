@@ -12,7 +12,7 @@
   E.traitById = traitById;
   E.specialById = specialById;
   E.shapeById = shapeById;
-  E.TOTAL = K.data.stages.length * K.data.traits.length + K.data.specials.length + K.data.shapes.length; // 88
+  E.TOTAL = K.data.stages.length * K.data.traits.length + K.data.specials.length + K.data.shapes.length; // 90
 
   E.queue = []; // 画面に出す しんかの演出
 
