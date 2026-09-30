@@ -82,7 +82,7 @@
   G.fingerBonus = function () {
     if (!has('f4')) return 0;
     var add = 0.1;
-    ['f5', 'f6', 'f7', 'f8'].forEach(function (id) { if (has(id)) add *= G.upgradeById[id].mult; });
+    ['f5', 'f6', 'f7', 'f8', 'f9', 'f10', 'f11', 'f12', 'f13', 'f14'].forEach(function (id) { if (has(id)) add *= G.upgradeById[id].mult; });
     return add * nonFingerCount();
   };
 
@@ -95,7 +95,7 @@
   G.buildingMult = function (id) {
     if (id === 'finger') return fingerDoubles();
     var m = 1;
-    for (var i = 1; i <= 7; i++) if (has('b_' + id + '_' + i)) m *= 2;
+    for (var i = 1; i <= 13; i++) if (has('b_' + id + '_' + i)) m *= 2;
     return m;
   };
 
@@ -115,10 +115,26 @@
   K.data.achievements.forEach(function (a) { if (a.shadow) G.shadowIds[a.id] = true; });
   G.achievementTotal = K.data.achievements.filter(function (a) { return !a.shadow; }).length;
 
+  // 文房具シリーズ（全体 +○%）と カスはかせの助手（ずかんの 数 × ○%）
+  var globalUps = K.data.upgrades.filter(function (u) { return u.kind === 'globalPct' || u.kind === 'zukanMult'; });
+  G.upgradeMult = function () {
+    var m = 1, found = null;
+    globalUps.forEach(function (u) {
+      if (!has(u.id)) return;
+      if (u.kind === 'globalPct') m *= 1 + u.pct;
+      else {
+        if (found === null) found = K.evo.foundCount();
+        m *= 1 + u.add * found;
+      }
+    });
+    return m;
+  };
+
   G.globalMult = function () {
     var m = (1 + 0.01 * G.achievementCount()) * (1 + 0.01 * S().shards) * K.evo.bonusMult();
     if (hasShard('secret50')) m *= 1.5;
     if (hasShard('secret100')) m *= 2;
+    m *= G.upgradeMult();
     return m;
   };
 
@@ -193,6 +209,8 @@
     if (u.building) return s.buildings[u.building] >= u.need;
     if (u.needHandmade != null) return s.handmade >= u.needHandmade;
     if (u.needGuests != null) return K.guest.total() >= u.needGuests;
+    if (u.needTotal != null) return s.totalCrumbs >= u.needTotal;
+    if (u.needZukan != null) return K.evo.foundCount() >= u.needZukan;
     return true;
   };
 

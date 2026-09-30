@@ -29,23 +29,43 @@
       desc: { ja: '「千の指」のこうかが20倍。', en: '"A Thousand Fingers" is 20 times stronger.' } },
     { id: 'f8', need: 200, cost: 1e10, kind: 'thousandMult', mult: 20,
       name: { ja: 'むげんの指', en: 'Infinite Fingers' },
-      desc: { ja: '「千の指」のこうかが20倍。指が指をこする。', en: '"A Thousand Fingers" is 20 times stronger. Fingers rub fingers.' } }
+      desc: { ja: '「千の指」のこうかが20倍。指が指をこする。', en: '"A Thousand Fingers" is 20 times stronger. Fingers rub fingers.' } },
+    { id: 'f9', need: 250, cost: 1e12, kind: 'thousandMult', mult: 20,
+      name: { ja: '京の指', en: 'Ten Quadrillion Fingers' },
+      desc: { ja: '「千の指」のこうかが20倍。数えるだけで1日が終わる。', en: '"A Thousand Fingers" is 20 times stronger. Counting them takes all day.' } },
+    { id: 'f10', need: 300, cost: 1e14, kind: 'thousandMult', mult: 20,
+      name: { ja: '星の数の指', en: 'As Many Fingers as Stars' },
+      desc: { ja: '「千の指」のこうかが20倍。夜空が指に見えてきた。', en: '"A Thousand Fingers" is 20 times stronger. The night sky looks like fingers now.' } },
+    { id: 'f11', need: 350, cost: 1e16, kind: 'thousandMult', mult: 20,
+      name: { ja: 'うちゅうの指', en: 'Cosmic Fingers' },
+      desc: { ja: '「千の指」のこうかが20倍。うちゅうのどこかでだれかがこすっている。', en: '"A Thousand Fingers" is 20 times stronger. Someone out in space is rubbing too.' } },
+    { id: 'f12', need: 400, cost: 1e18, kind: 'thousandMult', mult: 20,
+      name: { ja: '指の指', en: "Fingers' Fingers" },
+      desc: { ja: '「千の指」のこうかが20倍。指にも指が生えた。', en: '"A Thousand Fingers" is 20 times stronger. The fingers grew fingers.' } },
+    { id: 'f13', need: 450, cost: 1e20, kind: 'thousandMult', mult: 20,
+      name: { ja: '指の神さま', en: 'Finger Deity' },
+      desc: { ja: '「千の指」のこうかが20倍。指をあわせておがんだ。', en: '"A Thousand Fingers" is 20 times stronger. You put your fingers together and prayed.' } },
+    { id: 'f14', need: 500, cost: 1e22, kind: 'thousandMult', mult: 20,
+      name: { ja: 'さいごの指', en: 'The Last Finger' },
+      desc: { ja: '「千の指」のこうかが20倍。これ以上は指がたりない。', en: '"A Thousand Fingers" is 20 times stronger. There are no fingers left to count on.' } }
   ];
   finger.forEach(function (u) {
     list.push({ id: u.id, type: 'finger', icon: u.id === 'f1' ? 'pencil' : 'finger', building: 'finger', need: u.need,
       cost: u.cost, kind: u.kind, add: u.add, mult: u.mult, name: u.name, desc: u.desc });
   });
 
-  // --- 施設アップグレード（1/5/25/50/100/150/200こ で解放、生産2ばい） ---
-  var TIERS = [1, 5, 25, 50, 100, 150, 200];
-  var TIER_COST = [10, 50, 500, 50000, 5e6, 5e8, 5e10];
+  // --- 施設アップグレード（1/5/25/50/100/150/200こ、終盤用に 250〜500こ で解放、生産2ばい） ---
+  var TIERS = [1, 5, 25, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500];
+  var TIER_COST = [10, 50, 500, 50000, 5e6, 5e8, 5e10, 5e12, 5e14, 5e16, 5e18, 5e20, 5e22];
   var ADJ = {
-    ja: ['', 'しっかりした', 'ていねいな', '本気の', '伝説の', 'まぼろしの', 'うちゅう一の'],
-    en: ['', 'Sturdy', 'Careful', 'Serious', 'Legendary', 'Phantom', 'Best-in-Universe']
+    ja: ['', 'しっかりした', 'ていねいな', '本気の', '伝説の', 'まぼろしの', 'うちゅう一の', 'ゆめの', 'ひみつの', '本物の', 'さいごの', 'その先の', '本当にさいごの'],
+    en: ['', 'Sturdy', 'Careful', 'Serious', 'Legendary', 'Phantom', 'Best-in-Universe', 'Dream', 'Secret', 'Genuine', 'Final', 'Beyond-Final', 'Truly Final']
   };
   var FLAVOR = {
-    ja: ['', 'ちょっとたのもしい。', 'ていねいにこする。', '目がマジ。', '人々が語りつぐ。', '見た人はいない。', 'うちゅうで一番。'],
-    en: ['', 'A little more reliable.', 'Rubs with care.', 'Eyes are serious.', 'People tell stories about it.', 'No one has seen it.', 'Number one in the universe.']
+    ja: ['', 'ちょっとたのもしい。', 'ていねいにこする。', '目がマジ。', '人々が語りつぐ。', '見た人はいない。', 'うちゅうで一番。',
+      'ねている間も働く。', 'だれにも言っていない。', 'やっと本物になった。', 'これでさいご。', 'さいごの、その先。', '今度こそ本当にさいご。'],
+    en: ['', 'A little more reliable.', 'Rubs with care.', 'Eyes are serious.', 'People tell stories about it.', 'No one has seen it.', 'Number one in the universe.',
+      'Works even while asleep.', 'Nobody has been told.', 'Finally the real thing.', 'This is the last one.', 'Past the last one.', 'This time it really is the last.']
   };
   var FIRST = {
     ant: [{ ja: 'アリさんの長ぐつ', en: 'Ant Boots' }, { ja: '小さな長ぐつをはいた。6本分。', en: 'Tiny boots. Six of them.' }],
@@ -109,6 +129,67 @@
   list.push({ id: 'g2', type: 'golden', icon: 'golden', needGuests: 27, cost: 77777777, kind: 'goldenDur',
     name: { ja: 'ちょっとねばるキラキラ', en: 'Lingering Sparkle' },
     desc: { ja: 'ゴールデン消しゴムのこうかが2倍長く続く。', en: 'Golden Eraser effects last twice as long.' } });
+
+  // --- 文房具シリーズ（この周に 集めた つぶで 解放。全体の /s が ふえる。クッキークリッカーの クッキーの種類） ---
+  var ST = [
+    // [アイコン, 日本語の名前, 英語の名前, 日本語のひとこと, 英語のひとこと]
+    ['ruler', 'じょうぎ', 'Ruler', 'カスが一列にならんだ。', 'The crumbs lined up in a row.'],
+    ['clip', 'ゼムクリップ', 'Paper Clip', 'カスを10こずつまとめる。', 'Holds crumbs together, ten at a time.'],
+    ['sticky', 'ふせん', 'Sticky Note', '「ここにカスあり」と書いてはった。', 'You wrote "crumbs here" and stuck it on.'],
+    ['tape', 'セロハンテープ', 'Clear Tape', 'カスをぺたっと集める。', 'Picks up crumbs with a pat.'],
+    ['protractor', '分度器', 'Protractor', 'カスの角度をはかった。だいたい丸い。', 'You measured the crumb\'s angle. Mostly round.'],
+    ['compass', 'コンパス', 'Compass', 'カスを丸く集める。はりに注意。', 'Gathers crumbs in a circle. Mind the needle.'],
+    ['stapler', 'ホチキス', 'Stapler', 'カスをとめた。なぜか。', 'You stapled the crumbs. Nobody knows why.'],
+    ['pencase', '筆箱', 'Pencil Case', 'カスの家ができた。', 'The crumbs have a home now.'],
+    ['notebook', 'ノート', 'Notebook', 'カスの記録をつけはじめた。', 'You started a crumb diary.'],
+    ['scissors', 'はさみ', 'Scissors', 'カスを半分に切ったら、2こになった。', 'You cut a crumb in half. Now there are two.'],
+    ['ruler', '三角じょうぎ', 'Set Square', '2まいで何でもはかれる。', 'With two of these, you can measure anything.'],
+    ['clip', '目玉クリップ', 'Binder Clip', 'はさむ力がすごい。', 'What a grip.'],
+    ['sticky', '大きなふせん', 'Big Sticky Note', 'つくえが見えなくなった。', 'You can no longer see the desk.'],
+    ['tape', 'ガムテープ', 'Packing Tape', 'カスを箱につめて送れる。', 'Now you can box up crumbs and ship them.'],
+    ['protractor', '360度の分度器', 'Full-Circle Protractor', 'ぐるっと1しゅうはかれる。', 'Measures all the way around.'],
+    ['compass', '大きなコンパス', 'Giant Compass', '校庭に丸がかける。', 'Big enough to draw on the school field.'],
+    ['stapler', '大きなホチキス', 'Heavy-Duty Stapler', '100まい重ねてもとめられる。', 'Staples a hundred sheets at once.'],
+    ['pencase', '2階建ての筆箱', 'Two-Story Pencil Case', '1階はカス、2階もカス。', 'Crumbs downstairs. Crumbs upstairs.'],
+    ['notebook', '方がんノート', 'Graph Paper Notebook', 'カスをマス目に1つずつ。', 'One crumb per square.'],
+    ['scissors', '工作ばさみ', 'Craft Scissors', 'ぎざぎざに切れる。カスもぎざぎざ。', 'Cuts zigzags. The crumbs are zigzag too.'],
+    ['ruler', '金のじょうぎ', 'Golden Ruler', 'はかる物がぜんぶ高そうに見える。', 'Everything it measures looks expensive.'],
+    ['clip', '金のクリップ', 'Golden Clip', 'とめたカスまで光っている。', 'Even the clipped crumbs shine.'],
+    ['sticky', '金のふせん', 'Golden Sticky Note', 'はがすのがもったいない。', 'Too nice to peel off.'],
+    ['tape', '金のテープ', 'Golden Tape', 'はった所がかざりになった。', 'Wherever it sticks becomes a decoration.'],
+    ['protractor', '金の分度器', 'Golden Protractor', '角度がきれいに見える。', 'The angles look beautiful now.'],
+    ['compass', '金のコンパス', 'Golden Compass', 'まるで太陽をかいたよう。', 'Every circle looks like the sun.'],
+    ['stapler', '金のホチキス', 'Golden Stapler', 'パチンという音まで上品。', 'Even the click sounds classy.'],
+    ['pencase', '金の筆箱', 'Golden Pencil Case', '中に入れるのがきんちょうする。', 'You feel nervous putting things in it.'],
+    ['notebook', '金のノート', 'Golden Notebook', 'カスの記録がもう千ページ。', 'The crumb diary is a thousand pages long.'],
+    ['scissors', '金のはさみ', 'Golden Scissors', 'テープカットに使うらしい。', 'Apparently it is for ribbon-cutting ceremonies.']
+  ];
+  var ST_PCT = [0.03, 0.05, 0.07]; // 10こごとに こうかが 大きく なる
+  ST.forEach(function (r, i) {
+    var at = Math.pow(10, 8 + i * 0.7); // 100M から 10の0.7乗ずつ（さいごは 約 1.3e28）
+    var pct = ST_PCT[Math.floor(i / 10)];
+    var p = Math.round(pct * 100);
+    list.push({ id: 'st' + (i + 1), type: 'stationery', icon: 'st-' + r[0] + '-' + (Math.floor(i / 10) + 1), needTotal: at,
+      cost: Math.round(at * 3), kind: 'globalPct', pct: pct,
+      name: { ja: r[1], en: r[2] },
+      desc: { ja: r[3] + '全体の /s が +' + p + '%。', en: r[4] + ' +' + p + '% to all /s.' } });
+  });
+
+  // --- カスはかせの助手（ずかんの カスが 多いほど /s が のびる。クッキークリッカーの 子ネコ） ---
+  var HELPERS = [
+    [10, 9e7, '見習いの助手', 'Trainee Assistant', 'ずかんを毎日ながめている。', 'Looks through the Crumbpedia every day.'],
+    [20, 9e9, 'メガネの助手', 'Bespectacled Assistant', '小さいカスもよく見える。', 'Can spot even the tiniest crumbs.'],
+    [30, 9e11, '白衣の助手', 'Lab Coat Assistant', '白衣がカスだらけ。', 'The lab coat is covered in crumbs.'],
+    [45, 9e13, 'ベテランの助手', 'Veteran Assistant', 'カスを見ただけで名前が分かる。', 'Can name any crumb at a glance.'],
+    [60, 9e15, '助手の助手', "Assistant's Assistant", '助手にも助手がついた。', 'Now the assistant has an assistant.'],
+    [75, 9e17, 'となりの研究室の助手', 'Assistant from Next Door', 'となりからも手伝いに来た。', 'Came over from the lab next door to help.'],
+    [90, 9e19, '助手長', 'Head Assistant', '助手たちのリーダー。ずかんはかんぺき。', 'Leader of the assistants. The Crumbpedia is flawless.']
+  ];
+  HELPERS.forEach(function (r, i) {
+    list.push({ id: 'kh' + (i + 1), type: 'helper', icon: 'helper', needZukan: r[0], cost: r[1], kind: 'zukanMult', add: 0.0025,
+      name: { ja: r[2], en: r[3] },
+      desc: { ja: r[4] + 'ずかんのカスが多いほど、/s がのびる。', en: r[5] + ' The more crumbs in your Crumbpedia, the higher your /s.' } });
+  });
 
   K.data.upgrades = list;
 
