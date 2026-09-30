@@ -36,6 +36,7 @@
       shards: 0,               // もっている かけら
       shardsEarned: 0,         // これまでに もらった かけら
       shardUpgrades: {},
+      drawer: { slots: [null, null, null, null, null, null], buffs: {}, gold: 0, harvests: 0 }, // ひきだし（js/drawer.js）。消しゴムにもどっても のこる
       mood: { praises: 0, blows: 0, idle: 0 }, // この周の記録（特別な進化）
       stats: {
         rubs: 0, rolls: 0, allHandmade: 0, golden: 0, guests: {}, playTime: 0, rebirths: 0,

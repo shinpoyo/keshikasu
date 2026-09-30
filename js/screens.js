@@ -6,7 +6,7 @@
   var S = function () { return K.state; };
   var t = function (k, v) { return K.t(k, v); };
   var esc = function (s) { return K.ui.esc(s); };
-  var VERSION = '0.23'; // index.html の ?v= と そろえる（ブラウザの キャッシュで 古い js が のこらないように）
+  var VERSION = '0.24'; // index.html の ?v= と そろえる（ブラウザの キャッシュで 古い js が のこらないように）
 
   function show(id) {
     ['screen-title', 'screen-naming', 'screen-game'].forEach(function (s) { $(s).hidden = s !== id; });
@@ -132,6 +132,7 @@
       item('zukan', K.art.ui('zukan', 24), t('zukan'), '', K.evo.foundCount() + ' / ' + K.evo.TOTAL) +
       item('achievements', K.art.ui('ach', 24), t('achievements'), '', K.game.achievementCount() + ' / ' + K.game.achievementTotal) +
       item('stats', K.art.ui('stats', 24), t('stats')) +
+      (K.drawer.unlocked() ? item('drawer', K.art.ui('drawer', 24), t('drawer'), K.drawer.readyCount() ? t('drawerReadyHint', { n: K.drawer.readyCount() }) : '', '', K.drawer.readyCount() ? 'gold' : '') : '') +
       item('shardshop', K.art.upIcon('shard', 24), t('shardShop'), '', s.shards + ' ' + t('shardsUnit')) +
       item('rebirth', K.art.ui('eraser', 24), t('rebirth'), pend > 0 ? t('rebirthMenuHint', { n: pend }) : '', '', pend > 0 ? 'gold' : '') +
       '</div><div class="menu-sub">' +
@@ -344,6 +345,84 @@
       '<p class="lead">' + esc(t('shardShopDesc')) + ' ' + esc(t('shardBonus')) + '</p>' +
       '<div class="shard-grid">' + items + '</div>';
   };
+  // ---------- ひきだし ----------
+  var drawerSel = null, drawerTimer = null;
+  function growText(sec) {
+    var h = Math.floor(sec / 3600);
+    return h ? t('drawerHours', { n: h }) : t('drawerMins', { n: Math.round(sec / 60) });
+  }
+  RENDER.drawer = function (card) {
+    card.classList.add('mid');
+    var D = K.drawer, d = D.state(), s = S();
+    var slots = '';
+    for (var i = 0; i < D.SLOTS; i++) {
+      var x = d.slots[i];
+      if (!D.slotOpen(i)) {
+        slots += '<div class="dw-slot lock"><div class="dw-pot">?</div><b class="dw-name">' + esc(t('drawerLocked')) + '</b><span class="dw-state">' + esc(t('drawerLockHint', { n: D.SLOT_ZUKAN[i] })) + '</span></div>';
+      } else if (!x) {
+        slots += '<div class="dw-slot empty' + (drawerSel === i ? ' sel' : '') + '"><div class="dw-pot">＋</div><b class="dw-name">' + esc(t('drawerEmpty')) + '</b>' +
+          '<button type="button" class="btn btn-small" data-dw-pick="' + i + '">' + esc(t('drawerPut')) + '</button></div>';
+      } else {
+        var m = K.game.materialById[x.mat], ready = D.ready(i);
+        slots += '<div class="dw-slot' + (ready ? ' ready' : '') + '"><div class="dw-pot">' + K.art.upIcon(x.mat, 34) + '</div><b class="dw-name">' + esc(K.L(m.name)) + '</b>' +
+          (ready ? '<span class="dw-state">' + esc(t('drawerReady')) + '</span><button type="button" class="btn btn-small btn-pink" data-dw-take="' + i + '">' + esc(t('drawerTake')) + '</button>'
+            : '<span class="dw-state" data-dw-left="' + i + '"></span><div class="bar"><div class="bar-fill" data-dw-bar="' + i + '"></div></div>') + '</div>';
+      }
+    }
+    var rows = D.SEEDS.map(function (seed) {
+      var m = K.game.materialById[seed.mat], have = D.hasMat(seed), price = D.price(seed);
+      var can = drawerSel !== null && D.canPlant(drawerSel, seed);
+      return '<tr class="' + (have ? '' : 'dw-no') + '"><td><span class="dw-mini">' + K.art.upIcon(seed.mat, 22) + '</span>' + esc(K.L(m.name)) + '</td>' +
+        '<td class="n">' + esc(growText(seed.grow)) + '</td><td class="n">' + (have ? K.fmt(price) : '—') + '</td><td>' + esc(K.L(seed.got)) +
+        (have ? '' : '<small class="dw-need">' + esc(t('drawerNeedMat')) + '</small>') + '</td>' +
+        '<td>' + (drawerSel !== null ? '<button type="button" class="btn btn-small' + (can ? ' btn-pink' : '') + '" data-dw-put="' + seed.mat + '"' + (can ? '' : ' disabled') + '>' + esc(t('drawerPut')) + '</button>' : '') + '</td></tr>';
+    }).join('');
+    return head(t('drawer')) +
+      '<p class="dw-lead">' + esc(t('drawerLead')) + '</p>' +
+      '<div class="dw-top"><div class="dw-handle"></div><div class="dw-grid">' + slots + '</div></div>' +
+      '<h2 class="dw-h2">' + esc(drawerSel !== null ? t('drawerChoose') : t('drawerList')) + '</h2>' +
+      '<div class="dw-tbl-wrap"><table class="dw-tbl"><thead><tr><th>' + esc(t('drawerColMat')) + '</th><th>' + esc(t('drawerColTime')) + '</th><th>' + esc(t('crumbs')) + '</th><th>' + esc(t('drawerColGot')) + '</th><th></th></tr></thead><tbody>' + rows + '</tbody></table></div>';
+  };
+  AFTER.drawer = function (card) {
+    var D = K.drawer;
+    card.querySelectorAll('[data-dw-pick]').forEach(function (b) {
+      b.onclick = function () { drawerSel = +b.getAttribute('data-dw-pick'); SC.refresh(); };
+    });
+    card.querySelectorAll('[data-dw-put]').forEach(function (b) {
+      b.onclick = function () {
+        if (drawerSel !== null && D.plant(drawerSel, b.getAttribute('data-dw-put'))) {
+          drawerSel = null; K.sound.play('upgrade'); K.store.save(); SC.refresh(); K.ui.renderAll();
+        }
+      };
+    });
+    card.querySelectorAll('[data-dw-take]').forEach(function (b) {
+      b.onclick = function () {
+        var r = D.harvest(+b.getAttribute('data-dw-take'));
+        if (!r) return;
+        var m = K.game.materialById[r.mat];
+        K.sound.play('upgrade');
+        K.ui.toast('<b>' + esc(K.L(m.name)) + '</b> ' + esc(r.gain != null ? t('luckyGain', { v: K.fmt(r.gain) }) : K.L(D.seedByMat[r.mat].got)));
+        K.store.save(); SC.refresh(); K.ui.renderAll();
+      };
+    });
+    // のこり時間を 1びょうごとに 書きかえる。育ちきったら 画面を 作りなおす
+    clearInterval(drawerTimer);
+    var tickLeft = function () {
+      if (!card.isConnected || !card.querySelector('.dw-grid')) { clearInterval(drawerTimer); return; }
+      var grown = false;
+      card.querySelectorAll('[data-dw-left]').forEach(function (el) {
+        var i = +el.getAttribute('data-dw-left');
+        if (D.ready(i)) grown = true;
+        el.textContent = t('drawerLeft', { t: K.fmtClock(D.left(i)) });
+        var bar = card.querySelector('[data-dw-bar="' + i + '"]');
+        if (bar) bar.style.width = (D.ratio(i) * 100) + '%';
+      });
+      if (grown) SC.refresh();
+    };
+    tickLeft();
+    drawerTimer = setInterval(tickLeft, 1000);
+  };
+
   AFTER.shardshop = function (card) {
     card.querySelectorAll('[data-shard]').forEach(function (b) {
       b.onclick = function () {

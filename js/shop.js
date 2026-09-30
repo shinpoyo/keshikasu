@@ -171,6 +171,7 @@
     if (G.praiseActive()) m *= 1.5;
     if (G.buffActive('frenzy')) m *= 7;
     if (G.buffActive('kaori')) m *= 2;
+    if (K.drawer && K.drawer.buffActive('cps2')) m *= 2;
     return m;
   };
 
@@ -191,6 +192,7 @@
     var p = 1 * fingerDoubles() + G.fingerBonus();
     p += G.cps() * G.rubPercent();
     if (G.buffActive('scrub')) p *= 777;
+    if (K.drawer && K.drawer.buffActive('rub10')) p *= 10;
     return p;
   };
 

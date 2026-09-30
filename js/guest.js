@@ -39,6 +39,7 @@
   };
 
   function pick() {
+    if (K.drawer && K.drawer.takeGold()) return 'golden'; // ひきだしの 金のこな
     var list = GS.unlocked();
     if (!list.length || Math.random() < Math.min(GOLDEN_CHANCE * goldenMult(), 0.5)) return 'golden';
     return list[Math.floor(Math.random() * list.length)].id;
@@ -46,6 +47,7 @@
 
   GS.schedule = function () {
     var min = 120, max = 300; // 2〜5ふん
+    if (K.drawer && K.drawer.buffActive('guest2')) { min /= 2; max /= 2; } // ひきだしの ほこり
     GS.nextAt = Date.now() + (min + Math.random() * (max - min)) * 1000;
   };
 
@@ -168,6 +170,7 @@
     });
     if (K.rt.kadoLeft > 0) out.push({ id: 'kado', count: K.rt.kadoLeft, ratio: K.rt.kadoLeft / GS.KADO_RUBS });
     if (K.rt.rocket) out.push({ id: 'rocket', pieces: K.rt.rocket.left, ratio: K.rt.rocket.left / GS.ROCKET_PIECES });
+    if (K.drawer) out = out.concat(K.drawer.activeBuffs());
     return out;
   };
 

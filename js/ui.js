@@ -238,6 +238,12 @@
     // てんせいボタン
     var pend = K.ascend.pending();
     $('rebirth-btn').classList.toggle('ready', pend > 0);
+    // ひきだし
+    var dOpen = K.drawer.unlocked();
+    $('drawer-btn').hidden = !dOpen;
+    var ready = dOpen ? K.drawer.readyCount() : 0;
+    $('drawer-badge').hidden = ready === 0;
+    $('drawer-badge').textContent = ready;
   };
 
   // --- つくえ ---
@@ -526,8 +532,9 @@
     if (sig !== buffSig) {
       buffSig = sig;
       bar.innerHTML = list.map(function (b) {
-        var e = K.guest.EFFECTS[b.id];
-        return '<div class="buff' + (e.gold ? ' is-gold' : '') + '" data-id="' + b.id + '">' + K.art.guest(e.src, 36, 32) +
+        var e = b.id.indexOf('d_') === 0 ? K.drawer.EFFECTS[b.id.slice(2)] : K.guest.EFFECTS[b.id];
+        var icon = e.mat ? K.art.upIcon(e.mat, 32) : K.art.guest(e.src, 36, 32);
+        return '<div class="buff' + (e.gold ? ' is-gold' : '') + '" data-id="' + b.id + '">' + icon +
           '<span class="buff-text"><span class="buff-name">' + esc(K.L(e.name)) + '</span><span class="buff-desc">' + esc(K.L(e.desc)) + '</span></span>' +
           '<span class="buff-short">' + esc(K.L(e.short)) + '</span>' +
           '<span class="buff-time"></span><div class="buff-bar"><div class="buff-fill"></div></div></div>';
