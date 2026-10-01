@@ -489,6 +489,10 @@
   function start() {
     var saved = K.store.load();
     K.state = saved || K.store.fresh();
+    K.loadLang(K.lang(), function () { begin(saved); });
+  }
+
+  function begin(saved) {
     M.applySettings();
     bindGlobal();
     K.ui.placeForWidth();

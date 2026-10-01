@@ -7,8 +7,8 @@
   // --- ゆび（こする力とゆびの生産） ---
   var finger = [
     { id: 'f1', need: 1, cost: 100, kind: 'double',
-      name: { ja: 'えんぴつのおしりをみがく', en: 'Polished Pencil Butt' },
-      desc: { ja: 'えんぴつのおしりをみがいた。指とこする力が2倍。なぜかぴかぴか。', en: 'You polished the end of a pencil. Fingers and rubbing are twice as strong. It is shiny for some reason.' } },
+      name: { ja: 'えんぴつのおしりをみがく', en: 'Polished Pencil Bottom' },
+      desc: { ja: 'えんぴつのおしりをみがいた。指とこする力が2倍。なぜかぴかぴか。', en: 'You polished the bottom end of a pencil. Fingers and rubbing are twice as strong. It is shiny for some reason.' } },
     { id: 'f2', need: 1, cost: 500, kind: 'double',
       name: { ja: '指のストレッチ', en: 'Finger Stretches' },
       desc: { ja: '一、二、三、四。指とこする力が2倍。', en: 'One, two, three, four. Fingers and rubbing are twice as strong.' } },
@@ -64,8 +64,8 @@
   var FLAVOR = {
     ja: ['', 'ちょっとたのもしい。', 'ていねいにこする。', '目がマジ。', '人々が語りつぐ。', '見た人はいない。', 'うちゅうで一番。',
       'ねている間も働く。', 'だれにも言っていない。', 'やっと本物になった。', 'これでさいご。', 'さいごの、その先。', '今度こそ本当にさいご。'],
-    en: ['', 'A little more reliable.', 'Rubs with care.', 'Eyes are serious.', 'People tell stories about it.', 'No one has seen it.', 'Number one in the universe.',
-      'Works even while asleep.', 'Nobody has been told.', 'Finally the real thing.', 'This is the last one.', 'Past the last one.', 'This time it really is the last.']
+    en: ['', 'A little more reliable.', 'Rubs with care.', 'Its eyes are serious.', 'People tell stories about it.', 'No one has seen it.', 'Number one in the universe.',
+      'Works even while asleep.', 'It has not told anyone.', 'Finally the real thing.', 'This is the last one.', 'Past the last one.', 'This time it really is the last.']
   };
   var FIRST = {
     ant: [{ ja: 'アリさんの長ぐつ', en: 'Ant Boots' }, { ja: '小さな長ぐつをはいた。6本分。', en: 'Tiny boots. Six of them.' }],
@@ -77,12 +77,12 @@
     autoeraser: [{ ja: '電池こうかん', en: 'New Batteries' }, { ja: '力強くなった。へるのも速い。', en: 'Stronger now. Wears down faster, too.' }],
     factory: [{ ja: '24時間運転', en: 'Night Shift' }, { ja: '工場はねない。', en: 'The factory never sleeps.' }],
     stamp: [{ ja: 'ちょうこくとう', en: 'Carving Knife' }, { ja: 'よく切れる。カスがよく出る。', en: 'Sharp. Lots of crumbs.' }],
-    roller: [{ ja: 'ローラーのワックス', en: 'Roller Wax' }, { ja: 'つるつるになった。意味はない。', en: 'Now it is slippery. For no reason.' }],
+    roller: [{ ja: 'ローラーのワックス', en: 'Roller Wax' }, { ja: 'つるつるになった。意味はない。', en: 'Now it is shiny and slippery. This helps nothing.' }],
     bigeraser: [{ ja: 'クレーン', en: 'Crane' }, { ja: 'やっと持ち上がった。', en: 'Finally, it can be lifted.' }],
-    moon: [{ ja: '月のうさぎ', en: 'Moon Rabbit' }, { ja: 'もちの代わりにカスをついている。', en: 'It pounds crumbs instead of rice cakes.' }],
+    moon: [{ ja: '月のうさぎ', en: 'Moon Rabbit' }, { ja: 'もちの代わりにカスをついている。', en: 'In old Japanese tales, it makes rice cakes. Now it pounds crumbs.' }],
     timemachine: [{ ja: 'きのうのきのう', en: 'The Day Before Yesterday' }, { ja: 'もっと昔のカスも持ってくる。', en: 'Now it brings even older crumbs.' }],
     paralleldesk: [{ ja: '別のぼく', en: 'Another Me' }, { ja: '向こうのぼくもこすっていた。', en: 'The other me was rubbing too.' }],
-    eplanet: [{ ja: '自転のスピードアップ', en: 'Faster Spin' }, { ja: '1日が短くなった。', en: 'The day got shorter.' }],
+    eplanet: [{ ja: '自転のスピードアップ', en: 'Faster Spin' }, { ja: '1日が短くなった。', en: 'The days got shorter.' }],
     universe: [{ ja: 'うちゅうのいびき', en: 'Cosmic Snore' }, { ja: 'うちゅうがねがえりをうった。', en: 'The universe rolled over in its sleep.' }],
     other: [{ ja: 'あくしゅ', en: 'Handshake' }, { ja: 'カスとカスがあくしゅした。', en: 'Crumb shook hands with crumb.' }]
   };
@@ -143,7 +143,7 @@
     ['pencase', '筆箱', 'Pencil Case', 'カスの家ができた。', 'The crumbs have a home now.'],
     ['notebook', 'ノート', 'Notebook', 'カスの記録をつけはじめた。', 'You started a crumb diary.'],
     ['scissors', 'はさみ', 'Scissors', 'カスを半分に切ったら、2こになった。', 'You cut a crumb in half. Now there are two.'],
-    ['ruler', '三角じょうぎ', 'Set Square', '2まいで何でもはかれる。', 'With two of these, you can measure anything.'],
+    ['ruler', '三角じょうぎ', 'Triangle Ruler', '2まいで何でもはかれる。', 'With two of these, you can measure anything.'],
     ['clip', '目玉クリップ', 'Binder Clip', 'はさむ力がすごい。', 'What a grip.'],
     ['sticky', '大きなふせん', 'Big Sticky Note', 'つくえが見えなくなった。', 'You can no longer see the desk.'],
     ['tape', 'ガムテープ', 'Packing Tape', 'カスを箱につめて送れる。', 'Now you can box up crumbs and ship them.'],
@@ -208,7 +208,7 @@
       name: { ja: 'のり', en: 'Glue' },
       desc: { ja: 'まぜると、まるめたカスがテカテカのびる。', en: 'Mix it in and new crumbs get shiny and stretchy.' } },
     { id: 'dust', trait: 'fluffy', stage: 3, cost: 30000,
-      name: { ja: 'ほこり', en: 'Dust Bunny' },
+      name: { ja: 'ほこり', en: 'Dust Ball' },
       desc: { ja: 'まぜると、まるめたカスがもふもふになる。', en: 'Mix it in and new crumbs get fluffy.' } },
     { id: 'sand', trait: 'gritty', stage: 4, cost: 3e6,
       name: { ja: 'すなけしのこな', en: 'Sand Eraser Dust' },

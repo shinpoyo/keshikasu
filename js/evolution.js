@@ -58,6 +58,12 @@
       ja: st.name.ja + ' ' + (tr.word.ja || '') + 'カス',
       en: st.name.en + ' ' + (tr.word.en ? tr.word.en + ' ' : '') + 'Crumb'
     };
+    // ほかの ことばは ならべ方が ちがうので、ことばごとの かたち（crumbName）に はめる
+    var l = K.lang();
+    if (l !== 'ja' && l !== 'en') {
+      name[l] = K.fill(K.t('crumbName'), { stage: K.tx(st.name.en, l), trait: tr.word.en ? K.tx(tr.word.en, l) : '' })
+        .replace(/\s+/g, ' ').trim();
+    }
     var line = tr.id === 'plain' ? st.line : { ja: tr.lines.ja[(n - 1) % 3], en: tr.lines.en[(n - 1) % 3] };
     return { id: id, special: false, stage: n, trait: tr.id, name: name, line: line,
       art: K.art.kasuSrc(n), filter: tr.filter, tint: tr.tint || null };
