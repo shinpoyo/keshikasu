@@ -48,6 +48,7 @@
     K.rt.buffs = {};
     K.rt.kadoLeft = 0;
     K.rt.rocket = null;
+    K.rt.jumbo = null;
     K.rt.hold = [];
     K.rt.praiseUntil = 0;
     return gain;

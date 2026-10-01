@@ -80,8 +80,22 @@
     GS.nextAt = Date.now() + (min + Math.random() * (max - min)) * 1000;
   };
 
+  // 見えない あいだ（ほかの タブ・ずかんなどの 画面・進化の 演出）は 来ないで まつ。
+  // 来ている けしゴムの 15びょうも とめる（見ていない あいだに 帰って しまわないように）
+  function busy() {
+    return document.hidden || (K.screens && (K.screens.isOpen() || K.screens.evoOpen()));
+  }
+
+  var lastUpdate = 0;
   GS.update = function () {
     var now = Date.now();
+    var dt = lastUpdate ? Math.min(now - lastUpdate, 60000) : 0;
+    lastUpdate = now;
+    var stalled = dt > 2000; // タブが ねむって いた
+    if (busy() || stalled) {
+      if (GS.current) GS.current.until += dt;
+      if (busy()) return;
+    }
     if (GS.current && now > GS.current.until) {
       GS.current = null;
       GS.schedule();
