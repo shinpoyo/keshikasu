@@ -851,6 +851,8 @@ textarea.savebox {
 .evo-morph { position: absolute; inset: 0; filter: brightness(0) invert(1) drop-shadow(0 0 18px rgba(255,246,214,.9)); animation: morph-out .2s ease var(--reveal) both; }
 .evo-morph > span { position: absolute; inset: 0; }
 .evo-morph .kpic-tint { display: none; }
+.evo-morph.cycle > span { opacity: 0; }
+.evo-morph.cycle > span.on { opacity: 1; }
 .evo-from { animation: blink-a var(--reveal) steps(1, end) both; }
 .evo-to { animation: blink-b var(--reveal) steps(1, end) both; }
 @keyframes blink-a {
