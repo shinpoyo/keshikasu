@@ -163,22 +163,26 @@
     K.ui.renderEraser();
   }
 
-  // すなけし: 1びょうに 10かい じどうで こする
+  // すなけし: 1びょうに 20かい じどうで こする（ごしごし 速く 見えるように 2かいに 1かい うごかす）
+  var SAND_RATE = 20;
   var sandAcc = 0, sandN = 0;
   function sandTick(dt) {
     if (!K.game.buffActive('sand')) { sandAcc = 0; return; }
-    sandAcc += dt * 10;
+    sandAcc += dt * SAND_RATE;
     while (sandAcc >= 1) {
       sandAcc -= 1;
       var p = K.game.clickPower();
       K.game.earn(p, false);
       if (!K.game.buffActive('neri')) K.rt.mess = Math.min((K.rt.mess || 0) + 1, K.game.MESS_MAX);
-      wear();
-      if (++sandN % 3 === 0) {
+      if (++sandN % 2 === 0) {
+        wear(); // へる はやさは まえ（1びょうに 10かい）と おなじ
         var er = $('eraser-btn');
         er.classList.remove('rubbing'); void er.offsetWidth; er.classList.add('rubbing');
-        var st = $('kasu-stage').getBoundingClientRect(), eb = er.getBoundingClientRect();
-        K.ui.floatNum(eb.left - st.left + eb.width * (0.2 + Math.random() * 0.6), eb.top - st.top + eb.height * 0.6, '+' + K.fmt(p, { decimals: 1 }));
+        K.ui.rubFx();
+        if (sandN % 4 === 0) {
+          var st = $('kasu-stage').getBoundingClientRect(), eb = er.getBoundingClientRect();
+          K.ui.floatNum(eb.left - st.left + eb.width * (0.2 + Math.random() * 0.6), eb.top - st.top + eb.height * 0.6, '+' + K.fmt(p, { decimals: 1 }));
+        }
       }
     }
   }
