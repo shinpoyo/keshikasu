@@ -6,7 +6,7 @@
   var S = function () { return K.state; };
   var t = function (k, v) { return K.t(k, v); };
   var esc = function (s) { return K.ui.esc(s); };
-  var VERSION = '0.30'; // index.html の ?v= と そろえる（ブラウザの キャッシュで 古い js が のこらないように）
+  var VERSION = '0.31'; // index.html の ?v= と そろえる（ブラウザの キャッシュで 古い js が のこらないように）
 
   function show(id) {
     ['screen-title', 'screen-naming', 'screen-game'].forEach(function (s) { $(s).hidden = s !== id; });
@@ -717,13 +717,19 @@
     var from = K.evo.info(ev.from), to = K.evo.info(ev.to);
     var isMix = ev.type === 'mix';
     var isRoll = ev.type === 'roll';
-    // まるめる: シルエットで なにが できるか わからないように、けっかとは ちがう 2つの かたちを いれかえる
-    var decoyA = from, decoyB = to;
+    // まるめる: でてくる カスとは かんけいなく、ずかんの ぜんぶから ランダムな シルエットを つぎつぎ いれかえる
+    // （けっかを えらばない ので、かげから なにが でるか わからない）。だんだん はやくなる
+    var decoyA = from, decoyB = to, cycle = null;
     if (isRoll) {
-      var st = [1, 2, 3, 4, 5, 6, 7].filter(function (n) { return n !== to.stage; });
-      var pick = function () { return st.splice(Math.floor(Math.random() * st.length), 1)[0]; };
-      decoyA = K.evo.info(K.speciesId(pick(), 'plain'));
-      decoyB = K.evo.info(K.speciesId(pick(), 'plain'));
+      cycle = [];
+      var d = 460, tAt = 0, last = '';
+      while (tAt < 3500) {
+        var id;
+        do { id = K.evo.DEX[Math.floor(Math.random() * K.evo.DEX.length)]; } while (id === last);
+        last = id;
+        cycle.push({ id: id, at: tAt });
+        tAt += d; d = Math.max(80, d * 0.82);
+      }
     }
     var reduce = !!S().settings.reduceMotion;
     var power = isMix ? 0 : Math.min(ev.stage || 7, 7); // だんかい（とくべつは 7 あつかい）
@@ -756,7 +762,8 @@
       '<div class="evo-rings">' + (isMix ? '<i></i>' : '<i></i><i></i><i></i>') + '</div>' + fx +
       '<div class="evo-inner">' +
         '<div class="evo-stagebox">' +
-          '<div class="evo-morph"><span class="evo-from">' + K.art.kasuPic(decoyA) + '</span><span class="evo-to">' + K.art.kasuPic(decoyB) + '</span></div>' +
+          (cycle ? '<div class="evo-morph cycle">' + cycle.map(function (c, i) { return '<span' + (i ? '' : ' class="on"') + '>' + K.art.kasuPic(K.evo.info(c.id)) + '</span>'; }).join('') + '</div>'
+            : '<div class="evo-morph"><span class="evo-from">' + K.art.kasuPic(decoyA) + '</span><span class="evo-to">' + K.art.kasuPic(decoyB) + '</span></div>') +
           '<div class="evo-reveal">' + K.art.kasuPic(to) + '</div>' +
         '</div>' +
         '<span class="evo-kicker">' + (isMix ? 'MIX' : isRoll ? (to.special ? t('specialBadge') : t('newKasu') + ' ・ ' + t('stageBadge', { n: to.stage })) : t('evolution')) + '</span>' +
@@ -774,6 +781,13 @@
     if (!reduce) K.sound.play(isMix ? 'mixing' : 'charge');
     var revealAt = reduce ? 0 : (isMix ? 1100 : 3600); // css の --reveal と そろえる
     var timers = [setTimeout(function () { K.sound.play(isMix ? 'upgrade' : 'evolve'); }, revealAt)];
+    if (cycle && !reduce) {
+      var sils = el.querySelectorAll('.evo-morph.cycle > span');
+      cycle.forEach(function (c, i) {
+        if (!i) return;
+        timers.push(setTimeout(function () { sils[i - 1].classList.remove('on'); sils[i].classList.add('on'); }, c.at));
+      });
+    }
     // スキップ不可。そのあと タップで とじる（自動でも とじる）
     var canClose = false;
     var minTime = reduce ? 800 : (isMix ? 2000 : 5600);

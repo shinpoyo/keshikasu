@@ -6,7 +6,7 @@
 - 企画書（実装仕様）: [docs/spec.md](docs/spec.md)
 - デザイン案: [design/](design/)（Claude のデザインキャンバスで作成した `.dc.html`）
 - 企画案の一覧: [docs/ideas.md](docs/ideas.md)
-- 作業履歴: [docs/worklog.md](docs/worklog.md)
+- 作業履歴: [docs/worklog/](docs/worklog/README.md)（作業ごとに1ファイル。2026-09-30 までは [docs/worklog.md](docs/worklog.md)）
 - 引き継ぎメモ: [docs/HANDOFF.md](docs/HANDOFF.md)
 
 ## あそびかた（ローカル）
