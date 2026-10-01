@@ -176,6 +176,7 @@
     if (G.buffActive('frenzy')) m *= 7;
     if (G.buffActive('kaori')) m *= K.rt.kaoriMult || 2;
     if (K.drawer && K.drawer.buffActive('cps2')) m *= 2;
+    if (K.ads && K.ads.boostActive()) m *= 2;
     return m;
   };
 
@@ -198,6 +199,7 @@
     p += G.cps() * G.rubPercent();
     if (G.buffActive('scrub')) p *= 777;
     if (K.drawer && K.drawer.buffActive('rub10')) p *= 10;
+    if (K.ads && K.ads.boostActive()) p *= 2;
     return p;
   };
 

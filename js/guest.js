@@ -276,6 +276,7 @@
     if (K.rt.rocket) out.push({ id: 'rocket', pieces: K.rt.rocket.left, ratio: K.rt.rocket.left / (K.rt.rocket.max || 5) });
     if (K.rt.jumbo) out.push({ id: 'jumbo', count: K.rt.jumbo.left, ratio: K.rt.jumbo.left / K.rt.jumbo.max });
     if (K.drawer) out = out.concat(K.drawer.activeBuffs());
+    if (K.ads) out = out.concat(K.ads.activeBuffs());
     return out;
   };
 

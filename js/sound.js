@@ -88,6 +88,7 @@
   K.sound = {
     play: function (id) {
       if (!K.state || !K.state.settings.sound) return;
+      if (K.ads && K.ads.playing) return;
       var fn = SOUNDS[id];
       if (fn) { try { fn(); } catch (e) { /* 音が出せなくても遊べる */ } }
     },

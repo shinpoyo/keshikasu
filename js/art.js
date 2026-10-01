@@ -125,6 +125,7 @@
     eraser: ['0 0 22 16', '<rect x="1" y="2" width="20" height="12" rx="3" fill="#F29CA3" stroke="' + INK + '" stroke-width="1.5"/><rect x="9" y="2" width="12" height="12" fill="#3E6FB0" stroke="' + INK + '" stroke-width="1.5"/>'],
     sound: ['0 0 24 24', '<g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16 9a4 4 0 0 1 0 6M19 6a8 8 0 0 1 0 12"/></g>'],
     save: ['0 0 24 24', '<g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5"/><path d="M4 17v3h16v-3"/></g>'],
+    ad: ['0 0 24 24', '<g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="13" rx="2.5"/><path d="M8 21h8"/></g><path d="M10 8.6v5.8l4.8-2.9z" fill="currentColor"/>'],
     parents: ['0 0 24 24', '<g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="3"/><circle cx="17" cy="9" r="2.4"/><path d="M3 20c0-3.5 2.7-6 6-6s6 2.5 6 6M14 20c0-2.4 1.4-4.3 3-4.3s3.5 1.9 3.5 4.3"/></g>']
   };
 

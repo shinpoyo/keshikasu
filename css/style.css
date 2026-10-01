@@ -1241,3 +1241,13 @@ textarea.savebox {
 .er-bar span { display: block; height: 100%; background: var(--gold); }
 .er-note { margin: 0; color: var(--muted); font-size: 12px; }
 :root[data-theme="dark"] .dw-why { color: #EC9893; }
+
+/* CrazyGames 版の リワード広告（js/ads.js） */
+.actions .btn-ad { flex: 0 0 auto; min-width: 84px; }
+.actions .btn-ad:disabled { opacity: .6; font-variant-numeric: tabular-nums; }
+.ad-choice { display: flex; flex-direction: column; gap: 10px; align-self: stretch; }
+.ad-choice .btn { width: 100%; justify-content: center; }
+.ad-choice .btn svg { width: 22px; height: 22px; }
+.ad-note { font-size: 12px; color: var(--graphite); margin: 0; }
+.ad-playing body::after { content: ''; position: fixed; inset: 0; z-index: 9999; background: rgba(0,0,0,.35); }
+.ad-playing #app { pointer-events: none; }
