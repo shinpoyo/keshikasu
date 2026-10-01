@@ -6,7 +6,7 @@
   var S = function () { return K.state; };
   var t = function (k, v) { return K.t(k, v); };
   var esc = function (s) { return K.ui.esc(s); };
-  var VERSION = '0.32'; // index.html の ?v= と そろえる（ブラウザの キャッシュで 古い js が のこらないように）
+  var VERSION = '0.33'; // index.html の ?v= と そろえる（ブラウザの キャッシュで 古い js が のこらないように）
 
   function show(id) {
     ['screen-title', 'screen-naming', 'screen-game'].forEach(function (s) { $(s).hidden = s !== id; });
@@ -36,7 +36,7 @@
       '<button type="button" data-lang="ja" aria-pressed="' + (K.lang() === 'ja') + '">にほんご</button>' +
       '<button type="button" data-lang="en" aria-pressed="' + (K.lang() === 'en') + '">English</button></div>' +
       '<button type="button" class="link-btn" id="t-parents">' + esc(t('parents')) + '</button>' +
-      '<span class="foot-note">' + esc(t('versionNote', { v: VERSION })) + '</span></div>';
+      '<span class="foot-note">' + esc(t(K.ads.on ? 'versionNoteAds' : 'versionNote', { v: VERSION })) + '</span></div>';
     show('screen-title');
     el.querySelectorAll('[data-lang]').forEach(function (b) {
       b.onclick = function () { S().settings.lang = b.getAttribute('data-lang'); K.store.save(); SC.title(hasSave); };
@@ -621,7 +621,8 @@
       parentsBox();
   };
   function parentsBox() {
-    return '<div class="parents-box"><h3>' + esc(t('parentsTitle')) + '</h3><p>' + t('parentsBody') + '</p><p>' + esc(t('parentsBodyEn')) + '</p></div>';
+    var ad = K.ads.on ? 'Ads' : '';
+    return '<div class="parents-box"><h3>' + esc(t('parentsTitle')) + '</h3><p>' + t('parentsBody' + ad) + '</p><p>' + esc(t('parentsBodyEn' + ad)) + '</p></div>';
   }
   AFTER.settings = function (card) {
     card.querySelectorAll('[data-lang]').forEach(function (b) {
@@ -674,16 +675,61 @@
 
   // おかえり
   var welcomeData = null;
-  SC.welcome = function (sec, gain, onClose) { welcomeData = { sec: sec, gain: gain }; SC.onWelcomeClose = onClose; SC.open('welcome'); };
+  SC.welcome = function (sec, gain, onClose) { welcomeData = { sec: sec, gain: gain, doubled: false }; SC.onWelcomeClose = onClose; SC.open('welcome'); };
   RENDER.welcome = function () {
     var d = K.fmtDuration(welcomeData.sec);
     return '<div class="welcome-scene">' + K.art.kasuPic(K.evo.info(S().species)) + '<span class="zzz">z z z</span></div>' +
       '<h1 class="center">' + esc(t('welcomeTitle')) + '</h1>' +
       '<div class="bubble">' + esc(K.quote(t('welcomeLine'))) + '</div>' +
       '<p class="lead center">' + esc(d.h ? t('welcomeWhile', { h: d.h, m: d.m }) : t('welcomeWhileM', { m: d.m })) + '</p>' +
-      '<div class="welcome-gain">+' + K.fmt(welcomeData.gain) + '</div>' +
+      '<div class="welcome-gain" id="welcome-gain">+' + K.fmt(welcomeData.gain) + '</div>' +
       '<p class="lead center">' + esc(t('welcomeWorked')) + '</p>' +
-      '<button type="button" class="btn btn-pink btn-lg" data-close>' + esc(t('welcomeTake')) + '</button>';
+      (K.ads.on && !welcomeData.doubled ?
+        // 広告を 見ない ほうも 同じ 大きさ・同じ 見た目に する（CrazyGames の きまり）
+        '<div class="ad-choice"><button type="button" class="btn btn-pink btn-lg" id="welcome-ad">' + K.art.ui('ad', 22) + esc(t('welcomeAd')) + '</button>' +
+        '<button type="button" class="btn btn-pink btn-lg" data-close>' + esc(t('welcomeTake')) + '</button></div>' +
+        '<p class="ad-note center">' + esc(t('adNote')) + '</p>' :
+        '<button type="button" class="btn btn-pink btn-lg" data-close>' + esc(t('welcomeTake')) + '</button>');
+  };
+  AFTER.welcome = function () {
+    var b = $('welcome-ad');
+    if (!b) return;
+    b.onclick = function () {
+      b.disabled = true;
+      K.ads.rewarded(function () {
+        // 留守の 間の ぶんを もう1回 もらって 2倍に する
+        K.game.earn(welcomeData.gain, false);
+        welcomeData.gain *= 2;
+        welcomeData.doubled = true;
+        K.store.save();
+        SC.refresh();
+        K.ui.toast(esc(t('adThanks')));
+      }, function () { b.disabled = false; K.ui.toast(esc(t('adFail'))); });
+    };
+  };
+
+  // 広告で しばらく 2倍
+  RENDER.adBoost = function () {
+    var mins = Math.round(K.ads.BOOST_SEC / 60);
+    return head(t('adBoostTitle')) +
+      '<div class="welcome-scene">' + K.art.kasuPic(K.evo.info(S().species)) + '</div>' +
+      '<p class="lead center">' + esc(t('adBoostBody', { m: mins })) + '</p>' +
+      '<div class="ad-choice"><button type="button" class="btn btn-pink btn-lg" id="boost-ad">' + K.art.ui('ad', 22) + esc(t('adWatch')) + '</button>' +
+      '<button type="button" class="btn btn-pink btn-lg" data-close>' + esc(t('adNo')) + '</button></div>' +
+      '<p class="ad-note center">' + esc(t('adNote')) + '</p>';
+  };
+  AFTER.adBoost = function () {
+    var b = $('boost-ad');
+    b.onclick = function () {
+      b.disabled = true;
+      K.ads.rewarded(function () {
+        K.ads.startBoost();
+        SC.close();
+        K.ui.renderAll();
+        K.ui.toast(esc(t('adThanks')));
+        if (K.sound) K.sound.play('golden');
+      }, function () { b.disabled = false; K.ui.toast(esc(t('adFail'))); });
+    };
   };
 
   // ひとやすみ

@@ -28,6 +28,7 @@
     var dt = (n - lastTick) / 1000;
     lastTick = n;
     if (dt <= 0) return;
+    if (K.ads && K.ads.playing) { S().lastTick = n; return; } // 広告の 間は 止める（その間の ぶんは もらわない）
     // 長く止まっていたら（タブが眠っていた等）オフライン扱い
     if (dt > 60) {
       S().lastTick = n - dt * 1000;
@@ -379,6 +380,7 @@
     $('roll-btn').onclick = roll;
     $('praise-btn').onclick = praise;
     $('blow-btn').onclick = blow;
+    $('ad-btn').onclick = function () { if (K.ads.on && K.ads.boostWait() <= 0) K.screens.open('adBoost'); };
     $('guest').onclick = function () {
       var r = K.guest.click();
       if (!r) return;
@@ -403,7 +405,10 @@
       if (e.key === 'Escape' && K.screens.isOpen()) K.screens.close();
     });
     window.addEventListener('pagehide', function () { K.store.save(); });
-    document.addEventListener('visibilitychange', function () { if (document.hidden) K.store.save(); });
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) K.store.save();
+      if (!$('screen-game').hidden) { if (document.hidden) K.ads.gameplayStop(); else K.ads.gameplayStart(); }
+    });
     window.addEventListener('resize', function () { K.ui.placeForWidth(); K.ui.renderShop(true); });
   }
 
@@ -434,6 +439,7 @@
     K.ui.nextNews();
     markAction();
     K.rt.sessionStart = now();
+    K.ads.gameplayStart();
     if (!running) {
       running = true;
       lastTick = now();
@@ -478,7 +484,9 @@
   };
 
   // ---------- 起動 ----------
-  function boot() {
+  function boot() { K.ads.init(start); }
+
+  function start() {
     var saved = K.store.load();
     K.state = saved || K.store.fresh();
     M.applySettings();
@@ -486,6 +494,7 @@
     K.ui.placeForWidth();
     K.ui.applyStatic();
     K.screens.title(!!(saved && saved.started));
+    K.ads.loaded();
     // デバッグ用（コンソールから K.debug.give(1e9) など）。つかうと ズルの じっせきが つく
     K.debug = {
       give: function (n) { K.guard.flag('debug'); K.game.earn(n, false); },

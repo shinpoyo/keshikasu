@@ -234,6 +234,7 @@
     var happy = Math.ceil((K.rt.praiseUntil - Date.now()) / 1000);
     $('praise-label').textContent = happy > 0 ? t('praiseHappy', { s: happy }) : wait > 0 ? t('praiseWait', { s: wait }) : t('praise');
     $('praise-btn').title = t('praiseHelp');
+    renderAdBtn();
     $('blow-btn').title = t('blowHelp', { v: K.fmt(K.game.blowGain(), { decimals: 1 }) });
     // てんせいボタン
     var pend = K.ascend.pending();
@@ -522,6 +523,18 @@
     U.say(r.id === 'golden' ? K.news.monologue('golden') : K.L(info.line));
   };
 
+  // CrazyGames 版の「広告で 2倍」ボタン。ほかの 場所では 出さない
+  function renderAdBtn() {
+    var btn = $('ad-btn');
+    if (!K.ads || !K.ads.on) { if (!btn.hidden) btn.hidden = true; return; }
+    btn.hidden = false;
+    var wait = Math.ceil(K.ads.boostWait());
+    btn.disabled = wait > 0;
+    var label = wait > 0 ? K.fmtClock(wait) : t('adBoostBtn');
+    if ($('ad-label').textContent !== label) $('ad-label').textContent = label;
+    btn.title = t('adBoostHelp');
+  }
+
   // いま きいている こうか（いくつでも ならべる）
   var buffSig = '';
   U.renderBuff = function () {
@@ -537,8 +550,8 @@
     if (sig !== buffSig) {
       buffSig = sig;
       bar.innerHTML = list.map(function (b) {
-        var e = b.id.indexOf('d_') === 0 ? K.drawer.EFFECTS[b.id.slice(2)] : K.guest.EFFECTS[b.id];
-        var icon = e.mat ? K.art.upIcon(e.mat, 32) : K.art.guest(e.src, 36, 32);
+        var e = b.id.indexOf('d_') === 0 ? K.drawer.EFFECTS[b.id.slice(2)] : b.id.indexOf('a_') === 0 ? K.ads.EFFECTS[b.id.slice(2)] : K.guest.EFFECTS[b.id];
+        var icon = e.mat ? K.art.upIcon(e.mat, 32) : e.ui ? K.art.ui(e.ui, 28) : K.art.guest(e.src, 36, 32);
         return '<div class="buff' + (e.gold ? ' is-gold' : '') + '" data-id="' + b.id + '">' + icon +
           '<span class="buff-text"><span class="buff-name">' + esc(K.L(e.name)) + '</span><span class="buff-desc">' + esc(K.L(e.desc)) + '</span></span>' +
           '<span class="buff-short">' + esc(K.L(e.short)) + '</span>' +

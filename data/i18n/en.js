@@ -1,4 +1,4 @@
-// Screen text (English). Simple words for kids
+// Screen text (English). Short, simple words
 (function (K) {
   'use strict';
   K.i18n = K.i18n || {};
@@ -12,8 +12,9 @@
     newGame: 'New game',
     langJa: 'にほんご',
     langEn: 'English',
-    parents: 'For parents / おうちのかたへ',
+    parents: 'About / このゲームについて',
     versionNote: 'v{v} ・ No ads. No purchases.',
+    versionNoteAds: 'v{v} ・ No purchases.',
 
     day1: 'DAY 1',
     namingLead: 'A crumb fell on the desk.',
@@ -267,9 +268,21 @@
     resetBtn: 'Delete data',
     resetConfirm1: 'Really delete? Your Crumbpedia and awards will be gone too.',
     resetConfirm2: 'Last check. Really delete everything?',
-    parentsTitle: 'For parents / おうちのかたへ',
+    parentsTitle: 'About / このゲームについて',
     parentsBody: 'No ads, no purchases, no links to other sites.<br>Data is saved only on this device.<br>No personal information is sent.<br>A break reminder appears every 30 minutes.',
     parentsBodyEn: '広告・課金・外部リンクはありません。データはこの端末の中だけに保存されます。',
+    parentsBodyAds: 'There are optional ads: you choose whether to watch. You can play everything without them.<br>No purchases, no links to other sites.<br>Data is saved on this device.<br>This game sends no personal information.<br>A break reminder appears every 30 minutes.',
+    parentsBodyEnAds: '広告は見るかどうかを選べます。課金はありません。',
+    welcomeAd: 'Watch an ad: x2',
+    adBoostBtn: 'x2',
+    adBoostHelp: 'Watch an ad to double /s and rubbing for a while',
+    adBoostTitle: 'Double Time',
+    adBoostBody: 'Watch an ad to double /s and rubbing for {m} minutes.',
+    adWatch: 'Watch ad',
+    adNo: 'No thanks',
+    adNote: 'Ads are optional. You can play without them.',
+    adThanks: 'Doubled!',
+    adFail: 'The ad could not load. Maybe next time.',
 
     saveTitle: 'Save',
     saveExportLead: 'Copy this text and keep it. You can continue on another device.',
