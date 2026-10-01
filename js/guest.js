@@ -1,11 +1,11 @@
 // ゲストけしゴム（ゴールデンけしゴムも ここ）。企画書 6-4 の ゴールデンカスを ひろげたもの
-// 2〜5ふんに 1かい、つくえに 1こ やってくる。10かいに 1かいくらいは ゴールデン
+// 1ぷんはん〜4ふんに 1かい、つくえに 1こ やってくる。7かいに 1かいくらいは ゴールデン
 (function (K) {
   'use strict';
   var GS = {};
   var S = function () { return K.state; };
   var LIFETIME = 15;       // 画面に いる びょうすう
-  var GOLDEN_CHANCE = 0.1; // ゴールデンが くる わりあい
+  var GOLDEN_CHANCE = 0.15; // ゴールデンが くる わりあい
   GS.ROCKET_RUBS = 10;    // この かず こすると こまが 1こ とれる
 
   // ★: 使った かずで 上がる（生まれ変わっても のこる stats.guests で かぞえる）
@@ -75,7 +75,7 @@
   }
 
   GS.schedule = function () {
-    var min = 120, max = 300; // 2〜5ふん
+    var min = 90, max = 240; // 1ぷんはん〜4ふん
     if (K.drawer && K.drawer.buffActive('guest2')) { min /= 2; max /= 2; } // ひきだしの ほこり
     GS.nextAt = Date.now() + (min + Math.random() * (max - min)) * 1000;
   };
