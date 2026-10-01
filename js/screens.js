@@ -6,7 +6,7 @@
   var S = function () { return K.state; };
   var t = function (k, v) { return K.t(k, v); };
   var esc = function (s) { return K.ui.esc(s); };
-  var VERSION = '0.33'; // index.html の ?v= と そろえる（ブラウザの キャッシュで 古い js が のこらないように）
+  var VERSION = '0.34'; // index.html の ?v= と そろえる（ブラウザの キャッシュで 古い js が のこらないように）
 
   function show(id) {
     ['screen-title', 'screen-naming', 'screen-game'].forEach(function (s) { $(s).hidden = s !== id; });
@@ -32,15 +32,11 @@
         '<button type="button" class="btn btn-pink btn-lg" id="t-start">' + esc(t('start')) + '</button>') +
       '</div>' +
       '<div class="title-foot">' +
-      '<div class="lang-toggle" role="group" aria-label="Language">' +
-      '<button type="button" data-lang="ja" aria-pressed="' + (K.lang() === 'ja') + '">にほんご</button>' +
-      '<button type="button" data-lang="en" aria-pressed="' + (K.lang() === 'en') + '">English</button></div>' +
+      langSelect() +
       '<button type="button" class="link-btn" id="t-parents">' + esc(t('parents')) + '</button>' +
       '<span class="foot-note">' + esc(t(K.ads.on ? 'versionNoteAds' : 'versionNote', { v: VERSION })) + '</span></div>';
     show('screen-title');
-    el.querySelectorAll('[data-lang]').forEach(function (b) {
-      b.onclick = function () { S().settings.lang = b.getAttribute('data-lang'); K.store.save(); SC.title(hasSave); };
-    });
+    el.querySelector('.lang-select').onchange = function () { var l = this.value; K.loadLang(l, function () { S().settings.lang = l; K.store.save(); K.ui.applyStatic(); SC.title(hasSave); }); };
     $('t-parents').onclick = function () { SC.open('parents'); };
     var go = $('t-continue') || $('t-start');
     go.onclick = function () {
@@ -188,7 +184,7 @@
       var key = st == null ? 'sp' : st;
       if (key !== cur) {
         cur = key;
-        cells += '<span class="z-group">' + (st == null ? 'SPECIAL ・ ' + esc(t('special')) : 'STAGE ' + st + ' ・ ' + esc(K.L(K.data.stages[st - 1].name))) + '</span>';
+        cells += '<span class="z-group">' + (st == null ? esc(t('specialBadge')) + ' ・ ' + esc(t('special')) : esc(t('stageBadge', { n: st })) + ' ・ ' + esc(K.L(K.data.stages[st - 1].name))) + '</span>';
       }
       cells += zcell(id);
     });
@@ -225,7 +221,7 @@
         '<h3>？？？</h3><p class="z-quote">' + esc(info.hint ? K.L(info.hint) : t('notFound')) + '</p>' + tradeBtn(id) + '</div></div>';
     }
     var mat = found.mat ? K.game.materialById[found.mat] : null;
-    var other = K.lang() === 'ja' ? info.name.en : info.name.ja;
+    var other = K.lang() === 'en' ? info.name.ja : info.name.en; // 下に 小さく べつの ことばの 名前
     return '<div class="z-detail"><div class="z-detail-img">' + K.art.kasuPic(info) + '</div>' +
       '<div class="z-detail-body"><span class="z-detail-no">' + K.evo.noLabel(id) + '</span><span class="badge ' + (info.special ? 'badge-special' : 'badge-stage') + '" style="align-self:flex-start">' + (info.special ? t('specialBadge') : t('stageBadge', { n: info.stage })) + '</span>' +
       '<h3>' + esc(K.L(info.name)) + '</h3><span class="z-en">' + esc(other) + '</span>' +
@@ -417,7 +413,7 @@
     var run = [
       [t('stRunCrumbs'), K.fmt(s.totalCrumbs)],
       [t('stHandmade'), K.fmt(s.handmade)],
-      [t('stStage'), 'STAGE ' + s.stage],
+      [t('stStage'), t('stageBadge', { n: s.stage })],
       [t('stRolls'), K.fmt(st.rolls || 0)],
       [t('stBuddies'), K.fmt(buddies)],
       [t('stUpgrades'), Object.keys(s.upgrades).length],
@@ -606,12 +602,19 @@
     setTimeout(function () { if (el.parentNode) done(); }, S().settings.reduceMotion ? 1500 : 4200);
   };
 
+  // ことばの えらびかた（タイトルと せってい）
+  function langSelect() {
+    return '<select class="lang-select" aria-label="Language">' + K.LANGS.map(function (l) {
+      return '<option value="' + l.id + '"' + (l.id === K.lang() ? ' selected' : '') + '>' + esc(l.name) + '</option>';
+    }).join('') + '</select>';
+  }
+
   // せってい
   RENDER.settings = function () {
     var st = S().settings;
     var sw = function (key, on) { return '<button type="button" class="switch" role="switch" aria-checked="' + on + '" data-set="' + key + '"></button>'; };
     return head(t('settingsTitle')) +
-      '<div class="set-row"><span>' + esc(t('setLang')) + '</span><div class="lang-toggle"><button type="button" data-lang="ja" aria-pressed="' + (K.lang() === 'ja') + '">にほんご</button><button type="button" data-lang="en" aria-pressed="' + (K.lang() === 'en') + '">English</button></div></div>' +
+      '<div class="set-row"><span>' + esc(t('setLang')) + '</span>' + langSelect() + '</div>' +
       '<div class="set-row"><span>' + K.art.ui('sound', 20) + esc(t('setSound')) + '</span>' + sw('sound', st.sound) + '</div>' +
       '<div class="set-row"><span>' + esc(t('setNotation')) + '</span><div class="lang-toggle"><button type="button" data-notation="short" aria-pressed="' + (st.notation !== 'sci') + '">1.23M</button><button type="button" data-notation="sci" aria-pressed="' + (st.notation === 'sci') + '">1.23e6</button></div></div>' +
       '<div class="set-row"><span>' + esc(t('setMotion')) + '</span>' + sw('reduceMotion', st.reduceMotion) + '</div>' +
@@ -622,12 +625,10 @@
   };
   function parentsBox() {
     var ad = K.ads.on ? 'Ads' : '';
-    return '<div class="parents-box"><h3>' + esc(t('parentsTitle')) + '</h3><p>' + t('parentsBody' + ad) + '</p><p>' + esc(t('parentsBodyEn' + ad)) + '</p></div>';
+    return '<div class="parents-box"><h3>' + esc(t('parentsTitle')) + '</h3><p>' + t('parentsBody' + ad) + '</p>' + (K.lang() === 'ja' || K.lang() === 'en' ? '<p>' + esc(t('parentsBodyEn' + ad)) + '</p>' : '') + '</div>';
   }
   AFTER.settings = function (card) {
-    card.querySelectorAll('[data-lang]').forEach(function (b) {
-      b.onclick = function () { S().settings.lang = b.getAttribute('data-lang'); K.main.applySettings(); SC.refresh(); };
-    });
+    card.querySelector('.lang-select').onchange = function () { var l = this.value; K.loadLang(l, function () { S().settings.lang = l; K.ui.applyStatic(); K.main.applySettings(); SC.refresh(); }); };
     card.querySelectorAll('[data-notation]').forEach(function (b) {
       b.onclick = function () { S().settings.notation = b.getAttribute('data-notation'); K.main.applySettings(); SC.refresh(); };
     });

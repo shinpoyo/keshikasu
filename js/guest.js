@@ -128,30 +128,22 @@
 
   // ★で かわる 説明（遊ぶ 人に 見せる ことば）
   GS.effectText = function (id, star, lang) {
-    var p = GS.power(id, star), ja = (lang || K.lang()) === 'ja';
+    var p = GS.power(id, star), l = lang || K.lang();
+    var T = function (key) { return K.tIn(l, key, p); };
     switch (id) {
-      case 'kadokeshi': return ja ? '次の' + p.rubs + '回こするのが' + p.mult + '倍' : 'Next ' + p.rubs + ' rubs x' + p.mult;
-      case 'sand': return ja ? p.dur + '秒、自動でこする' + (p.noWear ? '' : '（消しゴムも早くへる）') : 'Auto rubbing for ' + p.dur + 's' + (p.noWear ? '' : ' (your eraser wears faster)');
-      case 'neri': return ja ? p.dur + '秒、こするとカスがくっついて' + p.mult + '倍' : 'For ' + p.dur + 's, rubbed crumbs stick on: x' + p.mult;
-      case 'kaori': return ja ? p.dur + '秒、/s が' + p.mult + '倍' : '/s x' + p.mult + ' for ' + p.dur + 's';
-      case 'rocket': return ja ? '10回こするとこまが飛び出す（' + p.pieces + 'こ）' + (p.lastBig ? '。最後のこまは大当たり' : '') : 'Every 10 rubs, a piece pops out (' + p.pieces + ')' + (p.lastBig ? '. The last one is a jackpot' : '');
-      case 'dendo': return ja ? p.dur + '秒、おしっぱなしでずっとこすれる。こするのが' + p.mult + '倍' : 'For ' + p.dur + 's, hold to keep rubbing. Rubbing x' + p.mult;
-      case 'jumbo': return ja ? p.rubs + '回だけ、こするたびにどうぐ' + p.mins + '分ぶんのカス' : p.rubs + ' rubs, each worth ' + p.mins + ' minutes of tool output';
+      case 'kadokeshi': return T('effKado');
+      case 'sand': return T('effSand') + (p.noWear ? '' : T('effSandWear'));
+      case 'neri': return T('effNeri');
+      case 'kaori': return T('effKaori');
+      case 'rocket': return T('effRocket') + (p.lastBig ? T('effRocketBig') : '');
+      case 'dendo': return T('effDendo');
+      case 'jumbo': return T('effJumbo');
     }
     return '';
   };
   // ★5 に なると つく おまけ
   GS.star5Text = function (id) {
-    var ja = K.lang() === 'ja';
-    return {
-      kadokeshi: ja ? '10倍が15倍になる' : 'x10 becomes x15',
-      sand: ja ? '消しゴムが早くへらなくなる' : 'Your eraser stops wearing faster',
-      neri: ja ? '5倍が8倍になる' : 'x5 becomes x8',
-      kaori: ja ? '2倍が3倍になる' : 'x2 becomes x3',
-      rocket: ja ? '最後のこまが大当たりになる' : 'The last piece becomes a jackpot',
-      dendo: ja ? '3倍が5倍になる' : 'x3 becomes x5',
-      jumbo: ja ? '10分ぶんが20分ぶんになる' : '10 minutes becomes 20'
-    }[id] || '';
+    return GS.STAR[id] ? K.t('star5_' + id) : '';
   };
 
   // いま もっている ゲストけしゴム（あたらしく つかった ものが まえ）
@@ -203,7 +195,8 @@
   // バーと おしらせに 出す ことばを いまの ★に あわせる
   function setText(id, star) {
     var e = GS.EFFECTS[id === 'kadokeshi' ? 'kado' : id], p = GS.power(id, star);
-    e.desc = { ja: GS.effectText(id, star, 'ja'), en: GS.effectText(id, star, 'en') };
+    e.desc = {};
+    K.LANGS.forEach(function (x) { e.desc[x.id] = GS.effectText(id, star, x.id); });
     if (p.mult) e.short = { ja: 'x' + p.mult, en: 'x' + p.mult };
   }
 

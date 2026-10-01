@@ -112,7 +112,7 @@
     if (!knownId(st.species)) st.species = '1-plain';
     if (!K.data.traits.some(function (t) { return t.id === st.trait; })) st.trait = 'plain';
     st.stage = Math.min(Math.max(Math.floor(st.stage) || 1, 1), K.data.stages.length);
-    if (st.settings.lang !== 'ja' && st.settings.lang !== 'en') st.settings.lang = K.defaultLang();
+    if (!K.hasLang(st.settings.lang)) st.settings.lang = K.defaultLang();
     return st;
   }
 

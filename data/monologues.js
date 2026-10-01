@@ -10,12 +10,12 @@
       m('つくえのはしっこが世界のはしだと思ってた', 'I thought the edge of the desk was the edge of the world.'),
       m('まとまるってなんだろう', 'What does it mean to come together?'),
       m('消された文字はどこへ行くのかな', 'Where do erased letters go?'),
-      m('ノートの線の上は歩きやすい', 'The lines on the notebook are easy to walk on.'),
+      m('ノートの線の上は歩きやすい', 'Notebook lines are easy to walk on.'),
       m('今、だれかが何かを消している', 'Right now, someone is erasing something.'),
       m('転がりたい気分', 'I feel like rolling.'),
-      m('えんぴつとはふくざつな関係', 'It is complicated between me and the pencil.'),
+      m('えんぴつとはふくざつな関係', 'The pencil and I... it is complicated.'),
       m('消しゴムのころを覚えてない', "I don't remember being an eraser."),
-      m('ふーっとされるのはちょっとこわい', 'Being blown away is a little scary.'),
+      m('ふーっとされるのはちょっとこわい', 'Getting blown off the desk is a little scary.'),
       m('じっとしているのはとくい', 'I am good at staying still.'),
       m('今日はいいカスびより', 'Nice crumb weather today.'),
       m('まちがいを消すと、ぼくが生まれる', 'When a mistake is erased, I am born.'),
@@ -39,10 +39,10 @@
       m('アリさんがこっちを見てる', 'The ants are looking at me.', { b: 'ant' }),
       m('友だちができた', 'I made a friend.', { b: 'friend' }),
       m('おじいちゃん、名前なんていうの', 'Grandpa, what is your name?', { b: 'grandpa' }),
-      m('その漢字、またまちがえてるよ', 'You got that kanji wrong again.', { b: 'drill' }),
+      m('その漢字、またまちがえてるよ', 'You spelled that word wrong again.', { b: 'drill' }),
       m('勝手に動く消しゴム、ちょっとこわい', 'An eraser that moves by itself. A little scary.', { b: 'autoeraser' }),
       m('工場の音が聞こえる', 'I can hear the factory.', { b: 'factory' }),
-      m('はんこになる消しゴムもいるんだね', 'Some erasers become stamps.', { b: 'stamp' }),
+      m('はんこになる消しゴムもいるんだね', 'So some erasers become stamps. Interesting.', { b: 'stamp' }),
       m('大きい消しゴムのかげですずしい', 'Nice and cool in the big eraser\'s shade.', { b: 'bigeraser' }),
       m('月が近い', 'The moon is close.', { b: 'moon' }),
       m('ぼくのふるさとかも', 'That might be my hometown.', { b: 'eplanet' }),
@@ -59,7 +59,7 @@
       m('何か変わった気がする', 'Something feels different.'),
       m('見た目はそんなに変わってない', 'I do not look that different.'),
       m('進化って、こういう感じ？', 'Is this what evolving feels like?'),
-      m('大げさだった', 'That was a bit much.')
+      m('大げさだった', 'That was a bit dramatic.')
     ],
     mix: [
       m('何かまざった', 'Something got mixed in.'),
@@ -76,13 +76,13 @@
       m('てれる', 'You are making me blush.'),
       m('もっと言って', 'Say it again.'),
       m('そんなに？', 'Really?'),
-      m('ぼく、すごい？', 'Am I great?')
+      m('ぼく、すごい？', 'Am I amazing?')
     ],
     blow: [
       m('わーーー', 'Whoaaa'),
       m('ただいま', 'I am back.'),
       m('いい景色だった', 'Nice view out there.'),
-      m('なんでふいたの', 'Why did you blow me away?')
+      m('なんでふいたの', 'Why did you blow on me?')
     ],
     rub: [
       m('くすぐったい', 'That tickles.'),

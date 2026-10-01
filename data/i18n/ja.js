@@ -319,6 +319,23 @@
     drawerReadyHint: 'とれるものが{n}こ',
     back: 'もどる',
     yes: 'はい',
-    no: 'いいえ'
+    no: 'いいえ',
+    // ゲスト消しゴムの こうか（{dur} 秒・{mult} 倍・{rubs} 回・{pieces} こ・{mins} 分）
+    effKado: '次の{rubs}回こするのが{mult}倍',
+    effSand: '{dur}秒、自動でこする',
+    effSandWear: '（消しゴムも早くへる）',
+    effNeri: '{dur}秒、こするとカスがくっついて{mult}倍',
+    effKaori: '{dur}秒、/s が{mult}倍',
+    effRocket: '10回こするとこまが飛び出す（{pieces}こ）',
+    effRocketBig: '。最後のこまは大当たり',
+    effDendo: '{dur}秒、おしっぱなしでずっとこすれる。こするのが{mult}倍',
+    effJumbo: '{rubs}回だけ、こするたびにどうぐ{mins}分ぶんのカス',
+    star5_kadokeshi: '10倍が15倍になる',
+    star5_sand: '消しゴムが早くへらなくなる',
+    star5_neri: '5倍が8倍になる',
+    star5_kaori: '2倍が3倍になる',
+    star5_rocket: '最後のこまが大当たりになる',
+    star5_dendo: '3倍が5倍になる',
+    star5_jumbo: '10分ぶんが20分ぶんになる'
   };
 })(window.K = window.K || {});
