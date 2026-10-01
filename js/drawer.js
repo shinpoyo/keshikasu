@@ -69,6 +69,13 @@
     return true;
   };
 
+  // しまえる いちばん 前の あいた マス（なければ -1）
+  D.firstEmpty = function () {
+    var d = st();
+    for (var i = 0; i < D.SLOTS; i++) if (D.slotOpen(i) && !d.slots[i]) return i;
+    return -1;
+  };
+
   D.left = function (i) { var x = st().slots[i]; return x ? Math.max(0, (x.until - Date.now()) / 1000) : 0; };
   D.ratio = function (i) { var x = st().slots[i]; return x ? Math.min(1, (Date.now() - x.at) / (x.until - x.at)) : 0; };
   D.ready = function (i) { var x = st().slots[i]; return !!x && Date.now() >= x.until; };
