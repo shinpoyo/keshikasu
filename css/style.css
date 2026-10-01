@@ -210,6 +210,7 @@ h1, h2, h3 { font-family: var(--font-jp); font-weight: 900; margin: 0; text-wrap
   cursor: pointer; touch-action: pan-y; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none;
   box-shadow: inset 0 0 0 1px rgba(92,64,30,.12), 0 8px 0 var(--line);
 }
+.kasu-stage.hold-rub { touch-action: none; }
 .kasu-paper {
   position: absolute; left: 8%; top: 7%; width: 84%; height: 86%; border-radius: 3px; transform: rotate(-3deg);
   background: repeating-linear-gradient(180deg, var(--note) 0px, var(--note) 27px, var(--note-line) 27px, var(--note-line) 28px);

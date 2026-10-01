@@ -518,6 +518,7 @@
     $('guest').hidden = true;
     U.renderEraser();
     guestSig = '';
+    buffSig = ''; // ★が 上がって 説明が かわったかも しれないので バーを 作りなおす
     U.say(r.id === 'golden' ? K.news.monologue('golden') : K.L(info.line));
   };
 
@@ -529,6 +530,8 @@
     var gold = K.guest.goldActive();
     $('screen-game').classList.toggle('gold-mode', gold);
     $('kasu-stage').classList.toggle('golden-on', gold);
+    // 電動消しゴムの 間は つくえを おさえても スクロールしない（おしっぱなしが とぎれないように）
+    $('kasu-stage').classList.toggle('hold-rub', K.game.buffActive('dendo'));
     if (!list.length) { if (!bar.hidden) { bar.hidden = true; buffSig = ''; } return; }
     var sig = list.map(function (b) { return b.id; }).join(',') + '|' + K.lang();
     if (sig !== buffSig) {
