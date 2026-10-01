@@ -9,7 +9,7 @@
   - デザインキャンバス: https://claude.ai/artifact/Bk1CgW2k5jTsoFFaUXVGR5
   - カスの絵: `design/art/`（`make.py` / `strand.py` で SVG 生成、STAGE 6・7 と特別種は `special.py`）
   - おじいちゃんの絵: `design/art/grandpa.py`（やさしい顔版）
-- 作業履歴: `docs/worklog.md`
+- 作業履歴: `docs/worklog/`（作業ごとに1ファイル、書き方は `docs/worklog/README.md`。2026-09-30 までは `docs/worklog.md`）
 - セーブ: ブラウザの localStorage（キー `keshikasu.save`）。クッキーではない
 - 実装コード: `index.html` / `css/` / `js/` / `data/` / `art/`（ブランチ `impl/core-game` で1回めを実装。ビルド不要、`index.html` をブラウザで開けば動く）
 

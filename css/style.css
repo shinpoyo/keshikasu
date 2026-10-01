@@ -1198,15 +1198,21 @@ textarea.savebox {
 .dw-slot.sel { border-style: solid; border-color: var(--eraser-blue); box-shadow: 0 0 0 2px var(--eraser-blue); }
 .dw-slot .btn { min-height: 30px; padding: 2px 12px; font-size: 12px; margin-top: 2px; }
 .dw-h2 { font-family: var(--font-jp); font-weight: 900; font-size: 15px; margin: 18px 0 0; }
-.dw-tbl-wrap { overflow-x: auto; }
-.dw-tbl { width: 100%; border-collapse: collapse; font-family: var(--font-jp); font-weight: 700; font-size: 12px; margin-top: 6px; }
-.dw-tbl th { font-size: 11px; color: var(--graphite); text-align: left; padding: 4px; }
-.dw-tbl td { padding: 6px 4px; border-top: 1px solid var(--line); vertical-align: middle; }
-.dw-tbl td.n { font-family: var(--font-num); font-weight: 800; white-space: nowrap; }
-.dw-tbl .btn { min-height: 30px; padding: 2px 12px; font-size: 12px; white-space: nowrap; }
-.dw-tbl tr.dw-no td { color: var(--muted); }
-.dw-need { display: block; font-size: 11px; color: var(--muted); }
-.dw-mini { display: inline-block; vertical-align: middle; margin-right: 4px; }
+.dw-steps { margin: 8px 0 0; padding-left: 1.4em; font-family: var(--font-jp); font-weight: 700; font-size: 13px; color: var(--ink); display: grid; gap: 2px; }
+.dw-slot.next { border-color: var(--eraser-blue); border-style: dashed; }
+.dw-slot.next .dw-state { color: var(--eraser-blue); }
+.dw-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 8px; margin-top: 8px; }
+.dw-card { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 14px; background: var(--card); border: 2px solid var(--line); min-width: 0; }
+.dw-card.dw-no { opacity: .75; }
+.dw-mini { flex: none; width: 40px; height: 40px; display: grid; place-items: center; border-radius: 10px; background: #F3EDE1; }
+.dw-card-text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; font-family: var(--font-jp); }
+.dw-card-text b { font-weight: 900; font-size: 14px; }
+.dw-card-text b small { margin-left: 8px; font-family: var(--font-num); font-weight: 800; font-size: 12px; color: var(--graphite); }
+.dw-got { font-weight: 700; font-size: 12px; color: var(--ink-soft); }
+.dw-why { font-weight: 700; font-size: 11px; color: var(--danger); }
+.dw-card-buy { flex: none; display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+.dw-price { display: inline-flex; align-items: center; gap: 3px; font-family: var(--font-num); font-weight: 800; font-size: 12px; font-variant-numeric: tabular-nums; }
+.dw-card .btn { min-height: 32px; padding: 2px 14px; font-size: 13px; white-space: nowrap; }
 
 /* じっせき: よるの つくえでも 絵が 見えるように */
 :root[data-theme="dark"] .ach.t1, :root[data-theme="dark"] .ach.t2 { background: #F6F1E7; color: #2B2A28; }
@@ -1233,3 +1239,4 @@ textarea.savebox {
 .er-bar { height: 6px; border-radius: 9px; background: var(--line); overflow: hidden; }
 .er-bar span { display: block; height: 100%; background: var(--gold); }
 .er-note { margin: 0; color: var(--muted); font-size: 12px; }
+:root[data-theme="dark"] .dw-why { color: #EC9893; }

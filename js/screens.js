@@ -477,7 +477,7 @@
       '<div class="shard-branches">' + branches + '</div>';
   };
   // ---------- ひきだし ----------
-  var drawerSel = null, drawerTimer = null;
+  var drawerTimer = null;
   function growText(sec) {
     var h = Math.floor(sec / 3600);
     return h ? t('drawerHours', { n: h }) : t('drawerMins', { n: Math.round(sec / 60) });
@@ -485,14 +485,15 @@
   RENDER.drawer = function (card) {
     card.classList.add('mid');
     var D = K.drawer, d = D.state(), s = S();
+    var free = D.firstEmpty();
     var slots = '';
     for (var i = 0; i < D.SLOTS; i++) {
       var x = d.slots[i];
       if (!D.slotOpen(i)) {
         slots += '<div class="dw-slot lock"><div class="dw-pot">?</div><b class="dw-name">' + esc(t('drawerLocked')) + '</b><span class="dw-state">' + esc(t('drawerLockHint', { n: D.SLOT_ZUKAN[i] })) + '</span></div>';
       } else if (!x) {
-        slots += '<div class="dw-slot empty' + (drawerSel === i ? ' sel' : '') + '"><div class="dw-pot">＋</div><b class="dw-name">' + esc(t('drawerEmpty')) + '</b>' +
-          '<button type="button" class="btn btn-small" data-dw-pick="' + i + '">' + esc(t('drawerPut')) + '</button></div>';
+        slots += '<div class="dw-slot empty' + (i === free ? ' next' : '') + '"><div class="dw-pot">＋</div><b class="dw-name">' + esc(t('drawerEmpty')) + '</b>' +
+          (i === free ? '<span class="dw-state">' + esc(t('drawerNextHere')) + '</span>' : '') + '</div>';
       } else {
         var m = K.game.materialById[x.mat], ready = D.ready(i);
         slots += '<div class="dw-slot' + (ready ? ' ready' : '') + '"><div class="dw-pot">' + K.art.upIcon(x.mat, 34) + '</div><b class="dw-name">' + esc(K.L(m.name)) + '</b>' +
@@ -500,29 +501,35 @@
             : '<span class="dw-state" data-dw-left="' + i + '"></span><div class="bar"><div class="bar-fill" data-dw-bar="' + i + '"></div></div>') + '</div>';
       }
     }
-    var rows = D.SEEDS.map(function (seed) {
+    // 材料は カードで ならべる。しまえない ときは わけを 書く
+    var cards = D.SEEDS.map(function (seed) {
       var m = K.game.materialById[seed.mat], have = D.hasMat(seed), price = D.price(seed);
-      var can = drawerSel !== null && D.canPlant(drawerSel, seed);
-      return '<tr class="' + (have ? '' : 'dw-no') + '"><td><span class="dw-mini">' + K.art.upIcon(seed.mat, 22) + '</span>' + esc(K.L(m.name)) + '</td>' +
-        '<td class="n">' + esc(growText(seed.grow)) + '</td><td class="n">' + (have ? K.fmt(price) : '—') + '</td><td>' + esc(K.L(seed.got)) +
-        (have ? '' : '<small class="dw-need">' + esc(t('drawerNeedMat')) + '</small>') + '</td>' +
-        '<td>' + (drawerSel !== null ? '<button type="button" class="btn btn-small' + (can ? ' btn-pink' : '') + '" data-dw-put="' + seed.mat + '"' + (can ? '' : ' disabled') + '>' + esc(t('drawerPut')) + '</button>' : '') + '</td></tr>';
+      var why = '';
+      if (!have) why = t('drawerNeedMat', { m: K.L(m.name) });
+      else if (free < 0) why = t('drawerNoSpace');
+      else if (s.crumbs < price) why = t('drawerNeedCrumbs', { v: K.fmt(price - s.crumbs) });
+      return '<div class="dw-card' + (have ? '' : ' dw-no') + '">' +
+        '<span class="dw-mini">' + K.art.upIcon(seed.mat, 30) + '</span>' +
+        '<div class="dw-card-text"><b>' + esc(K.L(m.name)) + '<small>' + esc(growText(seed.grow)) + '</small></b>' +
+        '<span class="dw-got">' + esc(K.L(seed.got)) + '</span>' +
+        (why ? '<span class="dw-why">' + esc(why) + '</span>' : '') + '</div>' +
+        '<div class="dw-card-buy">' + (have ? '<span class="dw-price">' + K.art.ui('crumb', 14) + K.fmt(price) + '</span>' : '') +
+        '<button type="button" class="btn btn-small' + (why ? '' : ' btn-pink') + '" data-dw-put="' + seed.mat + '"' + (why ? ' disabled' : '') + '>' + esc(t('drawerPut')) + '</button></div></div>';
     }).join('');
     return head(t('drawer')) +
       '<p class="dw-lead">' + esc(t('drawerLead')) + '</p>' +
+      '<ol class="dw-steps"><li>' + esc(t('drawerStep1')) + '</li><li>' + esc(t('drawerStep2')) + '</li><li>' + esc(t('drawerStep3')) + '</li></ol>' +
       '<div class="dw-top"><div class="dw-handle"></div><div class="dw-grid">' + slots + '</div></div>' +
-      '<h2 class="dw-h2">' + esc(drawerSel !== null ? t('drawerChoose') : t('drawerList')) + '</h2>' +
-      '<div class="dw-tbl-wrap"><table class="dw-tbl"><thead><tr><th>' + esc(t('drawerColMat')) + '</th><th>' + esc(t('drawerColTime')) + '</th><th>' + esc(t('crumbs')) + '</th><th>' + esc(t('drawerColGot')) + '</th><th></th></tr></thead><tbody>' + rows + '</tbody></table></div>';
+      '<h2 class="dw-h2">' + esc(t('drawerList')) + '</h2>' +
+      '<div class="dw-cards">' + cards + '</div>';
   };
   AFTER.drawer = function (card) {
     var D = K.drawer;
-    card.querySelectorAll('[data-dw-pick]').forEach(function (b) {
-      b.onclick = function () { drawerSel = +b.getAttribute('data-dw-pick'); SC.refresh(); };
-    });
     card.querySelectorAll('[data-dw-put]').forEach(function (b) {
       b.onclick = function () {
-        if (drawerSel !== null && D.plant(drawerSel, b.getAttribute('data-dw-put'))) {
-          drawerSel = null; K.sound.play('upgrade'); K.store.save(); SC.refresh(); K.ui.renderAll();
+        var i = D.firstEmpty();
+        if (i >= 0 && D.plant(i, b.getAttribute('data-dw-put'))) {
+          K.sound.play('upgrade'); K.store.save(); SC.refresh(); K.ui.renderAll();
         }
       };
     });
