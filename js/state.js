@@ -67,11 +67,17 @@
     return base;
   }
 
+  // セーブ置き場: CrazyGames では そのセーブ機能、ほかは localStorage
+  function box() { return (K.ads && K.ads.store && K.ads.store()) || localStorage; }
+
   function save() {
     K.state.lastSave = Date.now();
     try {
       K.state.sum = K.guard.sign(K.state);
-      localStorage.setItem(KEY, JSON.stringify(K.state));
+      var json = JSON.stringify(K.state);
+      box().setItem(KEY, json);
+      // CrazyGames でも この ブラウザに 控えを のこす（セーブ機能が 使えない ときの ため）
+      if (box() !== localStorage) { try { localStorage.setItem(KEY, json); } catch (e) { /* なし */ } }
       return true;
     } catch (e) {
       return false;
@@ -118,7 +124,9 @@
 
   function load() {
     var raw = null;
-    try { raw = localStorage.getItem(KEY); } catch (e) { raw = null; }
+    try { raw = box().getItem(KEY); } catch (e) { raw = null; }
+    // CrazyGames の セーブ機能を 使う前の セーブが あれば ひきつぐ
+    if (!raw) { try { raw = localStorage.getItem(KEY); } catch (e) { raw = null; } }
     if (!raw) return null;
     try { return checked(JSON.parse(raw)); } catch (e) { return null; }
   }
@@ -144,6 +152,7 @@
   }
 
   function reset() {
+    try { box().removeItem(KEY); } catch (e) { /* 保存できない環境 */ }
     try { localStorage.removeItem(KEY); } catch (e) { /* 保存できない環境 */ }
   }
 
