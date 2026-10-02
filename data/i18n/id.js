@@ -113,7 +113,7 @@
 "gStamps":"Stempel (1 per duplikat)",
 "gTrade":"Tukar di Remahpedia",
 "gachaSub":"Satu Sarung Penghapus = satu undian",
-"gameName":"Remah Penghapus",
+"gameName":"Remah Penghapus Clicker",
 "goldenLabel":"Penghapus Emas",
 "guestCame":"{n} datang!",
 "hm":"{h}j {m}m",

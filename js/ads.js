@@ -52,6 +52,13 @@
   A.gameplayStart = function () { call(function (s) { s.game.gameplayStart(); }); };
   A.gameplayStop = function () { call(function (s) { s.game.gameplayStop(); }); };
 
+  // CrazyGames の セーブ置き場（Data モジュール）。localStorage と 同じ 使い方。
+  // ログインした 人は ほかの 端末とも 同じ セーブに なる。CrazyGames いがいでは null
+  A.store = function () {
+    if (!A.on) return null;
+    try { return sdk().data || null; } catch (e) { return null; }
+  };
+
   // 広告の 間は 入力を ふさいで、音を 止める
   function block(onOff) {
     A.playing = onOff;

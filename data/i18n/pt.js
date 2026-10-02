@@ -113,7 +113,7 @@
 "gStamps":"Selos (1 por repetido)",
 "gTrade":"Troque na Farelopédia",
 "gachaSub":"Uma Capinha = uma rolada",
-"gameName":"Farelos de Borracha",
+"gameName":"Farelos de Borracha Clicker",
 "goldenLabel":"Borracha Dourada",
 "guestCame":"{n} chegou!",
 "hm":"{h}h {m}m",

@@ -3,7 +3,7 @@
   'use strict';
   K.i18n = K.i18n || {};
   K.i18n.en = {
-    gameName: 'Eraser Crumbs',
+    gameName: 'Eraser Crumb Clicker',
     gameNameSub: 'けしカス',
     tagline: 'A game about raising one tiny eraser crumb.',
     start: 'Start',

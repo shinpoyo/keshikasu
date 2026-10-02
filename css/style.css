@@ -74,6 +74,7 @@ h1, h2, h3 { font-family: var(--font-jp); font-weight: 900; margin: 0; text-wrap
 .title-logo { display: flex; flex-direction: column; align-items: center; gap: 6px; }
 .title-sub { font-weight: 900; font-size: 13px; letter-spacing: .3em; color: var(--graphite); }
 .title-name { font-family: var(--font-jp); font-weight: 900; font-size: clamp(48px, 9vw, 88px); letter-spacing: .04em; line-height: 1.05; }
+.title-name.long { font-size: clamp(36px, 7vw, 72px); text-align: center; } /* 長い名前（Eraser Crumb Clicker など）は 小さめ */
 .title-tag { font-family: var(--font-jp); font-weight: 500; font-size: 16px; color: var(--ink-soft); text-align: center; }
 .title-desk {
   position: relative; width: min(420px, 90vw); aspect-ratio: 42 / 30; border-radius: var(--r-2xl); overflow: hidden;

@@ -113,7 +113,7 @@
 "gStamps":"Tem (1 tem mỗi lần trùng)",
 "gTrade":"Đổi trong Bách khoa",
 "gachaSub":"Một Vỏ tẩy = một lượt quay",
-"gameName":"Vụn Tẩy",
+"gameName":"Vụn Tẩy Clicker",
 "goldenLabel":"Tẩy Vàng",
 "guestCame":"{n} đã đến!",
 "hm":"{h}g {m}p",
