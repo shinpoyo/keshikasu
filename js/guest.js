@@ -104,12 +104,15 @@
   var lastUpdate = 0;
   GS.update = function () {
     var now = Date.now();
-    var dt = lastUpdate ? Math.min(now - lastUpdate, 60000) : 0;
+    var dt = lastUpdate ? Math.max(0, now - lastUpdate) : 0; // ねむって いた じかんも ぜんぶ
     lastUpdate = now;
     var stalled = dt > 2000; // タブが ねむって いた
     if (busy() || stalled) {
       if (GS.current) GS.current.until += dt;
       if (GS.gold) GS.gold.until += dt;
+      // 来る 予定も とめる（見ていない あいだに じかんが すすまない）
+      if (GS.nextAt) GS.nextAt += dt;
+      if (GS.goldAt) GS.goldAt += dt;
       if (busy()) return;
     }
     if (GS.current && now > GS.current.until) {
