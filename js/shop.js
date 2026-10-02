@@ -120,8 +120,11 @@
 
   // 文房具シリーズ（全体 +○%）と カスはかせの助手（ずかんの 数 × ○%）
   var globalUps = K.data.upgrades.filter(function (u) { return u.kind === 'globalPct' || u.kind === 'zukanMult'; });
+  // どうぐの 50こ からの 段階アップグレードの「全体の /s +○%」（かけ算。書いてある % が そのまま ふえる）
+  var tierAllUps = K.data.upgrades.filter(function (u) { return u.allPct > 0; });
   G.upgradeMult = function () {
     var m = 1, found = null;
+    tierAllUps.forEach(function (u) { if (has(u.id)) m *= 1 + u.allPct; });
     globalUps.forEach(function (u) {
       if (!has(u.id)) return;
       if (u.kind === 'globalPct') m *= 1 + u.pct;
