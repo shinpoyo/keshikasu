@@ -312,9 +312,7 @@
   "star5_kaori": "x2 pasa a x3",
   "star5_rocket": "El último trozo es un premio gordo",
   "star5_dendo": "x3 pasa a x5",
-  "star5_jumbo": "10 minutos pasan a 20",
-  "guestWaiting": "Esperando",
-  "guestWaitUse": "Usar {n}"
+  "star5_jumbo": "10 minutos pasan a 20"
  },
  "text": {
   "\"A Thousand Fingers\" is 10 times stronger. Nobody has counted.": "“Mil Dedos” es 10 veces más fuerte. Nadie los ha contado.",

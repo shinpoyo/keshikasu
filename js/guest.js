@@ -87,10 +87,12 @@
     return document.hidden || (K.screens && K.screens.evoOpen());
   }
 
-  // 見ていない あいだ（ほかの タブ・ゲームを とじて いる）に 来た けしゴムは「待っている消しゴム」に たまる（さいだい 3こ）。
-  // もどったら つくえの 右上から タップで 使える
+  // 見ていない あいだ（ほかの タブ・ゲームを とじて いる）に 来た けしゴムは たまって 待つ（さいだい 3こ）。
+  // もどったら 1こずつ つづけて うかんで くる。おしたら すぐ 使う（こうかは かさなる）
   GS.WAIT_MAX = 3;
   GS.AVG_GAP = 165; // 来る かんかくの へいきん（びょう）
+  GS.QUEUE_GAP = 1.2; // たまった けしゴムが つぎに 来るまで（びょう）
+  GS.queueAt = 0;
   function waitList() {
     var s = S();
     if (!Array.isArray(s.waiting)) s.waiting = [];
@@ -107,18 +109,12 @@
     for (var i = 0; i < n && waitList().length < GS.WAIT_MAX; i++) addWaiting();
   };
   GS.waiting = function () { return waitList(); };
-  // 待っている けしゴムを 使う（ふつうに 来た ときと おなじ こうか）
-  GS.useWaiting = function (i) {
-    var w = waitList();
-    if (!(i >= 0 && i < w.length)) return null;
-    var id = w.splice(i, 1)[0];
-    var keep = GS.current, keepNext = GS.nextAt;
-    GS.current = { id: id, x: 0.5, y: 0.5, until: Date.now() + 1000 };
-    var r = GS.click();
-    GS.current = keep; // 画面に 来て いる けしゴムは そのまま
-    GS.nextAt = keep ? 0 : keepNext;
-    return r;
-  };
+  // 画面の けしゴムが いなく なった あと。たまって いた けしゴムなら ふつうの 予定は そのまま
+  function gone(cur) {
+    GS.current = null;
+    if (cur.queued) GS.queueAt = Date.now() + GS.QUEUE_GAP * 1000;
+    else GS.schedule();
+  }
 
   var lastUpdate = 0;
   GS.update = function () {
@@ -137,9 +133,10 @@
       }
       if (busy()) return;
     }
-    if (GS.current && now > GS.current.until) {
-      GS.current = null;
-      GS.schedule();
+    if (GS.current && now > GS.current.until) gone(GS.current);
+    if (!GS.current && waitList().length && now >= GS.queueAt) {
+      GS.current = { id: waitList().shift(), x: 0.1 + Math.random() * 0.8, y: 0.15 + Math.random() * 0.7, until: now + LIFETIME * 1000, queued: true };
+      return;
     }
     if (!GS.current && GS.nextAt && now >= GS.nextAt && S().tutorial >= 9) {
       GS.current = { id: pick(), x: 0.1 + Math.random() * 0.8, y: 0.15 + Math.random() * 0.7, until: now + LIFETIME * 1000 };
@@ -265,8 +262,7 @@
     var star = GS.stars(id);
     if (GS.STAR[id] && star > before && before > 0) res.starUp = star; // はじめて 使った ときは ★1 なので いわない
     var pw = GS.STAR[id] ? GS.power(id, star) : null;
-    GS.current = null;
-    GS.schedule();
+    gone(cur);
 
     if (id === 'golden') {
       var r = Math.random();

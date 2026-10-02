@@ -151,8 +151,6 @@
     eraserStar5: '★5になると',
     eraserLocked: 'STAGE {n}のカスを見つけると来る',
     eraserUnused: 'まだ使っていない',
-    guestWaiting: '待っている',
-    guestWaitUse: '{n}を使う',
     rocketPop: 'こまが飛び出した！',
     kadoLeft: '残り {n}回',
     buffLeft: '残り',

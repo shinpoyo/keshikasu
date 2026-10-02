@@ -116,8 +116,6 @@
 "gameName":"Migas de Goma Clicker",
 "goldenLabel":"Goma Dorada",
 "guestCame":"¡Llegó {n}!",
-"guestWaitUse":"Usar {n}",
-"guestWaiting":"Esperando",
 "hm":"{h}h {m}m",
 "importBad":"Ese texto no parece correcto",
 "importBtn":"Importar",

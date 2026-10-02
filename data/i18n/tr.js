@@ -116,8 +116,6 @@
 "gameName":"Silgi Kırıntısı Clicker",
 "goldenLabel":"Altın Silgi",
 "guestCame":"Misafir geldi: {n}!",
-"guestWaitUse":"{n} kullan",
-"guestWaiting":"Bekliyor",
 "hm":"{h}sa {m}dk",
 "importBad":"Bu metin doğru görünmüyor",
 "importBtn":"İçe aktar",

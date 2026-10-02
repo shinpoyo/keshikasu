@@ -312,9 +312,7 @@
   "star5_kaori": "x2 yerine x3",
   "star5_rocket": "Son parçacık büyük ikramiye olur",
   "star5_dendo": "x3 yerine x5",
-  "star5_jumbo": "10 dakika yerine 20",
-  "guestWaiting": "Bekliyor",
-  "guestWaitUse": "{n} kullan"
+  "star5_jumbo": "10 dakika yerine 20"
  },
  "text": {
   "Finger": "Parmak",

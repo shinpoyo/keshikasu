@@ -151,8 +151,6 @@
     eraserStar5: 'At ★5',
     eraserLocked: 'Visits after you find a STAGE {n} crumb',
     eraserUnused: 'Not used yet',
-    guestWaiting: 'Waiting',
-    guestWaitUse: 'Use {n}',
     rocketPop: 'A piece popped out!',
     kadoLeft: '{n} left',
     buffLeft: 'left',

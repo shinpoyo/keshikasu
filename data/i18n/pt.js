@@ -116,8 +116,6 @@
 "gameName":"Farelos de Borracha Clicker",
 "goldenLabel":"Borracha Dourada",
 "guestCame":"{n} chegou!",
-"guestWaitUse":"Usar {n}",
-"guestWaiting":"Esperando",
 "hm":"{h}h {m}m",
 "importBad":"Esse texto não parece certo",
 "importBtn":"Importar",

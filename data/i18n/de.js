@@ -116,8 +116,6 @@
 "gameName":"Radierkrümel Clicker",
 "goldenLabel":"Goldener Radiergummi",
 "guestCame":"{n} ist da!",
-"guestWaitUse":"{n} benutzen",
-"guestWaiting":"Wartet",
 "hm":"{h}h {m}m",
 "importBad":"Der Text sieht nicht richtig aus",
 "importBtn":"Import",

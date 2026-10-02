@@ -312,9 +312,7 @@
   "star5_kaori": "x2 vira x3",
   "star5_rocket": "O último pedaço vira prêmio enorme",
   "star5_dendo": "x3 vira x5",
-  "star5_jumbo": "10 minutos vira 20",
-  "guestWaiting": "Esperando",
-  "guestWaitUse": "Usar {n}"
+  "star5_jumbo": "10 minutos vira 20"
  },
  "text": {
   "\"A Thousand Fingers\" is 10 times stronger. Nobody has counted.": "“Mil Dedos” fica 10 vezes mais forte. Ninguém contou.",

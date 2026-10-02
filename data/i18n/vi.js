@@ -116,8 +116,6 @@
 "gameName":"Vụn Tẩy Clicker",
 "goldenLabel":"Tẩy Vàng",
 "guestCame":"{n} đã đến!",
-"guestWaitUse":"Dùng {n}",
-"guestWaiting":"Đang chờ",
 "hm":"{h}g {m}p",
 "importBad":"Đoạn chữ này có vẻ không đúng",
 "importBtn":"Nhập",
