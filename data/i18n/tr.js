@@ -113,7 +113,7 @@
 "gStamps":"Pul (tekrar başına 1)",
 "gTrade":"Kırıntıpedi’de takas et",
 "gachaSub":"Bir Silgi Kılıfı = bir çekiliş",
-"gameName":"Silgi Kırıntısı",
+"gameName":"Silgi Kırıntısı Clicker",
 "goldenLabel":"Altın Silgi",
 "guestCame":"Misafir geldi: {n}!",
 "hm":"{h}sa {m}dk",

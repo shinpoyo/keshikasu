@@ -35,7 +35,7 @@
       if (!el.firstChild) el.innerHTML = K.art.ui(el.getAttribute('data-ui'), 20);
     });
     document.documentElement.lang = K.lang();
-    document.title = K.lang() === 'ja' ? 'けしカス / Eraser Crumbs' : 'Eraser Crumbs / けしカス';
+    document.title = K.lang() === 'ja' ? 'けしカス / Eraser Crumb Clicker' : 'Eraser Crumb Clicker / けしカス';
   };
 
   var crumbIcon = function () { return K.art.ui('crumb', 11); };

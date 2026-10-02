@@ -113,7 +113,7 @@
 "gStamps":"Tampons (1 par doublon)",
 "gTrade":"Échange dans la Miettopédie",
 "gachaSub":"Un Étui de gomme = une miette roulée",
-"gameName":"Miettes de gomme",
+"gameName":"Miettes de gomme Clicker",
 "goldenLabel":"Gomme dorée",
 "guestCame":"{n} est là !",
 "hm":"{h}h {m}min",

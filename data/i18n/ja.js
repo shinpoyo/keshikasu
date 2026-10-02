@@ -4,7 +4,7 @@
   K.i18n = K.i18n || {};
   K.i18n.ja = {
     gameName: 'けしカス',
-    gameNameSub: 'ERASER CRUMBS',
+    gameNameSub: 'ERASER CRUMB CLICKER',
     tagline: '消しゴムのカスを育てるゲームです。',
     start: '始める',
     continue: '続きから',

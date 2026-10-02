@@ -6,7 +6,7 @@
   var S = function () { return K.state; };
   var t = function (k, v) { return K.t(k, v); };
   var esc = function (s) { return K.ui.esc(s); };
-  var VERSION = '0.34'; // index.html の ?v= と そろえる（ブラウザの キャッシュで 古い js が のこらないように）
+  var VERSION = '0.35'; // index.html の ?v= と そろえる（ブラウザの キャッシュで 古い js が のこらないように）
 
   function show(id) {
     ['screen-title', 'screen-naming', 'screen-game'].forEach(function (s) { $(s).hidden = s !== id; });
@@ -23,8 +23,8 @@
     var el = $('screen-title');
     el.innerHTML =
       '<div class="title-logo">' + K.art.svg('0 0 40 40', '<rect x="3" y="9" width="34" height="22" rx="6" fill="#F29CA3"/><rect x="15" y="9" width="22" height="22" fill="#3E6FB0"/><circle cx="8" cy="35" r="2" fill="#B8B4AC"/><circle cx="13" cy="36.5" r="1.3" fill="#B8B4AC"/>', 64, 64) +
-      '<span class="title-sub">' + (K.lang() === 'ja' ? 'ERASER CRUMBS' : 'けしカス') + '</span>' +
-      '<h1 class="title-name">' + esc(t('gameName')) + '</h1>' +
+      '<span class="title-sub">' + (K.lang() === 'ja' ? 'ERASER CRUMB CLICKER' : 'けしカス') + '</span>' +
+      '<h1 class="title-name' + (t('gameName').length > 12 ? ' long' : '') + '">' + esc(t('gameName')) + '</h1>' +
       '<p class="title-tag">' + esc(t('tagline')) + '</p></div>' +
       deskScene(K.art.kasuSrc(hasSave ? s.stage : 1)) +
       '<div class="title-buttons">' +

@@ -113,7 +113,7 @@
 "gStamps":"Stempel (1 pro Doppeltem)",
 "gTrade":"In der Krümelpedia tauschen",
 "gachaSub":"Eine Radierhülle = einmal ziehen",
-"gameName":"Radierkrümel",
+"gameName":"Radierkrümel Clicker",
 "goldenLabel":"Goldener Radiergummi",
 "guestCame":"{n} ist da!",
 "hm":"{h}h {m}m",

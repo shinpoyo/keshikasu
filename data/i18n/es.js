@@ -113,7 +113,7 @@
 "gStamps":"Estampas (1 por repetida)",
 "gTrade":"Canjear en la Migapedia",
 "gachaSub":"Una Funda de Goma = una tirada",
-"gameName":"Migas de Goma",
+"gameName":"Migas de Goma Clicker",
 "goldenLabel":"Goma Dorada",
 "guestCame":"¡Llegó {n}!",
 "hm":"{h}h {m}m",
