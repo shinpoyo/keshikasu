@@ -22,7 +22,9 @@
     namingChips: 'けしお,にょろ,グレイ,カスオ,ころ',
     namingPlaceholder: '名前',
     noName: '名前はいらない',
-    namingNote: '名前はこのたんまつの中だけにほぞんされます。',
+    namingNote: '名前はセーブの中だけに保存され、ほかの人には見えません。',
+    namingAgainDay: '{n}こめの消しゴム',
+    namingAgainLead: '新しい消しゴムから、また小さなカスが落ちた。',
     namingOk: 'この名前にする',
 
     tut1Title: '消しゴムをこすってみよう',

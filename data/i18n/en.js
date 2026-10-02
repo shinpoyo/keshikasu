@@ -22,7 +22,9 @@
     namingChips: 'Crumby,Squiggle,Gray,Eraso,Rolly',
     namingPlaceholder: 'Name',
     noName: 'No name needed',
-    namingNote: 'The name is saved only on this device.',
+    namingNote: 'The name stays in your save. No one else can see it.',
+    namingAgainDay: 'ERASER #{n}',
+    namingAgainLead: 'A new eraser, and a new little crumb.',
     namingOk: 'Use this name',
 
     tut1Title: 'Try rubbing the eraser',
