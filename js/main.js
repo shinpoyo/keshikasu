@@ -381,12 +381,14 @@
     $('praise-btn').onclick = praise;
     $('blow-btn').onclick = blow;
     $('ad-btn').onclick = function () { if (K.ads.on && K.ads.boostWait() <= 0) K.screens.open('adBoost'); };
-    $('guest').onclick = function () {
-      var r = K.guest.click();
-      if (!r) return;
-      markAction();
-      K.ui.guestUsed(r);
-    };
+    ['guest', 'guest-gold'].forEach(function (elId) {
+      $(elId).onclick = function () {
+        var r = K.guest.click(elId === 'guest-gold');
+        if (!r) return;
+        markAction();
+        K.ui.guestUsed(r);
+      };
+    });
     document.addEventListener('click', function (e) {
       var o = e.target.closest('[data-open]');
       if (o) {
@@ -449,7 +451,6 @@
       bindShop();
     }
     if (!K.guest.nextAt) K.guest.schedule();
-    if (s.lastTick) K.guest.away((now() - s.lastTick) / 1000); // とじて いた あいだに 来た 消しゴム
     offlineCheck(false);
     s.lastTick = now();
     K.screens.coach();

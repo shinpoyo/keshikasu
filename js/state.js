@@ -13,7 +13,6 @@
       started: false,          // タイトルから はじめた
       named: false,
       name: '',
-      waiting: [],             // 見ていない あいだに 来て 待っている ゲストけしゴム（js/guest.js）
       tutorial: 0,             // 0: まだ / 1〜3: とちゅう / 9: おわり
       crumbs: 0,
       totalCrumbs: 0,          // この周の合計（だんかいを決める）
@@ -119,7 +118,6 @@
     if (!knownId(st.species)) st.species = '1-plain';
     if (!K.data.traits.some(function (t) { return t.id === st.trait; })) st.trait = 'plain';
     st.stage = Math.min(Math.max(Math.floor(st.stage) || 1, 1), K.data.stages.length);
-    st.waiting = Array.isArray(st.waiting) ? st.waiting.filter(function (id) { return K.data.guests.some(function (g) { return g.id === id; }); }).slice(0, 3) : [];
     if (!K.hasLang(st.settings.lang)) st.settings.lang = K.defaultLang();
     return st;
   }

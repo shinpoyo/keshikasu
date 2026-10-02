@@ -475,12 +475,12 @@
   };
 
   // --- ゲストけしゴム（ゴールデンも）---
-  var guestSig = '';
-  U.renderGuest = function () {
-    var g = K.guest.current;
-    var el = $('guest');
+  // ふつうの けしゴム（#guest）と ゴールデン（#guest-gold）は べつべつに 来る
+  var guestSig = {};
+  function renderSlot(g, elId) {
+    var el = $(elId);
     if (!g) {
-      if (!el.hidden) { el.hidden = true; guestSig = ''; }
+      if (!el.hidden) { el.hidden = true; guestSig[elId] = ''; }
       return;
     }
     var info = K.guest.byId[g.id];
@@ -497,15 +497,19 @@
       el.hidden = false;
       el.classList.remove('leaving');
     }
-    if (sig !== guestSig) {
-      guestSig = sig;
+    if (sig !== guestSig[elId]) {
+      guestSig[elId] = sig;
       el.setAttribute('data-id', g.id);
       el.classList.toggle('is-golden', g.id === 'golden');
-      $('guest-art').innerHTML = K.art.guest(g.id, 56, 48);
-      $('guest-label').textContent = label;
+      el.querySelector('.guest-art').innerHTML = K.art.guest(g.id, 56, 48);
+      el.querySelector('.guest-label').textContent = label;
       el.setAttribute('aria-label', label);
     }
     el.classList.toggle('leaving', g.until - Date.now() < 1500);
+  }
+  U.renderGuest = function () {
+    renderSlot(K.guest.current, 'guest');
+    renderSlot(K.guest.gold, 'guest-gold');
   };
 
   // つかった ときの おしらせ
@@ -516,9 +520,10 @@
     else if (r.effect === 'kado') U.toast(name + esc(K.L(E.kado.desc)));
     else U.toast('<b>' + esc(K.L(E[r.effect].name)) + '</b> ' + esc(K.L(E[r.effect].desc)));
     if (r.starUp) U.toast('<b>' + esc(t('starUp', { n: K.L(info.name), s: r.starUp })) + '</b> ' + esc(r.starUp >= 5 ? K.guest.star5Text(r.id) : t('starUpMore')));
-    $('guest').hidden = true;
+    var elId = r.gold ? 'guest-gold' : 'guest';
+    $(elId).hidden = true;
     U.renderEraser();
-    guestSig = '';
+    guestSig[elId] = '';
     buffSig = ''; // ★が 上がって 説明が かわったかも しれないので バーを 作りなおす
     U.say(r.id === 'golden' ? K.news.monologue('golden') : K.L(info.line));
   };
