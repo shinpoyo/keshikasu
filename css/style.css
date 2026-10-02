@@ -520,7 +520,7 @@ h1, h2, h3 { font-family: var(--font-jp); font-weight: 900; margin: 0; text-wrap
 
 /* ゲストけしゴム（ゴールデンも ここ） */
 .guest {
-  position: absolute; z-index: 20; width: 80px; height: 80px; padding: 0; border: none; background: transparent; cursor: pointer;
+  position: absolute; z-index: 55; width: 80px; height: 80px; padding: 0; border: none; background: transparent; cursor: pointer; /* ずかんなどの 画面（.modal 50）より 上 */
   display: grid; place-items: center;
   animation: golden-in .5s ease both;
 }

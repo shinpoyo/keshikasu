@@ -80,10 +80,11 @@
     GS.nextAt = Date.now() + (min + Math.random() * (max - min)) * 1000;
   };
 
-  // 見えない あいだ（ほかの タブ・ずかんなどの 画面・進化の 演出）は 来ないで まつ。
+  // 見えない あいだ（ブラウザの ほかの タブ・進化の 演出）は 来ないで まつ。
   // 来ている けしゴムの 15びょうも とめる（見ていない あいだに 帰って しまわないように）
+  // ずかん・じっせきなどの 画面を 開いて いる ときは、その 上に うかぶ（css の .guest の z-index）
   function busy() {
-    return document.hidden || (K.screens && (K.screens.isOpen() || K.screens.evoOpen()));
+    return document.hidden || (K.screens && K.screens.evoOpen());
   }
 
   var lastUpdate = 0;
