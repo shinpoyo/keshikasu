@@ -57,6 +57,8 @@
   // --- 施設アップグレード（1/5/25/50/100/150/200こ、終盤用に 250〜500こ で解放、生産2ばい） ---
   var TIERS = [1, 5, 25, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500];
   var TIER_COST = [10, 50, 500, 50000, 5e6, 5e8, 5e10, 5e12, 5e14, 5e16, 5e18, 5e20, 5e22];
+  // 50こ からの 段階は 全体の /s も ふやす（安い どうぐは 全体に しめる わりあいが 小さく、2倍だけでは 手ごたえが ないため）
+  var TIER_ALL = [0, 0, 0, 0.03, 0.05, 0.07, 0.10, 0.10, 0.10, 0.10, 0.10, 0.10, 0.10];
   var ADJ = {
     ja: ['', 'しっかりした', 'ていねいな', '本気の', '伝説の', 'まぼろしの', 'うちゅう一の', 'ゆめの', 'ひみつの', '本物の', 'さいごの', 'その先の', '本当にさいごの'],
     en: ['', 'Sturdy', 'Careful', 'Serious', 'Legendary', 'Phantom', 'Best-in-Universe', 'Dream', 'Secret', 'Genuine', 'Final', 'Beyond-Final', 'Truly Final']
@@ -97,12 +99,13 @@
         name = { ja: ADJ.ja[i] + b.name.ja, en: ADJ.en[i] + ' ' + b.name.en };
         flavor = { ja: FLAVOR.ja[i], en: FLAVOR.en[i] };
       }
+      var all = TIER_ALL[i], p = Math.round(all * 100);
       list.push({
         id: 'b_' + b.id + '_' + (i + 1), type: 'building', icon: b.id, building: b.id, need: need,
-        cost: b.cost * TIER_COST[i], kind: 'double', name: name,
+        cost: b.cost * TIER_COST[i], kind: 'double', allPct: all, name: name,
         desc: {
-          ja: flavor.ja + b.name.ja + 'が2倍働く。',
-          en: flavor.en + ' ' + b.name.en + ' works twice as hard.'
+          ja: flavor.ja + b.name.ja + 'が2倍働く。' + (all ? '全体の /s も +' + p + '%。' : ''),
+          en: flavor.en + ' ' + b.name.en + ' works twice as hard.' + (all ? ' Also +' + p + '% to all /s.' : '')
         }
       });
     });
