@@ -116,6 +116,8 @@
 "gameName":"Miettes de gomme Clicker",
 "goldenLabel":"Gomme dorée",
 "guestCame":"{n} est là !",
+"guestWaitUse":"Utiliser {n}",
+"guestWaiting":"En attente",
 "hm":"{h}h {m}min",
 "importBad":"Ce texte n'a pas l'air correct",
 "importBtn":"Importer",

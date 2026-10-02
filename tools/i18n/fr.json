@@ -312,7 +312,9 @@
   "star5_kaori": "x2 devient x3",
   "star5_rocket": "Le dernier morceau devient le jackpot",
   "star5_dendo": "x3 devient x5",
-  "star5_jumbo": "10 minutes deviennent 20"
+  "star5_jumbo": "10 minutes deviennent 20",
+  "guestWaiting": "En attente",
+  "guestWaitUse": "Utiliser {n}"
  },
  "text": {
   "First Finger": "Premier doigt",

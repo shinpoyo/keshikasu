@@ -87,6 +87,39 @@
     return document.hidden || (K.screens && K.screens.evoOpen());
   }
 
+  // 見ていない あいだ（ほかの タブ・ゲームを とじて いる）に 来た けしゴムは「待っている消しゴム」に たまる（さいだい 3こ）。
+  // もどったら つくえの 右上から タップで 使える
+  GS.WAIT_MAX = 3;
+  GS.AVG_GAP = 165; // 来る かんかくの へいきん（びょう）
+  function waitList() {
+    var s = S();
+    if (!Array.isArray(s.waiting)) s.waiting = [];
+    return s.waiting;
+  }
+  function addWaiting() {
+    var w = waitList();
+    if (w.length < GS.WAIT_MAX) w.push(pick());
+  }
+  // ゲームを とじて いた あいだに 来た ぶん
+  GS.away = function (sec) {
+    if (!(sec > 0) || S().tutorial < 9) return;
+    var n = Math.floor(sec / GS.AVG_GAP);
+    for (var i = 0; i < n && waitList().length < GS.WAIT_MAX; i++) addWaiting();
+  };
+  GS.waiting = function () { return waitList(); };
+  // 待っている けしゴムを 使う（ふつうに 来た ときと おなじ こうか）
+  GS.useWaiting = function (i) {
+    var w = waitList();
+    if (!(i >= 0 && i < w.length)) return null;
+    var id = w.splice(i, 1)[0];
+    var keep = GS.current, keepNext = GS.nextAt;
+    GS.current = { id: id, x: 0.5, y: 0.5, until: Date.now() + 1000 };
+    var r = GS.click();
+    GS.current = keep; // 画面に 来て いる けしゴムは そのまま
+    GS.nextAt = keep ? 0 : keepNext;
+    return r;
+  };
+
   var lastUpdate = 0;
   GS.update = function () {
     var now = Date.now();
@@ -95,6 +128,13 @@
     var stalled = dt > 2000; // タブが ねむって いた
     if (busy() || stalled) {
       if (GS.current) GS.current.until += dt;
+      // 見ていない あいだに 来た ぶんは 待たせて おく
+      while (GS.nextAt && now >= GS.nextAt && S().tutorial >= 9) {
+        addWaiting();
+        var at = GS.nextAt;
+        GS.schedule();
+        GS.nextAt += at - now; // まえの 予定から つぎを かぞえる
+      }
       if (busy()) return;
     }
     if (GS.current && now > GS.current.until) {
@@ -201,8 +241,11 @@
     if (p.mult) e.short = { ja: 'x' + p.mult, en: 'x' + p.mult };
   }
 
+  // おなじ こうかが まだ ついて いたら、のこりに たす（かさねがけ）
   function addBuff(id, dur) {
-    K.rt.buffs[id] = { until: Date.now() + dur * 1000, dur: dur };
+    var now = Date.now(), b = K.rt.buffs[id];
+    var until = (b && b.until > now ? b.until : now) + dur * 1000;
+    K.rt.buffs[id] = { until: until, dur: (until - now) / 1000 };
   }
 
   function count(id) {
@@ -237,13 +280,16 @@
         addBuff(res.effect, dur * durMult());
       }
     } else if (id === 'kadokeshi') {
-      K.rt.kadoLeft = K.rt.kadoMax = pw.rubs;
+      K.rt.kadoLeft = K.rt.kadoMax = Math.max(0, K.rt.kadoLeft || 0) + pw.rubs; // のこりに たす
       K.rt.kadoMult = pw.mult;
       res.effect = 'kado';
     } else if (id === 'rocket') {
-      K.rt.rocket = { left: pw.pieces, max: pw.pieces, rubs: 0, lastBig: pw.lastBig };
+      var rk = K.rt.rocket && K.rt.rocket.left > 0 ? K.rt.rocket : null; // こまを つぎたす
+      var left = (rk ? rk.left : 0) + pw.pieces;
+      K.rt.rocket = { left: left, max: left, rubs: rk ? rk.rubs : 0, lastBig: pw.lastBig || !!(rk && rk.lastBig) };
     } else if (id === 'jumbo') {
-      K.rt.jumbo = { left: pw.rubs, max: pw.rubs, mins: pw.mins };
+      var jl = (K.rt.jumbo && K.rt.jumbo.left > 0 ? K.rt.jumbo.left : 0) + pw.rubs;
+      K.rt.jumbo = { left: jl, max: jl, mins: Math.max(pw.mins, (K.rt.jumbo && K.rt.jumbo.mins) || 0) };
     } else {
       // sand・neri・kaori・dendo
       if (id === 'neri') K.rt.neriMult = pw.mult;

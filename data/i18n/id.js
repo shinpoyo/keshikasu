@@ -116,6 +116,8 @@
 "gameName":"Remah Penghapus Clicker",
 "goldenLabel":"Penghapus Emas",
 "guestCame":"{n} datang!",
+"guestWaitUse":"Pakai {n}",
+"guestWaiting":"Menunggu",
 "hm":"{h}j {m}m",
 "importBad":"Teks itu sepertinya tidak benar",
 "importBtn":"Impor",

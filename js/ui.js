@@ -508,15 +508,31 @@
     el.classList.toggle('leaving', g.until - Date.now() < 1500);
   };
 
+  // 見ていない あいだに 来て 待っている 消しゴム（つくえの 右上。タップで 使う）
+  var waitSig = '';
+  U.renderWaiting = function () {
+    var w = K.guest.waiting(), el = $('guest-wait');
+    var sig = w.join(',') + '|' + K.lang();
+    if (sig === waitSig) return;
+    waitSig = sig;
+    if (!w.length) { el.hidden = true; el.innerHTML = ''; return; }
+    el.innerHTML = '<span class="guest-wait-label">' + esc(t('guestWaiting')) + '</span>' + w.map(function (id, i) {
+      var name = K.L(K.guest.byId[id].name);
+      return '<button type="button" class="guest-wait-btn' + (id === 'golden' ? ' is-golden' : '') + '" data-wait="' + i + '" aria-label="' + esc(t('guestWaitUse', { n: name })) + '" title="' + esc(name) + '">' +
+        K.art.guest(id, 34, 30) + '</button>';
+    }).join('');
+    el.hidden = false;
+  };
+
   // つかった ときの おしらせ
-  U.guestUsed = function (r) {
+  U.guestUsed = function (r, fromWait) {
     var info = K.guest.byId[r.id], E = K.guest.EFFECTS;
     var name = '<b>' + esc(K.L(info.name)) + '</b> ';
     if (r.effect === 'lucky') U.toast('<b>' + esc(K.L(E.lucky.name)) + '</b> ' + esc(t('luckyGain', { v: K.fmt(r.gain) })));
     else if (r.effect === 'kado') U.toast(name + esc(K.L(E.kado.desc)));
     else U.toast('<b>' + esc(K.L(E[r.effect].name)) + '</b> ' + esc(K.L(E[r.effect].desc)));
     if (r.starUp) U.toast('<b>' + esc(t('starUp', { n: K.L(info.name), s: r.starUp })) + '</b> ' + esc(r.starUp >= 5 ? K.guest.star5Text(r.id) : t('starUpMore')));
-    $('guest').hidden = true;
+    if (!fromWait) $('guest').hidden = true;
     U.renderEraser();
     guestSig = '';
     buffSig = ''; // ★が 上がって 説明が かわったかも しれないので バーを 作りなおす

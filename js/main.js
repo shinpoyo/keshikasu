@@ -105,6 +105,7 @@
     K.ui.renderDesk();
     K.ui.renderGacha();
     K.ui.renderGuest();
+    K.ui.renderWaiting();
     K.ui.renderBuff();
     K.screens.coachTick();
     if (K.evo.queue.length && !K.screens.evoOpen()) {
@@ -207,6 +208,7 @@
     };
     stage.addEventListener('pointerdown', function (e) {
       if (e.button > 0 || !e.isTrusted) return;
+      if (e.target.closest('.guest-wait')) return; // 待っている 消しゴムを おした
       e.preventDefault();
       K.sound.unlock();
       var p = at(e);
@@ -381,6 +383,15 @@
     $('praise-btn').onclick = praise;
     $('blow-btn').onclick = blow;
     $('ad-btn').onclick = function () { if (K.ads.on && K.ads.boostWait() <= 0) K.screens.open('adBoost'); };
+    // 待っている 消しゴムを 使う
+    $('guest-wait').addEventListener('click', function (e) {
+      var b = e.target.closest('[data-wait]');
+      if (!b) return;
+      var r = K.guest.useWaiting(Number(b.getAttribute('data-wait')));
+      if (!r) return;
+      markAction();
+      K.ui.guestUsed(r, true);
+    });
     $('guest').onclick = function () {
       var r = K.guest.click();
       if (!r) return;
@@ -449,6 +460,7 @@
       bindShop();
     }
     if (!K.guest.nextAt) K.guest.schedule();
+    if (s.lastTick) K.guest.away((now() - s.lastTick) / 1000); // とじて いた あいだに 来た 消しゴム
     offlineCheck(false);
     s.lastTick = now();
     K.screens.coach();

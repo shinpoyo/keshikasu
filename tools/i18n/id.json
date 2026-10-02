@@ -312,7 +312,9 @@
   "star5_kaori": "x2 jadi x3",
   "star5_rocket": "Potongan terakhir jadi jackpot",
   "star5_dendo": "x3 jadi x5",
-  "star5_jumbo": "10 menit jadi 20"
+  "star5_jumbo": "10 menit jadi 20",
+  "guestWaiting": "Menunggu",
+  "guestWaitUse": "Pakai {n}"
  },
  "text": {
   "\"A Thousand Fingers\" is 10 times stronger. Nobody has counted.": "\"Seribu Jari\" 10 kali lebih kuat. Belum ada yang menghitungnya.",
