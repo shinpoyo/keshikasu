@@ -6,7 +6,7 @@
   var S = function () { return K.state; };
   var t = function (k, v) { return K.t(k, v); };
   var esc = function (s) { return K.ui.esc(s); };
-  var VERSION = '0.39'; // index.html の ?v= と そろえる（ブラウザの キャッシュで 古い js が のこらないように）
+  var VERSION = '0.40'; // index.html の ?v= と そろえる（ブラウザの キャッシュで 古い js が のこらないように）
 
   function show(id) {
     ['screen-title', 'screen-naming', 'screen-game'].forEach(function (s) { $(s).hidden = s !== id; });
@@ -46,12 +46,13 @@
   };
 
   // ---------- なまえ ----------
-  SC.naming = function () {
+  // again: 消しゴムに もどった あとの 新しい カス（いまの 名前を 入れておく）
+  SC.naming = function (again) {
     var el = $('screen-naming');
     var chips = t('namingChips').split(',');
     el.innerHTML =
-      '<span class="naming-day">' + esc(t('day1')) + '</span>' +
-      '<p class="naming-lead">' + esc(t('namingLead')) + '</p>' +
+      '<span class="naming-day">' + esc(again ? t('namingAgainDay', { n: S().stats.rebirths + 1 }) : t('day1')) + '</span>' +
+      '<p class="naming-lead">' + esc(t(again ? 'namingAgainLead' : 'namingLead')) + '</p>' +
       deskScene(K.art.kasuSrc(1), 'naming-desk') +
       '<h1 class="naming-title">' + esc(t('namingTitle')) + '</h1>' +
       '<input class="naming-input" id="n-input" maxlength="12" autocomplete="off" placeholder="' + esc(t('namingPlaceholder')) + '" aria-label="' + esc(t('namingPlaceholder')) + '">' +
@@ -61,6 +62,15 @@
       '<p class="naming-note">' + esc(t('namingNote')) + '</p>';
     show('screen-naming');
     var input = $('n-input');
+    if (again) { input.value = S().name || ''; K.ads.gameplayStop(); }
+    // 名前を きめたら ゲームへ（もどった あとは もう 遊んでいる ので 画面を もどすだけ）
+    var go = function () {
+      if (!again) { K.main.enterGame(); return; }
+      show('screen-game');
+      K.ui.renderAll();
+      K.ads.gameplayStart();
+      K.store.save();
+    };
     function syncChips() {
       el.querySelectorAll('[data-chip]').forEach(function (c) { c.setAttribute('aria-pressed', String(c.getAttribute('data-chip') === input.value)); });
       $('n-ok').disabled = !input.value.trim();
@@ -72,9 +82,9 @@
       var v = input.value.trim().slice(0, 12);
       if (!v) return;
       S().name = v; S().named = true;
-      K.main.enterGame();
+      go();
     };
-    $('n-skip').onclick = function () { S().named = true; S().name = ''; K.main.enterGame(); };
+    $('n-skip').onclick = function () { S().named = true; S().name = ''; go(); };
   };
 
   // ---------- チュートリアル（3ステップ） ----------
@@ -597,7 +607,11 @@
       (gain > 0 ? '<span class="head-pill">+' + gain + ' ' + esc(t('shardsUnit')) + '</span>' : '') +
       '<img src="' + K.art.kasuSrc(1) + '" alt="">';
     document.body.appendChild(el);
-    var done = function () { el.remove(); K.ui.renderAll(); K.ui.say(K.news.monologue('idle')); };
+    var done = function () {
+      if (!el.parentNode) return;
+      el.remove(); K.ui.renderAll(); K.ui.say(K.news.monologue('idle'));
+      SC.naming(true); // 新しい カスにも 名前を つける
+    };
     el.onclick = done;
     setTimeout(function () { if (el.parentNode) done(); }, S().settings.reduceMotion ? 1500 : 4200);
   };
