@@ -381,12 +381,14 @@
     $('praise-btn').onclick = praise;
     $('blow-btn').onclick = blow;
     $('ad-btn').onclick = function () { if (K.ads.on && K.ads.boostWait() <= 0) K.screens.open('adBoost'); };
-    $('guest').onclick = function () {
-      var r = K.guest.click();
-      if (!r) return;
-      markAction();
-      K.ui.guestUsed(r);
-    };
+    ['guest', 'guest-gold'].forEach(function (elId) {
+      $(elId).onclick = function () {
+        var r = K.guest.click(elId === 'guest-gold');
+        if (!r) return;
+        markAction();
+        K.ui.guestUsed(r);
+      };
+    });
     document.addEventListener('click', function (e) {
       var o = e.target.closest('[data-open]');
       if (o) {

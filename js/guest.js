@@ -1,11 +1,11 @@
 // ゲストけしゴム（ゴールデンけしゴムも ここ）。企画書 6-4 の ゴールデンカスを ひろげたもの
-// 1ぷんはん〜4ふんに 1かい、つくえに 1こ やってくる。7かいに 1かいくらいは ゴールデン
+// ふつうの けしゴムは 1ぷんはん〜4ふんに 1かい。ゴールデンは べつの 予定で 5〜15ふんに 1かい。
+// べつべつに 来るので、2こ いっしょに うかぶ ことも ある（こうかが かさなる）
 (function (K) {
   'use strict';
   var GS = {};
   var S = function () { return K.state; };
   var LIFETIME = 15;       // 画面に いる びょうすう
-  var GOLDEN_CHANCE = 0.15; // ゴールデンが くる わりあい
   GS.ROCKET_RUBS = 10;    // この かず こすると こまが 1こ とれる
 
   // ★: 使った かずで 上がる（生まれ変わっても のこる stats.guests で かぞえる）
@@ -39,13 +39,15 @@
     return s >= 5 ? 0 : GS.STAR_AT[s] - GS.uses(id);
   };
 
-  GS.current = null;   // { id, x, y, until }
+  GS.current = null;   // ふつうの けしゴム { id, x, y, until }
   GS.nextAt = 0;
+  GS.gold = null;      // ゴールデン（べつの 予定）
+  GS.goldAt = 0;
 
   GS.byId = {};
   K.data.guests.forEach(function (g) { GS.byId[g.id] = g; });
 
-  // ゴールデンの アップグレードは「くる わりあい」を ふやす
+  // ゴールデンの アップグレードは 来る かいすうを ふやす
   function goldenMult() {
     var m = 1;
     if (K.game.has('g1')) m *= 2;
@@ -70,15 +72,27 @@
   function pick() {
     if (K.drawer && K.drawer.takeGold()) return 'golden'; // ひきだしの 金のこな
     var list = GS.unlocked();
-    if (!list.length || Math.random() < Math.min(GOLDEN_CHANCE * goldenMult(), 0.5)) return 'golden';
-    return list[Math.floor(Math.random() * list.length)].id;
+    return list.length ? list[Math.floor(Math.random() * list.length)].id : null;
   }
 
+  function guestMult() {
+    return K.drawer && K.drawer.buffActive('guest2') ? 2 : 1; // ひきだしの ほこり
+  }
   GS.schedule = function () {
     var min = 90, max = 240; // 1ぷんはん〜4ふん
-    if (K.drawer && K.drawer.buffActive('guest2')) { min /= 2; max /= 2; } // ひきだしの ほこり
-    GS.nextAt = Date.now() + (min + Math.random() * (max - min)) * 1000;
+    GS.nextAt = Date.now() + (min + Math.random() * (max - min)) * 1000 / guestMult();
   };
+  GS.scheduleGold = function () {
+    var min = 300, max = 900; // 5〜15ふん（アップグレードで みじかく なる）
+    GS.goldAt = Date.now() + (min + Math.random() * (max - min)) * 1000 / goldenMult() / guestMult();
+  };
+
+  // ばしょ。もう 1こ いたら はんたいがわに
+  function come(id, other) {
+    var x = 0.1 + Math.random() * 0.35;
+    if (other ? other.x < 0.5 : Math.random() < 0.5) x += 0.45;
+    return { id: id, x: x, y: 0.15 + Math.random() * 0.7, until: Date.now() + LIFETIME * 1000 };
+  }
 
   // 見えない あいだ（ブラウザの ほかの タブ・進化の 演出）は 来ないで まつ。
   // 来ている けしゴムの 15びょうも とめる（見ていない あいだに 帰って しまわないように）
@@ -90,26 +104,43 @@
   var lastUpdate = 0;
   GS.update = function () {
     var now = Date.now();
-    var dt = lastUpdate ? Math.min(now - lastUpdate, 60000) : 0;
+    var dt = lastUpdate ? Math.max(0, now - lastUpdate) : 0; // ねむって いた じかんも ぜんぶ
     lastUpdate = now;
     var stalled = dt > 2000; // タブが ねむって いた
     if (busy() || stalled) {
       if (GS.current) GS.current.until += dt;
+      if (GS.gold) GS.gold.until += dt;
+      // 来る 予定も とめる（見ていない あいだに じかんが すすまない）
+      if (GS.nextAt) GS.nextAt += dt;
+      if (GS.goldAt) GS.goldAt += dt;
       if (busy()) return;
     }
     if (GS.current && now > GS.current.until) {
       GS.current = null;
       GS.schedule();
     }
-    if (!GS.current && GS.nextAt && now >= GS.nextAt && S().tutorial >= 9) {
-      GS.current = { id: pick(), x: 0.1 + Math.random() * 0.8, y: 0.15 + Math.random() * 0.7, until: now + LIFETIME * 1000 };
-      GS.nextAt = 0;
+    if (GS.gold && now > GS.gold.until) {
+      GS.gold = null;
+      GS.scheduleGold();
+    }
+    if (S().tutorial < 9) return;
+    if (!GS.goldAt && !GS.gold) GS.scheduleGold();
+    if (!GS.current && GS.nextAt && now >= GS.nextAt) {
+      var id = pick();
+      if (id) { GS.current = come(id, GS.gold); GS.nextAt = 0; }
+      else GS.schedule();
+    }
+    if (!GS.gold && now >= GS.goldAt) {
+      GS.gold = come('golden', GS.current);
+      GS.goldAt = 0;
     }
   };
 
   // デバッグ・テスト用: すぐ出す
   GS.spawnNow = function (id) {
-    GS.current = { id: GS.byId[id] ? id : 'golden', x: 0.5, y: 0.5, until: Date.now() + LIFETIME * 1000 };
+    id = GS.byId[id] ? id : 'golden';
+    if (id === 'golden') GS.gold = come(id, GS.current);
+    else GS.current = come(id, GS.gold);
   };
 
   // じかんで きえる こうか（K.rt.buffs）。src は アイコンに つかう けしゴム
@@ -201,8 +232,11 @@
     if (p.mult) e.short = { ja: 'x' + p.mult, en: 'x' + p.mult };
   }
 
+  // おなじ こうかが まだ ついて いたら、のこりに たす（かさねがけ）
   function addBuff(id, dur) {
-    K.rt.buffs[id] = { until: Date.now() + dur * 1000, dur: dur };
+    var now = Date.now(), b = K.rt.buffs[id];
+    var until = (b && b.until > now ? b.until : now) + dur * 1000;
+    K.rt.buffs[id] = { until: until, dur: (until - now) / 1000 };
   }
 
   function count(id) {
@@ -213,17 +247,18 @@
   }
 
   // おした → こうかを 1つ。戻り値は 画面に 出す じょうほう { id, effect, gain }
-  GS.click = function () {
-    var cur = GS.current;
+  // gold: ゴールデンの ほうを おした
+  GS.click = function (gold) {
+    var cur = gold ? GS.gold : GS.current;
     if (!cur) return null;
-    var id = cur.id, res = { id: id, effect: id };
+    var id = cur.id, res = { id: id, effect: id, gold: !!gold };
     var before = GS.stars(id);
     count(id);
     var star = GS.stars(id);
     if (GS.STAR[id] && star > before && before > 0) res.starUp = star; // はじめて 使った ときは ★1 なので いわない
     var pw = GS.STAR[id] ? GS.power(id, star) : null;
-    GS.current = null;
-    GS.schedule();
+    if (gold) { GS.gold = null; GS.scheduleGold(); }
+    else { GS.current = null; GS.schedule(); }
 
     if (id === 'golden') {
       var r = Math.random();
@@ -237,13 +272,16 @@
         addBuff(res.effect, dur * durMult());
       }
     } else if (id === 'kadokeshi') {
-      K.rt.kadoLeft = K.rt.kadoMax = pw.rubs;
+      K.rt.kadoLeft = K.rt.kadoMax = Math.max(0, K.rt.kadoLeft || 0) + pw.rubs; // のこりに たす
       K.rt.kadoMult = pw.mult;
       res.effect = 'kado';
     } else if (id === 'rocket') {
-      K.rt.rocket = { left: pw.pieces, max: pw.pieces, rubs: 0, lastBig: pw.lastBig };
+      var rk = K.rt.rocket && K.rt.rocket.left > 0 ? K.rt.rocket : null; // こまを つぎたす
+      var left = (rk ? rk.left : 0) + pw.pieces;
+      K.rt.rocket = { left: left, max: left, rubs: rk ? rk.rubs : 0, lastBig: pw.lastBig || !!(rk && rk.lastBig) };
     } else if (id === 'jumbo') {
-      K.rt.jumbo = { left: pw.rubs, max: pw.rubs, mins: pw.mins };
+      var jl = (K.rt.jumbo && K.rt.jumbo.left > 0 ? K.rt.jumbo.left : 0) + pw.rubs;
+      K.rt.jumbo = { left: jl, max: jl, mins: Math.max(pw.mins, (K.rt.jumbo && K.rt.jumbo.mins) || 0) };
     } else {
       // sand・neri・kaori・dendo
       if (id === 'neri') K.rt.neriMult = pw.mult;
