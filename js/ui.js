@@ -531,7 +531,7 @@
   // CrazyGames 版の「広告で 2倍」ボタン。ほかの 場所では 出さない
   function renderAdBtn() {
     var btn = $('ad-btn');
-    if (!K.ads || !K.ads.on) { if (!btn.hidden) btn.hidden = true; return; }
+    if (!K.ads || !K.ads.canAd()) { if (!btn.hidden) btn.hidden = true; return; }
     btn.hidden = false;
     var wait = Math.ceil(K.ads.boostWait());
     btn.disabled = wait > 0;
