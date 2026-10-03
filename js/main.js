@@ -380,7 +380,7 @@
     $('roll-btn').onclick = roll;
     $('praise-btn').onclick = praise;
     $('blow-btn').onclick = blow;
-    $('ad-btn').onclick = function () { if (K.ads.on && K.ads.boostWait() <= 0) K.screens.open('adBoost'); };
+    $('ad-btn').onclick = function () { if (K.ads.canAd() && K.ads.boostWait() <= 0) K.screens.open('adBoost'); };
     ['guest', 'guest-gold'].forEach(function (elId) {
       $(elId).onclick = function () {
         var r = K.guest.click(elId === 'guest-gold');

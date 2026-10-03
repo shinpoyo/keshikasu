@@ -10,6 +10,10 @@
   A.BOOST_WAIT = 5 * 60;   // おわってから 次に 見られるまで
   A.on = false;            // SDK が 使える ときだけ true
   A.playing = false;       // 広告が 流れている 間（ゲームを 止める）
+  A.noAds = false;         // 広告が 出せなかった（CrazyGames の Basic 公開中など）。この回は ボタンを かくす
+
+  // 広告の ボタンを 出してよいか（SDK は 使えても、広告が 出せない ことが ある）
+  A.canAd = function () { return A.on && !A.noAds; };
 
   // CrazyGames の ドメイン、または ためし用に ?cg=1 を つけた ときだけ
   function wanted() {
@@ -67,7 +71,7 @@
 
   // リワード広告。見おわったら onReward、出せなかったら onFail
   A.rewarded = function (onReward, onFail) {
-    if (!A.on || A.playing) { if (onFail) onFail(); return; }
+    if (!A.canAd() || A.playing) { if (onFail) onFail(); return; }
     var done = false;
     var end = function (ok) {
       if (done) return;
@@ -82,7 +86,7 @@
       sdk().ad.requestAd('rewarded', {
         adStarted: function () { block(true); },
         adFinished: function () { end(true); },
-        adError: function () { end(false); }
+        adError: function () { A.noAds = true; end(false); if (K.ui && K.ui.renderAll) K.ui.renderAll(); }
       });
     } catch (e) { end(false); }
   };
