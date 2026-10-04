@@ -56,8 +56,10 @@
 
   D.price = function (seed) { return Math.max(100, Math.ceil(K.game.baseCps() * 60 * seed.price)); };
   D.hasMat = function (seed) { return !!S().mats[seed.mat]; };
+  // おなじ 材料は 1こしか しまえない
+  D.inDrawer = function (mat) { return st().slots.some(function (x) { return x && x.mat === mat; }); };
   D.canPlant = function (i, seed) {
-    return D.unlocked() && D.slotOpen(i) && !st().slots[i] && D.hasMat(seed) && S().crumbs >= D.price(seed);
+    return D.unlocked() && D.slotOpen(i) && !st().slots[i] && D.hasMat(seed) && !D.inDrawer(seed.mat) && S().crumbs >= D.price(seed);
   };
 
   D.plant = function (i, mat) {

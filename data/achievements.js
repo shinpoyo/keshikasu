@@ -96,7 +96,7 @@
    ['sand', 'ざらざら', 'Gritty', 'つくえもけずれた気がする。', 'Feels like the desk got sanded too.'],
    ['neri', 'ねりねり', 'Squish Squish', '全部まとまった。', 'It all came together.'],
    ['kaori', 'いいにおい', 'Smells Nice', 'おなかがすいた。', 'Now you are hungry.'],
-   ['rocket', 'はっしゃ', 'Liftoff', '次のこまはどこ？', 'Where did the next piece go?'],
+   ['rocket', 'はっしゃ', 'Liftoff', '次の先っぽはどこ？', 'Where did the next tip go?'],
    ['dendo', 'ウィーン', 'Whirrrr', '手はまったくつかれない。', 'Your hand is not tired at all.'],
    ['jumbo', '両手で', 'Two Hands', '消すより運ぶほうが大変。', 'Carrying it is harder than erasing with it.']].forEach(function (r) {
     add({ id: 'guest_' + r[0], cat: 'golden', type: 'guest', g: r[0], n: 1, name: { ja: r[1], en: r[2] },

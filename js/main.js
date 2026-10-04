@@ -157,9 +157,9 @@
     if (Math.random() < 0.015) K.ui.say(K.news.monologue('rub'));
   }
 
-  // けしゴムが へる。すなけしが きている あいだは 2ばい はやい（★5 なら ふつう）
+  // けしゴムが へる。すなけしが きている あいだは 2ばい はやい（★5 なら 3ばい）。はやく へると 紙が はやく たまる
   function wear() {
-    var times = K.game.buffActive('sand') && !K.rt.sandNoWear ? 2 : 1;
+    var times = K.game.buffActive('sand') ? K.rt.sandWear || 2 : 1;
     for (var i = 0; i < times; i++) if (K.evo.wear()) K.ui.eraserDone();
     K.ui.renderEraser();
   }

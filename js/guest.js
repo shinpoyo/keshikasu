@@ -13,7 +13,7 @@
   // ★ごとの つよさ。i = ★-1（0〜4）。★5 は とくべつな おまけ つき
   GS.STAR = {
     kadokeshi: function (i) { return { rubs: 28 + i * 7, mult: i >= 4 ? 15 : 10 }; },
-    sand: function (i) { return { dur: 20 + i * 5, noWear: i >= 4 }; },
+    sand: function (i) { return { dur: 20 + i * 5, wear: i >= 4 ? 3 : 2 }; },
     neri: function (i) { return { dur: [15, 18, 21, 24, 30][i], mult: i >= 4 ? 8 : 5 }; },
     kaori: function (i) { return { dur: 60 + i * 15, mult: i >= 4 ? 3 : 2 }; },
     rocket: function (i) { return { pieces: 5 + i, lastBig: i >= 4 }; },
@@ -152,7 +152,7 @@
     sand: { src: 'sand', name: { ja: 'ごしごしタイム！', en: 'Sanding Time!' }, short: { ja: '自動', en: 'Auto' } },
     kaori: { src: 'kaori', name: { ja: 'いいにおい！', en: 'Sweet Smell!' }, short: { ja: 'x2', en: 'x2' } },
     neri: { src: 'neri', name: { ja: 'ねりねりタイム！', en: 'Knead Time!' }, short: { ja: 'くっつく', en: 'Sticky' } },
-    rocket: { src: 'rocket', name: { ja: 'ロケット消しゴム！', en: 'Rocket Eraser!' }, desc: { ja: '10回こするとこまが飛び出す', en: 'Every 10 rubs, a piece pops out' }, short: { ja: 'こま', en: 'Pieces' } },
+    rocket: { src: 'rocket', name: { ja: 'ロケット消しゴム！', en: 'Rocket Eraser!' }, desc: { ja: '10回こするたびに先っぽが飛び出す', en: 'Every 10 rubs, the tip pops out' }, short: { ja: '先っぽ', en: 'Tips' } },
     dendo: { src: 'dendo', name: { ja: 'ウィーン！', en: 'Whirrrr!' }, short: { ja: 'x3', en: 'x3' } },
     jumbo: { src: 'jumbo', name: { ja: 'ジャンボ消しゴム！', en: 'Jumbo Eraser!' }, desc: { ja: 'こするたびに、どうぐ10分ぶんのカス', en: 'Each rub gives 10 minutes of tool output' }, short: { ja: 'ジャンボ', en: 'Jumbo' } },
     goldflash: { dur: 3 }
@@ -164,7 +164,7 @@
     var T = function (key) { return K.tIn(l, key, p); };
     switch (id) {
       case 'kadokeshi': return T('effKado');
-      case 'sand': return T('effSand') + (p.noWear ? '' : T('effSandWear'));
+      case 'sand': return T('effSand');
       case 'neri': return T('effNeri');
       case 'kaori': return T('effKaori');
       case 'rocket': return T('effRocket') + (p.lastBig ? T('effRocketBig') : '');
@@ -287,7 +287,7 @@
       if (id === 'neri') K.rt.neriMult = pw.mult;
       if (id === 'kaori') K.rt.kaoriMult = pw.mult;
       if (id === 'dendo') K.rt.dendoMult = pw.mult;
-      if (id === 'sand') K.rt.sandNoWear = pw.noWear;
+      if (id === 'sand') K.rt.sandWear = pw.wear;
       addBuff(id, pw.dur);
     }
     if (pw) setText(id, star);

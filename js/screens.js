@@ -6,7 +6,7 @@
   var S = function () { return K.state; };
   var t = function (k, v) { return K.t(k, v); };
   var esc = function (s) { return K.ui.esc(s); };
-  var VERSION = '0.40'; // index.html の ?v= と そろえる（ブラウザの キャッシュで 古い js が のこらないように）
+  var VERSION = '0.41'; // index.html の ?v= と そろえる（ブラウザの キャッシュで 古い js が のこらないように）
 
   function show(id) {
     ['screen-title', 'screen-naming', 'screen-game'].forEach(function (s) { $(s).hidden = s !== id; });
@@ -512,6 +512,7 @@
       var m = K.game.materialById[seed.mat], have = D.hasMat(seed), price = D.price(seed);
       var why = '';
       if (!have) why = t('drawerNeedMat', { m: K.L(m.name) });
+      else if (D.inDrawer(seed.mat)) why = t('drawerAlready');
       else if (free < 0) why = t('drawerNoSpace');
       else if (s.crumbs < price) why = t('drawerNeedCrumbs', { v: K.fmt(price - s.crumbs) });
       return '<div class="dw-card' + (have ? '' : ' dw-no') + '">' +
