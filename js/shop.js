@@ -12,7 +12,7 @@
     kadoMax: 0, kadoMult: 10, // かどけし: ★で かわる
     rocket: null,          // ロケットけしゴム: { left: のこりの こま, max, rubs, lastBig }
     jumbo: null,           // ジャンボけしゴム: { left: のこりの こする かず, max, mins }
-    neriMult: 5, kaoriMult: 2, dendoMult: 3, sandNoWear: false, // ★で かわる つよさ
+    neriMult: 5, kaoriMult: 2, dendoMult: 3, sandWear: 2, // ★で かわる つよさ
     hold: [],              // もっている ゲストけしゴムの id（あたらしい ものが うしろ）
     rubTimes: [],          // 直近のこする時刻（あつあつ判定）
     maxRubRate: 0,
