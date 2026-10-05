@@ -314,7 +314,9 @@
   "star5_rocket": "Đầu tẩy cuối là giải lớn x3",
   "star5_dendo": "x3 thành x5",
   "star5_jumbo": "10 phút thành 20",
-  "drawerAlready": "Đã có trong ngăn kéo"
+  "drawerAlready": "Đã có trong ngăn kéo",
+  "nameIt": "Đặt tên",
+  "goalNext": "Tiếp theo: {name} (còn {n})"
  },
  "text": {
   "\"A Thousand Fingers\" is 10 times stronger. Nobody has counted.": "\"Nghìn ngón tay\" mạnh gấp 10 lần. Chưa ai đếm thử.",

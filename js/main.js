@@ -141,8 +141,12 @@
     [er, sh].forEach(function (el) { el.classList.remove('rubbing'); void el.offsetWidth; el.classList.add('rubbing'); });
     var ka = $('kasu');
     setTimeout(function () { ka.classList.remove('gain'); void ka.offsetWidth; ka.classList.add('gain'); }, 260);
-    K.ui.floatNum(x, y, '+' + K.fmt(p, { decimals: 1 }));
-    K.ui.rubFx();
+    // れんぞくで こすると だんだん 気持ちよく（数字が 大きく、音が 高く）
+    K.rt.combo = n - (K.rt.comboAt || 0) < 600 ? Math.min((K.rt.combo || 0) + 1, 40) : 1;
+    K.rt.comboAt = n;
+    K.ui.floatNum(x, y, '+' + K.fmt(p, { decimals: 1 }), K.rt.combo);
+    K.ui.rubFx(K.rt.combo);
+    var cn = $('crumbs'); cn.classList.remove('bump'); void cn.offsetWidth; cn.classList.add('bump');
     if (!g.sticky) K.rt.mess = Math.min((K.rt.mess || 0) + 1, K.game.MESS_MAX);
     if (g.pop) {
       K.game.earn(g.pop, false);
@@ -378,6 +382,8 @@
 
   function bindGlobal() {
     $('roll-btn').onclick = roll;
+    $('kasu-pet').onclick = function () { K.screens.naming('later'); };
+    $('goal').onclick = function () { K.ui.goalClick(); };
     $('praise-btn').onclick = praise;
     $('blow-btn').onclick = blow;
     $('ad-btn').onclick = function () { if (K.ads.canAd() && K.ads.boostWait() <= 0) K.screens.open('adBoost'); };
@@ -499,7 +505,9 @@
     bindGlobal();
     K.ui.placeForWidth();
     K.ui.applyStatic();
-    K.screens.title(!!(saved && saved.started));
+    // タイトルを はさまず すぐ 遊ぶ（名前は チュートリアルの あと、または 名前を タップして）
+    S().started = true;
+    M.enterGame();
     K.ads.loaded();
     // デバッグ用（コンソールから K.debug.give(1e9) など）。つかうと ズルの じっせきが つく
     K.debug = {

@@ -39,6 +39,9 @@
     g.gain.value = 0.12;
     src.connect(f); f.connect(g); g.connect(c.destination);
     src.start();
+    // ポコッ と かるい 手ごたえ。れんぞくで こすると 少しずつ 高く なる
+    var combo = (K.rt && K.rt.combo) || 1;
+    tone(260 + Math.min(combo, 30) * 14, 0, 0.07, 'triangle', 0.06);
   }
 
   var SOUNDS = {

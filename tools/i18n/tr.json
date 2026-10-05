@@ -314,7 +314,9 @@
   "star5_rocket": "Son uç x3 büyük ikramiye olur",
   "star5_dendo": "x3 yerine x5",
   "star5_jumbo": "10 dakika yerine 20",
-  "drawerAlready": "Zaten çekmecede"
+  "drawerAlready": "Zaten çekmecede",
+  "nameIt": "İsim ver",
+  "goalNext": "Sıradaki: {name} ({n} kaldı)"
  },
  "text": {
   "Finger": "Parmak",

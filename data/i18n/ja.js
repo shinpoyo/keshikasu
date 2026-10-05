@@ -25,6 +25,8 @@
     namingNote: '名前はセーブの中だけに保存され、ほかの人には見えません。',
     namingAgainDay: '{n}こめの消しゴム',
     namingAgainLead: '新しい消しゴムから、また小さなカスが落ちた。',
+    nameIt: '名前をつける',
+    goalNext: '次は {name}（あと {n}）',
     namingOk: 'この名前にする',
 
     tut1Title: '消しゴムをこすってみよう',

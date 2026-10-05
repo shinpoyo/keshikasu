@@ -314,7 +314,9 @@
   "star5_rocket": "La dernière pointe devient un jackpot x3",
   "star5_dendo": "x3 devient x5",
   "star5_jumbo": "10 minutes deviennent 20",
-  "drawerAlready": "Déjà dans le tiroir"
+  "drawerAlready": "Déjà dans le tiroir",
+  "nameIt": "Lui donner un nom",
+  "goalNext": "Prochain : {name} (encore {n})"
  },
  "text": {
   "First Finger": "Premier doigt",
