@@ -314,7 +314,9 @@
   "star5_rocket": "Ujung terakhir jadi hadiah besar x3",
   "star5_dendo": "x3 jadi x5",
   "star5_jumbo": "10 menit jadi 20",
-  "drawerAlready": "Sudah ada di laci"
+  "drawerAlready": "Sudah ada di laci",
+  "nameIt": "Beri nama",
+  "goalNext": "Berikutnya: {name} (kurang {n})"
  },
  "text": {
   "\"A Thousand Fingers\" is 10 times stronger. Nobody has counted.": "\"Seribu Jari\" 10 kali lebih kuat. Belum ada yang menghitungnya.",

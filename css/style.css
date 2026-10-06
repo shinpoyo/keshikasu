@@ -224,7 +224,7 @@ h1, h2, h3 { font-family: var(--font-jp); font-weight: 900; margin: 0; text-wrap
 }
 .kasu-body { position: absolute; inset: 0; display: block; transition: transform .6s cubic-bezier(.5,-0.4,.3,1.4), opacity .3s; }
 .kasu.gain .kasu-body { animation: gain .22s ease-out; }
-@keyframes gain { 0% { transform: scale(1); } 45% { transform: scale(1.045, .96); } 100% { transform: scale(1); } }
+@keyframes gain { 0% { transform: scale(1); } 40% { transform: scale(1.08, .93); } 70% { transform: scale(.98, 1.02); } 100% { transform: scale(1); } }
 .kasu.shy .kasu-body { animation: shy .9s ease; }
 @keyframes shy { 20% { transform: rotate(-4deg) scale(1.02); } 50% { transform: rotate(3deg); } 80% { transform: rotate(-1deg); } }
 /* ふく は ほかの うごきより つよい（ほめた あとでも ちゃんと とぶように、shy より あとに かく） */
@@ -279,7 +279,7 @@ h1, h2, h3 { font-family: var(--font-jp); font-weight: 900; margin: 0; text-wrap
 .kasu-stage:not([data-scene="desk"]) .kasu-scene { opacity: 1; }
 .kasu-stage:not([data-scene="desk"]) .kasu-paper { opacity: 0; }
 .kasu-paper { transition: opacity .8s ease; }
-.kasu-stage[data-scene="space"] .float-num { color: #FFF6D6; text-shadow: 0 1px 0 rgba(0,0,0,.5); }
+.kasu-stage[data-scene="space"] .float-num { color: #FFF6D6; -webkit-text-stroke-color: #1D2238; text-shadow: 0 1px 0 rgba(0,0,0,.5); }
 .kasu-stage[data-scene="space"] .speck { filter: invert(.85); }
 .kasu-stage.lv6 { box-shadow: inset 0 0 0 1px rgba(92,64,30,.12), 0 8px 0 var(--line), 0 0 0 3px var(--gold); }
 .kasu-stage.lv7 { box-shadow: inset 0 0 0 1px rgba(92,64,30,.12), 0 8px 0 var(--line), 0 0 0 3px #8FA7C8, 0 0 28px rgba(143,167,200,.5); }
@@ -287,12 +287,44 @@ h1, h2, h3 { font-family: var(--font-jp); font-weight: 900; margin: 0; text-wrap
 
 .kasu-fx { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
 .float-num {
-  position: absolute; font-family: var(--font-num); font-weight: 900; font-size: 22px; color: var(--ink);
-  text-shadow: 0 1px 0 rgba(255,255,255,.7); pointer-events: none; white-space: nowrap;
-  animation: floatup 1s ease-out forwards;
+  position: absolute; font-family: var(--font-num); font-weight: 900; font-size: 24px; color: var(--ink);
+  -webkit-text-stroke: 4px #fff; paint-order: stroke fill;
+  text-shadow: 0 2px 0 rgba(60,40,15,.18); pointer-events: none; white-space: nowrap;
+  animation: floatup .9s cubic-bezier(.2,.8,.3,1) forwards;
 }
 .golden-on .float-num { color: var(--gold-deep); }
-@keyframes floatup { from { opacity: 1; transform: translate(-50%, 0); } to { opacity: 0; transform: translate(-50%, -70px); } }
+@keyframes floatup {
+  0% { opacity: 0; transform: translate(-50%, 0) scale(.4); }
+  15% { opacity: 1; transform: translate(-50%, -14px) scale(1.25); }
+  30% { transform: translate(-50%, -22px) scale(1); }
+  70% { opacity: 1; }
+  100% { opacity: 0; transform: translate(calc(-50% + var(--fx, 0px)), -90px) scale(.9); }
+}
+/* つぎの めあて（まだ 買えない いちばん 安い もの） */
+.goal {
+  width: 100%; max-width: 376px; padding: 6px 12px; display: flex; align-items: center; gap: 10px;
+  border: 1.5px solid var(--line); border-radius: var(--r-l); background: var(--card); color: var(--ink);
+  cursor: pointer; text-align: left; font: inherit;
+}
+.goal[hidden] { display: none; }
+.goal:hover { border-color: var(--ink); }
+.goal-ico { width: 30px; height: 30px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; border-radius: 8px; background: var(--paper-3); }
+.goal-text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+.goal-label { font-family: var(--font-jp); font-weight: 800; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.goal-bar { height: 6px; border-radius: 999px; background: var(--paper-3); overflow: hidden; }
+.goal-bar > span { display: block; height: 100%; background: var(--eraser-blue); border-radius: inherit; transition: width .3s; }
+.goal-ping { animation: goal-ping 1s ease; }
+@keyframes goal-ping { 0%, 60% { box-shadow: 0 0 0 4px var(--eraser-blue); } 100% { box-shadow: 0 0 0 0 transparent; } }
+/* こすった 先の けむり */
+.rub-puff {
+  position: absolute; width: 34px; height: 34px; margin: -17px 0 0 -17px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,.9) 0 30%, rgba(200,190,175,.55) 55%, rgba(200,190,175,0) 72%);
+  animation: rub-puff .45s ease-out forwards; pointer-events: none;
+}
+@keyframes rub-puff { from { opacity: .9; transform: scale(.3); } to { opacity: 0; transform: scale(1.6); } }
+/* こすると つぶの 数が ぴょこっと はねる */
+.count-num.bump { animation: count-bump .18s ease-out; }
+@keyframes count-bump { 0% { transform: scale(1); } 40% { transform: scale(1.08); } 100% { transform: scale(1); } }
 /* こすって とぶ カスは ひょろひょろの ひも（4しゅるいの 形を ランダムに） */
 .speck {
   position: absolute; width: 28px; height: 9px; margin: -4px 0 0 -14px; opacity: 0;
@@ -313,6 +345,9 @@ h1, h2, h3 { font-family: var(--font-jp); font-weight: 900; margin: 0; text-wrap
 .kasu-name { font-family: var(--font-jp); font-weight: 900; font-size: 20px; text-align: center; }
 .kasu-pet { font-family: var(--font-jp); font-weight: 700; font-size: 13px; color: var(--graphite); }
 .kasu-pet:empty { display: none; }
+button.kasu-pet { background: none; border: 0; padding: 2px 4px; cursor: pointer; border-radius: 6px; }
+button.kasu-pet:hover { background: var(--paper-3); }
+.kasu-pet.unnamed { color: var(--eraser-blue); text-decoration: underline; text-underline-offset: 3px; }
 .kasu-next { font-family: var(--font-jp); font-weight: 500; font-size: 13px; color: var(--graphite); }
 .bar { width: 300px; max-width: 80vw; height: 8px; border-radius: 999px; background: var(--line); overflow: hidden; }
 .bar-fill { height: 100%; border-radius: 999px; background: var(--eraser-pink); transition: width .3s; }
@@ -919,6 +954,54 @@ textarea.savebox {
 @keyframes toast { 0% { opacity: 0; transform: translateY(10px); } 8%, 85% { opacity: 1; transform: none; } 100% { opacity: 0; } }
 
 .only-narrow { display: none; }
+
+/* ---------- 大きい PC 画面（全画面など）: 文字も カスも 大きく ---------- */
+@media (min-width: 1600px) and (min-height: 1000px) {
+  .pane-kasu { width: 580px; padding: 28px 40px; gap: 14px; }
+  .kasu-stage { width: clamp(376px, calc(100vh - 640px), 520px); }
+  .goal { max-width: 500px; padding: 8px 14px; }
+  .goal-label { font-size: 15px; }
+  .count-num { font-size: 84px; }
+  .count-unit { font-size: 18px; }
+  .count-cps { font-size: 17px; }
+  .kasu-name { font-size: 24px; }
+  .actions .btn { min-height: 60px; font-size: 18px; }
+  .pane-desk { padding: 28px 36px; }
+  .pane-head h2 { font-size: 24px; }
+  .pane-sub { font-size: 15px; }
+  .desk-row { min-height: 120px; }
+  .desk-row-name { width: 150px; }
+  .desk-row-name b { font-size: 18px; }
+  .desk-row-name span { font-size: 15px; }
+  .desk-count { font-size: 26px; }
+  .desk-empty { min-height: 120px; font-size: 18px; }
+  .pane-shop { width: 480px; padding: 28px 28px 0; }
+  .group-label { font-size: 15px; }
+  .up { height: 62px; }
+  .up-icon-b svg, .up > svg { width: 34px; height: 34px; }
+  .bld { min-height: 78px; gap: 14px; }
+  .bld-ico { width: 54px; height: 54px; }
+  .bld-ico svg { width: 40px; height: 40px; }
+  .bld-name { font-size: 18px; }
+  .bld-rate, .price { font-size: 15px; }
+  .bld-own { font-size: 32px; }
+  .seg button { height: 40px; font-size: 15px; min-width: 48px; }
+  .navbtn, .rebirth-btn { height: 50px; font-size: 16px; }
+}
+
+/* ---------- 高さが ひくい PC 画面（CrazyGames の ふつうの まど 1186x668 など）: ほめる・ふく まで 1画面に おさめる ---------- */
+@media (min-width: 901px) and (max-height: 940px) {
+  .panes .pane-kasu { padding-top: 14px; padding-bottom: 14px; gap: 8px; }
+  .count { flex-direction: row; flex-wrap: wrap; align-items: baseline; justify-content: center; column-gap: 10px; }
+  .count-num { font-size: 52px; }
+  .count-cps { margin-top: 0; }
+  .goal { padding: 4px 10px; }
+  .goal-ico { width: 26px; height: 26px; }
+  .pane-kasu .kasu-stage { width: clamp(220px, calc(100vh - 410px), 376px); }
+  .kasu-info { gap: 3px; }
+  .bubble { padding: 7px 14px; font-size: 14px; line-height: 1.5; }
+  .actions .btn { min-height: 46px; }
+}
 
 /* ---------- タブレット ---------- */
 @media (max-width: 1280px) {

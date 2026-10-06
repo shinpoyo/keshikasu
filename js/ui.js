@@ -68,7 +68,10 @@
       $('kasu-name').textContent = K.L(info.name);
       $('eraser-btn').setAttribute('aria-label', t('kasuLabel'));
     }
-    $('kasu-pet').textContent = s.name ? K.quote(s.name) : '';
+    var pet = $('kasu-pet');
+    pet.textContent = s.name ? K.quote(s.name) : (s.named ? '✎' : '✎ ' + t('nameIt'));
+    pet.setAttribute('aria-label', t('nameIt'));
+    pet.classList.toggle('unnamed', !s.name);
     var next = K.evo.nextNeed();
     $('kasu-next').textContent = next == null ? t('maxEvo') : t('nextEvo', { p: Math.floor(K.evo.progress() * 100) });
     $('evo-bar').style.width = (K.evo.progress() * 100).toFixed(1) + '%';
@@ -228,6 +231,7 @@
     $('cps').classList.toggle('boost', K.game.cpsMult() > 1);
     document.querySelectorAll('[data-mirror="crumbs"]').forEach(function (el) { el.textContent = c; });
     document.querySelectorAll('[data-mirror="cps-inline"]').forEach(function (el) { el.textContent = cpsText; });
+    renderGoal();
     // ほめる の まちじかん
     var wait = Math.ceil((K.rt.praiseReadyAt - Date.now()) / 1000);
     $('praise-btn').disabled = wait > 0;
@@ -282,6 +286,38 @@
 
   // --- みせ ---
   var shopSig = '';
+  // つぎの めあて: まだ 買えない いちばん 安い どうぐ・アップグレード
+  var goalTarget = null;
+  function renderGoal() {
+    var s = S(), best = null;
+    K.game.visibleBuildings().forEach(function (v) {
+      var c = v.locked ? v.b.cost : K.game.price(v.b.id, 1);
+      if (c > s.crumbs && (!best || c < best.cost)) best = { cost: c, sel: '.bld[data-b="' + v.b.id + '"]', name: v.locked ? t('locked') : K.L(v.b.name), icon: v.locked ? K.art.ui('lock', 22) : K.art.building(v.b.id, 24, 24) };
+    });
+    K.game.availableUpgrades().forEach(function (u) {
+      if (u.cost > s.crumbs && (!best || u.cost < best.cost)) best = { cost: u.cost, sel: '.up[data-up="' + u.id + '"]', name: K.L(u.name), icon: K.art.upIcon(u.icon, 22) };
+    });
+    var el = $('goal');
+    el.hidden = !best;
+    goalTarget = best;
+    if (!best) return;
+    var pctv = Math.max(0, Math.min(100, s.crumbs / best.cost * 100));
+    var key = best.sel + best.name;
+    if (el.getAttribute('data-key') !== key) {
+      el.setAttribute('data-key', key);
+      el.innerHTML = '<span class="goal-ico">' + best.icon + '</span><span class="goal-text"><span class="goal-label"></span><span class="goal-bar"><span></span></span></span>';
+    }
+    el.querySelector('.goal-label').textContent = t('goalNext', { name: best.name, n: K.fmt(best.cost - s.crumbs) });
+    el.querySelector('.goal-bar > span').style.width = pctv.toFixed(1) + '%';
+  }
+  U.goalClick = function () {
+    if (!goalTarget) return;
+    var el = document.querySelector(goalTarget.sel);
+    if (!el) return;
+    el.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    el.classList.remove('goal-ping'); void el.offsetWidth; el.classList.add('goal-ping');
+  };
+
   U.renderShop = function (force) {
     var s = S();
     var ups = K.game.availableUpgrades();
@@ -531,7 +567,7 @@
   // CrazyGames 版の「広告で 2倍」ボタン。ほかの 場所では 出さない
   function renderAdBtn() {
     var btn = $('ad-btn');
-    if (!K.ads || !K.ads.on) { if (!btn.hidden) btn.hidden = true; return; }
+    if (!K.ads || !K.ads.canAd()) { if (!btn.hidden) btn.hidden = true; return; }
     btn.hidden = false;
     var wait = Math.ceil(K.ads.boostWait());
     btn.disabled = wait > 0;
@@ -572,11 +608,14 @@
   };
 
   // --- こうか ---
-  U.floatNum = function (x, y, text) {
+  U.floatNum = function (x, y, text, combo) {
     var fx = $('kasu-fx');
     var el = document.createElement('span');
     el.className = 'float-num';
     el.textContent = text;
+    // れんぞくで こするほど 数字が 大きく なる
+    if (combo) el.style.fontSize = Math.round(24 + Math.min(combo, 30) * 0.5) + 'px';
+    el.style.setProperty('--fx', (Math.random() * 40 - 20) + 'px');
     el.style.left = x + 'px';
     el.style.top = (y - 20) + 'px';
     fx.appendChild(el);
@@ -584,7 +623,7 @@
   };
 
   // こすった 消しゴムの はしから カスが でて、つくえの カスに あつまる
-  U.rubFx = function () {
+  U.rubFx = function (combo) {
     if (S().settings.reduceMotion) return;
     var fx = $('kasu-fx');
     var base = $('kasu-stage').getBoundingClientRect();
@@ -595,7 +634,14 @@
     var y0 = er.top - base.top + er.height * 0.94;
     var x1 = ka.left - base.left + ka.width * 0.5;
     var y1 = ka.top - base.top + ka.height * 0.5;
-    var n = 3 + Math.floor(Math.random() * 3);
+    // 先っぽに ぽふっと けむり
+    var puff = document.createElement('span');
+    puff.className = 'rub-puff';
+    puff.style.left = x0 + 'px';
+    puff.style.top = y0 + 'px';
+    fx.appendChild(puff);
+    setTimeout(function () { puff.remove(); }, 450);
+    var n = 5 + Math.floor(Math.random() * 3) + Math.min(Math.floor((combo || 0) / 8), 3);
     for (var i = 0; i < n; i++) {
       var sp = document.createElement('span');
       sp.className = 'speck k' + (1 + Math.floor(Math.random() * 4));

@@ -25,6 +25,8 @@
     namingNote: 'The name stays in your save. No one else can see it.',
     namingAgainDay: 'ERASER #{n}',
     namingAgainLead: 'A new eraser, and a new little crumb.',
+    nameIt: 'Name it',
+    goalNext: 'Next: {name} ({n} to go)',
     namingOk: 'Use this name',
 
     tut1Title: 'Try rubbing the eraser',

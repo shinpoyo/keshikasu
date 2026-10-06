@@ -6,7 +6,7 @@
   var S = function () { return K.state; };
   var t = function (k, v) { return K.t(k, v); };
   var esc = function (s) { return K.ui.esc(s); };
-  var VERSION = '0.41'; // index.html の ?v= と そろえる（ブラウザの キャッシュで 古い js が のこらないように）
+  var VERSION = '0.42'; // index.html の ?v= と そろえる（ブラウザの キャッシュで 古い js が のこらないように）
 
   function show(id) {
     ['screen-title', 'screen-naming', 'screen-game'].forEach(function (s) { $(s).hidden = s !== id; });
@@ -46,14 +46,16 @@
   };
 
   // ---------- なまえ ----------
-  // again: 消しゴムに もどった あとの 新しい カス（いまの 名前を 入れておく）
-  SC.naming = function (again) {
+  // mode: なし=はじめて（いまは つかわない）、true=消しゴムに もどった あと、'later'=あとから つける・かえる
+  // again の ときは いまの 名前を 入れておく
+  SC.naming = function (mode) {
+    var again = !!mode, reb = mode === true;
     var el = $('screen-naming');
     var chips = t('namingChips').split(',');
     el.innerHTML =
-      '<span class="naming-day">' + esc(again ? t('namingAgainDay', { n: S().stats.rebirths + 1 }) : t('day1')) + '</span>' +
-      '<p class="naming-lead">' + esc(t(again ? 'namingAgainLead' : 'namingLead')) + '</p>' +
-      deskScene(K.art.kasuSrc(1), 'naming-desk') +
+      '<span class="naming-day">' + esc(reb ? t('namingAgainDay', { n: S().stats.rebirths + 1 }) : t('day1')) + '</span>' +
+      '<p class="naming-lead">' + esc(t(reb ? 'namingAgainLead' : 'namingLead')) + '</p>' +
+      deskScene(K.art.kasuSrc(reb ? 1 : S().stage), 'naming-desk') +
       '<h1 class="naming-title">' + esc(t('namingTitle')) + '</h1>' +
       '<input class="naming-input" id="n-input" maxlength="12" autocomplete="off" placeholder="' + esc(t('namingPlaceholder')) + '" aria-label="' + esc(t('namingPlaceholder')) + '">' +
       '<div class="chips">' + chips.map(function (c) { return '<button type="button" class="chip" data-chip="' + esc(c) + '" aria-pressed="false">' + esc(c) + '</button>'; }).join('') + '</div>' +
@@ -104,7 +106,7 @@
     el.setAttribute('data-step', step); // CSS で 「とばす」の いちを かえる
     el.hidden = false;
     $('coach-skip').onclick = function () { s.tutorial = 9; SC.coach(); };
-    if ($('coach-ok')) $('coach-ok').onclick = function () { s.tutorial = 9; SC.coach(); };
+    if ($('coach-ok')) $('coach-ok').onclick = function () { s.tutorial = 9; SC.coach(); if (!s.named) SC.naming('later'); };
     if (step === 1) $('kasu-stage').classList.add('coach-target');
     if (step === 2) {
       var f = document.querySelector('.bld[data-b="finger"]');
@@ -700,7 +702,7 @@
       '<p class="lead center">' + esc(d.h ? t('welcomeWhile', { h: d.h, m: d.m }) : t('welcomeWhileM', { m: d.m })) + '</p>' +
       '<div class="welcome-gain" id="welcome-gain">+' + K.fmt(welcomeData.gain) + '</div>' +
       '<p class="lead center">' + esc(t('welcomeWorked')) + '</p>' +
-      (K.ads.on && !welcomeData.doubled ?
+      (K.ads.canAd() && !welcomeData.doubled ?
         // 広告を 見ない ほうも 同じ 大きさ・同じ 見た目に する（CrazyGames の きまり）
         '<div class="ad-choice"><button type="button" class="btn btn-pink btn-lg" id="welcome-ad">' + K.art.ui('ad', 22) + esc(t('welcomeAd')) + '</button>' +
         '<button type="button" class="btn btn-pink btn-lg" data-close>' + esc(t('welcomeTake')) + '</button></div>' +
@@ -720,7 +722,7 @@
         K.store.save();
         SC.refresh();
         K.ui.toast(esc(t('adThanks')));
-      }, function () { b.disabled = false; K.ui.toast(esc(t('adFail'))); });
+      }, function () { b.disabled = false; b.hidden = K.ads.noAds; K.ui.toast(esc(t('adFail'))); });
     };
   };
 
@@ -744,7 +746,7 @@
         K.ui.renderAll();
         K.ui.toast(esc(t('adThanks')));
         if (K.sound) K.sound.play('golden');
-      }, function () { b.disabled = false; K.ui.toast(esc(t('adFail'))); });
+      }, function () { b.disabled = false; if (K.ads.noAds) SC.close(); K.ui.toast(esc(t('adFail'))); });
     };
   };
 

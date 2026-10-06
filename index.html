@@ -10,8 +10,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/tokens.css?v=0.41">
-<link rel="stylesheet" href="css/style.css?v=0.41">
+<link rel="stylesheet" href="css/tokens.css?v=0.42">
+<link rel="stylesheet" href="css/style.css?v=0.42">
 </head>
 <body>
 <div id="app">
@@ -56,6 +56,7 @@
           <span class="count-unit"><span data-t="crumbs"></span><span class="only-narrow"> ・ <b id="cps-inline"></b></span></span>
           <span class="count-cps only-wide" id="cps"></span>
         </div>
+        <button type="button" class="goal only-wide" id="goal" hidden></button>
         <div class="kasu-stage" id="kasu-stage">
           <div class="kasu-scene" id="kasu-scene"></div>
           <div class="kasu-paper"></div>
@@ -72,7 +73,7 @@
             <span class="badge badge-stage" id="stage-badge"></span>
             <span class="kasu-name" id="kasu-name"></span>
           </div>
-          <span class="kasu-pet" id="kasu-pet"></span>
+          <button type="button" class="kasu-pet" id="kasu-pet"></button>
           <span class="kasu-next" id="kasu-next"></span>
           <div class="bar"><div class="bar-fill" id="evo-bar"></div></div>
         </div>
@@ -195,32 +196,32 @@
 </div>
 
 <!-- ?v= は js/screens.js の VERSION と そろえて、なおすたびに 上げる（古い js が キャッシュに のこらないように） -->
-<script src="js/format.js?v=0.41"></script>
-<script src="js/i18n.js?v=0.41"></script>
-<script src="js/art.js?v=0.41"></script>
-<script src="data/buildings.js?v=0.41"></script>
-<script src="data/upgrades.js?v=0.41"></script>
-<script src="data/species.js?v=0.41"></script>
-<script src="data/shardshop.js?v=0.41"></script>
-<script src="data/news.js?v=0.41"></script>
-<script src="data/monologues.js?v=0.41"></script>
-<script src="data/guests.js?v=0.41"></script>
-<script src="data/achievements.js?v=0.41"></script>
-<script src="data/i18n/ja.js?v=0.41"></script>
-<script src="data/i18n/en.js?v=0.41"></script>
-<script src="js/guard.js?v=0.41"></script>
-<script src="js/state.js?v=0.41"></script>
-<script src="js/shop.js?v=0.41"></script>
-<script src="js/evolution.js?v=0.41"></script>
-<script src="js/guest.js?v=0.41"></script>
-<script src="js/drawer.js?v=0.41"></script>
-<script src="js/news.js?v=0.41"></script>
-<script src="js/ascend.js?v=0.41"></script>
-<script src="js/achieve.js?v=0.41"></script>
-<script src="js/sound.js?v=0.41"></script>
-<script src="js/ads.js?v=0.41"></script>
-<script src="js/ui.js?v=0.41"></script>
-<script src="js/screens.js?v=0.41"></script>
-<script src="js/main.js?v=0.41"></script>
+<script src="js/format.js?v=0.42"></script>
+<script src="js/i18n.js?v=0.42"></script>
+<script src="js/art.js?v=0.42"></script>
+<script src="data/buildings.js?v=0.42"></script>
+<script src="data/upgrades.js?v=0.42"></script>
+<script src="data/species.js?v=0.42"></script>
+<script src="data/shardshop.js?v=0.42"></script>
+<script src="data/news.js?v=0.42"></script>
+<script src="data/monologues.js?v=0.42"></script>
+<script src="data/guests.js?v=0.42"></script>
+<script src="data/achievements.js?v=0.42"></script>
+<script src="data/i18n/ja.js?v=0.42"></script>
+<script src="data/i18n/en.js?v=0.42"></script>
+<script src="js/guard.js?v=0.42"></script>
+<script src="js/state.js?v=0.42"></script>
+<script src="js/shop.js?v=0.42"></script>
+<script src="js/evolution.js?v=0.42"></script>
+<script src="js/guest.js?v=0.42"></script>
+<script src="js/drawer.js?v=0.42"></script>
+<script src="js/news.js?v=0.42"></script>
+<script src="js/ascend.js?v=0.42"></script>
+<script src="js/achieve.js?v=0.42"></script>
+<script src="js/sound.js?v=0.42"></script>
+<script src="js/ads.js?v=0.42"></script>
+<script src="js/ui.js?v=0.42"></script>
+<script src="js/screens.js?v=0.42"></script>
+<script src="js/main.js?v=0.42"></script>
 </body>
 </html>

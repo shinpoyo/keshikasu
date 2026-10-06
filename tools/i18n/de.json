@@ -314,7 +314,9 @@
   "star5_rocket": "Die letzte Spitze wird ein x3-Jackpot",
   "star5_dendo": "x3 wird x5",
   "star5_jumbo": "10 Minuten werden 20",
-  "drawerAlready": "Schon in der Schublade"
+  "drawerAlready": "Schon in der Schublade",
+  "nameIt": "Namen geben",
+  "goalNext": "Als Nächstes: {name} (noch {n})"
  },
  "text": {
   "\"A Thousand Fingers\" is 10 times stronger. Nobody has counted.": "„Tausend Finger“ ist 10-mal stärker. Gezählt hat niemand.",

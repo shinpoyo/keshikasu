@@ -314,7 +314,9 @@
   "star5_rocket": "La última punta es un premio x3",
   "star5_dendo": "x3 pasa a x5",
   "star5_jumbo": "10 minutos pasan a 20",
-  "drawerAlready": "Ya está en el cajón"
+  "drawerAlready": "Ya está en el cajón",
+  "nameIt": "Ponle nombre",
+  "goalNext": "Siguiente: {name} (faltan {n})"
  },
  "text": {
   "\"A Thousand Fingers\" is 10 times stronger. Nobody has counted.": "“Mil Dedos” es 10 veces más fuerte. Nadie los ha contado.",
