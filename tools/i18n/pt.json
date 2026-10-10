@@ -238,7 +238,7 @@
   "restWake": "Acordar",
   "settingsTitle": "Ajustes",
   "setLang": "Idioma / ことば",
-  "setSound": "Som",
+  "setSound": "Efeitos sonoros",
   "setNotation": "Estilo dos números",
   "setMotion": "Menos animação",
   "setDark": "Mesa noturna (escuro)",
@@ -316,7 +316,9 @@
   "star5_jumbo": "10 minutos vira 20",
   "drawerAlready": "Já está na gaveta",
   "nameIt": "Dar um nome",
-  "goalNext": "Próximo: {name} (faltam {n})"
+  "goalNext": "Próximo: {name} (faltam {n})",
+  "setBgm": "Música",
+  "setVolume": "Volume"
  },
  "text": {
   "\"A Thousand Fingers\" is 10 times stronger. Nobody has counted.": "“Mil Dedos” fica 10 vezes mais forte. Ninguém contou.",

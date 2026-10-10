@@ -173,7 +173,7 @@
   U.rocketPop = function (gain, big) {
     U.renderEraser();
     U.toast('<b>' + esc(K.L(K.guest.byId.rocket.name)) + '</b> ' + esc(t(big ? 'rocketBig' : 'rocketPop')) + ' ' + esc(t('luckyGain', { v: K.fmt(gain) })));
-    K.sound.play('upgrade');
+    K.sound.play('reward');
   };
 
   // つかいきった！ あたらしい けしゴムと かみ 1まい
@@ -185,7 +185,7 @@
     var tk = $('gm-tickets');
     tk.classList.remove('got'); void tk.offsetWidth; tk.classList.add('got');
     U.toast('<b>' + esc(t('eraserDone')) + '</b> ' + esc(t('ticketPlus')));
-    K.sound.play('upgrade');
+    K.sound.play('reward');
   };
 
   // つくえに ちらかった つぶ（ふくと とんでいく）

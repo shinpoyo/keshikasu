@@ -260,7 +260,9 @@
 
     settingsTitle: 'Settings',
     setLang: 'Language / ことば',
-    setSound: 'Sound',
+    setSound: 'Sound effects',
+    setBgm: 'Music',
+    setVolume: 'Volume',
     setNotation: 'Number style',
     setMotion: 'Reduce motion',
     setDark: 'Night desk (dark)',

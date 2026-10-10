@@ -41,6 +41,9 @@
     var cps = K.game.cps();
     if (cps > 0) { K.game.earn(cps * dt, false); K.game.addProduced(dt * K.game.cpsMult()); }
     s.stats.playTime += dt;
+    var band = Math.floor(Math.log10(Math.max(1, s.totalCrumbs)) / 3);
+    if (K.rt.band == null) K.rt.band = band;
+    else if (band > K.rt.band) { K.rt.band = band; K.sound.play('milestone'); }
 
     // 放置
     var idle = (n - K.rt.lastAction) / 1000;
@@ -66,7 +69,7 @@
       K.ui.toast('<b>' + esc(t('tierUnlocked', { n: tier })) + '</b> ' + esc(t('ticketGift', { n: K.evo.TIER_TICKETS })));
       var sc = K.sceneFor(tier);
       if (sc.from === tier && tier > 1) K.ui.toast(esc(t('sceneChanged', { s: K.L(sc.name) })));
-      K.sound.play('upgrade');
+      K.sound.play('tier');
     }
 
     achAcc += dt;
@@ -157,7 +160,7 @@
       K.ui.floatNum(x, y - 28, '+' + K.fmt(g.jumbo));
     }
     wear();
-    K.sound.play('rub');
+    K.sound.play('rub', { combo: K.rt.combo });
     if (Math.random() < 0.015) K.ui.say(K.news.monologue('rub'));
   }
 
@@ -305,9 +308,10 @@
       if (!el) return;
       var id = el.getAttribute('data-b');
       markAction();
-      var ok = K.ui.mode === 'sell' ? K.game.sell(id, K.ui.bulk) : K.game.buy(id, K.ui.bulk);
-      if (!ok) return;
-      K.sound.play('buy');
+      var sell = K.ui.mode === 'sell';
+      var ok = sell ? K.game.sell(id, K.ui.bulk) : K.game.buy(id, K.ui.bulk);
+      if (!ok) { K.sound.play('deny'); return; }
+      K.sound.play(sell ? 'sell' : 'buy', { n: K.ui.bulk });
       if (K.ui.mode === 'buy' && Math.random() < 0.3) K.ui.say(K.news.monologue('buy'));
       K.ui.renderShop(true);
       K.ui.renderDesk(true);
@@ -332,7 +336,8 @@
       var el = e.target.closest('[data-buy-up]');
       if (!el) return;
       markAction();
-      if (K.game.buyUpgrade(el.getAttribute('data-buy-up'))) {
+      if (!K.game.buyUpgrade(el.getAttribute('data-buy-up'))) { K.sound.play('deny'); return; }
+      {
         K.sound.play('upgrade');
         K.ui.selUpgrade = null;
         K.ui.renderShop(true);
@@ -343,8 +348,9 @@
       var el = e.target.closest('[data-mat]');
       if (!el) return;
       markAction();
-      if (K.game.buyMaterial(el.getAttribute('data-mat'))) {
-        K.sound.play('upgrade');
+      if (!K.game.buyMaterial(el.getAttribute('data-mat'))) { K.sound.play('deny'); return; }
+      {
+        K.sound.play('mixing');
         var bought = K.game.materialById[el.getAttribute('data-mat')];
         K.ui.toast(esc(t('mixedToast', { t: K.L(K.evo.traitById[bought.trait].name) })));
         K.ui.say(K.news.monologue('mix'));
@@ -367,20 +373,26 @@
     K.ui.rolling = true;
     var m = $('gacha-machine');
     m.classList.remove('turning'); void m.offsetWidth; m.classList.add('turning');
-    K.sound.play('buy');
+    K.sound.play('roll');
     setTimeout(function () {
       K.ui.rolling = false;
       m.classList.remove('turning');
       var r = K.evo.roll();
       if (!r) return;
       K.ui.showRollResult(r);
-      if (!r.isNew) K.sound.play('upgrade');
+      K.sound.play(r.isNew ? 'rollNew' : 'rollDup');
       K.ui.renderKasu();
       K.ui.renderGacha(true);
     }, S().settings.reduceMotion ? 0 : 800);
   }
 
   function bindGlobal() {
+    // さいしょの タップで 音を 出せるように する（BGM も ここで はじまる）。ボタンには かるい 音
+    document.addEventListener('pointerdown', function (e) {
+      K.sound.unlock();
+      var b = e.target.closest && e.target.closest('.navbtn, .tabs button, .seg button, .btn, .chip, .switch, .link-btn, button[data-tab], button[data-mid]');
+      if (b && !b.disabled && !b.closest('.bld, #roll-btn')) K.sound.play(b.classList.contains('switch') ? (b.getAttribute('aria-checked') === 'true' ? 'off' : 'on') : 'tap');
+    }, true);
     $('roll-btn').onclick = roll;
     $('kasu-pet').onclick = function () { K.screens.naming('later'); };
     $('goal').onclick = function () { K.ui.goalClick(); };
@@ -467,6 +479,7 @@
     var st = S().settings;
     document.documentElement.setAttribute('data-theme', st.dark ? 'dark' : 'light');
     document.documentElement.classList.toggle('reduce-motion', !!st.reduceMotion);
+    K.sound.apply();
     document.querySelector('meta[name="theme-color"]').setAttribute('content', st.dark ? '#22211F' : '#F6F1E7');
     K.store.save();
     if (!$('screen-game').hidden) {

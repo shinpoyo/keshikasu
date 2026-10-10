@@ -44,7 +44,7 @@
         praises: 0, blows: 0, mixes: 0, sold: 0, maxBlowStreak: 0, maxIdle: 0,
         night: 0, rested: 0, erasers: 0, trades: 0, dups: 0, desked: {}, firstPlay: now, runStart: now
       },
-      settings: { lang: K.defaultLang(), sound: true, notation: 'short', reduceMotion: false, dark: false },
+      settings: { lang: K.defaultLang(), sound: true, bgm: true, volume: 0.8, notation: 'short', reduceMotion: false, dark: false },
       lastSave: now,
       lastTick: now
     };

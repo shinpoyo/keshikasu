@@ -238,7 +238,7 @@
   "restWake": "Réveiller",
   "settingsTitle": "Réglages",
   "setLang": "Langue / ことば",
-  "setSound": "Son",
+  "setSound": "Effets sonores",
   "setNotation": "Format des nombres",
   "setMotion": "Moins d'animations",
   "setDark": "Bureau de nuit (sombre)",
@@ -316,7 +316,9 @@
   "star5_jumbo": "10 minutes deviennent 20",
   "drawerAlready": "Déjà dans le tiroir",
   "nameIt": "Lui donner un nom",
-  "goalNext": "Prochain : {name} (encore {n})"
+  "goalNext": "Prochain : {name} (encore {n})",
+  "setBgm": "Musique",
+  "setVolume": "Volume"
  },
  "text": {
   "First Finger": "Premier doigt",

@@ -260,7 +260,9 @@
 
     settingsTitle: 'せってい',
     setLang: '言葉 / Language',
-    setSound: '音',
+    setSound: '効果音',
+    setBgm: 'BGM（音楽）',
+    setVolume: '音量',
     setNotation: '数字の書き方',
     setMotion: '動きをへらす',
     setDark: '夜のつくえ（ダーク）',

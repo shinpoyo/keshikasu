@@ -1346,3 +1346,6 @@ textarea.savebox {
 }
 
 /* 見ていない あいだに 来て 待っている 消しゴム（つくえの 右上） */
+
+/* おんりょうの つまみ */
+.vol-range { width: min(180px, 46%); height: 28px; accent-color: var(--eraser-blue); cursor: pointer; }
