@@ -6,7 +6,7 @@
   var S = function () { return K.state; };
   var t = function (k, v) { return K.t(k, v); };
   var esc = function (s) { return K.ui.esc(s); };
-  var VERSION = '0.44'; // index.html の ?v= と そろえる（ブラウザの キャッシュで 古い js が のこらないように）
+  var VERSION = '0.45'; // index.html の ?v= と そろえる（ブラウザの キャッシュで 古い js が のこらないように）
 
   function show(id) {
     ['screen-title', 'screen-naming', 'screen-game'].forEach(function (s) { $(s).hidden = s !== id; });
@@ -514,18 +514,20 @@
     // 材料は カードで ならべる。しまえない ときは わけを 書く
     var cards = D.SEEDS.map(function (seed) {
       var m = K.game.materialById[seed.mat], have = D.hasMat(seed), price = D.price(seed);
-      var why = '';
+      var why = '', inside = have && D.inDrawer(seed.mat);
       if (!have) why = t('drawerNeedMat', { m: K.L(m.name) });
-      else if (D.inDrawer(seed.mat)) why = t('drawerAlready');
+      else if (inside) why = '';
       else if (free < 0) why = t('drawerNoSpace');
       else if (s.crumbs < price) why = t('drawerNeedCrumbs', { v: K.fmt(price - s.crumbs) });
-      return '<div class="dw-card' + (have ? '' : ' dw-no') + '">' +
+      // もう しまってある ものは 「しまう」ボタンを 出さない（おせそうに 見えるので）
+      return '<div class="dw-card' + (have ? '' : ' dw-no') + (inside ? ' dw-in' : '') + '">' +
         '<span class="dw-mini">' + K.art.upIcon(seed.mat, 30) + '</span>' +
         '<div class="dw-card-text"><b>' + esc(K.L(m.name)) + '<small>' + esc(growText(seed.grow)) + '</small></b>' +
         '<span class="dw-got">' + esc(K.L(seed.got)) + '</span>' +
         (why ? '<span class="dw-why">' + esc(why) + '</span>' : '') + '</div>' +
-        '<div class="dw-card-buy">' + (have ? '<span class="dw-price">' + K.art.ui('crumb', 14) + K.fmt(price) + '</span>' : '') +
-        '<button type="button" class="btn btn-small' + (why ? '' : ' btn-pink') + '" data-dw-put="' + seed.mat + '"' + (why ? ' disabled' : '') + '>' + esc(t('drawerPut')) + '</button></div></div>';
+        '<div class="dw-card-buy">' + (inside ? '<span class="dw-in-tag">' + K.art.ui('check', 14) + esc(t('drawerAlready')) + '</span>' :
+          (have ? '<span class="dw-price">' + K.art.ui('crumb', 14) + K.fmt(price) + '</span>' : '') +
+          '<button type="button" class="btn btn-small' + (why ? '' : ' btn-pink') + '" data-dw-put="' + seed.mat + '"' + (why ? ' disabled' : '') + '>' + esc(t('drawerPut')) + '</button>') + '</div></div>';
     }).join('');
     return head(t('drawer')) +
       '<p class="dw-lead">' + esc(t('drawerLead')) + '</p>' +
