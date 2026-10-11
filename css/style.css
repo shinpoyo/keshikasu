@@ -300,21 +300,67 @@ h1, h2, h3 { font-family: var(--font-jp); font-weight: 900; margin: 0; text-wrap
   70% { opacity: 1; }
   100% { opacity: 0; transform: translate(calc(-50% + var(--fx, 0px)), -90px) scale(.9); }
 }
-/* つぎの めあて（まだ 買えない いちばん 安い もの） */
+/* つぎの めあて（いま買えるもの。買えないときは いちばん 安いもの）とミッション */
 .goal {
-  width: 100%; max-width: 376px; padding: 6px 12px; display: flex; align-items: center; gap: 10px;
+  width: 100%; max-width: 376px; display: flex; align-items: stretch; gap: 8px; padding: 6px 8px 6px 6px;
   border: 1.5px solid var(--line); border-radius: var(--r-l); background: var(--card); color: var(--ink);
-  cursor: pointer; text-align: left; font: inherit;
 }
 .goal[hidden] { display: none; }
-.goal:hover { border-color: var(--ink); }
-.goal-ico { width: 30px; height: 30px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; border-radius: 8px; background: var(--paper-3); }
-.goal-text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
-.goal-label { font-family: var(--font-jp); font-weight: 800; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.goal-bar { height: 6px; border-radius: 999px; background: var(--paper-3); overflow: hidden; }
+.goal.ready { border-color: var(--ink); box-shadow: 0 3px 0 var(--ink); }
+.goal-go { flex: 1; min-width: 0; display: flex; align-items: center; gap: 10px; padding: 0; border: 0; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.goal-ico { width: 34px; height: 34px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; border-radius: 9px; background: var(--paper-3); }
+.goal-text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.goal-name { font-family: var(--font-jp); font-weight: 900; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-variant-numeric: tabular-nums; }
+.goal-sub { font-family: var(--font-jp); font-weight: 700; font-size: 12px; color: var(--graphite); }
+.goal.ready .goal-sub { color: var(--eraser-blue); }
+.goal-bar { height: 5px; border-radius: 999px; background: var(--paper-3); overflow: hidden; }
 .goal-bar > span { display: block; height: 100%; background: var(--eraser-blue); border-radius: inherit; transition: width .3s; }
+.goal-buy {
+  flex-shrink: 0; min-width: 64px; padding: 0 14px; border: 2px solid var(--ink); border-radius: var(--r-m); background: var(--eraser-pink); color: var(--on-accent);
+  font-family: var(--font-jp); font-weight: 900; font-size: 14px; cursor: pointer; box-shadow: 0 3px 0 var(--ink);
+}
+.goal-buy:disabled { opacity: .45; box-shadow: none; cursor: default; border-color: var(--line-2); }
 .goal-ping { animation: goal-ping 1s ease; }
 @keyframes goal-ping { 0%, 60% { box-shadow: 0 0 0 4px var(--eraser-blue); } 100% { box-shadow: 0 0 0 0 transparent; } }
+.mission-strip {
+  width: 100%; max-width: 376px; display: flex; align-items: center; gap: 8px; padding: 6px 10px; min-height: 34px; position: relative;
+  border: 1.5px solid var(--gold); border-radius: var(--r-l); background: var(--gold-soft); color: var(--on-accent);
+  font-family: var(--font-jp); font-weight: 700; font-size: 12.5px; text-align: left; cursor: pointer; overflow: hidden;
+}
+.mission-strip[hidden] { display: none; }
+.mission-strip .ms-head { font-weight: 900; flex-shrink: 0; }
+.mission-strip .ms-text { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mission-strip .ms-rw { flex-shrink: 0; font-weight: 900; font-size: 11.5px; padding: 0 8px; border-radius: 999px; background: var(--card); border: 1.5px solid var(--ink); }
+.mission-strip .ms-bar { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; border-radius: 0; background: transparent; }
+.ms-bar { height: 6px; border-radius: 999px; background: var(--paper-3); overflow: hidden; }
+.ms-bar > span { display: block; height: 100%; background: var(--gold-deep); border-radius: inherit; transition: width .3s; }
+.ms-list { display: flex; flex-direction: column; gap: 10px; }
+.ms-row { padding: 12px 14px; border: 2px solid var(--ink); border-radius: var(--r-l); background: var(--card); display: flex; flex-direction: column; gap: 6px; }
+.ms-row-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.ms-row-top b { font-family: var(--font-jp); font-weight: 900; font-size: 15px; }
+.ms-row .ms-rw { font-weight: 900; font-size: 12px; padding: 1px 10px; border-radius: 999px; background: var(--gold-soft); border: 1.5px solid var(--ink); }
+.ms-row small { font-weight: 700; color: var(--graphite); font-variant-numeric: tabular-nums; }
+.dl-days { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; margin: 8px 0; }
+.dl-day { aspect-ratio: 1 / 1.25; display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 6px 2px; border: 2px solid var(--line); border-radius: 12px; background: var(--card); font-weight: 900; }
+.dl-day.today { border-color: var(--ink); background: var(--gold-soft); box-shadow: 0 3px 0 var(--ink); }
+.dl-day.past { background: var(--paper-3); color: var(--graphite); }
+.dl-n { font-size: 15px; font-variant-numeric: tabular-nums; }
+.dl-i { min-height: 20px; display: flex; align-items: center; font-size: 14px; }
+/* まぜる を たたむ */
+.mat-toggle { width: 100%; display: flex; align-items: center; gap: 8px; padding: 10px 12px; border: 2px solid var(--line); border-radius: var(--r-l); background: var(--card); color: var(--ink); font: inherit; font-weight: 900; font-size: 14px; text-align: left; cursor: pointer; }
+.mat-toggle small { flex: 1; font-weight: 700; color: var(--graphite); font-size: 12px; }
+.mat-toggle.has small { color: var(--eraser-blue); }
+.mat-chev { width: 9px; height: 9px; border-right: 2.5px solid currentColor; border-bottom: 2.5px solid currentColor; transform: rotate(45deg) translateY(-2px); transition: transform .2s; flex-shrink: 0; }
+.mat-toggle[aria-expanded="true"] .mat-chev { transform: rotate(-135deg) translateY(-2px); }
+#mat-body { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+#mat-body[hidden] { display: none; }
+#mat-current { font-weight: 700; color: var(--graphite); font-size: 12px; display: flex; align-items: center; gap: 4px; }
+.bld.can { box-shadow: 0 0 0 3px rgba(62,111,176,.22); }
+/* スマホ: 目標・ミッションは 名前の すぐ下、ほめる/ふくの 上 */
+@media (max-width: 900px) {
+  .pane-kasu .goal, .pane-kasu .mission-strip { max-width: none; order: 5; }
+  .pane-kasu .actions { order: 6; }
+}
 /* こすった 先の けむり */
 .rub-puff {
   position: absolute; width: 34px; height: 34px; margin: -17px 0 0 -17px; border-radius: 50%;
@@ -958,7 +1004,7 @@ textarea.savebox {
 /* ---------- 大きい PC 画面（全画面など）: 文字も カスも 大きく ---------- */
 @media (min-width: 1600px) and (min-height: 1000px) {
   .pane-kasu { width: 580px; padding: 28px 40px; gap: 14px; }
-  .kasu-stage { width: clamp(376px, calc(100vh - 640px), 520px); }
+  .kasu-stage { width: clamp(300px, calc(100vh - 700px), 520px); }
   .goal { max-width: 500px; padding: 8px 14px; }
   .goal-label { font-size: 15px; }
   .count-num { font-size: 84px; }
@@ -997,7 +1043,7 @@ textarea.savebox {
   .count-cps { margin-top: 0; }
   .goal { padding: 4px 10px; }
   .goal-ico { width: 26px; height: 26px; }
-  .pane-kasu .kasu-stage { width: clamp(220px, calc(100vh - 410px), 376px); }
+  .pane-kasu .kasu-stage { width: clamp(200px, calc(100vh - 490px), 376px); }
   .kasu-info { gap: 3px; }
   .bubble { padding: 7px 14px; font-size: 14px; line-height: 1.5; }
   .actions .btn { min-height: 46px; }
@@ -1346,3 +1392,6 @@ textarea.savebox {
 }
 
 /* 見ていない あいだに 来て 待っている 消しゴム（つくえの 右上） */
+
+/* おんりょうの つまみ */
+.vol-range { width: min(180px, 46%); height: 28px; accent-color: var(--eraser-blue); cursor: pointer; }

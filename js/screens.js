@@ -6,7 +6,7 @@
   var S = function () { return K.state; };
   var t = function (k, v) { return K.t(k, v); };
   var esc = function (s) { return K.ui.esc(s); };
-  var VERSION = '0.42'; // index.html の ?v= と そろえる（ブラウザの キャッシュで 古い js が のこらないように）
+  var VERSION = '0.44'; // index.html の ?v= と そろえる（ブラウザの キャッシュで 古い js が のこらないように）
 
   function show(id) {
     ['screen-title', 'screen-naming', 'screen-game'].forEach(function (s) { $(s).hidden = s !== id; });
@@ -159,6 +159,7 @@
   }
 
   SC.open = function (name) {
+    if ($('modal').hidden) K.sound.play('open');
     current = name;
     var card = $('modal-card');
     card.className = 'modal-card';
@@ -175,6 +176,7 @@
 
   SC.close = function () {
     if (current === 'welcome' && SC.onWelcomeClose) { SC.onWelcomeClose(); SC.onWelcomeClose = null; }
+    if (!$('modal').hidden) K.sound.play('close');
     current = null;
     $('modal').hidden = true;
     $('modal-card').innerHTML = '';
@@ -538,7 +540,7 @@
       b.onclick = function () {
         var i = D.firstEmpty();
         if (i >= 0 && D.plant(i, b.getAttribute('data-dw-put'))) {
-          K.sound.play('upgrade'); K.store.save(); SC.refresh(); K.ui.renderAll();
+          K.sound.play('on'); K.store.save(); SC.refresh(); K.ui.renderAll();
         }
       };
     });
@@ -547,7 +549,7 @@
         var r = D.harvest(+b.getAttribute('data-dw-take'));
         if (!r) return;
         var m = K.game.materialById[r.mat];
-        K.sound.play('upgrade');
+        K.sound.play('reward');
         K.ui.toast('<b>' + esc(K.L(m.name)) + '</b> ' + esc(r.gain != null ? t('luckyGain', { v: K.fmt(r.gain) }) : K.L(D.seedByMat[r.mat].got)));
         K.store.save(); SC.refresh(); K.ui.renderAll();
       };
@@ -633,6 +635,8 @@
     return head(t('settingsTitle')) +
       '<div class="set-row"><span>' + esc(t('setLang')) + '</span>' + langSelect() + '</div>' +
       '<div class="set-row"><span>' + K.art.ui('sound', 20) + esc(t('setSound')) + '</span>' + sw('sound', st.sound) + '</div>' +
+      '<div class="set-row"><span>' + esc(t('setBgm')) + '</span>' + sw('bgm', st.bgm !== false) + '</div>' +
+      '<div class="set-row"><span>' + esc(t('setVolume')) + '</span><input type="range" class="vol-range" min="0" max="100" step="5" value="' + Math.round((st.volume == null ? 0.8 : st.volume) * 100) + '" data-vol aria-label="' + esc(t('setVolume')) + '"></div>' +
       '<div class="set-row"><span>' + esc(t('setNotation')) + '</span><div class="lang-toggle"><button type="button" data-notation="short" aria-pressed="' + (st.notation !== 'sci') + '">1.23M</button><button type="button" data-notation="sci" aria-pressed="' + (st.notation === 'sci') + '">1.23e6</button></div></div>' +
       '<div class="set-row"><span>' + esc(t('setMotion')) + '</span>' + sw('reduceMotion', st.reduceMotion) + '</div>' +
       '<div class="set-row"><span>' + esc(t('setDark')) + '</span>' + sw('dark', st.dark) + '</div>' +
@@ -650,8 +654,11 @@
       b.onclick = function () { S().settings.notation = b.getAttribute('data-notation'); K.main.applySettings(); SC.refresh(); };
     });
     card.querySelectorAll('[data-set]').forEach(function (b) {
-      b.onclick = function () { var k = b.getAttribute('data-set'); S().settings[k] = !S().settings[k]; K.main.applySettings(); SC.refresh(); };
+      b.onclick = function () { var k = b.getAttribute('data-set'); S().settings[k] = k === 'bgm' ? S().settings.bgm === false : !S().settings[k]; K.main.applySettings(); SC.refresh(); };
     });
+    var vol = card.querySelector('[data-vol]');
+    vol.oninput = function () { S().settings.volume = this.value / 100; K.sound.apply(); };
+    vol.onchange = function () { K.sound.play('buy'); K.store.save(); };
     var step = 0;
     $('reset-btn').onclick = function () {
       step++;
@@ -692,6 +699,47 @@
   };
 
   // おかえり
+  // ---------- ミッション ----------
+  RENDER.missions = function () {
+    var list = K.missions.list();
+    var rows = list.map(function (x) {
+      return '<div class="ms-row' + (x.pct >= 1 ? ' done' : '') + '"><div class="ms-row-top"><b>' + esc(K.missions.text(x)) + '</b><span class="ms-rw">' + esc(K.missions.rewardText(x)) + '</span></div>' +
+        '<div class="ms-bar"><span style="width:' + (x.pct * 100).toFixed(1) + '%"></span></div><small>' + esc(K.missions.progress(x)) + '</small></div>';
+    }).join('');
+    return head(t('missionTitle')) + '<p class="lead">' + esc(t('missionLead')) + '</p><div class="ms-list">' + rows + '</div>' +
+      '<p class="ad-note center">' + esc(t('missionCount', { n: S().missions.done })) + '</p>';
+  };
+
+  // ---------- 毎日のごほうび ----------
+  RENDER.daily = function () {
+    var a = K.missions.dailyAvailable();
+    if (!a) return head(t('dailyTitle')) + '<p class="lead center">' + esc(t('dailyDone')) + '</p>';
+    var stamps = '';
+    for (var d = 1; d <= 7; d++) {
+      var r = K.missions.dailyReward(d);
+      stamps += '<div class="dl-day' + (d < a.day ? ' past' : (d === a.day ? ' today' : '')) + '"><span class="dl-n">' + d + '</span>' +
+        '<span class="dl-i">' + (d < a.day ? '✓' : (r.tickets ? K.art.ui('sleeve', 18) : '')) + '</span></div>';
+    }
+    var rw = K.missions.dailyReward(a.day);
+    return head(t('dailyTitle')) +
+      '<p class="lead center">' + esc(a.streak > 1 ? t('dailyStreak', { n: a.streak }) : t('dailyFirst')) + '</p>' +
+      '<div class="dl-days">' + stamps + '</div>' +
+      '<div class="welcome-gain">+' + K.fmt(rw.crumbs) + '</div>' +
+      (rw.tickets ? '<p class="lead center">' + esc(t('ticketGift', { n: rw.tickets })) + '</p>' : '') +
+      '<button type="button" class="btn btn-pink btn-lg" id="daily-claim">' + esc(t('dailyClaim')) + '</button>' +
+      '<p class="ad-note center">' + esc(t('dailyNote')) + '</p>';
+  };
+  AFTER.daily = function () {
+    var b = $('daily-claim');
+    if (!b) return;
+    b.onclick = function () {
+      var g = K.missions.claimDaily();
+      K.sound.play('reward');
+      SC.close();
+      if (g) { K.ui.toast('<b>' + esc(t('dailyTitle')) + '</b> +' + esc(K.fmt(g.r.crumbs)) + (g.r.tickets ? ' ・ ' + esc(t('ticketGift', { n: g.r.tickets })) : '')); K.ui.renderAll(); }
+    };
+  };
+
   var welcomeData = null;
   SC.welcome = function (sec, gain, onClose) { welcomeData = { sec: sec, gain: gain, doubled: false }; SC.onWelcomeClose = onClose; SC.open('welcome'); };
   RENDER.welcome = function () {
@@ -844,7 +892,7 @@
     el.style.setProperty('--cy', Math.round(box.top + box.height / 2) + 'px');
     if (!reduce) K.sound.play(isMix ? 'mixing' : 'charge');
     var revealAt = reduce ? 0 : (isMix ? 1100 : 3600); // css の --reveal と そろえる
-    var timers = [setTimeout(function () { K.sound.play(isMix ? 'upgrade' : 'evolve'); }, revealAt)];
+    var timers = [setTimeout(function () { K.sound.play(isMix ? 'rollNew' : 'evolve'); }, revealAt)];
     if (cycle && !reduce) {
       var sils = el.querySelectorAll('.evo-morph.cycle > span');
       cycle.forEach(function (c, i) {

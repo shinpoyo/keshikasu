@@ -91,6 +91,7 @@
   function come(id, other) {
     var x = 0.1 + Math.random() * 0.35;
     if (other ? other.x < 0.5 : Math.random() < 0.5) x += 0.45;
+    if (K.sound) K.sound.play(id === 'golden' ? 'goldenShow' : 'guest');
     return { id: id, x: x, y: 0.15 + Math.random() * 0.7, until: Date.now() + LIFETIME * 1000 };
   }
 
