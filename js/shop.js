@@ -48,6 +48,18 @@
     return Math.ceil(first * (Math.pow(r, amount) - 1) / (r - 1));
   };
 
+  // いま買える いちばん多い かず（0 なら 1こも 買えない）
+  G.maxBuy = function (id) {
+    var b = G.buildingById[id], r = K.data.PRICE_GROWTH, c = S().crumbs;
+    var first = b.cost * Math.pow(r, S().buildings[id]) * discount();
+    if (!(first > 0) || c < first) return 0;
+    var n = Math.floor(Math.log(1 + c * (r - 1) / first) / Math.log(r));
+    n = Math.max(1, Math.min(n, 100000));
+    while (n > 0 && G.price(id, n) > c) n--;
+    while (n < 100000 && G.price(id, n + 1) <= c) n++;
+    return n;
+  };
+
   G.sellValue = function (id, amount) {
     var owned = S().buildings[id];
     amount = Math.min(amount || 1, owned);

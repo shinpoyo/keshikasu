@@ -77,10 +77,13 @@
       achAcc = 0;
       K.guard.check();
       var got = K.achieve.check();
-      got.forEach(function (a) {
+      // 一度に たくさん とれたら 1つに まとめる
+      if (got.length > 2) K.ui.toast('<span>' + esc(t('achGotMany', { n: got.length })) + '</span>');
+      else got.forEach(function (a) {
         K.ui.toast(K.screens.achCell(a, 16) + '<span>' + esc(t('achGot')) + ' <b>' + esc(K.L(a.name)) + '</b></span>');
-        K.sound.play('achievement');
       });
+      if (got.length) K.sound.play('achievement');
+      K.missions.tick();
       if (got.length) K.ui.renderDesk(true);
     }
 
@@ -309,9 +312,10 @@
       var id = el.getAttribute('data-b');
       markAction();
       var sell = K.ui.mode === 'sell';
-      var ok = sell ? K.game.sell(id, K.ui.bulk) : K.game.buy(id, K.ui.bulk);
+      var amount = K.ui.amountFor(id);
+      var ok = sell ? K.game.sell(id, amount) : K.game.buy(id, amount);
       if (!ok) { K.sound.play('deny'); return; }
-      K.sound.play(sell ? 'sell' : 'buy', { n: K.ui.bulk });
+      K.sound.play(sell ? 'sell' : 'buy', { n: amount });
       if (K.ui.mode === 'buy' && Math.random() < 0.3) K.ui.say(K.news.monologue('buy'));
       K.ui.renderShop(true);
       K.ui.renderDesk(true);
@@ -357,10 +361,11 @@
         K.ui.renderShop(true);
       }
     });
+    $('mat-toggle').onclick = function () { K.ui.matOpen = !K.ui.matOpen; K.ui.renderShop(true); };
     $('bulk').addEventListener('click', function (e) {
       var b = e.target.closest('button');
       if (!b) return;
-      if (b.hasAttribute('data-bulk')) K.ui.bulk = +b.getAttribute('data-bulk');
+      if (b.hasAttribute('data-bulk')) K.ui.bulk = b.getAttribute('data-bulk') === 'max' ? 'max' : +b.getAttribute('data-bulk');
       if (b.hasAttribute('data-mode')) K.ui.mode = b.getAttribute('data-mode');
       K.ui.renderShop(true);
     });
@@ -395,7 +400,7 @@
     }, true);
     $('roll-btn').onclick = roll;
     $('kasu-pet').onclick = function () { K.screens.naming('later'); };
-    $('goal').onclick = function () { K.ui.goalClick(); };
+    $('mission').onclick = function () { K.screens.open('missions'); };
     $('praise-btn').onclick = praise;
     $('blow-btn').onclick = blow;
     $('ad-btn').onclick = function () { if (K.ads.canAd() && K.ads.boostWait() <= 0) K.screens.open('adBoost'); };

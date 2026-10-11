@@ -6,7 +6,7 @@
   var S = function () { return K.state; };
   var t = function (k, v) { return K.t(k, v); };
   var esc = function (s) { return K.ui.esc(s); };
-  var VERSION = '0.43'; // index.html の ?v= と そろえる（ブラウザの キャッシュで 古い js が のこらないように）
+  var VERSION = '0.44'; // index.html の ?v= と そろえる（ブラウザの キャッシュで 古い js が のこらないように）
 
   function show(id) {
     ['screen-title', 'screen-naming', 'screen-game'].forEach(function (s) { $(s).hidden = s !== id; });
@@ -699,6 +699,47 @@
   };
 
   // おかえり
+  // ---------- ミッション ----------
+  RENDER.missions = function () {
+    var list = K.missions.list();
+    var rows = list.map(function (x) {
+      return '<div class="ms-row' + (x.pct >= 1 ? ' done' : '') + '"><div class="ms-row-top"><b>' + esc(K.missions.text(x)) + '</b><span class="ms-rw">' + esc(K.missions.rewardText(x)) + '</span></div>' +
+        '<div class="ms-bar"><span style="width:' + (x.pct * 100).toFixed(1) + '%"></span></div><small>' + esc(K.missions.progress(x)) + '</small></div>';
+    }).join('');
+    return head(t('missionTitle')) + '<p class="lead">' + esc(t('missionLead')) + '</p><div class="ms-list">' + rows + '</div>' +
+      '<p class="ad-note center">' + esc(t('missionCount', { n: S().missions.done })) + '</p>';
+  };
+
+  // ---------- 毎日のごほうび ----------
+  RENDER.daily = function () {
+    var a = K.missions.dailyAvailable();
+    if (!a) return head(t('dailyTitle')) + '<p class="lead center">' + esc(t('dailyDone')) + '</p>';
+    var stamps = '';
+    for (var d = 1; d <= 7; d++) {
+      var r = K.missions.dailyReward(d);
+      stamps += '<div class="dl-day' + (d < a.day ? ' past' : (d === a.day ? ' today' : '')) + '"><span class="dl-n">' + d + '</span>' +
+        '<span class="dl-i">' + (d < a.day ? '✓' : (r.tickets ? K.art.ui('sleeve', 18) : '')) + '</span></div>';
+    }
+    var rw = K.missions.dailyReward(a.day);
+    return head(t('dailyTitle')) +
+      '<p class="lead center">' + esc(a.streak > 1 ? t('dailyStreak', { n: a.streak }) : t('dailyFirst')) + '</p>' +
+      '<div class="dl-days">' + stamps + '</div>' +
+      '<div class="welcome-gain">+' + K.fmt(rw.crumbs) + '</div>' +
+      (rw.tickets ? '<p class="lead center">' + esc(t('ticketGift', { n: rw.tickets })) + '</p>' : '') +
+      '<button type="button" class="btn btn-pink btn-lg" id="daily-claim">' + esc(t('dailyClaim')) + '</button>' +
+      '<p class="ad-note center">' + esc(t('dailyNote')) + '</p>';
+  };
+  AFTER.daily = function () {
+    var b = $('daily-claim');
+    if (!b) return;
+    b.onclick = function () {
+      var g = K.missions.claimDaily();
+      K.sound.play('reward');
+      SC.close();
+      if (g) { K.ui.toast('<b>' + esc(t('dailyTitle')) + '</b> +' + esc(K.fmt(g.r.crumbs)) + (g.r.tickets ? ' ・ ' + esc(t('ticketGift', { n: g.r.tickets })) : '')); K.ui.renderAll(); }
+    };
+  };
+
   var welcomeData = null;
   SC.welcome = function (sec, gain, onClose) { welcomeData = { sec: sec, gain: gain, doubled: false }; SC.onWelcomeClose = onClose; SC.open('welcome'); };
   RENDER.welcome = function () {
