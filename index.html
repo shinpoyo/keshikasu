@@ -10,8 +10,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/tokens.css?v=0.43">
-<link rel="stylesheet" href="css/style.css?v=0.43">
+<link rel="stylesheet" href="css/tokens.css?v=0.44">
+<link rel="stylesheet" href="css/style.css?v=0.44">
 </head>
 <body>
 <div id="app">
@@ -56,7 +56,8 @@
           <span class="count-unit"><span data-t="crumbs"></span><span class="only-narrow"> ・ <b id="cps-inline"></b></span></span>
           <span class="count-cps only-wide" id="cps"></span>
         </div>
-        <button type="button" class="goal only-wide" id="goal" hidden></button>
+        <div class="goal" id="goal" hidden></div>
+        <button type="button" class="mission-strip" id="mission" hidden></button>
         <div class="kasu-stage" id="kasu-stage">
           <div class="kasu-scene" id="kasu-scene"></div>
           <div class="kasu-paper"></div>
@@ -145,6 +146,7 @@
             <button type="button" data-bulk="1">x1</button>
             <button type="button" data-bulk="10">x10</button>
             <button type="button" data-bulk="100">x100</button>
+            <button type="button" data-bulk="max">MAX</button>
           </div>
         </div>
         <div class="shop-scroll">
@@ -154,8 +156,11 @@
             <div class="up-detail" id="up-detail" hidden></div>
           </div>
           <div class="shop-group" id="mat-group" hidden>
-            <span class="group-label"><span data-t="materialsLabel"></span> <small id="mat-current"></small></span>
-            <div class="mat-list" id="mat-list"></div>
+            <button type="button" class="group-label mat-toggle" id="mat-toggle" aria-expanded="false" aria-controls="mat-body"><span data-t="materialsLabel"></span> <small id="mat-hint"></small><span class="mat-chev" aria-hidden="true"></span></button>
+            <div id="mat-body" hidden>
+              <small id="mat-current"></small>
+              <div class="mat-list" id="mat-list"></div>
+            </div>
           </div>
           <div class="shop-group">
             <span class="group-label" data-t="buddiesLabel"></span>
@@ -196,32 +201,33 @@
 </div>
 
 <!-- ?v= は js/screens.js の VERSION と そろえて、なおすたびに 上げる（古い js が キャッシュに のこらないように） -->
-<script src="js/format.js?v=0.43"></script>
-<script src="js/i18n.js?v=0.43"></script>
-<script src="js/art.js?v=0.43"></script>
-<script src="data/buildings.js?v=0.43"></script>
-<script src="data/upgrades.js?v=0.43"></script>
-<script src="data/species.js?v=0.43"></script>
-<script src="data/shardshop.js?v=0.43"></script>
-<script src="data/news.js?v=0.43"></script>
-<script src="data/monologues.js?v=0.43"></script>
-<script src="data/guests.js?v=0.43"></script>
-<script src="data/achievements.js?v=0.43"></script>
-<script src="data/i18n/ja.js?v=0.43"></script>
-<script src="data/i18n/en.js?v=0.43"></script>
-<script src="js/guard.js?v=0.43"></script>
-<script src="js/state.js?v=0.43"></script>
-<script src="js/shop.js?v=0.43"></script>
-<script src="js/evolution.js?v=0.43"></script>
-<script src="js/guest.js?v=0.43"></script>
-<script src="js/drawer.js?v=0.43"></script>
-<script src="js/news.js?v=0.43"></script>
-<script src="js/ascend.js?v=0.43"></script>
-<script src="js/achieve.js?v=0.43"></script>
-<script src="js/sound.js?v=0.43"></script>
-<script src="js/ads.js?v=0.43"></script>
-<script src="js/ui.js?v=0.43"></script>
-<script src="js/screens.js?v=0.43"></script>
-<script src="js/main.js?v=0.43"></script>
+<script src="js/format.js?v=0.44"></script>
+<script src="js/i18n.js?v=0.44"></script>
+<script src="js/art.js?v=0.44"></script>
+<script src="data/buildings.js?v=0.44"></script>
+<script src="data/upgrades.js?v=0.44"></script>
+<script src="data/species.js?v=0.44"></script>
+<script src="data/shardshop.js?v=0.44"></script>
+<script src="data/news.js?v=0.44"></script>
+<script src="data/monologues.js?v=0.44"></script>
+<script src="data/guests.js?v=0.44"></script>
+<script src="data/achievements.js?v=0.44"></script>
+<script src="data/i18n/ja.js?v=0.44"></script>
+<script src="data/i18n/en.js?v=0.44"></script>
+<script src="js/guard.js?v=0.44"></script>
+<script src="js/state.js?v=0.44"></script>
+<script src="js/shop.js?v=0.44"></script>
+<script src="js/evolution.js?v=0.44"></script>
+<script src="js/guest.js?v=0.44"></script>
+<script src="js/drawer.js?v=0.44"></script>
+<script src="js/news.js?v=0.44"></script>
+<script src="js/ascend.js?v=0.44"></script>
+<script src="js/achieve.js?v=0.44"></script>
+<script src="js/missions.js?v=0.44"></script>
+<script src="js/sound.js?v=0.44"></script>
+<script src="js/ads.js?v=0.44"></script>
+<script src="js/ui.js?v=0.44"></script>
+<script src="js/screens.js?v=0.44"></script>
+<script src="js/main.js?v=0.44"></script>
 </body>
 </html>

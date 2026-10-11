@@ -37,6 +37,8 @@
       shardsEarned: 0,         // これまでに もらった かけら
       shardUpgrades: {},
       adBoost: { until: 0, next: 0 }, // CrazyGames 版の しばらく2倍（js/ads.js）
+      missions: { slots: [], lvl: {}, done: 0, made: 0 }, // ミッション（js/missions.js）
+      daily: { last: '', streak: 0 },                     // 毎日のごほうび（js/missions.js）
       drawer: { slots: [null, null, null, null, null, null], buffs: {}, gold: 0, harvests: 0 }, // ひきだし（js/drawer.js）。消しゴムにもどっても のこる
       mood: { praises: 0, blows: 0, idle: 0 }, // この周の記録（特別な進化）
       stats: {

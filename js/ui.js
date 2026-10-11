@@ -8,7 +8,12 @@
   var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
   U.esc = esc;
 
-  U.bulk = 1;
+  U.bulk = 1;       // 1・10・100 か 'max'
+  // いま 押したら 何こ 買う（売る）か
+  U.amountFor = function (id) {
+    if (U.bulk !== 'max') return U.bulk;
+    return U.mode === 'sell' ? Math.max(1, S().buildings[id]) : Math.max(1, K.game.maxBuy(id));
+  };
   U.mode = 'buy';
   U.tab = 'kasu';
   U.selUpgrade = null;
@@ -232,6 +237,7 @@
     document.querySelectorAll('[data-mirror="crumbs"]').forEach(function (el) { el.textContent = c; });
     document.querySelectorAll('[data-mirror="cps-inline"]').forEach(function (el) { el.textContent = cpsText; });
     renderGoal();
+    renderMission();
     // ほめる の まちじかん
     var wait = Math.ceil((K.rt.praiseReadyAt - Date.now()) / 1000);
     $('praise-btn').disabled = wait > 0;
@@ -286,37 +292,77 @@
 
   // --- みせ ---
   var shopSig = '';
-  // つぎの めあて: まだ 買えない いちばん 安い どうぐ・アップグレード
+  // つぎの めあて: いま買える いちばん 高い もの（なければ いちばん 安い もの）。スマホでも その場で 買える
   var goalTarget = null;
   function renderGoal() {
-    var s = S(), best = null;
+    var s = S(), best = null, cands = [];
     K.game.visibleBuildings().forEach(function (v) {
-      var c = v.locked ? v.b.cost : K.game.price(v.b.id, 1);
-      if (c > s.crumbs && (!best || c < best.cost)) best = { cost: c, sel: '.bld[data-b="' + v.b.id + '"]', name: v.locked ? t('locked') : K.L(v.b.name), icon: v.locked ? K.art.ui('lock', 22) : K.art.building(v.b.id, 24, 24) };
+      if (v.locked) { cands.push({ cost: v.b.cost, kind: 'l', sel: '.bld[data-b="' + v.b.id + '"]', name: t('locked'), icon: K.art.ui('lock', 22) }); return; }
+      cands.push({ cost: K.game.price(v.b.id, 1), kind: 'b', id: v.b.id, sel: '.bld[data-b="' + v.b.id + '"]', name: K.L(v.b.name), icon: K.art.building(v.b.id, 26, 26) });
     });
     K.game.availableUpgrades().forEach(function (u) {
-      if (u.cost > s.crumbs && (!best || u.cost < best.cost)) best = { cost: u.cost, sel: '.up[data-up="' + u.id + '"]', name: K.L(u.name), icon: K.art.upIcon(u.icon, 22) };
+      cands.push({ cost: u.cost, kind: 'u', id: u.id, sel: '.up[data-up="' + u.id + '"]', name: K.L(u.name), icon: K.art.upIcon(u.icon, 22) });
     });
+    cands.forEach(function (c) { c.afford = c.kind !== 'l' && c.cost <= s.crumbs; });
+    cands.filter(function (c) { return c.afford; }).forEach(function (c) { if (!best || c.cost > best.cost) best = c; });
+    if (!best) cands.forEach(function (c) { if (!best || c.cost < best.cost) best = c; });
     var el = $('goal');
     el.hidden = !best;
     goalTarget = best;
     if (!best) return;
-    var pctv = Math.max(0, Math.min(100, s.crumbs / best.cost * 100));
-    var key = best.sel + best.name;
+    var key = best.sel + best.kind + best.name;
     if (el.getAttribute('data-key') !== key) {
       el.setAttribute('data-key', key);
-      el.innerHTML = '<span class="goal-ico">' + best.icon + '</span><span class="goal-text"><span class="goal-label"></span><span class="goal-bar"><span></span></span></span>';
+      el.innerHTML = '<button type="button" class="goal-go"><span class="goal-ico">' + best.icon + '</span><span class="goal-text"><span class="goal-name"></span><small class="goal-sub"></small><span class="goal-bar"><span></span></span></span></button>' +
+        '<button type="button" class="goal-buy">' + esc(t('buy')) + '</button>';
+      el.querySelector('.goal-go').onclick = U.goalClick;
+      el.querySelector('.goal-buy').onclick = U.goalBuy;
     }
-    el.querySelector('.goal-label').textContent = t('goalNext', { name: best.name, n: K.fmt(best.cost - s.crumbs) });
-    el.querySelector('.goal-bar > span').style.width = pctv.toFixed(1) + '%';
+    el.classList.toggle('ready', best.afford);
+    el.querySelector('.goal-name').textContent = best.name + '　' + K.fmt(best.cost);
+    el.querySelector('.goal-sub').textContent = best.afford ? t('goalReady') : t('goalLack', { n: K.fmt(best.cost - s.crumbs) });
+    el.querySelector('.goal-bar > span').style.width = Math.max(0, Math.min(100, s.crumbs / best.cost * 100)).toFixed(1) + '%';
+    el.querySelector('.goal-buy').disabled = !best.afford;
   }
   U.goalClick = function () {
     if (!goalTarget) return;
+    if (U.narrow()) U.setTab('shop');
     var el = document.querySelector(goalTarget.sel);
     if (!el) return;
     el.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
     el.classList.remove('goal-ping'); void el.offsetWidth; el.classList.add('goal-ping');
   };
+  U.goalBuy = function () {
+    var g = goalTarget;
+    if (!g || !g.afford) return;
+    K.rt.lastAction = Date.now();
+    var ok = g.kind === 'u' ? K.game.buyUpgrade(g.id) : K.game.buy(g.id, 1);
+    if (!ok) { K.sound.play('deny'); return; }
+    K.sound.play(g.kind === 'u' ? 'upgrade' : 'buy', { n: 1 });
+    U.renderShop(true);
+    U.renderDesk(true);
+    U.renderCounts();
+  };
+
+  // ミッション: いちばん 達成に ちかい 目標を 1行で。おすと 3つ ぜんぶ
+  function renderMission() {
+    var el = $('mission');
+    var s = S();
+    if (s.tutorial < 9) { el.hidden = true; return; }
+    var list = K.missions.list();
+    if (!list.length) { el.hidden = true; return; }
+    var x = list.slice().sort(function (a, b) { return b.pct - a.pct; })[0];
+    el.hidden = false;
+    var key = x.id + x.target + x.r + K.lang();
+    if (el.getAttribute('data-key') !== key) {
+      el.setAttribute('data-key', key);
+      el.innerHTML = '<span class="ms-head">' + esc(t('missionTitle')) + '</span><span class="ms-text"></span><span class="ms-bar"><span></span></span><span class="ms-rw"></span>';
+      el.querySelector('.ms-text').textContent = K.missions.text(x);
+      el.querySelector('.ms-rw').textContent = x.r === 't' ? t('rewardTicketShort') : '+' + K.fmt(Math.max(50, Math.ceil(K.game.cps() * 180)));
+    }
+    el.querySelector('.ms-bar > span').style.width = (x.pct * 100).toFixed(1) + '%';
+    el.setAttribute('aria-label', t('missionTitle') + ': ' + K.missions.text(x) + ' ' + K.missions.progress(x));
+  }
 
   U.renderShop = function (force) {
     var s = S();
@@ -327,20 +373,20 @@
     var sig = [K.lang(), U.bulk, U.mode, U.selUpgrade, U.openInfo, Object.keys(s.mats).join(','),
       ups.map(function (u) { return u.id + (s.crumbs >= u.cost ? '1' : '0'); }).join(','),
       mats.map(function (m) { return m.id + (s.crumbs >= m.cost ? '1' : '0'); }).join(','),
-      vis.map(function (v) { return v.b.id + s.buildings[v.b.id] + (s.crumbs >= K.game.price(v.b.id, U.bulk) ? '1' : '0') + v.locked; }).join(',')
+      vis.map(function (v) { return v.b.id + s.buildings[v.b.id] + (s.crumbs >= K.game.price(v.b.id, U.amountFor(v.b.id)) ? '1' : '0') + (U.bulk === 'max' ? U.amountFor(v.b.id) : '') + v.locked; }).join(',')
     ].join('|');
     if (sig === shopSig && !force) return;
     var becameAffordable = {};
     if (shopSig) {
       vis.forEach(function (v) {
         var el = document.querySelector('.bld[data-b="' + v.b.id + '"]');
-        if (el && el.classList.contains('cant') && s.crumbs >= K.game.price(v.b.id, U.bulk) && U.mode === 'buy') becameAffordable[v.b.id] = true;
+        if (el && el.classList.contains('cant') && s.crumbs >= K.game.price(v.b.id, U.amountFor(v.b.id)) && U.mode === 'buy') becameAffordable[v.b.id] = true;
       });
     }
     shopSig = sig;
 
     // bulk / mode
-    document.querySelectorAll('#bulk [data-bulk]').forEach(function (b) { b.setAttribute('aria-pressed', String(+b.getAttribute('data-bulk') === U.bulk)); });
+    document.querySelectorAll('#bulk [data-bulk]').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-bulk') === String(U.bulk))); });
     document.querySelectorAll('#bulk [data-mode]').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-mode') === U.mode)); });
 
     // アップグレード
@@ -377,6 +423,11 @@
     });
     var pool = K.evo.pool();
     $('mat-group').hidden = !mats.length && pool.length < 2;
+    var canMat = mats.filter(function (m) { return s.crumbs >= m.cost; }).length;
+    $('mat-hint').textContent = canMat ? t('matHint', { n: canMat }) : '';
+    $('mat-toggle').classList.toggle('has', canMat > 0);
+    $('mat-toggle').setAttribute('aria-expanded', String(!!U.matOpen));
+    $('mat-body').hidden = !U.matOpen;
     $('mat-list').innerHTML = mh;
     $('mat-current').innerHTML = esc(t('mixCurrent')) + ' ' + pool.map(function (id) {
       var tr = K.evo.traitById[id];
@@ -394,7 +445,7 @@
       }
       var owned = s.buildings[b.id];
       var sell = U.mode === 'sell';
-      var amount = U.bulk;
+      var amount = U.amountFor(b.id);
       var price = sell ? K.game.sellValue(b.id, amount) : K.game.price(b.id, amount);
       var can = sell ? owned > 0 : s.crumbs >= price;
       var rate = '+' + K.fmtPerSec(K.game.unitCps(b.id) * K.game.globalMult());
@@ -660,15 +711,23 @@
     }
   };
 
-  U.toast = function (html) {
+  // 通知は 1つずつ 順番に 出す（かさなって 画面を ふさがない）。たまっていたら はやく 次へ
+  var toastQ = [], toastBusy = false;
+  function toastNext() {
+    var html = toastQ.shift();
+    if (html == null) { toastBusy = false; return; }
+    toastBusy = true;
     var el = document.createElement('div');
     el.className = 'toast';
     el.innerHTML = html;
-    var box = $('toasts');
-    box.appendChild(el);
-    // 3こまで。いっぺんに たくさん とれたときは ふるいものから けす
-    while (box.children.length > 3) box.removeChild(box.firstChild);
-    setTimeout(function () { el.remove(); }, 3300);
+    $('toasts').appendChild(el);
+    var life = toastQ.length >= 2 ? 1500 : (toastQ.length === 1 ? 2200 : 3000);
+    setTimeout(function () { el.remove(); setTimeout(toastNext, 120); }, life);
+  }
+  U.toast = function (html) {
+    if (toastQ.length >= 6) toastQ.splice(0, toastQ.length - 5); // たまりすぎは ふるいものから すてる
+    toastQ.push(html);
+    if (!toastBusy) toastNext();
   };
 
   U.medalColor = function (a) {
