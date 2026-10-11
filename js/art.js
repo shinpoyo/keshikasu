@@ -118,6 +118,7 @@
     close: ['0 0 24 24', '<path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>'],
     chev: ['0 0 24 24', '<path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>'],
     back: ['0 0 24 24', '<path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>'],
+    check: ['0 0 24 24', '<path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>'],
     lock: ['0 0 24 24', '<g fill="none" stroke="#A59A86" stroke-width="2" stroke-linecap="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></g>'],
     crumb: ['0 0 10 10', '<path d="M2 6c0-2 2-4 4-3.5S9 5 8 7 3 8.5 2 6z" fill="#A9A49B" stroke="' + INK + '" stroke-width="1"/>'],
     sleeve: ['0 0 22 16', '<rect x="2" y="2" width="18" height="12" rx="2" fill="#3E6FB0" stroke="' + INK + '" stroke-width="1.5"/><rect x="2" y="6.5" width="18" height="3" fill="#FFFFFF" stroke="' + INK + '" stroke-width="1"/>'],
