@@ -132,7 +132,7 @@
     if (n - lastRubAt < RUB_GAP) return;
     lastRubAt = n;
     var p = K.game.clickPower();
-    if (K.rt.kadoLeft > 0) { p *= K.rt.kadoMult || 10; K.rt.kadoLeft--; } // かどかど消しゴム
+    if (K.rt.kadoLeft > 0) { p *= K.rt.kadoMult || 10; K.rt.kadoLeft--; } // ほし形消しゴム
     if (K.game.buffActive('dendo')) p *= K.rt.dendoMult || 3;              // 電動けしゴム
     var g = K.guest.onRub(p);                             // ねりけし・ロケット・ジャンボ
     p += g.bonus;

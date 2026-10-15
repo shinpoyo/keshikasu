@@ -621,7 +621,7 @@ button.kasu-pet:hover { background: var(--paper-3); }
 .eraser-btn.swap .eraser-art { animation: eraser-swap .45s cubic-bezier(.3,1.5,.5,1); }
 @keyframes eraser-swap { from { transform: scale(.4) rotate(-30deg); opacity: 0; } }
 .kasu-stage[data-hold="golden"] .speck { filter: sepia(1) saturate(5) hue-rotate(5deg) brightness(1.5); }
-.kasu-stage[data-hold="kadokeshi"] .speck { filter: grayscale(1) brightness(2.4) drop-shadow(0 0 1px #2B2A28); }
+.kasu-stage[data-hold="kadokeshi"] .speck { filter: grayscale(1) sepia(1) hue-rotate(215deg) saturate(2.2) brightness(1.5); }
 .kasu-stage[data-hold="sand"] .speck { filter: sepia(.7) contrast(1.5) brightness(1.1); }
 .kasu-stage[data-hold="kaori"] .speck { filter: grayscale(1) sepia(1) hue-rotate(300deg) saturate(3) brightness(1.6); }
 .kasu-stage[data-hold="rocket"] .speck { filter: grayscale(1) sepia(1) hue-rotate(50deg) saturate(3) brightness(1.4); }

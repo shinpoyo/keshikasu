@@ -8,8 +8,8 @@
   K.rt = {
     praiseUntil: 0, praiseReadyAt: 0,
     buffs: {},             // id: { until, dur }（js/guest.js の EFFECTS）
-    kadoLeft: 0,           // かどかど消しゴム: のこりの こする かず
-    kadoMax: 0, kadoMult: 10, // かどかど消しゴム: ★で かわる
+    kadoLeft: 0,           // ほし形消しゴム: のこりの こする かず
+    kadoMax: 0, kadoMult: 10, // ほし形消しゴム: ★で かわる
     rocket: null,          // ロケットけしゴム: { left: のこりの こま, max, rubs, lastBig }
     jumbo: null,           // ジャンボけしゴム: { left: のこりの こする かず, max, mins }
     neriMult: 5, kaoriMult: 2, dendoMult: 3, sandWear: 2, // ★で かわる つよさ

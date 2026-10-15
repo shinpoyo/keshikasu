@@ -92,7 +92,7 @@
   });
 
   // --- ゲストけしゴム（はじめて つかった・つかった かず）---
-  [['kadokeshi', 'かどがいっぱい', 'So Many Corners', 'かどはまだある。', 'Still more corners.'],
+  [['kadokeshi', 'きらきら', 'Twinkle Twinkle', '先っぽはまだある。', 'Still some tips left.'],
    ['sand', 'ざらざら', 'Gritty', 'つくえもけずれた気がする。', 'Feels like the desk got sanded too.'],
    ['neri', 'ねりねり', 'Squish Squish', '全部まとまった。', 'It all came together.'],
    ['kaori', 'いいにおい', 'Smells Nice', 'おなかがすいた。', 'Now you are hungry.'],

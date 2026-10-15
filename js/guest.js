@@ -149,7 +149,7 @@
     lucky: { src: 'golden', name: { ja: 'ラッキー！', en: 'Lucky!' } },
     frenzy: { src: 'golden', gold: true, name: { ja: 'キラキラタイム！', en: 'Sparkle Frenzy!' }, desc: { ja: '/s が 7倍', en: '/s x7' }, short: { ja: 'x7', en: 'x7' }, dur: 77 },
     scrub: { src: 'golden', gold: true, name: { ja: 'ごりごりタイム！', en: 'Scrub Frenzy!' }, desc: { ja: 'こする力が 777倍', en: 'Rubbing x777' }, short: { ja: 'こする x777', en: 'Rub x777' }, dur: 13 },
-    kado: { src: 'kadokeshi', name: { ja: 'かどかど消しゴム！', en: 'Corner Eraser!' }, short: { ja: 'x10', en: 'x10' } },
+    kado: { src: 'kadokeshi', name: { ja: 'ほし形消しゴム！', en: 'Star Eraser!' }, short: { ja: 'x10', en: 'x10' } },
     sand: { src: 'sand', name: { ja: 'ごしごしタイム！', en: 'Sanding Time!' }, short: { ja: '自動', en: 'Auto' } },
     kaori: { src: 'kaori', name: { ja: 'いいにおい！', en: 'Sweet Smell!' }, short: { ja: 'x2', en: 'x2' } },
     neri: { src: 'neri', name: { ja: 'ねりねりタイム！', en: 'Knead Time!' }, short: { ja: 'くっつく', en: 'Sticky' } },
