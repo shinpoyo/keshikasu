@@ -7,6 +7,28 @@
     return '<svg viewBox="' + vb + '" width="' + w + '" height="' + h + '" aria-hidden="true" focusable="false"' + (extra || '') + '>' + inner + '</svg>';
   }
 
+  // ほし形消しゴム（ゲストの かどけしの かわり）。先っぽを まるめた 星と、下に ずらした あつみ
+  function starPath(cx, cy, R, r) {
+    var v = [];
+    for (var i = 0; i < 10; i++) {
+      var ang = (-90 + i * 36) * Math.PI / 180, rad = i % 2 ? r : R;
+      v.push([cx + Math.cos(ang) * rad, cy + Math.sin(ang) * rad]);
+    }
+    var f = function (n) { return n.toFixed(1); }, d = '';
+    v.forEach(function (p, i) {
+      var pv = v[(i + 9) % 10], nx = v[(i + 1) % 10], k = i % 2 ? 0.14 : 0.24;
+      var a = [p[0] + (pv[0] - p[0]) * k, p[1] + (pv[1] - p[1]) * k], b = [p[0] + (nx[0] - p[0]) * k, p[1] + (nx[1] - p[1]) * k];
+      d += (i ? 'L' : 'M') + f(a[0]) + ' ' + f(a[1]) + 'Q' + f(p[0]) + ' ' + f(p[1]) + ' ' + f(b[0]) + ' ' + f(b[1]);
+    });
+    return d + 'Z';
+  }
+  function starEraser(cx, cy, R, r, depth, sw) {
+    var st = ' stroke="' + INK + '" stroke-width="' + sw + '" stroke-linejoin="round"';
+    return '<path d="' + starPath(cx, cy + depth, R, r) + '" fill="#9F8AD8"' + st + '/>' +
+      '<path d="' + starPath(cx, cy, R, r) + '" fill="#D2C5F4"' + st + '/>' +
+      '<path d="' + starPath(cx, cy, R * 0.62, r * 0.62) + '" fill="none" stroke="#FFFFFF" stroke-width="' + (sw * 0.9) + '" stroke-linejoin="round" opacity="0.45"/>';
+  }
+
   // どうぐ（施設）のアイコン。デザイン案（design/Main.dc.html）から移植＋のこりを同じタッチで追加
   var BUILDING = {
     finger: ['0 0 26 34', '<rect x="7" y="2" width="12" height="28" rx="6" fill="#F4D7BE" stroke="' + INK + '" stroke-width="1.8"/><rect x="9.5" y="4.5" width="7" height="7" rx="3" fill="#FFFFFF" stroke="' + INK + '" stroke-width="1.2"/><path d="M9 22h8" stroke="' + INK + '" stroke-width="1.2"/>'],
@@ -38,7 +60,7 @@
   var GUEST = {
     sand: ['0 0 44 32', '<rect x="3" y="7" width="38" height="18" rx="4" fill="#FBF8F1" stroke="' + INK + '" stroke-width="2" stroke-linejoin="round"/><path d="M22 7h15a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H22z" fill="#9C968C" stroke="' + INK + '" stroke-width="2" stroke-linejoin="round"/><circle cx="27" cy="12" r=".9" fill="#FBF8F1"/><circle cx="32" cy="17" r=".9" fill="#FBF8F1"/><circle cx="36" cy="12" r=".9" fill="#FBF8F1"/><circle cx="28" cy="20" r=".9" fill="#FBF8F1"/><circle cx="35" cy="21" r=".9" fill="#FBF8F1"/><path d="M8 29h5M16 30h4" stroke="#A9A49B" stroke-width="2" stroke-linecap="round"/>'],
     rocket: ['0 0 44 40', '<g transform="rotate(-35 22 20)"><rect x="8" y="14" width="26" height="12" rx="3" fill="#8FE0C0" fill-opacity=".55" stroke="' + INK + '" stroke-width="2" stroke-linejoin="round"/><rect x="11" y="16" width="6" height="8" rx="1.5" fill="#F29CA3" stroke="' + INK + '" stroke-width="1.2"/><rect x="18" y="16" width="6" height="8" rx="1.5" fill="#E7B533" stroke="' + INK + '" stroke-width="1.2"/><rect x="25" y="16" width="6" height="8" rx="1.5" fill="#8FA7C8" stroke="' + INK + '" stroke-width="1.2"/><path d="M34 16h3a4 4 0 0 1 0 8h-3z" fill="#F29CA3" stroke="' + INK + '" stroke-width="2" stroke-linejoin="round"/><rect x="3" y="15" width="5" height="10" rx="2" fill="#3E6FB0" stroke="' + INK + '" stroke-width="2" stroke-linejoin="round"/></g><path d="M6 36h6M36 34l3 3" stroke="#A9A49B" stroke-width="2" stroke-linecap="round"/>'],
-    kadokeshi: ['0 0 40 40', '<path d="M5.6 11l5.4 2.7v5.4l-5.4 -2.7z" fill="#E6DFD2" stroke="' + INK + '" stroke-width="1.3" stroke-linejoin="round"/><path d="M16.4 11l-5.4 2.7v5.4l5.4 -2.7z" fill="#CFC7B8" stroke="' + INK + '" stroke-width="1.3" stroke-linejoin="round"/><path d="M11 8.3l5.4 2.7l-5.4 2.7l-5.4 -2.7z" fill="#FFFFFF" stroke="' + INK + '" stroke-width="1.3" stroke-linejoin="round"/><path d="M0.1999999999999993 8.299999999999999l5.4 2.7v5.4l-5.4 -2.7z" fill="#E6DFD2" stroke="' + INK + '" stroke-width="1.3" stroke-linejoin="round"/><path d="M11 8.299999999999999l-5.4 2.7v5.4l5.4 -2.7z" fill="#CFC7B8" stroke="' + INK + '" stroke-width="1.3" stroke-linejoin="round"/><path d="M5.6 5.599999999999999l5.4 2.7l-5.4 2.7l-5.4 -2.7z" fill="#FFFFFF" stroke="' + INK + '" stroke-width="1.3" stroke-linejoin="round"/><path d="M10.999999999999998 8.299999999999999l5.4 2.7v5.4l-5.4 -2.7z" fill="#E6DFD2" stroke="' + INK + '" stroke-width="1.3" stroke-linejoin="round"/><path d="M21.799999999999997 8.299999999999999l-5.4 2.7v5.4l5.4 -2.7z" fill="#CFC7B8" stroke="' + INK + '" stroke-width="1.3" stroke-linejoin="round"/><path d="M16.4 5.599999999999999l5.4 2.7l-5.4 2.7l-5.4 -2.7z" fill="#FFFFFF" stroke="' + INK + '" stroke-width="1.3" stroke-linejoin="round"/><path d="M5.6 16.4l5.4 2.7v5.4l-5.4 -2.7z" fill="#E6DFD2" stroke="' + INK + '" stroke-width="1.3" stroke-linejoin="round"/><path d="M16.4 16.4l-5.4 2.7v5.4l5.4 -2.7z" fill="#CFC7B8" stroke="' + INK + '" stroke-width="1.3" stroke-linejoin="round"/><path d="M11 13.7l5.4 2.7l-5.4 2.7l-5.4 -2.7z" fill="#FFFFFF" stroke="' + INK + '" stroke-width="1.3" stroke-linejoin="round"/><path d="M16.4 16.4l5.4 2.7v5.4l-5.4 -2.7z" fill="#E6DFD2" stroke="' + INK + '" stroke-width="1.3" stroke-linejoin="round"/><path d="M27.200000000000003 16.4l-5.4 2.7v5.4l5.4 -2.7z" fill="#CFC7B8" stroke="' + INK + '" stroke-width="1.3" stroke-linejoin="round"/><path d="M21.8 13.7l5.4 2.7l-5.4 2.7l-5.4 -2.7z" fill="#FFFFFF" stroke="' + INK + '" stroke-width="1.3" stroke-linejoin="round"/><path d="M10.999999999999998 13.700000000000001l5.4 2.7v5.4l-5.4 -2.7z" fill="#E6DFD2" stroke="' + INK + '" stroke-width="1.3" stroke-linejoin="round"/><path d="M21.799999999999997 13.700000000000001l-5.4 2.7v5.4l5.4 -2.7z" fill="#CFC7B8" stroke="' + INK + '" stroke-width="1.3" stroke-linejoin="round"/><path d="M16.4 11l5.4 2.7l-5.4 2.7l-5.4 -2.7z" fill="#FFFFFF" stroke="' + INK + '" stroke-width="1.3" stroke-linejoin="round"/><path d="M21.800000000000004 13.700000000000001l5.4 2.7v5.4l-5.4 -2.7z" fill="#E6DFD2" stroke="' + INK + '" stroke-width="1.3" stroke-linejoin="round"/><path d="M32.6 13.700000000000001l-5.4 2.7v5.4l5.4 -2.7z" fill="#CFC7B8" stroke="' + INK + '" stroke-width="1.3" stroke-linejoin="round"/><path d="M27.200000000000003 11l5.4 2.7l-5.4 2.7l-5.4 -2.7z" fill="#FFFFFF" stroke="' + INK + '" stroke-width="1.3" stroke-linejoin="round"/><path d="M16.4 21.8l5.4 2.7v5.4l-5.4 -2.7z" fill="#E6DFD2" stroke="' + INK + '" stroke-width="1.3" stroke-linejoin="round"/><path d="M27.200000000000003 21.8l-5.4 2.7v5.4l5.4 -2.7z" fill="#CFC7B8" stroke="' + INK + '" stroke-width="1.3" stroke-linejoin="round"/><path d="M21.8 19.1l5.4 2.7l-5.4 2.7l-5.4 -2.7z" fill="#FFFFFF" stroke="' + INK + '" stroke-width="1.3" stroke-linejoin="round"/><path d="M27.200000000000003 21.8l5.4 2.7v5.4l-5.4 -2.7z" fill="#E6DFD2" stroke="' + INK + '" stroke-width="1.3" stroke-linejoin="round"/><path d="M38 21.8l-5.4 2.7v5.4l5.4 -2.7z" fill="#CFC7B8" stroke="' + INK + '" stroke-width="1.3" stroke-linejoin="round"/><path d="M32.6 19.1l5.4 2.7l-5.4 2.7l-5.4 -2.7z" fill="#FFFFFF" stroke="' + INK + '" stroke-width="1.3" stroke-linejoin="round"/><path d="M21.800000000000004 19.1l5.4 2.7v5.4l-5.4 -2.7z" fill="#E6DFD2" stroke="' + INK + '" stroke-width="1.3" stroke-linejoin="round"/><path d="M32.6 19.1l-5.4 2.7v5.4l5.4 -2.7z" fill="#CFC7B8" stroke="' + INK + '" stroke-width="1.3" stroke-linejoin="round"/><path d="M27.200000000000003 16.400000000000002l5.4 2.7l-5.4 2.7l-5.4 -2.7z" fill="#FFFFFF" stroke="' + INK + '" stroke-width="1.3" stroke-linejoin="round"/>'],
+    kadokeshi: ['0 0 40 40', starEraser(20, 19, 16, 8, 3, 1.6)],
     neri: ['0 0 40 40', '<path d="M5 24c-2-6 3-11 9-10 3-5 11-6 14-1 6-1 10 5 7 10 2 5-3 9-8 7-3 4-11 4-13 0-5 2-10-1-9-6z" fill="#A9A49B" stroke="' + INK + '" stroke-width="2" stroke-linejoin="round"/><path d="M12 22c3-3 7-3 10-1M24 26c2-1 4-1 5 1" stroke="#6B6A66" stroke-width="1.6" fill="none" stroke-linecap="round"/><path d="M34 32c1.5 1 3 1 4 3" stroke="' + INK + '" stroke-width="1.6" stroke-linecap="round"/><circle cx="37" cy="36" r="2" fill="#A9A49B" stroke="' + INK + '" stroke-width="1.4"/>'],
     kaori: ['0 0 40 40', '<path d="M20 12c8 0 14 5 14 12 0 7-7 13-14 13S6 31 6 24c0-7 6-12 14-12z" fill="#F29CA3" stroke="' + INK + '" stroke-width="2" stroke-linejoin="round"/><path d="M14 12c2-4 10-4 12 0-4 2-8 2-12 0z" fill="#A9BF95" stroke="' + INK + '" stroke-width="2" stroke-linejoin="round"/><circle cx="14" cy="22" r="1" fill="#FFF6D6"/><circle cx="21" cy="20" r="1" fill="#FFF6D6"/><circle cx="26" cy="25" r="1" fill="#FFF6D6"/><circle cx="17" cy="29" r="1" fill="#FFF6D6"/><circle cx="24" cy="31" r="1" fill="#FFF6D6"/><path d="M31 9c-2-2 2-4 0-6M36 11c-2-2 2-4 0-6" stroke="#F29CA3" stroke-width="1.8" fill="none" stroke-linecap="round"/>'],
     dendo: ['0 0 44 32', '<path d="M14 10h22a6 6 0 0 1 0 12H14z" fill="#8FA7C8" stroke="' + INK + '" stroke-width="2" stroke-linejoin="round"/><path d="M14 10l-6 3v6l6 3z" fill="#DDE3EA" stroke="' + INK + '" stroke-width="2" stroke-linejoin="round"/><rect x="2" y="13.5" width="6" height="5" rx="1" fill="#FFFFFF" stroke="' + INK + '" stroke-width="1.6"/><rect x="22" y="7" width="8" height="4" rx="1.5" fill="#F29CA3" stroke="' + INK + '" stroke-width="1.4"/><path d="M3 9l-1-3M3 23l-1 3" stroke="#A9A49B" stroke-width="1.8" stroke-linecap="round"/>'],
@@ -175,26 +197,8 @@
     '<path d="M145 49l2.4 4.8 5.3.8-3.8 3.7.9 5.3-4.8-2.5-4.8 2.5.9-5.3-3.8-3.7 5.3-.8z" fill="#E7B533" stroke="' + INK + '" stroke-width="1.4" stroke-linejoin="round"/>' +
     '<path d="M40 30l6 6M42 84l6-4M186 88l8 4M196 26l6-6" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/>';
 
-  // かどかど消しゴム: しろい キューブが ジグザグに ならぶ（かどが 28こ）。右は かみの スリーブ
-  BIG.kadokeshi = (function () {
-  // かみの スリーブなし。しろい キューブが 1つおきに とびだした かたまり
-  var s = SH, a = 32, x0 = 14, y0 = 14, e = 8, cols = 6, rows = 3;
-  var st = ' stroke="' + INK + '" stroke-width="2.2" stroke-linejoin="round"';
-  var cells = [];
-  for (var r = 0; r < rows; r++) for (var c = 0; c < cols; c++) cells.push([c, r, (r + c) % 2 === 0]);
-  cells.filter(function (q) { return !q[2]; }).forEach(function (q) {
-    var x = x0 + q[0] * a, y = y0 + q[1] * a;
-    s += '<rect x="' + x + '" y="' + y + '" width="' + a + '" height="' + a + '" fill="#DDD5C6"' + st + '/>';
-  });
-  cells.filter(function (q) { return q[2]; }).forEach(function (q) {
-    var x = x0 + q[0] * a, y = y0 + q[1] * a;
-    s += '<path d="M' + x + ' ' + y + 'l-' + e + ' -' + e + 'h' + a + 'l' + e + ' ' + e + 'z" fill="#FFFFFF"' + st + '/>' +
-      '<path d="M' + x + ' ' + y + 'l-' + e + ' -' + e + 'v' + a + 'l' + e + ' ' + e + 'z" fill="#EFE9DE"' + st + '/>' +
-      '<rect x="' + x + '" y="' + y + '" width="' + a + '" height="' + a + '" fill="#FFFFFF"' + st + '/>' +
-      '<path d="M' + (x + 6) + ' ' + (y + 7) + 'h' + (a - 14) + '" stroke="#E3DCCF" stroke-width="3" stroke-linecap="round"/>';
-  });
-  return s;
-    })();
+  // ほし形消しゴム: ふちの まるい 5つの 先っぽ。うすむらさき、下に あつみ
+  BIG.kadokeshi = SH + '<g transform="rotate(-8 116 62)">' + starEraser(116, 60, 54, 26, 10, 3) + '</g>';
 
   // すなけし: 先が グレーの ざらざら、うしろが しろ。かみの スリーブ
   BIG.sand = SH +
