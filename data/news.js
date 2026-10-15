@@ -133,7 +133,7 @@
     // --- ゴールデン ---
     n({ golden: 1 }, '金色のカス、もくげきじょうほう。「まぶしかった」。', 'Golden crumb sighting reported. Witness: "It was very bright."'),
     n({ guests: 3 }, 'つくえにいろんな消しゴムが遊びに来る。筆箱はからっぽ。', 'All kinds of erasers visit the desk. The pencil case is empty.'),
-    n({ guests: 20 }, 'かどけしの角、全部で28こ。数えた人がいる。', 'Someone counted the corners on a corner eraser: 28.'),
+    n({ guests: 20 }, 'かどかど消しゴムの角、全部で28こ。数えた人がいる。', 'Someone counted the corners on a corner eraser: 28.'),
     n({ golden: 7 }, 'ゴールデン消しゴム、ラッキーアイテムににんてい。', 'Golden Erasers officially declared lucky.'),
 
     // --- 転生 ---

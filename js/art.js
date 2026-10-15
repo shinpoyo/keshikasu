@@ -175,9 +175,9 @@
     '<path d="M145 49l2.4 4.8 5.3.8-3.8 3.7.9 5.3-4.8-2.5-4.8 2.5.9-5.3-3.8-3.7 5.3-.8z" fill="#E7B533" stroke="' + INK + '" stroke-width="1.4" stroke-linejoin="round"/>' +
     '<path d="M40 30l6 6M42 84l6-4M186 88l8 4M196 26l6-6" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/>';
 
-  // かどけし: しろい キューブが ジグザグに ならぶ（かどが 28こ）。右は かみの スリーブ
+  // かどかど消しゴム: しろい キューブが ジグザグに ならぶ（かどが 28こ）。右は かみの スリーブ
   BIG.kadokeshi = (function () {
-  // かみの スリーブなし。しろい キューブが 1つおきに とびだした かたまり（コクヨの カドケシ）
+  // かみの スリーブなし。しろい キューブが 1つおきに とびだした かたまり
   var s = SH, a = 32, x0 = 14, y0 = 14, e = 8, cols = 6, rows = 3;
   var st = ' stroke="' + INK + '" stroke-width="2.2" stroke-linejoin="round"';
   var cells = [];

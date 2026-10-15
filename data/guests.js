@@ -9,7 +9,7 @@
       name: { ja: 'ゴールデン消しゴム', en: 'Golden Eraser' },
       line: { ja: 'ぴかぴか。消すのがもったいない', en: 'So shiny. Too nice to use.' } },
     { id: 'kadokeshi', stage: 1,
-      name: { ja: 'かどけし', en: 'Corner Eraser' },
+      name: { ja: 'かどかど消しゴム', en: 'Corner Eraser' },
       line: { ja: 'いつも新しい角で消せる', en: 'It has 28 corners. There is always a fresh one.' } },
     { id: 'sand', stage: 2,
       name: { ja: 'すなけし', en: 'Sand Eraser' },
