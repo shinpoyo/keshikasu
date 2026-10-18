@@ -167,6 +167,8 @@
 
     goldenLabel: 'ゴールデン消しゴム',
     luckyGain: '+{v} つぶ！',
+    incidentNo: 'ふしぎなできごと No.{n}',
+    incidentOk: 'へえ',
     guestCame: '{n}が来た！',
     rocketLeft: '残り {n}こ',
     rocketBig: '最後のこまが大当たり！',

@@ -167,6 +167,8 @@
 
     goldenLabel: 'Golden Eraser',
     luckyGain: '+{v} crumbs!',
+    incidentNo: 'Strange Happening #{n}',
+    incidentOk: 'Huh.',
     guestCame: '{n} is here!',
     rocketLeft: '{n} left',
     rocketBig: 'The last piece was a jackpot!',

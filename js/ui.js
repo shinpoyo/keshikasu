@@ -274,7 +274,7 @@
       var show = Math.min(n, 40);
       var prev = Math.min(prevCounts[b.id] || 0, 40);
       var units = '';
-      var size = b.id === 'grandpa' ? [36, 44] : b.id === 'classroom' || b.id === 'factory' || b.id === 'roller' || b.id === 'paralleldesk' || b.id === 'bigeraser' || b.id === 'autoeraser' ? [46, 38] : b.id === 'friend' ? [38, 38] : b.id === 'ant' ? [34, 22] : b.id === 'finger' ? [22, 30] : [34, 34];
+      var size = b.id === 'roller' || b.id === 'paralleldesk' ? [46, 38] : b.id === 'ant' ? [34, 22] : b.id === 'finger' ? [22, 30] : [34, 34];
       for (var i = 0; i < show; i++) {
         units += '<span class="u' + (i >= prev ? ' u-new' : '') + '">' + K.art.building(b.id, size[0], size[1]) + '</span>';
       }
@@ -595,6 +595,30 @@
     }
     el.classList.toggle('leaving', g.until - Date.now() < 1500);
   }
+  // ふしぎなできごと: つくえの カスの よこに「！」が うかぶ（js/incidents.js）
+  var incSig = '';
+  U.renderIncident = function () {
+    var el = $('incident'), id = K.incident.current;
+    if (!id || K.screens.isOpen()) {
+      if (!el.hidden) { el.hidden = true; incSig = ''; }
+      return;
+    }
+    var x = K.incident.byId[id];
+    // カスの つくえ（スマホで ほかの タブの ときは 見えないので かくす）
+    var r = $('kasu-stage').getBoundingClientRect(), host = $('screen-game').getBoundingClientRect();
+    if (!r.width) { if (!el.hidden) { el.hidden = true; incSig = ''; } return; }
+    var sig = id + '|' + K.lang() + '|' + Math.round(r.left) + ',' + Math.round(r.top) + ',' + Math.round(r.width);
+    if (sig === incSig) return;
+    incSig = sig;
+    var size = U.narrow() ? 64 : 80;
+    el.style.left = Math.round(r.left - host.left + r.width * 0.06 + 20) + 'px';
+    el.style.top = Math.round(r.top - host.top + r.height * 0.62) + 'px';
+    el.querySelector('.guest-art').innerHTML = K.art.incident(id, size - 16, size - 24);
+    el.querySelector('.guest-label').textContent = K.L(x.label);
+    el.setAttribute('aria-label', K.L(x.label));
+    el.hidden = false;
+  };
+
   U.renderGuest = function () {
     renderSlot(K.guest.current, 'guest');
     renderSlot(K.guest.gold, 'guest-gold');

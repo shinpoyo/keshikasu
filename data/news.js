@@ -1,6 +1,7 @@
 // カスニュース（企画書 6-5）。when の条件を満たすものから選ばれる
 // when: { b: [施設id, 数], stage: 最低だんかい, maxStage: 最高だんかい, total: この周の合計つぶ, rebirth: 転生回数, golden: ゴールデンの数,
-//         trait: いまの けいとう, found: ずかんに ある種類, praise: ほめた回数, blow: ふいた回数, night: 0〜5じ }
+//         trait: いまの けいとう, found: ずかんに ある種類, praise: ほめた回数, blow: ふいた回数, night: 0〜5じ,
+//         inc: もう おきた ふしぎなできごと（data/incidents.js） }
 (function (K) {
   'use strict';
   K.data = K.data || {};
@@ -41,25 +42,12 @@
     n({ b: ['ant', 100] }, 'アリさん100ぴき、小さな長ぐつをはいている。', 'A hundred ants, all wearing tiny boots.'),
 
     // --- ともだち ---
-    n({ b: ['friend', 1] }, 'となりの席の友だち、だまって消しゴムをかしてくれる。', 'The friend in the next seat quietly lends you an eraser.'),
-    n({ b: ['friend', 10] }, '友だちの友だちも来た。つくえが足りない。', 'Friends of friends came too. Not enough desks.'),
-    n({ b: ['friend', 50] }, 'クラス全員友だちに。カスのせいで。', 'The whole class is friends now. Thanks to crumbs.'),
 
     // --- おじいちゃん ---
-    n({ b: ['grandpa', 1] }, 'なぞのおじいちゃん、「昔はよかった」とカスをこすり続ける。', 'Mystery grandpa keeps rubbing. "Things were better in the old days," he says.'),
-    n({ b: ['grandpa', 5] }, 'おじいちゃんたち、カスの昔話でもり上がる。', 'Grandpas bond over old crumb stories.'),
-    n({ b: ['grandpa', 25] }, 'おじいちゃん「わしがわかいころは、カスはもっと大きかった」。', 'Grandpa: "When I was young, crumbs were bigger."'),
-    n({ b: ['grandpa', 50] }, 'おじいちゃんたち、だれも名前を知らない。でもやさしい。', 'Nobody knows the grandpas\' names. But they are kind.'),
 
     // --- かんじドリル ---
-    n({ b: ['drill', 1] }, '漢字ドリル、1ページ目から消しゴムのあとだらけ。', 'Spelling workbook covered in eraser marks from page one.'),
-    n({ b: ['drill', 10] }, '「ほね」の漢字、今日もまちがえられる。', 'The word "necessary" is spelled wrong again today.'),
-    n({ b: ['drill', 50] }, '漢字ドリル、うすくなりすぎて向こうが見える。', 'Spelling workbook pages erased so often they are now see-through.'),
 
     // --- きょうしつ ---
-    n({ b: ['classroom', 1] }, 'テストの後、教室でカスが大量発生。', 'Crumb outbreak reported in a classroom right after a test.'),
-    n({ b: ['classroom', 10] }, '先生「消しゴムはていねいに」。生徒「はい」。', 'Teacher: "Erase carefully." Students: "Yes."'),
-    n({ b: ['classroom', 50] }, '教室、全部カスのためにある気がしてきた。', 'It is starting to feel like classrooms exist only to make crumbs.'),
 
     // --- けしゴムぶ ---
     n({ b: ['club', 1] }, '消しゴム部、大会でゆうしょう。種目は不明。', 'Eraser Club wins a tournament. Nobody knows what the sport was.'),
@@ -67,18 +55,10 @@
     n({ b: ['club', 50] }, '消しゴム部OB、今でも毎日消している。', 'Former Eraser Club members still erase every day.'),
 
     // --- ぜんじどう けしゴム ---
-    n({ b: ['autoeraser', 1] }, '全自動消しゴム、何も書いていないところも消す。', 'Auto eraser also erases where nothing was written.'),
-    n({ b: ['autoeraser', 10] }, '全自動消しゴム、夜中に勝手にこすっていた。', 'Auto erasers were rubbing on their own in the middle of the night.'),
-    n({ b: ['autoeraser', 50] }, '全自動消しゴム、電池を勝手に買いに行く。', 'Auto erasers now go buy their own batteries.'),
 
     // --- こうじょう ---
-    n({ b: ['factory', 1] }, '消しゴム工場、何を消しているのか社長も知らない。', 'Even the factory boss does not know what the eraser factory is erasing.'),
-    n({ b: ['factory', 10] }, '工場のえんとつから、ほんのりカスのにおい。', 'A faint crumb smell from the factory chimney.'),
-    n({ b: ['factory', 50] }, '工場、ついに自分のかげも消し始める。', 'Factory begins erasing its own shadow.'),
 
     // --- けしゴムはんこ ---
-    n({ b: ['stamp', 1] }, '消しゴムはんこ、ほったらカスの方が多かった。', 'Someone carved an eraser stamp. It made more crumbs than stamp.'),
-    n({ b: ['stamp', 10] }, '消しゴムはんこのもよう、なぜか全部カス。', 'Every eraser stamp design is a crumb, for some reason.'),
 
     // --- ロードローラー ---
     n({ b: ['roller', 1] }, 'つくえの上にロードローラー。だれも理由を聞かない。', 'A road roller on the desk. Nobody asks why.'),
@@ -86,8 +66,6 @@
     n({ b: ['roller', 50] }, 'ロードローラーのじゅうたい、つくえの真ん中で発生。', 'Road roller traffic jam in the middle of the desk.'),
 
     // --- ちょうおおがた けしゴム ---
-    n({ b: ['bigeraser', 1] }, 'ちょうおおがた消しゴム、教室のドアを通らない。', 'Super-size eraser does not fit through the classroom door.'),
-    n({ b: ['bigeraser', 10] }, 'ちょうおおがた消しゴムで校庭の線を消してしまう。', 'Super-size eraser accidentally erases the lines on the school field.'),
 
     // --- つき ---
     n({ b: ['moon', 1] }, '月、少し近くなる。しおの満ち引きにえいきょう。', 'The moon moves a little closer. Tides are affected.'),
@@ -112,8 +90,6 @@
     n({ b: ['universe', 10] }, 'うちゅうの意思、「……」と発表。', 'The Will of the Universe announces: "..."'),
 
     // --- もうひとりの カス ---
-    n({ b: ['other', 1] }, 'もう一人のカス、「やあ」。こちらも「やあ」。', 'The Other Crumb says "Hey." We say "Hey" back.'),
-    n({ b: ['other', 10] }, 'もう一人のカスがたくさん。どれが本物かもうわからない。', 'So many Other Crumbs. No one can tell which is real.'),
 
     // --- だんかい ---
     n({ stage: 2 }, 'カス、少しふえる。家族がふえたみたいでうれしい。', 'Crumb numbers grow a little. It feels like the family got bigger.'),
@@ -186,11 +162,53 @@
 
     // --- どうぐ（ついか） ---
     n({ b: ['finger', 25] }, '指たち、じゃんけんでこする順番を決める。ずっとあいこ。', 'The fingers play rock-paper-scissors to decide who rubs next. Always a tie.'),
-    n({ b: ['grandpa', 10] }, 'おじいちゃんたち、あめをくれる。なぜかポケットにいつもある。', 'The grandpas hand out candy. They always have some in their pockets.'),
-    n({ b: ['classroom', 25] }, '教室の黒板、「カス」とだけ書いてある。', 'The blackboard in every classroom just says "crumb."'),
     n({ b: ['roller', 5] }, 'ロードローラーの運転手、「細かいことは気にしない」。', 'Road roller driver: "I never worry about the little things."'),
     n({ b: ['moon', 10] }, '月がふえすぎて、夜が少し明るい。', 'Too many moons. The night is a little brighter.'),
     n({ b: ['universe', 5] }, 'うちゅうの意思、少しだけ笑った気がする。', 'The Will of the Universe seemed to smile a little.'),
-    n({ b: ['other', 5] }, 'もう一人のカスとこちらのカス、どちらも「こっちが本物」としゅちょう。', 'The Other Crumb and our crumb both say they are the real one.')
+
+    // --- 序盤の ボケ ---
+    n({ b: ['finger', 1] }, '指、自分の名前を考えはじめる。', 'The finger has started thinking up a name for itself.'),
+    n({ b: ['finger', 5] }, '指たち、ストライキを考えるも、こするのが楽しくてやめる。', 'The fingers considered going on strike, but rubbing was too much fun.'),
+    n({ b: ['ant', 1] }, 'アリさん、カスを家に持ち帰る。家族「それは食べられない」。', 'Ant brings a crumb home. Family: "You can\'t eat that."'),
+    n({ b: ['ant', 10] }, 'アリさんたち、カスで小さなおしろを作る。王様はいない。', 'The ants build a tiny castle out of crumbs. There is no king.'),
+    n({ total: 100 }, 'けしカス、はじめての記者会見。何も話さずに終わる。', 'Crumb holds its first press conference. It ends without a single word.'),
+    n({ total: 1000 }, '近所の犬、カスに向かって3時間ほえる。カスは気にしていない。', 'Neighbor\'s dog barks at the crumb for 3 hours. The crumb does not mind.'),
+
+    // --- ふしぎなできごとの そのあと（data/incidents.js） ---
+    n({ inc: 'wasabi' }, 'わさびをカスとまちがえた人、全国で3人目。', 'Third person in the country to mistake wasabi for a crumb.'),
+    n({ inc: 'wasabi' }, 'すし屋の主人「うちのわさびにカスは入っていない」。', 'Sushi chef: "There are no crumbs in our wasabi."'),
+    n({ inc: 'letter' }, '10年後のカスから手紙。消印は来週。', 'A letter from the crumb, 10 years from now. Postmarked next week.'),
+    n({ inc: 'tax' }, 'カスぜいのまど口、どこにあるのかだれも知らない。', 'Nobody knows where the Crumb Tax office is.'),
+    n({ inc: 'mother' }, 'カスの母、近所で「わかすぎる」とうわさに。', 'The crumb\'s mother is rumored around the neighborhood to look "way too young."'),
+    n({ inc: 'tv' }, '「世界のすごいカス」、話題のほこりに取材をもうしこむ。', '"Amazing Crumbs of the World" requests an interview with the famous dust.'),
+    n({ inc: 'ufo' }, 'えんぴつけずりのくず、とおい星の王に。「思ってたのとちがう」。', 'Pencil shaving becomes king of a distant planet: "Not what I expected."'),
+    n({ inc: 'twins' }, 'にせもののカス、自分が本物だと思っている。', 'The fake crumb believes it is the real one.'),
+    n({ inc: 'ceo' }, '社長のめいし、こすったらカスが出た。', 'Someone rubbed the CEO\'s business card. Crumbs came out.'),
+
+    // --- 友だちの案の どうぐ ---
+    n({ b: ['shaver', 1] }, 'おじさん「毎朝カスが出る。ぼくは消しゴムだったのか」。', 'Uncle: "Crumbs come off my face every morning. Was I an eraser all along?"'),
+    n({ b: ['shaver', 10] }, 'ひげそりが10本に。おじさんは1人。', 'Ten shavers now. Still just one uncle.'),
+    n({ b: ['weather', 1] }, '天気よほう、今日も晴れのちカス。かさは役に立たない。', 'Forecast: sunny, then crumbs. Umbrellas will not help.'),
+    n({ b: ['weather', 10] }, '天気よほう、カスの前線が近づいていると発表。', 'Forecasters warn of a crumb front moving in.'),
+    n({ b: ['music', 1] }, 'カスのためのコンサート。お客さんはカスだけ。', 'A concert for crumbs. The audience: crumbs only.'),
+    n({ b: ['music', 10] }, '音楽を聞いたカス、ちょっととがった形になる。', 'Crumbs that listened to music have grown slightly avant-garde.'),
+    n({ b: ['incubator', 1] }, 'カスにオスとメスがあるとわかる。見分け方はだれも知らない。', 'Crumbs turn out to have boys and girls. Nobody knows how to tell.'),
+    n({ b: ['incubator', 10] }, 'ばいよう器の中、カスの赤ちゃんでいっぱい。', 'The incubator is full of baby crumbs.'),
+    n({ b: ['hypnotist', 1] }, 'ワサビ、自分はカスだと言いはる。', 'Wasabi insists it is a crumb.'),
+    n({ b: ['hypnotist', 10] }, 'さいみんじゅつし、自分にもかけてしまう。今はカス。', 'Hypnotist accidentally hypnotizes self. Now a crumb.'),
+    n({ b: ['crusher', 1] }, 'ふんさい機、消しゴムを作ってすぐカスにする。消しゴムとは何か。', 'Crusher makes erasers and instantly crushes them. What even is an eraser?'),
+    n({ b: ['crusher', 10] }, '工場長「消しゴムは、通り道です」。', 'Factory boss: "The eraser is just a stop along the way."'),
+    n({ b: ['company', 1] }, 'かいしゃのノート、消したあとだらけ。社長「ちょうじりは合っている」。', 'The company ledger is all eraser marks. CEO: "The books balance."'),
+    n({ b: ['company', 10] }, '年末、かいしゃからカスがあふれ出る。', 'Year end: crumbs are pouring out of the company.'),
+    n({ b: ['circuit', 1] }, 'レースの1位、タイヤのカスの量で決まる。', 'Race winner decided by amount of tire crumbs.'),
+    n({ b: ['circuit', 10] }, 'レーサー「消しゴムで走ったほうが速い」。', 'Racer: "It is faster on erasers."'),
+    n({ b: ['harbor', 1] }, '港のカス、鉄分が多すぎてじしゃくにくっつく。', 'Harbor crumbs have so much iron they stick to magnets.'),
+    n({ b: ['harbor', 10] }, '今年はカスが大漁。', 'A record crumb catch this year.'),
+    n({ b: ['internet', 1] }, '電子のカス、さわれないのにちらかる。', 'Electronic crumbs: you can\'t touch them, but they still make a mess.'),
+    n({ b: ['internet', 10] }, '「カス」でけんさくすると、ここが1番に出る。', 'Search for "crumbs" and this place comes up first.'),
+    n({ b: ['physicist', 1] }, '物理学者、カスの重さに光の速さを2回かける。', 'Physicist multiplies a crumb\'s weight by the speed of light. Twice.'),
+    n({ b: ['physicist', 10] }, '物理学者「黒板の数式も、消せばカスになる」。', 'Physicist: "Erase the equations on the blackboard and they become crumbs too."'),
+    n({ b: ['anticrumb', 1] }, '反消カス、何もないところからカスを出す。消しゴムはもういらない？', 'Anti-Crumb makes crumbs out of nothing. Do we even need erasers?'),
+    n({ b: ['anticrumb', 10] }, '反消カスとカスがぶつかると、消しゴムにもどる。', 'When Anti-Crumb meets crumb, they turn back into an eraser.')
   ];
 })(window.K = window.K || {});

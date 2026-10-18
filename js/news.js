@@ -19,6 +19,7 @@
     if (w.praise && s.stats.praises < w.praise) return false;
     if (w.blow && s.stats.blows < w.blow) return false;
     if (w.night && new Date().getHours() >= 5) return false;
+    if (w.inc && !(s.incidents || {})[w.inc]) return false;
     return true;
   }
 
@@ -46,5 +47,5 @@
     return K.L(lastMono);
   }
 
-  K.news = { pick: pickNews, monologue: pickMonologue };
+  K.news = { pick: pickNews, monologue: pickMonologue, ok: ok };
 })(window.K = window.K || {});

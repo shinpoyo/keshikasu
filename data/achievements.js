@@ -170,6 +170,11 @@
     desc: { ja: 'カスキングとカス神を、両方つくえに置いた。', en: 'Put both the Crumb King and the Crumb God on the desk.' }, quote: { ja: 'つくえが少しおごそか。', en: 'The desk feels very formal now.' } });
   add({ id: 's_unlucky', cat: 'secret', hidden: true, type: 'dry', n: 9, name: { ja: 'ついてない', en: 'Unlucky' },
     desc: { ja: 'ダブりが9回続いた。', en: 'Got 9 duplicates in a row.' }, quote: { ja: '次はきっと新しい。', en: 'The next one will be new. Surely.' } });
+  // ふしぎなできごと（data/incidents.js）
+  add({ id: 's_wasabi', cat: 'secret', hidden: true, type: 'incident', g: 'wasabi', n: 1, name: { ja: 'それはわさび', en: "That's Wasabi" },
+    desc: { ja: 'みどりのカスの正体を知った。', en: 'Found out what the green crumb really was.' }, quote: { ja: 'つーん。', en: 'Sting.' } });
+  add({ id: 's_incidents', cat: 'secret', tier: 2, type: 'incidents', n: 8, name: { ja: 'ふしぎな毎日', en: 'Strange Days' },
+    desc: { ja: 'ふしぎなできごとを全部見た。', en: 'Saw every strange happening.' }, quote: { ja: 'つくえの上は、毎日がお祭り。', en: 'Every day on the desk is a festival.' } });
   add({ id: 's_shards100', cat: 'secret', hidden: true, type: 'shardsHeld', n: 100, name: { ja: 'かけら持ち', en: 'Shard Hoarder' },
     desc: { ja: 'かけらを100こ持った。', en: 'Held 100 shards at once.' }, quote: { ja: 'ポケットがじゃらじゃら。', en: 'Your pockets jingle.' } });
 

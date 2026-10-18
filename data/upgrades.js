@@ -70,23 +70,26 @@
       'Works even while asleep.', 'It has not told anyone.', 'Finally the real thing.', 'This is the last one.', 'Past the last one.', 'This time it really is the last.']
   };
   var FIRST = {
+    shaver: [{ ja: '5まいば', en: 'Five Blades' }, { ja: 'おじさんの顔がつるつるになった。', en: 'Uncle\'s face is now very smooth.' }],
+    weather: [{ ja: 'カスかくりつ', en: 'Chance of Crumbs' }, { ja: 'あしたのカスかくりつは80%。', en: 'Chance of crumbs tomorrow: 80%.' }],
+    music: [{ ja: 'クラシック', en: 'Classical' }, { ja: 'カスがしずかに聞いている。', en: 'The crumbs are listening quietly.' }],
+    incubator: [{ ja: 'お見合い', en: 'Matchmaking' }, { ja: 'カスどうしが、もっとなかよくなった。', en: 'The crumbs get along even better now.' }],
+    hypnotist: [{ ja: 'ゆれる5円玉', en: 'Swinging Coin' }, { ja: 'あなたは だんだん カスになる……', en: 'You are becoming... a crumb...' }],
+    crusher: [{ ja: 'ターボ', en: 'Turbo Mode' }, { ja: '消しゴムになるひまもない。', en: 'They never even get to be erasers.' }],
+    company: [{ ja: 'きぎょうばいしゅう', en: 'Corporate Buyout' }, { ja: 'ボールペンの会社を買って、えんぴつを作らせた。', en: 'Bought a ballpoint pen company and made it build pencils.' }],
+    circuit: [{ ja: 'やわらかいタイヤ', en: 'Soft Tires' }, { ja: 'よくすりへる。', en: 'They wear down nicely.' }],
+    harbor: [{ ja: '大きなあみ', en: 'Big Net' }, { ja: 'カスがたくさんかかった。', en: 'Caught loads of crumbs.' }],
+    internet: [{ ja: '光回線', en: 'Fiber Optics' }, { ja: 'カスが光の速さでとどく。', en: 'Crumbs arrive at the speed of light.' }],
+    physicist: [{ ja: 'E=mK²', en: 'E = mK²' }, { ja: '大発見。', en: 'A great discovery.' }],
+    anticrumb: [{ ja: '無の力', en: 'Power of Nothing' }, { ja: '何もないのに、ある。', en: 'There is nothing. And yet, there is.' }],
     ant: [{ ja: 'アリさんの長ぐつ', en: 'Ant Boots' }, { ja: '小さな長ぐつをはいた。6本分。', en: 'Tiny boots. Six of them.' }],
-    friend: [{ ja: 'かしてあげる消しゴム', en: 'Lend an Eraser' }, { ja: '返ってこないけど、カスは来る。', en: 'It never comes back, but the crumbs do.' }],
-    grandpa: [{ ja: 'おじいちゃんのめがね', en: "Grandpa's Glasses" }, { ja: 'よく見えるようになった。カスが。', en: 'Now he can see clearly. The crumbs, that is.' }],
-    drill: [{ ja: '赤ペン', en: 'Red Pen' }, { ja: 'バツがふえるほどカスもふえる。', en: 'More red marks, more crumbs.' }],
-    classroom: [{ ja: 'ぬき打ちテスト', en: 'Pop Quiz' }, { ja: 'みんながいっせいに消し始めた。', en: 'Everyone started erasing at once.' }],
     club: [{ ja: '部員ぼしゅうポスター', en: 'Recruiting Poster' }, { ja: '「君も消さないか」', en: '"Want to erase with us?"' }],
-    autoeraser: [{ ja: '電池こうかん', en: 'New Batteries' }, { ja: '力強くなった。へるのも速い。', en: 'Stronger now. Wears down faster, too.' }],
-    factory: [{ ja: '24時間運転', en: 'Night Shift' }, { ja: '工場はねない。', en: 'The factory never sleeps.' }],
-    stamp: [{ ja: 'ちょうこくとう', en: 'Carving Knife' }, { ja: 'よく切れる。カスがよく出る。', en: 'Sharp. Lots of crumbs.' }],
     roller: [{ ja: 'ローラーのワックス', en: 'Roller Wax' }, { ja: 'つるつるになった。意味はない。', en: 'Now it is shiny and slippery. This helps nothing.' }],
-    bigeraser: [{ ja: 'クレーン', en: 'Crane' }, { ja: 'やっと持ち上がった。', en: 'Finally, it can be lifted.' }],
     moon: [{ ja: '月のうさぎ', en: 'Moon Rabbit' }, { ja: 'もちの代わりにカスをついている。', en: 'In old Japanese tales, it makes rice cakes. Now it pounds crumbs.' }],
     timemachine: [{ ja: 'きのうのきのう', en: 'The Day Before Yesterday' }, { ja: 'もっと昔のカスも持ってくる。', en: 'Now it brings even older crumbs.' }],
     paralleldesk: [{ ja: '別のぼく', en: 'Another Me' }, { ja: '向こうのぼくもこすっていた。', en: 'The other me was rubbing too.' }],
     eplanet: [{ ja: '自転のスピードアップ', en: 'Faster Spin' }, { ja: '1日が短くなった。', en: 'The days got shorter.' }],
     universe: [{ ja: 'うちゅうのいびき', en: 'Cosmic Snore' }, { ja: 'うちゅうがねがえりをうった。', en: 'The universe rolled over in its sleep.' }],
-    other: [{ ja: 'あくしゅ', en: 'Handshake' }, { ja: 'カスとカスがあくしゅした。', en: 'Crumb shook hands with crumb.' }]
   };
   K.data.buildings.forEach(function (b) {
     if (b.id === 'finger') return;
