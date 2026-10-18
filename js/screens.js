@@ -6,7 +6,7 @@
   var S = function () { return K.state; };
   var t = function (k, v) { return K.t(k, v); };
   var esc = function (s) { return K.ui.esc(s); };
-  var VERSION = '0.48'; // index.html の ?v= と そろえる（ブラウザの キャッシュで 古い js が のこらないように）
+  var VERSION = '0.49'; // index.html の ?v= と そろえる（ブラウザの キャッシュで 古い js が のこらないように）
 
   function show(id) {
     ['screen-title', 'screen-naming', 'screen-game'].forEach(function (s) { $(s).hidden = s !== id; });
@@ -323,6 +323,8 @@
       case 'named': return A.ui('logo', size);
       case 'sell': return A.ui('tabShop', size);
       case 'cheated': return A.ui('lock', size);
+      case 'incident': return A.incident(a.g, size, size);
+      case 'incidents': return A.incident('ufo', size, size);
     }
     return A.upIcon('star', size);
   }
@@ -819,6 +821,40 @@
       document.body.appendChild(el);
       el.querySelector('button').onclick = function () { el.remove(); K.rt.sessionStart = Date.now(); K.rt.restShown = false; };
     };
+  };
+
+  // ふしぎなできごと（js/incidents.js）。えらぶと オチが 出て、ごほうびを もらう
+  var incPick = null; // { id, n, gain }
+  RENDER.incident = function () {
+    var id = K.incident.current || (incPick && incPick.id);
+    var x = id && K.incident.byId[id];
+    if (!x) return head('');
+    var done = incPick && incPick.id === id;
+    var h = '<div class="incident-scene"><span class="incident-no">' + esc(t('incidentNo', { n: x.no })) + '</span>' + K.art.incident(x.id, 120, 100) + '</div>' +
+      '<h1 class="center">' + esc(K.L(x.title)) + '</h1>' +
+      '<p class="lead center">' + esc(K.L(x.text)) + '</p>';
+    if (!done) {
+      h += '<div class="incident-choices">' + x.choices.map(function (c, i) {
+        return '<button type="button" class="btn ' + (i ? 'btn-blue' : 'btn-pink') + ' btn-lg" data-inc="' + i + '">' + esc(K.L(c.label)) + '</button>';
+      }).join('') + '</div>';
+    } else {
+      h += '<div class="incident-result"><p>' + esc(K.L(x.choices[incPick.n].result)) + '</p>' +
+        '<span class="incident-gain">' + esc(t('luckyGain', { v: K.fmt(incPick.gain) })) + '</span></div>' +
+        '<button type="button" class="btn btn-lg" data-close>' + esc(t('incidentOk')) + '</button>';
+    }
+    return h;
+  };
+  AFTER.incident = function (card) {
+    card.querySelectorAll('[data-inc]').forEach(function (b) {
+      b.onclick = function () {
+        var id = K.incident.current, n = +b.getAttribute('data-inc');
+        var gain = K.incident.choose(id, n);
+        if (!gain) return;
+        incPick = { id: id, n: n, gain: gain };
+        K.sound.play('reward');
+        SC.open('incident');
+      };
+    });
   };
 
   // ---------- しんかの演出 ----------

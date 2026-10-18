@@ -46,6 +46,8 @@
       case 'dry': return { cur: s.dry || 0, max: a.n };
       case 'named': return { cur: s.named && s.name ? 1 : 0, max: 1 };
       case 'cheated': return { cur: s.cheated ? 1 : 0, max: 1 };
+      case 'incident': return { cur: (s.incidents || {})[a.g] ? 1 : 0, max: 1 };
+      case 'incidents': return { cur: K.incident.seenCount(), max: K.incident.total };
     }
     return { cur: 0, max: 1 };
   }

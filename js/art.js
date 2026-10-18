@@ -56,6 +56,22 @@
     return b ? svg(b[0], b[1], w, h) : '';
   }
 
+  // ふしぎなできごと（data/incidents.js）の 絵。どうぐと おなじ タッチ
+  var INCIDENT = {
+    wasabi: ['0 0 48 40', '<path d="M8 30c-3-6 1-12 7-13 1-6 9-9 14-5 5-3 12 0 12 6 5 2 5 10-1 12-4 4-12 4-16 2-5 3-13 2-16-2z" fill="#9CC46B" stroke="' + INK + '" stroke-width="2" stroke-linejoin="round"/><path d="M15 25c3-2 6-2 8 0M27 21c2-1 4-1 6 1" stroke="#6E9A43" stroke-width="1.8" fill="none" stroke-linecap="round"/><circle cx="20" cy="31" r="1.2" fill="#6E9A43"/><circle cx="33" cy="29" r="1" fill="#6E9A43"/><path d="M38 6l2 5M43 9l-3 4M33 8l3 4" stroke="#6E9A43" stroke-width="1.8" stroke-linecap="round"/>'],
+    letter: ['0 0 48 40', '<rect x="5" y="9" width="38" height="26" rx="3" fill="#FBF8F1" stroke="' + INK + '" stroke-width="2" stroke-linejoin="round"/><path d="M5 12l19 13 19-13" fill="none" stroke="' + INK + '" stroke-width="2" stroke-linejoin="round"/><circle cx="24" cy="25" r="4" fill="#D9534F" stroke="' + INK + '" stroke-width="1.6"/><path d="M36 33c2-1 4-1 6 1M39 30c1 0 2 1 3 2" stroke="#6B6A66" stroke-width="1.6" fill="none" stroke-linecap="round"/><path d="M38 9c2-3 5-3 6-6" stroke="#A9A49B" stroke-width="1.6" fill="none" stroke-linecap="round"/>'],
+    tax: ['0 0 40 40', '<path d="M9 4h17l7 7v25H9z" fill="#FFFFFF" stroke="' + INK + '" stroke-width="2" stroke-linejoin="round"/><path d="M26 4v7h7" fill="#DCE3EC" stroke="' + INK + '" stroke-width="2" stroke-linejoin="round"/><path d="M13 15h13M13 20h16M13 25h10" stroke="#A9A49B" stroke-width="2" stroke-linecap="round"/><circle cx="27" cy="30" r="5" fill="none" stroke="#D9534F" stroke-width="2"/><circle cx="27" cy="30" r="1.6" fill="#D9534F"/>'],
+    mother: ['0 0 48 40', '<rect x="6" y="14" width="36" height="20" rx="1" fill="#FFFFFF" stroke="' + INK + '" stroke-width="2" stroke-linejoin="round"/><rect x="22" y="14" width="20" height="20" fill="#3E6FB0" stroke="' + INK + '" stroke-width="2" stroke-linejoin="round"/><rect x="26" y="20" width="12" height="7" rx="1.5" fill="#FFFFFF" opacity=".9"/><path d="M14 14c-3-6-9-6-9-2s6 4 9 2zM14 14c3-6 9-6 9-2s-6 4-9 2z" fill="#F29CA3" stroke="' + INK + '" stroke-width="1.8" stroke-linejoin="round"/><circle cx="14" cy="13" r="2" fill="#F29CA3" stroke="' + INK + '" stroke-width="1.6"/><path d="M3 6l2 2M45 6l-2 2M44 12h3" stroke="#E7B533" stroke-width="2" stroke-linecap="round"/>'],
+    tv: ['0 0 48 40', '<rect x="4" y="12" width="28" height="18" rx="3" fill="#6B6A66" stroke="' + INK + '" stroke-width="2" stroke-linejoin="round"/><path d="M32 17l10-5v18l-10-5z" fill="#8C8A84" stroke="' + INK + '" stroke-width="2" stroke-linejoin="round"/><circle cx="12" cy="8" r="4" fill="#DCE3EC" stroke="' + INK + '" stroke-width="2"/><circle cx="23" cy="8" r="4" fill="#DCE3EC" stroke="' + INK + '" stroke-width="2"/><circle cx="10" cy="17" r="2" fill="#D9534F"/><path d="M14 30l-4 8M22 30l4 8" stroke="' + INK + '" stroke-width="2" stroke-linecap="round"/>'],
+    ufo: ['0 0 48 40', '<path d="M16 16a8 8 0 0 1 16 0" fill="#BFE3F0" stroke="' + INK + '" stroke-width="2"/><ellipse cx="24" cy="20" rx="20" ry="6" fill="#A9A49B" stroke="' + INK + '" stroke-width="2"/><circle cx="12" cy="20" r="1.6" fill="#E7B533"/><circle cx="24" cy="22" r="1.6" fill="#E7B533"/><circle cx="36" cy="20" r="1.6" fill="#E7B533"/><path d="M16 26l-4 11h24l-4-11z" fill="#FFF6D6" opacity=".75"/><circle cx="24" cy="35" r="2.4" fill="#5A5956" stroke="' + INK + '" stroke-width="1.4"/>'],
+    twins: ['0 0 48 40', '<path d="M5 28c-2-6 2-11 8-11 2-4 8-4 10 0 4 1 5 6 2 10-1 4-7 5-10 3-4 2-9 1-10-2z" fill="#6B6A66" stroke="' + INK + '" stroke-width="2" stroke-linejoin="round"/><path d="M25 28c-2-6 2-11 8-11 2-4 8-4 10 0 4 1 5 6 2 10-1 4-7 5-10 3-4 2-9 1-10-2z" fill="#6B6A66" stroke="' + INK + '" stroke-width="2" stroke-linejoin="round"/><path d="M24 4v4M21 10l-2-2M27 10l2-2" stroke="#D9534F" stroke-width="2" stroke-linecap="round"/><circle cx="24" cy="14" r="1.4" fill="#D9534F"/>'],
+    ceo: ['0 0 48 40', '<rect x="5" y="14" width="38" height="22" rx="3" fill="#7A5236" stroke="' + INK + '" stroke-width="2" stroke-linejoin="round"/><path d="M18 14v-4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v4" fill="none" stroke="' + INK + '" stroke-width="2"/><path d="M5 22h38" stroke="' + INK + '" stroke-width="2"/><rect x="21" y="19" width="6" height="6" rx="1" fill="#E7B533" stroke="' + INK + '" stroke-width="1.6"/><path d="M39 6l1.2 2.6 2.8.4-2 2 .5 2.8-2.5-1.3-2.5 1.3.5-2.8-2-2 2.8-.4z" fill="#E7B533" stroke="' + INK + '" stroke-width="1.2" stroke-linejoin="round"/>']
+  };
+  function incident(id, w, h) {
+    var b = INCIDENT[id];
+    return b ? svg(b[0], b[1], w, h) : '';
+  }
+
   // ゲストけしゴム（ときどき つくえに やってくる けしゴム）
   var GUEST = {
     sand: ['0 0 44 32', '<rect x="3" y="7" width="38" height="18" rx="4" fill="#FBF8F1" stroke="' + INK + '" stroke-width="2" stroke-linejoin="round"/><path d="M22 7h15a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H22z" fill="#9C968C" stroke="' + INK + '" stroke-width="2" stroke-linejoin="round"/><circle cx="27" cy="12" r=".9" fill="#FBF8F1"/><circle cx="32" cy="17" r=".9" fill="#FBF8F1"/><circle cx="36" cy="12" r=".9" fill="#FBF8F1"/><circle cx="28" cy="20" r=".9" fill="#FBF8F1"/><circle cx="35" cy="21" r=".9" fill="#FBF8F1"/><path d="M8 29h5M16 30h4" stroke="#A9A49B" stroke-width="2" stroke-linecap="round"/>'],
@@ -404,5 +420,5 @@
     setTimeout(function () { img.src = base + '?r=' + (n + 1) + '-' + Date.now(); }, 400 * (n + 1));
   }, true);
 
-  K.art = { svg: svg, scene: scene, building: building, upIcon: upIcon, ui: ui, kasuSrc: kasuSrc, kasuPic: kasuPic, eraser: eraser, gachaMachine: gachaMachine, BUILDING: BUILDING, guest: guest, GUEST: GUEST, bigEraser: bigEraser };
+  K.art = { svg: svg, scene: scene, building: building, upIcon: upIcon, ui: ui, kasuSrc: kasuSrc, kasuPic: kasuPic, eraser: eraser, gachaMachine: gachaMachine, BUILDING: BUILDING, guest: guest, GUEST: GUEST, bigEraser: bigEraser, incident: incident };
 })(window.K = window.K || {});

@@ -61,6 +61,7 @@
     K.rt.rubTimes = K.rt.rubTimes.filter(function (x) { return n - x < 1000; });
 
     K.guest.update();
+    K.incident.update();
     sandTick(dt);
     dendoTick(dt);
     K.evo.check();
@@ -111,6 +112,7 @@
     K.ui.renderDesk();
     K.ui.renderGacha();
     K.ui.renderGuest();
+    K.ui.renderIncident();
     K.ui.renderBuff();
     K.screens.coachTick();
     if (K.evo.queue.length && !K.screens.evoOpen()) {
@@ -412,6 +414,7 @@
         K.ui.guestUsed(r);
       };
     });
+    $('incident').onclick = function () { if (K.incident.current) { markAction(); K.screens.open('incident'); } };
     document.addEventListener('click', function (e) {
       var o = e.target.closest('[data-open]');
       if (o) {

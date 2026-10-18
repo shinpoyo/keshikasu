@@ -635,6 +635,22 @@ button.kasu-pet:hover { background: var(--paper-3); }
 @keyframes dendo-buzz { 0%, 100% { translate: 0 0; } 25% { translate: 1px -1px; } 75% { translate: -1px 1px; } }
 @media (prefers-reduced-motion: reduce) { .kasu-stage[data-hold="dendo"] .eraser-art svg { animation: none; } }
 .guest[hidden] { display: none; }
+/* ふしぎなできごと: うすい きいろの まるに「！」 */
+.incident .guest-art { background: radial-gradient(circle, rgba(255,246,214,.98) 0%, rgba(255,246,214,.75) 55%, rgba(255,246,214,0) 72%); }
+.incident .guest-art svg { width: auto; height: auto; }
+.incident-mark { position: absolute; right: 4px; top: 6px; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center;
+  background: #D9534F; color: #FFFFFF; font-weight: 900; font-size: 15px; border: 2px solid #2B2A28; animation: incident-ping 1.2s ease-in-out infinite; }
+@keyframes incident-ping { 50% { transform: scale(1.18); } }
+@media (prefers-reduced-motion: reduce) { .incident-mark { animation: none; } }
+.incident-scene { position: relative; height: 170px; margin: -24px -24px 0; border-radius: 24px 24px 0 0; display: flex; align-items: center; justify-content: center;
+  background: var(--desk-grain); }
+.incident-scene svg { filter: drop-shadow(0 4px 0 rgba(43,42,40,.25)); }
+.incident-no { position: absolute; left: 16px; top: 14px; padding: 3px 10px; border: 2px solid #2B2A28; border-radius: 999px; background: #FFF6D6; color: #2B2A28;
+  font-family: var(--font-jp); font-weight: 900; font-size: 12px; }
+.incident-choices { display: flex; flex-direction: column; gap: 10px; }
+.incident-result { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 16px; border: 2px dashed var(--line); border-radius: 16px; background: var(--paper-3); }
+.incident-result p { margin: 0; font-family: var(--font-jp); font-weight: 700; font-size: 16px; line-height: 1.7; text-align: center; }
+.incident-gain { font-weight: 900; font-size: 18px; color: var(--eraser-blue); font-variant-numeric: tabular-nums; }
 @keyframes golden-in { from { transform: scale(0) rotate(-90deg); } to { transform: none; } }
 @keyframes golden-bob { 50% { transform: translateY(-6px) rotate(6deg); } }
 .guest.leaving { animation: golden-out .6s ease forwards; }
@@ -1156,7 +1172,7 @@ textarea.savebox {
   .modal { padding: 0; }
   .modal-card, .modal-card.wide, .modal-card.mid { width: 100%; height: 100%; max-height: none; border-radius: 0; padding: 20px 16px calc(24px + env(safe-area-inset-bottom)); --mpad: 20px; }
   .modal-card > .modal-head:first-child { margin: -20px -16px 0; padding: 20px 16px 10px; }
-  .reb-scene, .welcome-scene { margin: -20px -16px 0; border-radius: 0; }
+  .reb-scene, .welcome-scene, .incident-scene { margin: -20px -16px 0; border-radius: 0; }
   .zukan-layout, .ach-layout { grid-template-columns: 1fr; }
   .z-detail { position: static; order: -1; }
   .ach-detail { position: static; order: -1; }

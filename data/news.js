@@ -1,6 +1,7 @@
 // カスニュース（企画書 6-5）。when の条件を満たすものから選ばれる
 // when: { b: [施設id, 数], stage: 最低だんかい, maxStage: 最高だんかい, total: この周の合計つぶ, rebirth: 転生回数, golden: ゴールデンの数,
-//         trait: いまの けいとう, found: ずかんに ある種類, praise: ほめた回数, blow: ふいた回数, night: 0〜5じ }
+//         trait: いまの けいとう, found: ずかんに ある種類, praise: ほめた回数, blow: ふいた回数, night: 0〜5じ,
+//         inc: もう おきた ふしぎなできごと（data/incidents.js） }
 (function (K) {
   'use strict';
   K.data = K.data || {};
@@ -191,6 +192,25 @@
     n({ b: ['roller', 5] }, 'ロードローラーの運転手、「細かいことは気にしない」。', 'Road roller driver: "I never worry about the little things."'),
     n({ b: ['moon', 10] }, '月がふえすぎて、夜が少し明るい。', 'Too many moons. The night is a little brighter.'),
     n({ b: ['universe', 5] }, 'うちゅうの意思、少しだけ笑った気がする。', 'The Will of the Universe seemed to smile a little.'),
-    n({ b: ['other', 5] }, 'もう一人のカスとこちらのカス、どちらも「こっちが本物」としゅちょう。', 'The Other Crumb and our crumb both say they are the real one.')
+    n({ b: ['other', 5] }, 'もう一人のカスとこちらのカス、どちらも「こっちが本物」としゅちょう。', 'The Other Crumb and our crumb both say they are the real one.'),
+
+    // --- 序盤の ボケ ---
+    n({ b: ['finger', 1] }, '指、自分の名前を考えはじめる。', 'The finger has started thinking up a name for itself.'),
+    n({ b: ['finger', 5] }, '指たち、ストライキを考えるも、こするのが楽しくてやめる。', 'The fingers considered going on strike, but rubbing was too much fun.'),
+    n({ b: ['ant', 1] }, 'アリさん、カスを家に持ち帰る。家族「それは食べられない」。', 'Ant brings a crumb home. Family: "You can\'t eat that."'),
+    n({ b: ['ant', 10] }, 'アリさんたち、カスで小さなおしろを作る。王様はいない。', 'The ants build a tiny castle out of crumbs. There is no king.'),
+    n({ total: 100 }, 'けしカス、はじめての記者会見。何も話さずに終わる。', 'Crumb holds its first press conference. It ends without a single word.'),
+    n({ total: 1000 }, '近所の犬、カスに向かって3時間ほえる。カスは気にしていない。', 'Neighbor\'s dog barks at the crumb for 3 hours. The crumb does not mind.'),
+
+    // --- ふしぎなできごとの そのあと（data/incidents.js） ---
+    n({ inc: 'wasabi' }, 'わさびをカスとまちがえた人、全国で3人目。', 'Third person in the country to mistake wasabi for a crumb.'),
+    n({ inc: 'wasabi' }, 'すし屋の主人「うちのわさびにカスは入っていない」。', 'Sushi chef: "There are no crumbs in our wasabi."'),
+    n({ inc: 'letter' }, '10年後のカスから手紙。消印は来週。', 'A letter from the crumb, 10 years from now. Postmarked next week.'),
+    n({ inc: 'tax' }, 'カスぜいのまど口、どこにあるのかだれも知らない。', 'Nobody knows where the Crumb Tax office is.'),
+    n({ inc: 'mother' }, 'カスの母、近所で「わかすぎる」とうわさに。', 'The crumb\'s mother is rumored around the neighborhood to look "way too young."'),
+    n({ inc: 'tv' }, '「世界のすごいカス」、話題のほこりに取材をもうしこむ。', '"Amazing Crumbs of the World" requests an interview with the famous dust.'),
+    n({ inc: 'ufo' }, 'えんぴつけずりのくず、とおい星の王に。「思ってたのとちがう」。', 'Pencil shaving becomes king of a distant planet: "Not what I expected."'),
+    n({ inc: 'twins' }, 'にせもののカス、自分が本物だと思っている。', 'The fake crumb believes it is the real one.'),
+    n({ inc: 'ceo' }, '社長のめいし、こすったらカスが出た。', 'Someone rubbed the CEO\'s business card. Crumbs came out.')
   ];
 })(window.K = window.K || {});

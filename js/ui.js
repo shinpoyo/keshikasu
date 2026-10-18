@@ -595,6 +595,30 @@
     }
     el.classList.toggle('leaving', g.until - Date.now() < 1500);
   }
+  // ふしぎなできごと: つくえの カスの よこに「！」が うかぶ（js/incidents.js）
+  var incSig = '';
+  U.renderIncident = function () {
+    var el = $('incident'), id = K.incident.current;
+    if (!id || K.screens.isOpen()) {
+      if (!el.hidden) { el.hidden = true; incSig = ''; }
+      return;
+    }
+    var x = K.incident.byId[id];
+    // カスの つくえ（スマホで ほかの タブの ときは 見えないので かくす）
+    var r = $('kasu-stage').getBoundingClientRect(), host = $('screen-game').getBoundingClientRect();
+    if (!r.width) { if (!el.hidden) { el.hidden = true; incSig = ''; } return; }
+    var sig = id + '|' + K.lang() + '|' + Math.round(r.left) + ',' + Math.round(r.top) + ',' + Math.round(r.width);
+    if (sig === incSig) return;
+    incSig = sig;
+    var size = U.narrow() ? 64 : 80;
+    el.style.left = Math.round(r.left - host.left + r.width * 0.06 + 20) + 'px';
+    el.style.top = Math.round(r.top - host.top + r.height * 0.62) + 'px';
+    el.querySelector('.guest-art').innerHTML = K.art.incident(id, size - 16, size - 24);
+    el.querySelector('.guest-label').textContent = K.L(x.label);
+    el.setAttribute('aria-label', K.L(x.label));
+    el.hidden = false;
+  };
+
   U.renderGuest = function () {
     renderSlot(K.guest.current, 'guest');
     renderSlot(K.guest.gold, 'guest-gold');
