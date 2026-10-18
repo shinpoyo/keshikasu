@@ -219,7 +219,7 @@
     n({ b: ['weather', 1] }, '天気よほう、今日も晴れのちカス。かさは役に立たない。', 'Forecast: sunny, then crumbs. Umbrellas will not help.'),
     n({ b: ['weather', 10] }, '天気よほう、カスの前線が近づいていると発表。', 'Forecasters warn of a crumb front moving in.'),
     n({ b: ['sake', 1] }, 'お酒を飲んだ大人、消しゴムを持つと手がとまらない。', 'An adult had a drink, picked up an eraser, and could not stop.'),
-    n({ b: ['sake', 10] }, '子どもは飲んではいけません。カスでも。', 'Kids must not drink. Not even crumbs.'),
+    n({ b: ['sake', 10] }, 'お酒を飲んだあとの字は、だれにも読めない。消すしかない。', 'Handwriting written after a drink is unreadable to everyone. The only fix is to erase it.'),
     n({ b: ['music', 1] }, 'カスのためのコンサート。お客さんはカスだけ。', 'A concert for crumbs. The audience: crumbs only.'),
     n({ b: ['music', 10] }, '音楽を聞いたカス、ちょっととがった形になる。', 'Crumbs that listened to music have grown slightly avant-garde.'),
     n({ b: ['incubator', 1] }, 'カスにオスとメスがあるとわかる。見分け方はだれも知らない。', 'Crumbs turn out to have boys and girls. Nobody knows how to tell.'),
