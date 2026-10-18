@@ -211,6 +211,34 @@
     n({ inc: 'tv' }, '「世界のすごいカス」、話題のほこりに取材をもうしこむ。', '"Amazing Crumbs of the World" requests an interview with the famous dust.'),
     n({ inc: 'ufo' }, 'えんぴつけずりのくず、とおい星の王に。「思ってたのとちがう」。', 'Pencil shaving becomes king of a distant planet: "Not what I expected."'),
     n({ inc: 'twins' }, 'にせもののカス、自分が本物だと思っている。', 'The fake crumb believes it is the real one.'),
-    n({ inc: 'ceo' }, '社長のめいし、こすったらカスが出た。', 'Someone rubbed the CEO\'s business card. Crumbs came out.')
+    n({ inc: 'ceo' }, '社長のめいし、こすったらカスが出た。', 'Someone rubbed the CEO\'s business card. Crumbs came out.'),
+
+    // --- 友だちの案の どうぐ ---
+    n({ b: ['shaver', 1] }, 'おじさん「毎朝カスが出る。ぼくは消しゴムだったのか」。', 'Uncle: "Crumbs come off my face every morning. Was I an eraser all along?"'),
+    n({ b: ['shaver', 10] }, 'ひげそりが10本に。おじさんは1人。', 'Ten shavers now. Still just one uncle.'),
+    n({ b: ['weather', 1] }, '天気よほう、今日も晴れのちカス。かさは役に立たない。', 'Forecast: sunny, then crumbs. Umbrellas will not help.'),
+    n({ b: ['weather', 10] }, '天気よほう、カスの前線が近づいていると発表。', 'Forecasters warn of a crumb front moving in.'),
+    n({ b: ['sake', 1] }, 'お酒を飲んだ大人、消しゴムを持つと手がとまらない。', 'An adult had a drink, picked up an eraser, and could not stop.'),
+    n({ b: ['sake', 10] }, '子どもは飲んではいけません。カスでも。', 'Kids must not drink. Not even crumbs.'),
+    n({ b: ['music', 1] }, 'カスのためのコンサート。お客さんはカスだけ。', 'A concert for crumbs. The audience: crumbs only.'),
+    n({ b: ['music', 10] }, '音楽を聞いたカス、ちょっととがった形になる。', 'Crumbs that listened to music have grown slightly avant-garde.'),
+    n({ b: ['incubator', 1] }, 'カスにオスとメスがあるとわかる。見分け方はだれも知らない。', 'Crumbs turn out to have boys and girls. Nobody knows how to tell.'),
+    n({ b: ['incubator', 10] }, 'ばいよう器の中、カスの赤ちゃんでいっぱい。', 'The incubator is full of baby crumbs.'),
+    n({ b: ['hypnotist', 1] }, 'ワサビ、自分はカスだと言いはる。', 'Wasabi insists it is a crumb.'),
+    n({ b: ['hypnotist', 10] }, 'さいみんじゅつし、自分にもかけてしまう。今はカス。', 'Hypnotist accidentally hypnotizes self. Now a crumb.'),
+    n({ b: ['crusher', 1] }, 'ふんさい機、消しゴムを作ってすぐカスにする。消しゴムとは何か。', 'Crusher makes erasers and instantly crushes them. What even is an eraser?'),
+    n({ b: ['crusher', 10] }, '工場長「消しゴムは、通り道です」。', 'Factory boss: "The eraser is just a stop along the way."'),
+    n({ b: ['company', 1] }, 'かいしゃのノート、消したあとだらけ。社長「ちょうじりは合っている」。', 'The company ledger is all eraser marks. CEO: "The books balance."'),
+    n({ b: ['company', 10] }, '年末、かいしゃからカスがあふれ出る。', 'Year end: crumbs are pouring out of the company.'),
+    n({ b: ['circuit', 1] }, 'レースの1位、タイヤのカスの量で決まる。', 'Race winner decided by amount of tire crumbs.'),
+    n({ b: ['circuit', 10] }, 'レーサー「消しゴムで走ったほうが速い」。', 'Racer: "It is faster on erasers."'),
+    n({ b: ['harbor', 1] }, '港のカス、鉄分が多すぎてじしゃくにくっつく。', 'Harbor crumbs have so much iron they stick to magnets.'),
+    n({ b: ['harbor', 10] }, '今年はカスが大漁。', 'A record crumb catch this year.'),
+    n({ b: ['internet', 1] }, '電子のカス、さわれないのにちらかる。', 'Electronic crumbs: you can\'t touch them, but they still make a mess.'),
+    n({ b: ['internet', 10] }, '「カス」でけんさくすると、ここが1番に出る。', 'Search for "crumbs" and this place comes up first.'),
+    n({ b: ['physicist', 1] }, '物理学者、カスの重さに光の速さを2回かける。', 'Physicist multiplies a crumb\'s weight by the speed of light. Twice.'),
+    n({ b: ['physicist', 10] }, '物理学者「黒板の数式も、消せばカスになる」。', 'Physicist: "Erase the equations on the blackboard and they become crumbs too."'),
+    n({ b: ['anticrumb', 1] }, '反消カス、何もないところからカスを出す。消しゴムはもういらない？', 'Anti-Crumb makes crumbs out of nothing. Do we even need erasers?'),
+    n({ b: ['anticrumb', 10] }, '反消カスとカスがぶつかると、消しゴムにもどる。', 'When Anti-Crumb meets crumb, they turn back into an eraser.')
   ];
 })(window.K = window.K || {});
