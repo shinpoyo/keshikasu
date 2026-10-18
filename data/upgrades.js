@@ -84,22 +84,15 @@
     physicist: [{ ja: 'E=mK²', en: 'E = mK²' }, { ja: '大発見。', en: 'A great discovery.' }],
     anticrumb: [{ ja: '無の力', en: 'Power of Nothing' }, { ja: '何もないのに、ある。', en: 'There is nothing. And yet, there is.' }],
     ant: [{ ja: 'アリさんの長ぐつ', en: 'Ant Boots' }, { ja: '小さな長ぐつをはいた。6本分。', en: 'Tiny boots. Six of them.' }],
-    friend: [{ ja: 'かしてあげる消しゴム', en: 'Lend an Eraser' }, { ja: '返ってこないけど、カスは来る。', en: 'It never comes back, but the crumbs do.' }],
-    grandpa: [{ ja: 'おじいちゃんのめがね', en: "Grandpa's Glasses" }, { ja: 'よく見えるようになった。カスが。', en: 'Now he can see clearly. The crumbs, that is.' }],
-    drill: [{ ja: '赤ペン', en: 'Red Pen' }, { ja: 'バツがふえるほどカスもふえる。', en: 'More red marks, more crumbs.' }],
-    classroom: [{ ja: 'ぬき打ちテスト', en: 'Pop Quiz' }, { ja: 'みんながいっせいに消し始めた。', en: 'Everyone started erasing at once.' }],
     club: [{ ja: '部員ぼしゅうポスター', en: 'Recruiting Poster' }, { ja: '「君も消さないか」', en: '"Want to erase with us?"' }],
     autoeraser: [{ ja: '電池こうかん', en: 'New Batteries' }, { ja: '力強くなった。へるのも速い。', en: 'Stronger now. Wears down faster, too.' }],
     factory: [{ ja: '24時間運転', en: 'Night Shift' }, { ja: '工場はねない。', en: 'The factory never sleeps.' }],
-    stamp: [{ ja: 'ちょうこくとう', en: 'Carving Knife' }, { ja: 'よく切れる。カスがよく出る。', en: 'Sharp. Lots of crumbs.' }],
     roller: [{ ja: 'ローラーのワックス', en: 'Roller Wax' }, { ja: 'つるつるになった。意味はない。', en: 'Now it is shiny and slippery. This helps nothing.' }],
-    bigeraser: [{ ja: 'クレーン', en: 'Crane' }, { ja: 'やっと持ち上がった。', en: 'Finally, it can be lifted.' }],
     moon: [{ ja: '月のうさぎ', en: 'Moon Rabbit' }, { ja: 'もちの代わりにカスをついている。', en: 'In old Japanese tales, it makes rice cakes. Now it pounds crumbs.' }],
     timemachine: [{ ja: 'きのうのきのう', en: 'The Day Before Yesterday' }, { ja: 'もっと昔のカスも持ってくる。', en: 'Now it brings even older crumbs.' }],
     paralleldesk: [{ ja: '別のぼく', en: 'Another Me' }, { ja: '向こうのぼくもこすっていた。', en: 'The other me was rubbing too.' }],
     eplanet: [{ ja: '自転のスピードアップ', en: 'Faster Spin' }, { ja: '1日が短くなった。', en: 'The days got shorter.' }],
     universe: [{ ja: 'うちゅうのいびき', en: 'Cosmic Snore' }, { ja: 'うちゅうがねがえりをうった。', en: 'The universe rolled over in its sleep.' }],
-    other: [{ ja: 'あくしゅ', en: 'Handshake' }, { ja: 'カスとカスがあくしゅした。', en: 'Crumb shook hands with crumb.' }]
   };
   K.data.buildings.forEach(function (b) {
     if (b.id === 'finger') return;

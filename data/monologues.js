@@ -37,17 +37,11 @@
       m('ざらざらしててごめん', 'Sorry for being scratchy.', { trait: 'gritty' }),
       m('まぶしくてごめん', 'Sorry for being so bright.', { trait: 'golden' }),
       m('アリさんがこっちを見てる', 'The ants are looking at me.', { b: 'ant' }),
-      m('友だちができた', 'I made a friend.', { b: 'friend' }),
-      m('おじいちゃん、名前なんていうの', 'Grandpa, what is your name?', { b: 'grandpa' }),
-      m('その漢字、またまちがえてるよ', 'You spelled that word wrong again.', { b: 'drill' }),
       m('勝手に動く消しゴム、ちょっとこわい', 'An eraser that moves by itself. A little scary.', { b: 'autoeraser' }),
       m('工場の音が聞こえる', 'I can hear the factory.', { b: 'factory' }),
-      m('はんこになる消しゴムもいるんだね', 'So some erasers become stamps. Interesting.', { b: 'stamp' }),
-      m('大きい消しゴムのかげですずしい', 'Nice and cool in the big eraser\'s shade.', { b: 'bigeraser' }),
       m('月が近い', 'The moon is close.', { b: 'moon' }),
       m('ぼくのふるさとかも', 'That might be my hometown.', { b: 'eplanet' }),
       m('昨日のぼくに会った', 'I met yesterday\'s me.', { b: 'timemachine' }),
-      m('もう一人のぼく…？', 'Another me...?', { b: 'other' })
     ],
     buy: [
       m('どうぐがふえた', 'More tools!'),

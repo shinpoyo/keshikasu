@@ -42,25 +42,12 @@
     n({ b: ['ant', 100] }, 'アリさん100ぴき、小さな長ぐつをはいている。', 'A hundred ants, all wearing tiny boots.'),
 
     // --- ともだち ---
-    n({ b: ['friend', 1] }, 'となりの席の友だち、だまって消しゴムをかしてくれる。', 'The friend in the next seat quietly lends you an eraser.'),
-    n({ b: ['friend', 10] }, '友だちの友だちも来た。つくえが足りない。', 'Friends of friends came too. Not enough desks.'),
-    n({ b: ['friend', 50] }, 'クラス全員友だちに。カスのせいで。', 'The whole class is friends now. Thanks to crumbs.'),
 
     // --- おじいちゃん ---
-    n({ b: ['grandpa', 1] }, 'なぞのおじいちゃん、「昔はよかった」とカスをこすり続ける。', 'Mystery grandpa keeps rubbing. "Things were better in the old days," he says.'),
-    n({ b: ['grandpa', 5] }, 'おじいちゃんたち、カスの昔話でもり上がる。', 'Grandpas bond over old crumb stories.'),
-    n({ b: ['grandpa', 25] }, 'おじいちゃん「わしがわかいころは、カスはもっと大きかった」。', 'Grandpa: "When I was young, crumbs were bigger."'),
-    n({ b: ['grandpa', 50] }, 'おじいちゃんたち、だれも名前を知らない。でもやさしい。', 'Nobody knows the grandpas\' names. But they are kind.'),
 
     // --- かんじドリル ---
-    n({ b: ['drill', 1] }, '漢字ドリル、1ページ目から消しゴムのあとだらけ。', 'Spelling workbook covered in eraser marks from page one.'),
-    n({ b: ['drill', 10] }, '「ほね」の漢字、今日もまちがえられる。', 'The word "necessary" is spelled wrong again today.'),
-    n({ b: ['drill', 50] }, '漢字ドリル、うすくなりすぎて向こうが見える。', 'Spelling workbook pages erased so often they are now see-through.'),
 
     // --- きょうしつ ---
-    n({ b: ['classroom', 1] }, 'テストの後、教室でカスが大量発生。', 'Crumb outbreak reported in a classroom right after a test.'),
-    n({ b: ['classroom', 10] }, '先生「消しゴムはていねいに」。生徒「はい」。', 'Teacher: "Erase carefully." Students: "Yes."'),
-    n({ b: ['classroom', 50] }, '教室、全部カスのためにある気がしてきた。', 'It is starting to feel like classrooms exist only to make crumbs.'),
 
     // --- けしゴムぶ ---
     n({ b: ['club', 1] }, '消しゴム部、大会でゆうしょう。種目は不明。', 'Eraser Club wins a tournament. Nobody knows what the sport was.'),
@@ -78,8 +65,6 @@
     n({ b: ['factory', 50] }, '工場、ついに自分のかげも消し始める。', 'Factory begins erasing its own shadow.'),
 
     // --- けしゴムはんこ ---
-    n({ b: ['stamp', 1] }, '消しゴムはんこ、ほったらカスの方が多かった。', 'Someone carved an eraser stamp. It made more crumbs than stamp.'),
-    n({ b: ['stamp', 10] }, '消しゴムはんこのもよう、なぜか全部カス。', 'Every eraser stamp design is a crumb, for some reason.'),
 
     // --- ロードローラー ---
     n({ b: ['roller', 1] }, 'つくえの上にロードローラー。だれも理由を聞かない。', 'A road roller on the desk. Nobody asks why.'),
@@ -87,8 +72,6 @@
     n({ b: ['roller', 50] }, 'ロードローラーのじゅうたい、つくえの真ん中で発生。', 'Road roller traffic jam in the middle of the desk.'),
 
     // --- ちょうおおがた けしゴム ---
-    n({ b: ['bigeraser', 1] }, 'ちょうおおがた消しゴム、教室のドアを通らない。', 'Super-size eraser does not fit through the classroom door.'),
-    n({ b: ['bigeraser', 10] }, 'ちょうおおがた消しゴムで校庭の線を消してしまう。', 'Super-size eraser accidentally erases the lines on the school field.'),
 
     // --- つき ---
     n({ b: ['moon', 1] }, '月、少し近くなる。しおの満ち引きにえいきょう。', 'The moon moves a little closer. Tides are affected.'),
@@ -113,8 +96,6 @@
     n({ b: ['universe', 10] }, 'うちゅうの意思、「……」と発表。', 'The Will of the Universe announces: "..."'),
 
     // --- もうひとりの カス ---
-    n({ b: ['other', 1] }, 'もう一人のカス、「やあ」。こちらも「やあ」。', 'The Other Crumb says "Hey." We say "Hey" back.'),
-    n({ b: ['other', 10] }, 'もう一人のカスがたくさん。どれが本物かもうわからない。', 'So many Other Crumbs. No one can tell which is real.'),
 
     // --- だんかい ---
     n({ stage: 2 }, 'カス、少しふえる。家族がふえたみたいでうれしい。', 'Crumb numbers grow a little. It feels like the family got bigger.'),
@@ -187,12 +168,9 @@
 
     // --- どうぐ（ついか） ---
     n({ b: ['finger', 25] }, '指たち、じゃんけんでこする順番を決める。ずっとあいこ。', 'The fingers play rock-paper-scissors to decide who rubs next. Always a tie.'),
-    n({ b: ['grandpa', 10] }, 'おじいちゃんたち、あめをくれる。なぜかポケットにいつもある。', 'The grandpas hand out candy. They always have some in their pockets.'),
-    n({ b: ['classroom', 25] }, '教室の黒板、「カス」とだけ書いてある。', 'The blackboard in every classroom just says "crumb."'),
     n({ b: ['roller', 5] }, 'ロードローラーの運転手、「細かいことは気にしない」。', 'Road roller driver: "I never worry about the little things."'),
     n({ b: ['moon', 10] }, '月がふえすぎて、夜が少し明るい。', 'Too many moons. The night is a little brighter.'),
     n({ b: ['universe', 5] }, 'うちゅうの意思、少しだけ笑った気がする。', 'The Will of the Universe seemed to smile a little.'),
-    n({ b: ['other', 5] }, 'もう一人のカスとこちらのカス、どちらも「こっちが本物」としゅちょう。', 'The Other Crumb and our crumb both say they are the real one.'),
 
     // --- 序盤の ボケ ---
     n({ b: ['finger', 1] }, '指、自分の名前を考えはじめる。', 'The finger has started thinking up a name for itself.'),
