@@ -297,7 +297,7 @@
   function renderGoal() {
     var s = S(), best = null, cands = [];
     K.game.visibleBuildings().forEach(function (v) {
-      if (v.locked) { cands.push({ cost: v.b.cost, kind: 'l', sel: '.bld[data-b="' + v.b.id + '"]', name: t('locked'), icon: K.art.ui('lock', 22) }); return; }
+      if (v.locked) { cands.push({ cost: v.b.cost, kind: 'l', sel: '.bld[data-lock="' + v.b.id + '"]', name: t('locked'), icon: '<span class="bld-shadow">' + K.art.building(v.b.id, 26, 26) + '</span>' }); return; }
       cands.push({ cost: K.game.price(v.b.id, 1), kind: 'b', id: v.b.id, sel: '.bld[data-b="' + v.b.id + '"]', name: K.L(v.b.name), icon: K.art.building(v.b.id, 26, 26) });
     });
     K.game.availableUpgrades().forEach(function (u) {
@@ -439,7 +439,8 @@
     vis.forEach(function (v) {
       var b = v.b;
       if (v.locked) {
-        bh += '<div class="bld-wrap"><div class="bld cant" aria-disabled="true"><span class="bld-ico">' + K.art.ui('lock', 26) + '</span>' +
+        // まだ 買えない どうぐは かげ（シルエット）だけ。名前は ないしょ
+        bh += '<div class="bld-wrap"><div class="bld cant locked" aria-disabled="true" data-lock="' + b.id + '"><span class="bld-ico bld-shadow">' + K.art.building(b.id, 32, 32) + '</span>' +
           '<span class="bld-text"><span class="bld-name">' + esc(t('locked')) + '</span>' + U.priceHtml(b.cost, false) + '</span></div></div>';
         return;
       }
