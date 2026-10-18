@@ -273,15 +273,19 @@
     return true;
   };
 
-  // 店で見せる どうぐ（持っているもの＋つぎの1つ）。その先の1つは「？？？」
+  // 店で見せる どうぐ（持っているもの＋つぎの1つ）。その先の2つは かげ（シルエット）だけ見せる（クッキークリッカーと同じ「つぎは何？」）
+  G.LOCKED_AHEAD = 2;
   G.visibleBuildings = function () {
     var list = K.data.buildings;
-    var out = [];
+    var out = [], locked = 0;
     for (var i = 0; i < list.length; i++) {
       var b = list[i];
-      var revealed = i === 0 || S().buildings[b.id] > 0 || S().buildings[list[i - 1].id] > 0;
+      var revealed = locked === 0 && (i === 0 || S().buildings[b.id] > 0 || S().buildings[list[i - 1].id] > 0);
       if (revealed) out.push({ b: b, locked: false });
-      else { out.push({ b: b, locked: true }); break; }
+      else {
+        out.push({ b: b, locked: true });
+        if (++locked >= G.LOCKED_AHEAD) break;
+      }
     }
     return out;
   };

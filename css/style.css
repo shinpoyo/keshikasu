@@ -540,6 +540,8 @@ button.kasu-pet:hover { background: var(--paper-3); }
 .bld.became { animation: became .7s ease; }
 @keyframes became { 0% { background: var(--gold-soft); } }
 .bld-ico { width: 44px; height: 44px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; border-radius: var(--r-m); background: var(--paper-3); }
+.bld-shadow svg { filter: brightness(0) opacity(.28); }
+.bld.locked .bld-name { letter-spacing: .1em; color: var(--graphite); }
 .bld-text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
 .bld-name { font-family: var(--font-jp); font-weight: 900; font-size: 15px; }
 .bld-sub { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
