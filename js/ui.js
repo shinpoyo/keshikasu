@@ -274,7 +274,7 @@
       var show = Math.min(n, 40);
       var prev = Math.min(prevCounts[b.id] || 0, 40);
       var units = '';
-      var size = b.id === 'factory' || b.id === 'roller' || b.id === 'paralleldesk' || b.id === 'autoeraser' ? [46, 38] : b.id === 'ant' ? [34, 22] : b.id === 'finger' ? [22, 30] : [34, 34];
+      var size = b.id === 'roller' || b.id === 'paralleldesk' ? [46, 38] : b.id === 'ant' ? [34, 22] : b.id === 'finger' ? [22, 30] : [34, 34];
       for (var i = 0; i < show; i++) {
         units += '<span class="u' + (i >= prev ? ' u-new' : '') + '">' + K.art.building(b.id, size[0], size[1]) + '</span>';
       }

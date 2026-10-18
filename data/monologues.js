@@ -37,8 +37,6 @@
       m('ざらざらしててごめん', 'Sorry for being scratchy.', { trait: 'gritty' }),
       m('まぶしくてごめん', 'Sorry for being so bright.', { trait: 'golden' }),
       m('アリさんがこっちを見てる', 'The ants are looking at me.', { b: 'ant' }),
-      m('勝手に動く消しゴム、ちょっとこわい', 'An eraser that moves by itself. A little scary.', { b: 'autoeraser' }),
-      m('工場の音が聞こえる', 'I can hear the factory.', { b: 'factory' }),
       m('月が近い', 'The moon is close.', { b: 'moon' }),
       m('ぼくのふるさとかも', 'That might be my hometown.', { b: 'eplanet' }),
       m('昨日のぼくに会った', 'I met yesterday\'s me.', { b: 'timemachine' }),

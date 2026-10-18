@@ -55,14 +55,8 @@
     n({ b: ['club', 50] }, '消しゴム部OB、今でも毎日消している。', 'Former Eraser Club members still erase every day.'),
 
     // --- ぜんじどう けしゴム ---
-    n({ b: ['autoeraser', 1] }, '全自動消しゴム、何も書いていないところも消す。', 'Auto eraser also erases where nothing was written.'),
-    n({ b: ['autoeraser', 10] }, '全自動消しゴム、夜中に勝手にこすっていた。', 'Auto erasers were rubbing on their own in the middle of the night.'),
-    n({ b: ['autoeraser', 50] }, '全自動消しゴム、電池を勝手に買いに行く。', 'Auto erasers now go buy their own batteries.'),
 
     // --- こうじょう ---
-    n({ b: ['factory', 1] }, '消しゴム工場、何を消しているのか社長も知らない。', 'Even the factory boss does not know what the eraser factory is erasing.'),
-    n({ b: ['factory', 10] }, '工場のえんとつから、ほんのりカスのにおい。', 'A faint crumb smell from the factory chimney.'),
-    n({ b: ['factory', 50] }, '工場、ついに自分のかげも消し始める。', 'Factory begins erasing its own shadow.'),
 
     // --- けしゴムはんこ ---
 
@@ -196,8 +190,6 @@
     n({ b: ['shaver', 10] }, 'ひげそりが10本に。おじさんは1人。', 'Ten shavers now. Still just one uncle.'),
     n({ b: ['weather', 1] }, '天気よほう、今日も晴れのちカス。かさは役に立たない。', 'Forecast: sunny, then crumbs. Umbrellas will not help.'),
     n({ b: ['weather', 10] }, '天気よほう、カスの前線が近づいていると発表。', 'Forecasters warn of a crumb front moving in.'),
-    n({ b: ['sake', 1] }, 'お酒を飲んだ大人、消しゴムを持つと手がとまらない。', 'An adult had a drink, picked up an eraser, and could not stop.'),
-    n({ b: ['sake', 10] }, 'お酒を飲んだあとの字は、だれにも読めない。消すしかない。', 'Handwriting written after a drink is unreadable to everyone. The only fix is to erase it.'),
     n({ b: ['music', 1] }, 'カスのためのコンサート。お客さんはカスだけ。', 'A concert for crumbs. The audience: crumbs only.'),
     n({ b: ['music', 10] }, '音楽を聞いたカス、ちょっととがった形になる。', 'Crumbs that listened to music have grown slightly avant-garde.'),
     n({ b: ['incubator', 1] }, 'カスにオスとメスがあるとわかる。見分け方はだれも知らない。', 'Crumbs turn out to have boys and girls. Nobody knows how to tell.'),

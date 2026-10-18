@@ -72,7 +72,6 @@
   var FIRST = {
     shaver: [{ ja: '5まいば', en: 'Five Blades' }, { ja: 'おじさんの顔がつるつるになった。', en: 'Uncle\'s face is now very smooth.' }],
     weather: [{ ja: 'カスかくりつ', en: 'Chance of Crumbs' }, { ja: 'あしたのカスかくりつは80%。', en: 'Chance of crumbs tomorrow: 80%.' }],
-    sake: [{ ja: 'ほろよい', en: 'Tipsy' }, { ja: 'ちょうどいい ふるえ。', en: 'Just the right amount of shaking.' }],
     music: [{ ja: 'クラシック', en: 'Classical' }, { ja: 'カスがしずかに聞いている。', en: 'The crumbs are listening quietly.' }],
     incubator: [{ ja: 'お見合い', en: 'Matchmaking' }, { ja: 'カスどうしが、もっとなかよくなった。', en: 'The crumbs get along even better now.' }],
     hypnotist: [{ ja: 'ゆれる5円玉', en: 'Swinging Coin' }, { ja: 'あなたは だんだん カスになる……', en: 'You are becoming... a crumb...' }],
@@ -85,8 +84,6 @@
     anticrumb: [{ ja: '無の力', en: 'Power of Nothing' }, { ja: '何もないのに、ある。', en: 'There is nothing. And yet, there is.' }],
     ant: [{ ja: 'アリさんの長ぐつ', en: 'Ant Boots' }, { ja: '小さな長ぐつをはいた。6本分。', en: 'Tiny boots. Six of them.' }],
     club: [{ ja: '部員ぼしゅうポスター', en: 'Recruiting Poster' }, { ja: '「君も消さないか」', en: '"Want to erase with us?"' }],
-    autoeraser: [{ ja: '電池こうかん', en: 'New Batteries' }, { ja: '力強くなった。へるのも速い。', en: 'Stronger now. Wears down faster, too.' }],
-    factory: [{ ja: '24時間運転', en: 'Night Shift' }, { ja: '工場はねない。', en: 'The factory never sleeps.' }],
     roller: [{ ja: 'ローラーのワックス', en: 'Roller Wax' }, { ja: 'つるつるになった。意味はない。', en: 'Now it is shiny and slippery. This helps nothing.' }],
     moon: [{ ja: '月のうさぎ', en: 'Moon Rabbit' }, { ja: 'もちの代わりにカスをついている。', en: 'In old Japanese tales, it makes rice cakes. Now it pounds crumbs.' }],
     timemachine: [{ ja: 'きのうのきのう', en: 'The Day Before Yesterday' }, { ja: 'もっと昔のカスも持ってくる。', en: 'Now it brings even older crumbs.' }],
