@@ -9,30 +9,33 @@
   D.SLOT_ZUKAN = [0, 0, 0, 0, 45, 75]; // 5つめ・6つめは ずかんの 数で 開く
   D.OPEN_STAGE = 6;                    // この STAGE の カスを 見つけたら 開く
   D.BUFF_SEC = 3600;                   // 時間つきの ボーナスは 1時間
-  D.GOLD_TIMES = 3;
+  D.GOLD_TIMES = 5;
+  D.RUB_MULT = 20;                     // ざらざらタイムの こする力
 
   // grow: 育つ びょう数、price: いまの /s の 何分ぶんの つぶで しまえるか
+  // どの 材料も「1回 とると /s の 1時間ぶん くらい」の ねうちに そろえている（2026-10-24）。
+  // 育つ 時間は 30分〜2時間、しまう 値段は ぜんぶ /s の 10分ぶん
   D.SEEDS = [
     { mat: 'graphite', grow: 1800, price: 10, reward: 'crumbs', mins: 60,
       got: { ja: '/s の1時間分のつぶ', en: '1 hour of /s in crumbs' } },
-    { mat: 'glue', grow: 7200, price: 60, reward: 'ticket',
+    { mat: 'glue', grow: 3600, price: 10, reward: 'ticket',
       got: { ja: '消しゴムの紙 1まい', en: '1 Eraser Sleeve' } },
-    { mat: 'dust', grow: 14400, price: 30, reward: 'guest2',
+    { mat: 'dust', grow: 7200, price: 10, reward: 'guest2',
       got: { ja: '1時間、ゲスト消しゴムが2倍来る', en: 'Visiting erasers come twice as often for 1 hour' } },
-    { mat: 'sand', grow: 28800, price: 30, reward: 'rub10',
-      got: { ja: '1時間、こする力が10倍', en: 'Rubbing x10 for 1 hour' } },
-    { mat: 'colored', grow: 43200, price: 30, reward: 'cps2',
+    { mat: 'sand', grow: 3600, price: 10, reward: 'rub10',
+      got: { ja: '1時間、こする力が20倍', en: 'Rubbing x20 for 1 hour' } },
+    { mat: 'colored', grow: 3600, price: 10, reward: 'cps2',
       got: { ja: '1時間、/s が2倍', en: '/s x2 for 1 hour' } },
-    { mat: 'gold', grow: 86400, price: 120, reward: 'gold',
-      got: { ja: 'ゴールデン消しゴムが3回つづけて来る', en: 'The next 3 visitors are Golden Erasers' } }
+    { mat: 'gold', grow: 7200, price: 10, reward: 'gold',
+      got: { ja: 'ゴールデン消しゴムが5回つづけて来る', en: 'The next 5 visitors are Golden Erasers' } }
   ];
   D.seedByMat = {};
   D.SEEDS.forEach(function (x) { D.seedByMat[x.mat] = x; });
 
-  // 画面の 上の ボーナス（js/ui.js の renderBuff）
+  // 画面の 上の ボーナス（rub10 は せーぶの 名前なので そのまま。いまは 20倍）（js/ui.js の renderBuff）
   D.EFFECTS = {
     cps2: { mat: 'colored', name: { ja: 'にじ色タイム！', en: 'Rainbow Time!' }, desc: { ja: '/s が 2倍', en: '/s x2' }, short: { ja: 'x2', en: 'x2' } },
-    rub10: { mat: 'sand', name: { ja: 'ざらざらタイム！', en: 'Gritty Time!' }, desc: { ja: 'こする力が 10倍', en: 'Rubbing x10' }, short: { ja: 'こする x10', en: 'Rub x10' } },
+    rub10: { mat: 'sand', name: { ja: 'ざらざらタイム！', en: 'Gritty Time!' }, desc: { ja: 'こする力が 20倍', en: 'Rubbing x20' }, short: { ja: 'こする x20', en: 'Rub x20' } },
     guest2: { mat: 'dust', name: { ja: 'お客さんタイム！', en: 'Visitor Time!' }, desc: { ja: 'ゲスト消しゴムが 2倍来る', en: 'Visiting erasers x2' }, short: { ja: 'ゲスト x2', en: 'Guests x2' } },
     gold: { mat: 'gold', name: { ja: '金のひきだし！', en: 'Golden Drawer!' }, desc: { ja: '次のゲストはゴールデン', en: 'Next visitors are Golden' }, short: { ja: '金', en: 'Gold' } }
   };

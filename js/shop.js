@@ -213,7 +213,7 @@
     var p = 1 * fingerDoubles() + G.fingerBonus();
     p += G.cps() * G.rubPercent();
     if (G.buffActive('scrub')) p *= 777;
-    if (K.drawer && K.drawer.buffActive('rub10')) p *= 10;
+    if (K.drawer && K.drawer.buffActive('rub10')) p *= K.drawer.RUB_MULT;
     if (K.ads && K.ads.boostActive()) p *= 2;
     return p;
   };
