@@ -346,15 +346,6 @@ h1, h2, h3 { font-family: var(--font-jp); font-weight: 900; margin: 0; text-wrap
 .dl-day.past { background: var(--paper-3); color: var(--graphite); }
 .dl-n { font-size: 15px; font-variant-numeric: tabular-nums; }
 .dl-i { min-height: 20px; display: flex; align-items: center; font-size: 14px; }
-/* まぜる を たたむ */
-.mat-toggle { width: 100%; display: flex; align-items: center; gap: 8px; padding: 10px 12px; border: 2px solid var(--line); border-radius: var(--r-l); background: var(--card); color: var(--ink); font: inherit; font-weight: 900; font-size: 14px; text-align: left; cursor: pointer; }
-.mat-toggle small { flex: 1; font-weight: 700; color: var(--graphite); font-size: 12px; }
-.mat-toggle.has small { color: var(--eraser-blue); }
-.mat-chev { width: 9px; height: 9px; border-right: 2.5px solid currentColor; border-bottom: 2.5px solid currentColor; transform: rotate(45deg) translateY(-2px); transition: transform .2s; flex-shrink: 0; }
-.mat-toggle[aria-expanded="true"] .mat-chev { transform: rotate(-135deg) translateY(-2px); }
-#mat-body { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
-#mat-body[hidden] { display: none; }
-#mat-current { font-weight: 700; color: var(--graphite); font-size: 12px; display: flex; align-items: center; gap: 4px; }
 .bld.can { box-shadow: 0 0 0 3px rgba(62,111,176,.22); }
 /* スマホ: 目標・ミッションは 名前の すぐ下、ほめる/ふくの 上 */
 @media (max-width: 900px) {
@@ -425,7 +416,7 @@ button.kasu-pet:hover { background: var(--paper-3); }
 .kasu.rolled .kasu-body { animation: rolled .5s cubic-bezier(.3,1.6,.5,1); }
 @keyframes rolled { 0% { transform: scale(.3) rotate(-120deg); opacity: 0; } 100% { transform: none; opacity: 1; } }
 .z-desk-btn { margin-top: 12px; min-height: 40px; font-size: 14px; }
-.z-ondesk { margin-top: 12px; align-self: flex-start; padding: 4px 12px; border-radius: 999px; background: var(--paper-2); border: 1.5px solid var(--line-2); font-family: var(--font-jp); font-weight: 700; font-size: 12px; }
+.z-ondesk { display: inline-block; margin-top: 12px; align-self: flex-start; padding: 4px 12px; border-radius: 999px; background: var(--paper-2); border: 1.5px solid var(--line-2); font-family: var(--font-jp); font-weight: 700; font-size: 12px; }
 
 .actions { display: flex; gap: 12px; align-self: stretch; margin-top: auto; padding-top: 6px; }
 .actions .btn { flex: 1 1 auto; min-width: 0; min-height: 52px; padding: 0 10px; gap: 4px; white-space: nowrap; } /* 文字の長さに あわせて 幅を わける（折り返さない） */
@@ -515,16 +506,6 @@ button.kasu-pet:hover { background: var(--paper-3); }
 .price.no { color: var(--danger); }
 :root[data-theme="dark"] .price.no { color: #F0908C; }
 .price svg { width: 11px; height: 11px; }
-.mat-list { display: flex; flex-direction: column; gap: 6px; }
-.mat {
-  min-height: 52px; padding: 6px 12px 6px 8px; display: flex; align-items: center; gap: 10px;
-  border: 2px solid var(--ink); border-radius: var(--r-l); background: var(--card); cursor: pointer; text-align: left;
-}
-.mat.cant { border-color: var(--line); background: var(--paper); opacity: .72; }
-.mat-ico { width: 38px; height: 38px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; border-radius: 10px; background: var(--paper-3); }
-.mat-text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
-.mat-name { font-family: var(--font-jp); font-weight: 900; font-size: 14px; }
-.mat-desc { font-family: var(--font-jp); font-weight: 500; font-size: 12px; color: var(--graphite); }
 .chip-dot { width: 12px; height: 12px; border-radius: 50%; border: 1.5px solid var(--ink); flex-shrink: 0; }
 
 .shop-list { display: flex; flex-direction: column; gap: 8px; }
@@ -548,7 +529,8 @@ button.kasu-pet:hover { background: var(--paper-3); }
 .bld-rate { font-weight: 800; font-size: 12px; color: var(--graphite); font-variant-numeric: tabular-nums; }
 .bld-own { font-weight: 900; font-size: 26px; color: var(--line-2); font-variant-numeric: tabular-nums; }
 .bld.sell { border-color: var(--danger); }
-.bld-line { font-family: var(--font-jp); font-size: 12px; color: var(--graphite); }
+.bld-line { font-family: var(--font-jp); font-weight: 500; font-size: 12px; line-height: 1.4; color: var(--graphite); }
+.bld.locked .bld-line { display: none; }
 
 /* なかまの くわしい 数字（PC: ホバーの ふきだし / スマホ: よこの ボタンで ひらく） */
 .bld-wrap { display: flex; flex-wrap: wrap; gap: 6px; }
@@ -1047,6 +1029,7 @@ textarea.savebox {
   .bld-ico { width: 54px; height: 54px; }
   .bld-ico svg { width: 40px; height: 40px; }
   .bld-name { font-size: 18px; }
+  .bld-line { font-size: 13px; }
   .bld-rate, .price { font-size: 15px; }
   .bld-own { font-size: 32px; }
   .seg button { height: 40px; font-size: 15px; min-width: 48px; }
@@ -1209,7 +1192,7 @@ textarea.savebox {
 }
 
 /* よるの つくえ: アイコンは 明るい台紙の上に のせて 見やすく */
-:root[data-theme="dark"] .bld-ico, :root[data-theme="dark"] .mat-ico { background: #E9E4DA; }
+:root[data-theme="dark"] .bld-ico { background: #E9E4DA; }
 :root[data-theme="dark"] .up:not(.empty) { background: #F4F1EA; }
 :root[data-theme="dark"] .up.cant { background: #BDB6A8; }
 :root[data-theme="dark"] .desk-row .u svg [fill="#2B2A28"] { fill: #1A1917; }
@@ -1241,7 +1224,6 @@ textarea.savebox {
 #blow-btn.ready { animation: roll-glow 1.6s ease-in-out infinite; }
 .z-trade-btn { display: inline-flex; align-items: center; gap: 6px; align-self: flex-start; margin-top: 8px; }
 .z-trade-btn svg { width: 16px; height: 16px; }
-#mat-current .chip-dot { display: inline-block; width: 10px; height: 10px; margin-left: 3px; vertical-align: -1px; }
 @media (prefers-reduced-motion: reduce) {
   .kasu-mess.blowing .mess-dot.on { animation: none; opacity: 0; }
   .eraser-btn.fresh .eraser-art { animation: none; }

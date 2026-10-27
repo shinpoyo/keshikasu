@@ -1,4 +1,4 @@
-// アップグレード（企画書 6-3）。1回だけ買える。まぜる材料は 7-2
+// アップグレード（企画書 6-3）。1回だけ買える。材料（カスの 色）は いちばん 下
 (function (K) {
   'use strict';
   K.data = K.data || {};
@@ -199,28 +199,13 @@
 
   K.data.upgrades = list;
 
-  // --- まぜる材料（けいとう）。何回でも まぜなおせる ---
+  // --- 材料（カスの 色）。この STAGE に なると その色の カスが 出て、ひきだしにも しまえる（js/shop.js grantMaterials）---
   K.data.materials = [
-    { id: 'none', trait: 'plain', stage: 1, cost: 0,
-      name: { ja: '何もまぜない', en: 'Mix Nothing' },
-      desc: { ja: 'まぜたものを取りのぞく。次のカスはふつうのはいいろ。', en: 'Take the mix out. Your next crumb is plain gray.' } },
-    { id: 'graphite', trait: 'graphite', stage: 2, cost: 500,
-      name: { ja: 'えんぴつのこな', en: 'Pencil Dust' },
-      desc: { ja: 'まぜると、まるめたカスが黒くなる。少し光る。', en: 'Mix it in and new crumbs turn black. A little shiny.' } },
-    { id: 'colored', trait: 'rainbow', stage: 2, cost: 800,
-      name: { ja: '色えんぴつ', en: 'Colored Pencil' },
-      desc: { ja: 'まぜると、まるめたカスがにじ色のまだらになる。', en: 'Mix it in and new crumbs get rainbow spots.' } },
-    { id: 'glue', trait: 'sticky', stage: 3, cost: 20000,
-      name: { ja: 'のり', en: 'Glue' },
-      desc: { ja: 'まぜると、まるめたカスがテカテカのびる。', en: 'Mix it in and new crumbs get shiny and stretchy.' } },
-    { id: 'dust', trait: 'fluffy', stage: 3, cost: 30000,
-      name: { ja: 'ほこり', en: 'Dust Ball' },
-      desc: { ja: 'まぜると、まるめたカスがもふもふになる。', en: 'Mix it in and new crumbs get fluffy.' } },
-    { id: 'sand', trait: 'gritty', stage: 4, cost: 3e6,
-      name: { ja: 'すなけしのこな', en: 'Sand Eraser Dust' },
-      desc: { ja: 'まぜると、まるめたカスがざらざらになる。', en: 'Mix it in and new crumbs get gritty.' } },
-    { id: 'gold', trait: 'golden', stage: 5, cost: 3e9,
-      name: { ja: '金のこな', en: 'Gold Dust' },
-      desc: { ja: 'まぜると、まるめたカスが金色に光る。', en: 'Mix it in and new crumbs glow gold.' } }
+    { id: 'graphite', trait: 'graphite', stage: 2, name: { ja: 'えんぴつのこな', en: 'Pencil Dust' } },
+    { id: 'colored', trait: 'rainbow', stage: 2, name: { ja: '色えんぴつ', en: 'Colored Pencil' } },
+    { id: 'glue', trait: 'sticky', stage: 3, name: { ja: 'のり', en: 'Glue' } },
+    { id: 'dust', trait: 'fluffy', stage: 3, name: { ja: 'ほこり', en: 'Dust Ball' } },
+    { id: 'sand', trait: 'gritty', stage: 4, name: { ja: 'すなけしのこな', en: 'Sand Eraser Dust' } },
+    { id: 'gold', trait: 'golden', stage: 5, name: { ja: '金のこな', en: 'Gold Dust' } }
   ];
 })(window.K = window.K || {});

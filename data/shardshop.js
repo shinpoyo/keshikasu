@@ -75,10 +75,10 @@
     // ずかん
     { id: 'startGraphite', branch: 'zukan', cost: 2,
       name: { ja: 'えんぴつのこな持ちこみ', en: 'Bring Your Own Pencil Dust' },
-      desc: { ja: 'はじめから「えんぴつのこな」がまぜられる。', en: 'Pencil Dust can be mixed from the very start.' } },
+      desc: { ja: 'はじめから黒いカスが出る。', en: 'Graphite crumbs can appear from the very start.' } },
     { id: 'allMaterials', branch: 'zukan', cost: 20, requires: 'startGraphite',
       name: { ja: 'いろんな材料', en: 'All Sorts of Materials' },
-      desc: { ja: 'はじめから全部の材料がまぜられる。', en: 'All materials can be mixed from the very start.' } },
+      desc: { ja: 'はじめから全部の色のカスが出る。ひきだしにも全部しまえる。', en: 'Crumbs of every color can appear from the very start, and every material fits in the Drawer.' } },
     { id: 'zukanPower', branch: 'zukan', cost: 90, requires: 'allMaterials',
       name: { ja: 'ずかんの力', en: 'Power of the Crumbpedia' },
       desc: { ja: 'ずかん1種類で /s が2%から3%ふえるようになる。', en: 'Each kind found gives +3% /s instead of +2%.' } },

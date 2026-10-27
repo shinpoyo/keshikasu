@@ -99,7 +99,7 @@
     $('gm-wear-bar').style.width = (E.wearRatio() * 100).toFixed(1) + '%';
     var active = U.tab === 'gacha' || (U.mid === 'gacha' && !U.narrow());
     var missing = E.missing().length;
-    var sig = [K.lang(), tk, s.dry, s.stamps, s.stage, Object.keys(s.mats).join(','), E.foundCount(), (s.rollLog || []).length && s.rollLog[0].id, U.rolling, missing].join('|');
+    var sig = [K.lang(), tk, s.dry, s.stamps, s.stage, E.pool().join(','), E.foundCount(), (s.rollLog || []).length && s.rollLog[0].id, U.rolling, missing].join('|');
     if ((sig === gachaSig && !force) || !active) return;
     gachaSig = sig;
     if (!$('gacha-machine').firstChild) $('gacha-machine').innerHTML = K.art.gachaMachine();
@@ -367,12 +367,10 @@
   U.renderShop = function (force) {
     var s = S();
     var ups = K.game.availableUpgrades();
-    var mats = K.game.availableMaterials();
     var vis = K.game.visibleBuildings();
     // 「買える／買えない」が変わったときだけ描きなおす
-    var sig = [K.lang(), U.bulk, U.mode, U.selUpgrade, U.openInfo, Object.keys(s.mats).join(','),
+    var sig = [K.lang(), U.bulk, U.mode, U.selUpgrade, U.openInfo,
       ups.map(function (u) { return u.id + (s.crumbs >= u.cost ? '1' : '0'); }).join(','),
-      mats.map(function (m) { return m.id + (s.crumbs >= m.cost ? '1' : '0'); }).join(','),
       vis.map(function (v) { return v.b.id + s.buildings[v.b.id] + (s.crumbs >= K.game.price(v.b.id, U.amountFor(v.b.id)) ? '1' : '0') + (U.bulk === 'max' ? U.amountFor(v.b.id) : '') + v.locked; }).join(',')
     ].join('|');
     if (sig === shopSig && !force) return;
@@ -411,29 +409,6 @@
       U.selUpgrade = null;
     }
 
-    // まぜる
-    var mh = '';
-    mats.forEach(function (m) {
-      var can = s.crumbs >= m.cost;
-      var tr = K.evo.traitById[m.trait];
-      mh += '<button type="button" class="mat ' + (can ? 'can' : 'cant') + '" data-mat="' + m.id + '">' +
-        '<span class="mat-ico">' + K.art.upIcon(m.id, 26) + '</span>' +
-        '<span class="mat-text"><span class="mat-name">' + esc(K.L(m.name)) + '</span><span class="mat-desc">' + esc(K.L(m.desc)) + '</span></span>' +
-        '<span class="chip-dot" style="background:' + (tr.chipBg || tr.chip) + '"></span>' + U.priceHtml(m.cost, can) + '</button>';
-    });
-    var pool = K.evo.pool();
-    $('mat-group').hidden = !mats.length && pool.length < 2;
-    var canMat = mats.filter(function (m) { return s.crumbs >= m.cost; }).length;
-    $('mat-hint').textContent = canMat ? t('matHint', { n: canMat }) : '';
-    $('mat-toggle').classList.toggle('has', canMat > 0);
-    $('mat-toggle').setAttribute('aria-expanded', String(!!U.matOpen));
-    $('mat-body').hidden = !U.matOpen;
-    $('mat-list').innerHTML = mh;
-    $('mat-current').innerHTML = esc(t('mixCurrent')) + ' ' + pool.map(function (id) {
-      var tr = K.evo.traitById[id];
-      return '<span class="chip-dot" title="' + esc(K.L(tr.name)) + '" style="background:' + (tr.chipBg || tr.chip) + '"></span>';
-    }).join('');
-
     // どうぐ
     var bh = '';
     vis.forEach(function (v) {
@@ -455,6 +430,7 @@
         '<button type="button" class="bld ' + (can ? 'can' : 'cant') + (sell ? ' sell' : '') + (becameAffordable[b.id] ? ' became' : '') + '" data-b="' + b.id + '">' +
         '<span class="bld-ico">' + K.art.building(b.id, 32, 32) + '</span>' +
         '<span class="bld-text"><span class="bld-name">' + esc(K.L(b.name)) + (amount > 1 ? ' <small>x' + amount + '</small>' : '') + '</span>' +
+        '<span class="bld-line">' + esc(K.L(b.line)) + '</span>' +
         '<span class="bld-sub">' + (sell ? '<span class="price">' + crumbIcon() + '+' + K.fmt(price) + '</span>' : U.priceHtml(price, can)) + '<span class="bld-rate">' + rate + '</span></span></span>' +
         '<span class="bld-own">' + (owned || '') + '</span></button>' +
         // スマホは ホバーが ないので、よこの ボタンで くわしく ひらく（PC は ホバーで でる）
@@ -465,6 +441,7 @@
     });
     $('shop-list').innerHTML = bh;
     if (tipId) U.showTip(tipId);
+    if (upTipId) U.showUpTip(upTipId);
 
     // スマホの「みせ」タブの数字（買えるものの数）
     var n = ups.filter(function (u) { return s.crumbs >= u.cost; }).length +
@@ -476,6 +453,7 @@
   // --- どうぐの くわしい 数字（クッキークリッカーの 施設の ツールチップ） ---
   U.openInfo = null;   // スマホで ひらいている どうぐ
   var tipId = null;    // PC で カーソルを のせている どうぐ
+  var upTipId = null;  // PC で カーソルを のせている アップグレード
   U.hoverTips = function () { return window.matchMedia('(hover: hover) and (pointer: fine)').matches; };
 
   function pct(r) {
@@ -491,8 +469,8 @@
     var n = s.buildings[id];
     var share = K.game.share(id);
     var row = function (label, value) { return '<span class="bst-k">' + esc(label) + '</span><b class="bst-v">' + value + '</b>'; };
-    return '<div class="bst-line">' + esc(K.L(b.line)) + '</div>' +
-      '<div class="bst-grid">' +
+    // せつめいは 店の 行に いつも 出ているので、ここは 数字だけ
+    return '<div class="bst-grid">' +
         row(t('statEach'), '+' + K.fmtPerSec(K.game.unitCps(id) * K.game.globalMult())) +
         (n ? row(t('statAll', { n: K.fmt(n) }), '+' + K.fmtPerSec(K.game.buildingCps(id))) +
           row(t('statShare'), pct(share)) +
@@ -515,7 +493,22 @@
     tip.style.top = top + 'px';
     tip.style.left = Math.max(8, r.left - tip.offsetWidth - 12) + 'px';
   };
-  U.hideTip = function () { tipId = null; $('bld-tip').hidden = true; };
+  U.hideTip = function () { tipId = null; upTipId = null; $('bld-tip').hidden = true; };
+
+  // PC: アップグレードに カーソルを のせると 名前と せつめい（おさなくても 読める）
+  U.showUpTip = function (id) {
+    var tip = $('bld-tip');
+    var el = id && document.querySelector('.up[data-up="' + id + '"]');
+    var u = id && K.game.upgradeById[id];
+    if (!el || !u || !U.hoverTips()) { U.hideTip(); return; }
+    tipId = null; upTipId = id;
+    tip.innerHTML = '<div class="bst-head">' + K.art.upIcon(u.icon, 24) + '<b>' + esc(K.L(u.name)) + '</b></div>' +
+      '<div class="bst-line">' + esc(K.L(u.desc)) + '</div>' + U.priceHtml(u.cost, S().crumbs >= u.cost);
+    tip.hidden = false;
+    var r = el.getBoundingClientRect();
+    tip.style.top = Math.max(8, Math.min(r.top, window.innerHeight - tip.offsetHeight - 8)) + 'px';
+    tip.style.left = Math.max(8, r.left - tip.offsetWidth - 12) + 'px';
+  };
 
   // 数字は まいフレーム かわるので、ひらいている ものだけ 0.5びょうごとに かきなおす
   var statsAt = 0;
