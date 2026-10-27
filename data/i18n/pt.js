@@ -164,6 +164,7 @@
 "mixedNone":"Nada",
 "mixedToast":"Farelos “{t}” já podem aparecer!",
 "mixedWith":"Misturado com",
+"moreGames":"Ver mais jogos (shinpoyo.com)",
 "nameIt":"Dar um nome",
 "nameSuffix":"",
 "namingAgainDay":"BORRACHA Nº {n}",

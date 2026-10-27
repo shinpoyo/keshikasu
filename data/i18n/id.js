@@ -164,6 +164,7 @@
 "mixedNone":"Tidak ada",
 "mixedToast":"Remah \"{t}\" kini bisa muncul!",
 "mixedWith":"Dicampur",
+"moreGames":"Lihat game lainnya (shinpoyo.com)",
 "nameIt":"Beri nama",
 "nameSuffix":"",
 "namingAgainDay":"PENGHAPUS KE-{n}",

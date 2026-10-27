@@ -329,6 +329,7 @@
     importBad: 'That text does not look right',
     saved: 'Saved',
     saveMenu: 'Export / import save',
+    moreGames: 'More games (shinpoyo.com)',
 
     close: 'Close',
     drawer: 'Drawer',
