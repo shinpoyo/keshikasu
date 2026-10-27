@@ -164,6 +164,7 @@
 "mixedNone":"Hiçbir şey",
 "mixedToast":"Artık “{t}” kırıntılar çıkabilir!",
 "mixedWith":"Katılan",
+"moreGames":"Diğer oyunlara bak (shinpoyo.com)",
 "nameIt":"İsim ver",
 "nameSuffix":"",
 "namingAgainDay":"{n}. SİLGİ",

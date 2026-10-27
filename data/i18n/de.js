@@ -164,6 +164,7 @@
 "mixedNone":"Nichts",
 "mixedToast":"Ab jetzt möglich: {t} Krümel!",
 "mixedWith":"Gemischt mit",
+"moreGames":"Weitere Spiele ansehen (shinpoyo.com)",
 "nameIt":"Namen geben",
 "nameSuffix":"",
 "namingAgainDay":"RADIERGUMMI NR. {n}",

@@ -346,7 +346,8 @@
   "matHint": "{n} alınabilir",
   "achGotMany": "{n} başarı açıldı!",
   "incidentNo": "Tuhaf Olay #{n}",
-  "incidentOk": "Demek öyle."
+  "incidentOk": "Demek öyle.",
+  "moreGames": "Diğer oyunlara bak (shinpoyo.com)"
  },
  "text": {
   "Finger": "Parmak",

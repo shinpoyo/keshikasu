@@ -164,6 +164,7 @@
 "mixedNone":"Không có",
 "mixedToast":"Vụn \"{t}\" giờ đã có thể xuất hiện!",
 "mixedWith":"Trộn với",
+"moreGames":"Xem thêm trò chơi (shinpoyo.com)",
 "nameIt":"Đặt tên",
 "nameSuffix":"",
 "namingAgainDay":"CỤC TẨY SỐ {n}",

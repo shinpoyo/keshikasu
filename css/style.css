@@ -596,6 +596,8 @@ button.kasu-pet:hover { background: var(--paper-3); }
 .menu-item.gold { background: var(--gold); color: var(--on-accent); }
 .menu-item.gold small { color: #5A4410; }
 .menu-sub { display: flex; flex-direction: column; gap: 4px; margin-top: 8px; }
+.menu-sub a.menu-link { min-height: 48px; color: inherit; text-decoration: none; font-family: var(--font-jp); font-weight: 700; font-size: 15px; padding: 0 6px; display: flex; align-items: center; }
+.menu-sub a.menu-link::after { content: ' ↗'; }
 .menu-sub button { min-height: 48px; border: none; background: none; text-align: left; font-family: var(--font-jp); font-weight: 700; font-size: 15px; padding: 0 6px; cursor: pointer; display: flex; align-items: center; gap: 10px; }
 
 /* タブ（スマホ） */

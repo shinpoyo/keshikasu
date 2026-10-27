@@ -164,6 +164,7 @@
 "mixedNone":"Rien",
 "mixedToast":"Les miettes « {t} » peuvent apparaître !",
 "mixedWith":"Mélangée avec",
+"moreGames":"Voir d’autres jeux (shinpoyo.com)",
 "nameIt":"Lui donner un nom",
 "nameSuffix":"",
 "namingAgainDay":"GOMME N° {n}",

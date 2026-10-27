@@ -6,7 +6,7 @@
   var S = function () { return K.state; };
   var t = function (k, v) { return K.t(k, v); };
   var esc = function (s) { return K.ui.esc(s); };
-  var VERSION = '0.51'; // index.html の ?v= と そろえる（ブラウザの キャッシュで 古い js が のこらないように）
+  var VERSION = '0.52'; // index.html の ?v= と そろえる（ブラウザの キャッシュで 古い js が のこらないように）
 
   function show(id) {
     ['screen-title', 'screen-naming', 'screen-game'].forEach(function (s) { $(s).hidden = s !== id; });
@@ -128,6 +128,12 @@
   };
 
   // ---------- メニュー（スマホのタブ） ----------
+  // 作者のサイトで遊んでいるときだけ、ほかのゲームへのリンクを出す（CrazyGames など、よそで公開している版には出さない）
+  function moreGamesLink() {
+    if (!/(^|\.)shinpoyo\.(com|github\.io)$/.test(location.hostname)) return '';
+    return '<a class="menu-link" href="https://shinpoyo.com/works/" target="_blank" rel="noopener">' + esc(t('moreGames')) + '</a>';
+  }
+
   SC.renderMenu = function () {
     var s = S();
     var pend = K.ascend.pending();
@@ -146,7 +152,8 @@
       '</div><div class="menu-sub">' +
       '<button type="button" data-open="settings">' + K.art.ui('settings', 20) + esc(t('settings')) + '</button>' +
       '<button type="button" data-open="save">' + K.art.ui('save', 20) + esc(t('saveMenu')) + '</button>' +
-      '<button type="button" data-open="parents">' + K.art.ui('parents', 20) + esc(t('parents')) + '</button></div>';
+      '<button type="button" data-open="parents">' + K.art.ui('parents', 20) + esc(t('parents')) + '</button>' +
+      moreGamesLink() + '</div>';
   };
 
   // ---------- ダイアログ ----------
