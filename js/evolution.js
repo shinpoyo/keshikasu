@@ -116,7 +116,8 @@
   E.life = function () { return Math.min(80 + 20 * (S().stats.erasers || 0), 1000); };
   E.TIER_TICKETS = 2; // あたらしい STAGE が でたら もらえる かみ
   Object.defineProperty(E, 'STAMPS', { get: function () { return K.game.hasShard('stamps8') ? 8 : 10; } }); // こうかんに ひつような スタンプ
-  E.PITY = 10;        // この かいすうめは かならず あたらしい
+  // この かいすうめは かならず あたらしい（かけらの おみせ「もうすぐ新しいカス」で 7。id は 前の allMaterials のまま）
+  Object.defineProperty(E, 'PITY', { get: function () { return K.game.hasShard('allMaterials') ? 7 : 10; } });
 
   // こすった ぶん けしゴムが へる。つかいきったら true
   E.wear = function () {
@@ -170,7 +171,7 @@
   E.stageOf = function (id) { return E.info(id).stage; };
 
   // あと なんかいで あたらしい カスが かくていか
-  E.pityLeft = function () { return E.PITY - (S().dry || 0); };
+  E.pityLeft = function () { return Math.max(1, E.PITY - (S().dry || 0)); };
 
   // でる だんかい: いちばん うえ 40%、ひとつ した 25%、のこりは それより したから
   // でる だんかいの わりあい（ガチャの ページに だす）
@@ -211,7 +212,9 @@
         id = missing[Math.floor(Math.random() * missing.length)];
       } else {
         id = pickId();
-        if (s.zukan[id]) { var again = pickId(); if (!s.zukan[again]) id = again; }
+        // ダブったら もう1かい ひきなおす（かけらの おみせ「ダブりよけ」で もう1かい。id は 前の startGraphite のまま）
+        var tries = K.game.hasShard('startGraphite') ? 2 : 1;
+        for (var k = 0; k < tries && s.zukan[id]; k++) { var again = pickId(); if (!s.zukan[again]) id = again; }
       }
     }
     var isNew = E.register(id);

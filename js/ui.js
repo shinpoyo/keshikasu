@@ -107,7 +107,7 @@
     $('roll-btn').disabled = tk < 1 || U.rolling;
     $('roll-sub').textContent = tk < 1 ? t('rollNoTicket') : !missing ? t('rollAllFound') : t('rollSub', { f: E.foundCount(), t: E.TOTAL, k: E.pityLeft() });
     // 天井
-    var dry = missing ? (s.dry || 0) : 0, ph = '';
+    var dry = missing ? Math.min(s.dry || 0, E.PITY - 1) : 0, ph = '';
     for (var i = 0; i < E.PITY; i++) ph += '<i class="' + (i < dry ? 'on' : '') + (i === E.PITY - 1 ? ' last' : '') + '"></i>';
     $('gm-pity').innerHTML = ph;
     $('gm-pity-text').textContent = missing ? t('gPityVal', { k: E.pityLeft() }) : t('gPityNone');

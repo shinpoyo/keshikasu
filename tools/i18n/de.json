@@ -409,7 +409,6 @@
   "A wrong letter says \"thank you\" before being erased.": "Ein falscher Buchstabe sagt „Danke“, bevor er wegradiert wird.",
   "After-school crumb meeting held. There was no agenda.": "Krümel-Treffen nach der Schule. Es gab keine Tagesordnung.",
   "Airplane Crumb": "Flugzeugkrümel",
-  "All Sorts of Materials": "Allerlei Zutaten",
   "All kinds of erasers visit the desk. The pencil case is empty.": "Alle möglichen Radiergummis besuchen den Tisch. Das Mäppchen ist leer.",
   "All materials can be mixed from the very start.": "Alle Zutaten kann man von Anfang an mischen.",
   "All the spikes are floppy. Does not hurt.": "Alle Stacheln sind weich. Tut nicht weh.",
@@ -469,7 +468,6 @@
   "Bought everything in the Shard Shop.": "Alles im Splitterladen gekauft.",
   "Bought the Whole Shop": "Laden leergekauft",
   "Bright. Not bad.": "Hell. Nicht übel.",
-  "Bring Your Own Pencil Dust": "Bring deinen Bleistiftstaub mit",
   "Brings back yesterday's crumbs.": "Bringt die Krümel von gestern zurück.",
   "Came over from the lab next door to help. The more crumbs in your Crumbpedia, the higher your /s.": "Kam aus dem Labor nebenan, um zu helfen. Je mehr Krümel in deiner Krümelpedia, desto höher dein /s.",
   "Can name any crumb at a glance. The more crumbs in your Crumbpedia, the higher your /s.": "Erkennt jeden Krümel auf einen Blick. Je mehr Krümel in deiner Krümelpedia, desto höher dein /s.",
@@ -1986,10 +1984,12 @@
   "Year end: crumbs are pouring out of the company.": "Jahresende: Krümel quellen aus der Firma.",
   "You are becoming... a crumb... Hypnotist works twice as hard.": "Du wirst... zu einem Krümel... Hypnotiseur arbeitet doppelt so fleißig.",
   "Color Debut": "Farbdebüt",
-  "Crumbs of every color can appear from the very start, and every material fits in the Drawer.": "Krümel in allen Farben können von Anfang an kommen, und alle Zutaten passen in die Schublade.",
   "Got a colored crumb for the first time.": "Zum ersten Mal einen farbigen Krümel bekommen.",
-  "Graphite crumbs can appear from the very start.": "Graphit-Krümel können von Anfang an kommen.",
   "It has a color now.": "Jetzt hat er Farbe.",
-  "Nothing added.": "Nichts dazu."
+  "Nothing added.": "Nichts dazu.",
+  "Duplicate Dodger": "Doppelt-Ausweicher",
+  "Rolling gives crumbs you already have less often.": "Beim Ziehen kommen seltener Krümel, die du schon hast.",
+  "New Crumb Soon": "Bald ein neuer Krümel",
+  "A new crumb is guaranteed after 7 rolls instead of 10.": "Nach 7 statt 10 Zügen gibt es sicher einen neuen Krümel."
  }
 }

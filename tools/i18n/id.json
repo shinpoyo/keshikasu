@@ -409,7 +409,6 @@
   "A wrong letter says \"thank you\" before being erased.": "Huruf yang salah bilang \"terima kasih\" sebelum dihapus.",
   "After-school crumb meeting held. There was no agenda.": "Rapat remah sepulang sekolah diadakan. Tidak ada agendanya.",
   "Airplane Crumb": "Remah Pesawat",
-  "All Sorts of Materials": "Segala Macam Bahan",
   "All kinds of erasers visit the desk. The pencil case is empty.": "Segala jenis penghapus datang ke meja. Kotak pensil jadi kosong.",
   "All materials can be mixed from the very start.": "Semua bahan bisa dicampur sejak awal.",
   "All the spikes are floppy. Does not hurt.": "Semua durinya lemas. Tidak sakit.",
@@ -469,7 +468,6 @@
   "Bought everything in the Shard Shop.": "Membeli semua di Toko Serpihan.",
   "Bought the Whole Shop": "Borong Satu Toko",
   "Bright. Not bad.": "Terang. Lumayan.",
-  "Bring Your Own Pencil Dust": "Bawa Debu Pensil Sendiri",
   "Brings back yesterday's crumbs.": "Membawa kembali remah kemarin.",
   "Came over from the lab next door to help. The more crumbs in your Crumbpedia, the higher your /s.": "Datang dari lab sebelah untuk membantu. Makin banyak remah di Remahpedia, makin tinggi /s kamu.",
   "Can name any crumb at a glance. The more crumbs in your Crumbpedia, the higher your /s.": "Bisa menyebut nama remah apa pun sekali lihat. Makin banyak remah di Remahpedia, makin tinggi /s kamu.",
@@ -1986,10 +1984,12 @@
   "Year end: crumbs are pouring out of the company.": "Akhir tahun: remah meluber dari perusahaan.",
   "You are becoming... a crumb... Hypnotist works twice as hard.": "Kamu perlahan... menjadi remah... Ahli Hipnotis bekerja dua kali lebih giat.",
   "Color Debut": "Debut Berwarna",
-  "Crumbs of every color can appear from the very start, and every material fits in the Drawer.": "Remah semua warna bisa keluar sejak awal, dan semua bahan muat di Laci.",
   "Got a colored crumb for the first time.": "Pertama kali dapat remah berwarna.",
-  "Graphite crumbs can appear from the very start.": "Remah grafit bisa keluar sejak awal.",
   "It has a color now.": "Sekarang ia berwarna.",
-  "Nothing added.": "Tidak ditambah apa-apa."
+  "Nothing added.": "Tidak ditambah apa-apa.",
+  "Duplicate Dodger": "Penghindar Kembar",
+  "Rolling gives crumbs you already have less often.": "Saat mengundi, remah yang sudah kamu punya lebih jarang keluar.",
+  "New Crumb Soon": "Remah Baru Segera",
+  "A new crumb is guaranteed after 7 rolls instead of 10.": "Remah baru dijamin keluar setelah 7 undian, bukan 10."
  }
 }

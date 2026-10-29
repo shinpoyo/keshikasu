@@ -409,7 +409,6 @@
   "A wrong letter says \"thank you\" before being erased.": "Một chữ viết sai nói \"cảm ơn\" trước khi bị xóa.",
   "After-school crumb meeting held. There was no agenda.": "Buổi họp vụn sau giờ học đã diễn ra. Không có nội dung gì.",
   "Airplane Crumb": "Vụn máy bay",
-  "All Sorts of Materials": "Đủ loại nguyên liệu",
   "All kinds of erasers visit the desk. The pencil case is empty.": "Đủ loại tẩy ghé thăm bàn. Hộp bút thì trống trơn.",
   "All materials can be mixed from the very start.": "Mọi nguyên liệu đều trộn được ngay từ đầu.",
   "All the spikes are floppy. Does not hurt.": "Gai mềm oặt hết. Không đau đâu.",
@@ -469,7 +468,6 @@
   "Bought everything in the Shard Shop.": "Đã mua hết đồ ở Tiệm Mảnh.",
   "Bought the Whole Shop": "Mua sạch cửa hàng",
   "Bright. Not bad.": "Sáng sủa. Không tệ.",
-  "Bring Your Own Pencil Dust": "Tự mang bụi chì",
   "Brings back yesterday's crumbs.": "Mang vụn của hôm qua về.",
   "Came over from the lab next door to help. The more crumbs in your Crumbpedia, the higher your /s.": "Từ phòng thí nghiệm bên cạnh sang giúp. Bách khoa Vụn càng nhiều vụn, /s càng cao.",
   "Can name any crumb at a glance. The more crumbs in your Crumbpedia, the higher your /s.": "Nhìn qua là gọi đúng tên mọi loại vụn. Bách khoa Vụn càng nhiều vụn, /s càng cao.",
@@ -1986,10 +1984,12 @@
   "Year end: crumbs are pouring out of the company.": "Cuối năm: vụn tràn ra khỏi công ty.",
   "You are becoming... a crumb... Hypnotist works twice as hard.": "Bạn đang dần... trở thành vụn... Nhà thôi miên làm việc chăm gấp đôi.",
   "Color Debut": "Lần đầu có màu",
-  "Crumbs of every color can appear from the very start, and every material fits in the Drawer.": "Vụn đủ mọi màu có thể ra ngay từ đầu, và mọi nguyên liệu đều bỏ được vào Ngăn kéo.",
   "Got a colored crumb for the first time.": "Lần đầu nhận được vụn có màu.",
-  "Graphite crumbs can appear from the very start.": "Vụn than chì có thể ra ngay từ đầu.",
   "It has a color now.": "Giờ nó đã có màu.",
-  "Nothing added.": "Không thêm gì."
+  "Nothing added.": "Không thêm gì.",
+  "Duplicate Dodger": "Né trùng",
+  "Rolling gives crumbs you already have less often.": "Khi quay, vụn bạn đã có sẽ ít ra hơn.",
+  "New Crumb Soon": "Sắp có vụn mới",
+  "A new crumb is guaranteed after 7 rolls instead of 10.": "Chắc chắn có vụn mới sau 7 lần quay thay vì 10."
  }
 }

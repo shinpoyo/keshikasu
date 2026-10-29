@@ -609,7 +609,6 @@
   "A wrong letter says \"thank you\" before being erased.": "Une lettre fausse dit « merci » avant d'être effacée.",
   "After-school crumb meeting held. There was no agenda.": "Réunion de miettes après l'école. Il n'y avait pas d'ordre du jour.",
   "Airplane Crumb": "Miette avion",
-  "All Sorts of Materials": "Toutes sortes de matières",
   "All kinds of erasers visit the desk. The pencil case is empty.": "Toutes sortes de gommes visitent le bureau. La trousse est vide.",
   "All materials can be mixed from the very start.": "Toutes les matières peuvent être mélangées dès le début.",
   "All the spikes are floppy. Does not hurt.": "Tous les piquants sont mous. Ça ne pique pas.",
@@ -650,7 +649,6 @@
   "Bought everything in the Shard Shop.": "Tout acheté dans la Boutique d'éclats.",
   "Bought the Whole Shop": "Toute la boutique",
   "Bright. Not bad.": "Lumineuse. Pas mal.",
-  "Bring Your Own Pencil Dust": "Apporte ta poussière de crayon",
   "Brings back yesterday's crumbs.": "Rapporte les miettes d'hier.",
   "Came over from the lab next door to help. The more crumbs in your Crumbpedia, the higher your /s.": "Venu du labo d'à côté pour aider. Plus ta Miettopédie a de miettes, plus ton /s monte.",
   "Can name any crumb at a glance. The more crumbs in your Crumbpedia, the higher your /s.": "Reconnaît n'importe quelle miette d'un coup d'œil. Plus ta Miettopédie a de miettes, plus ton /s monte.",
@@ -1986,10 +1984,12 @@
   "Year end: crumbs are pouring out of the company.": "Fin d'année : les miettes débordent de l'entreprise.",
   "You are becoming... a crumb... Hypnotist works twice as hard.": "Vous devenez... une miette... Les hypnotiseurs travaillent deux fois plus.",
   "Color Debut": "Premières couleurs",
-  "Crumbs of every color can appear from the very start, and every material fits in the Drawer.": "Des miettes de toutes les couleurs peuvent sortir dès le début, et toutes les matières vont dans le Tiroir.",
   "Got a colored crumb for the first time.": "Tu as obtenu une miette colorée pour la première fois.",
-  "Graphite crumbs can appear from the very start.": "Des miettes graphite peuvent sortir dès le début.",
   "It has a color now.": "Elle a une couleur maintenant.",
-  "Nothing added.": "Rien d'ajouté."
+  "Nothing added.": "Rien d'ajouté.",
+  "Duplicate Dodger": "Anti-doublons",
+  "Rolling gives crumbs you already have less often.": "En roulant, tu obtiens moins souvent des miettes que tu as déjà.",
+  "New Crumb Soon": "Nouvelle miette bientôt",
+  "A new crumb is guaranteed after 7 rolls instead of 10.": "Une nouvelle miette est garantie après 7 tirages au lieu de 10."
  }
 }

@@ -612,7 +612,6 @@
   "A wrong letter says \"thank you\" before being erased.": "Yanlış bir harf silinmeden önce “teşekkürler” diyor.",
   "After-school crumb meeting held. There was no agenda.": "Okul çıkışı kırıntı toplantısı yapıldı. Gündem yoktu.",
   "Airplane Crumb": "Uçak Kırıntısı",
-  "All Sorts of Materials": "Her Türlü Malzeme",
   "All kinds of erasers visit the desk. The pencil case is empty.": "Masaya her türlü silgi uğruyor. Kalem kutusu boş.",
   "All materials can be mixed from the very start.": "Tüm malzemeler en baştan karıştırılabilir.",
   "All the spikes are floppy. Does not hurt.": "Bütün dikenleri yumuşacık. Batmaz.",
@@ -652,7 +651,6 @@
   "Bought everything in the Shard Shop.": "Parça Dükkânındaki her şeyi aldın.",
   "Bought the Whole Shop": "Bütün Dükkânı Aldın",
   "Bright. Not bad.": "Parlak. Fena değil.",
-  "Bring Your Own Pencil Dust": "Kalem Tozunu Kendin Getir",
   "Brings back yesterday's crumbs.": "Dünün kırıntılarını geri getirir.",
   "Came over from the lab next door to help. The more crumbs in your Crumbpedia, the higher your /s.": "Yandaki laboratuvardan yardıma geldi. Kırıntıpedi doldukça /s artar.",
   "Can name any crumb at a glance. The more crumbs in your Crumbpedia, the higher your /s.": "Her kırıntıyı bir bakışta tanır. Kırıntıpedi doldukça /s artar.",
@@ -1986,10 +1984,12 @@
   "Year end: crumbs are pouring out of the company.": "Yıl sonu: Şirketten kırıntılar taşıyor.",
   "You are becoming... a crumb... Hypnotist works twice as hard.": "Gittikçe... bir kırıntıya... dönüşüyorsun... Hipnozcu iki kat çalışır.",
   "Color Debut": "Renkli ilk adım",
-  "Crumbs of every color can appear from the very start, and every material fits in the Drawer.": "Her renk kırıntı en baştan çıkabilir ve her malzeme Çekmeceye girer.",
   "Got a colored crumb for the first time.": "İlk kez renkli bir kırıntı çıktı.",
-  "Graphite crumbs can appear from the very start.": "Grafit kırıntılar en baştan çıkabilir.",
   "It has a color now.": "Artık bir rengi var.",
-  "Nothing added.": "Hiçbir şey eklenmedi."
+  "Nothing added.": "Hiçbir şey eklenmedi.",
+  "Duplicate Dodger": "Tekrar Savar",
+  "Rolling gives crumbs you already have less often.": "Çekerken elindeki kırıntılar daha az çıkar.",
+  "New Crumb Soon": "Yakında Yeni Kırıntı",
+  "A new crumb is guaranteed after 7 rolls instead of 10.": "10 yerine 7 çekilişten sonra yeni kırıntı kesin çıkar."
  }
 }

@@ -409,7 +409,6 @@
   "A wrong letter says \"thank you\" before being erased.": "Una letra equivocada dice “gracias” antes de ser borrada.",
   "After-school crumb meeting held. There was no agenda.": "Se celebró una reunión de migas después de clase. No había orden del día.",
   "Airplane Crumb": "Miga Avión",
-  "All Sorts of Materials": "Toda Clase de Materiales",
   "All kinds of erasers visit the desk. The pencil case is empty.": "Toda clase de gomas visitan la mesa. El estuche está vacío.",
   "All materials can be mixed from the very start.": "Todos los materiales se pueden mezclar desde el principio.",
   "All the spikes are floppy. Does not hurt.": "Todas las púas están blanditas. No pica.",
@@ -469,7 +468,6 @@
   "Bought everything in the Shard Shop.": "Compraste todo en la Tienda de Fragmentos.",
   "Bought the Whole Shop": "Tienda Arrasada",
   "Bright. Not bad.": "Brillante. No está mal.",
-  "Bring Your Own Pencil Dust": "Trae tu Polvo de Lápiz",
   "Brings back yesterday's crumbs.": "Trae las migas de ayer.",
   "Came over from the lab next door to help. The more crumbs in your Crumbpedia, the higher your /s.": "Vino del laboratorio de al lado a ayudar. Cuantas más migas en tu Migapedia, más /s.",
   "Can name any crumb at a glance. The more crumbs in your Crumbpedia, the higher your /s.": "Reconoce cualquier miga de un vistazo. Cuantas más migas en tu Migapedia, más /s.",
@@ -1986,10 +1984,12 @@
   "Year end: crumbs are pouring out of the company.": "Fin de año: las migas salen a chorros de la empresa.",
   "You are becoming... a crumb... Hypnotist works twice as hard.": "Te estás convirtiendo... en una miga... Hipnotizador rinde el doble.",
   "Color Debut": "Debut a color",
-  "Crumbs of every color can appear from the very start, and every material fits in the Drawer.": "Desde el principio pueden salir migas de todos los colores, y todos los materiales caben en el Cajón.",
   "Got a colored crumb for the first time.": "Conseguiste una miga de color por primera vez.",
-  "Graphite crumbs can appear from the very start.": "Desde el principio pueden salir migas de grafito.",
   "It has a color now.": "Ahora tiene color.",
-  "Nothing added.": "Sin nada añadido."
+  "Nothing added.": "Sin nada añadido.",
+  "Duplicate Dodger": "Esquiva-repes",
+  "Rolling gives crumbs you already have less often.": "Al tirar, salen menos migas que ya tienes.",
+  "New Crumb Soon": "Miga nueva pronto",
+  "A new crumb is guaranteed after 7 rolls instead of 10.": "Una miga nueva está garantizada tras 7 tiradas en vez de 10."
  }
 }

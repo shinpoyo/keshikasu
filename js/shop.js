@@ -255,11 +255,7 @@
   // --- 材料（カスの 色）---
   // 2026-10-27 店の「まぜる」は なくした。STAGE が あがると その材料の 色の カスが まるめて 出るように なり、
   // ひきだしにも しまえる ように なる（s.mats は「見つけた 材料」。消しゴムに もどっても のこる）
-  G.materialUnlocked = function (m) {
-    if (hasShard('allMaterials')) return true;
-    if (m.id === 'graphite' && hasShard('startGraphite')) return true;
-    return S().stage >= m.stage;
-  };
+  G.materialUnlocked = function (m) { return S().stage >= m.stage; };
 
   // いま つかえる 材料を「見つけた」ことにする。はじめて 見つけた 材料を かえす
   G.grantMaterials = function () {

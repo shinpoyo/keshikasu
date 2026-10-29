@@ -409,7 +409,6 @@
   "A wrong letter says \"thank you\" before being erased.": "Uma letra errada diz “obrigada” antes de ser apagada.",
   "After-school crumb meeting held. There was no agenda.": "Reunião de farelos depois da aula. Não havia pauta.",
   "Airplane Crumb": "Farelo Avião",
-  "All Sorts of Materials": "Materiais de Todo Tipo",
   "All kinds of erasers visit the desk. The pencil case is empty.": "Todo tipo de borracha visita a mesa. O estojo está vazio.",
   "All materials can be mixed from the very start.": "Dá para misturar todos os materiais desde o começo.",
   "All the spikes are floppy. Does not hurt.": "Os espinhos são todos moles. Não machuca.",
@@ -469,7 +468,6 @@
   "Bought everything in the Shard Shop.": "Comprou tudo na Loja de Lascas.",
   "Bought the Whole Shop": "Comprou a Loja Toda",
   "Bright. Not bad.": "Brilhante. Nada mal.",
-  "Bring Your Own Pencil Dust": "Traga Seu Pó de Lápis",
   "Brings back yesterday's crumbs.": "Traz de volta os farelos de ontem.",
   "Came over from the lab next door to help. The more crumbs in your Crumbpedia, the higher your /s.": "Veio do laboratório vizinho para ajudar. Quanto mais farelos na Farelopédia, maior o seu /s.",
   "Can name any crumb at a glance. The more crumbs in your Crumbpedia, the higher your /s.": "Sabe o nome de qualquer farelo só de olhar. Quanto mais farelos na Farelopédia, maior o seu /s.",
@@ -1986,10 +1984,12 @@
   "Year end: crumbs are pouring out of the company.": "Fim de ano: farelos jorrando da empresa.",
   "You are becoming... a crumb... Hypnotist works twice as hard.": "Você está virando... um farelo... Hipnotizador trabalha o dobro.",
   "Color Debut": "Estreia colorida",
-  "Crumbs of every color can appear from the very start, and every material fits in the Drawer.": "Farelos de todas as cores podem aparecer desde o início, e todos os materiais cabem na Gaveta.",
   "Got a colored crumb for the first time.": "Ganhou um farelo colorido pela primeira vez.",
-  "Graphite crumbs can appear from the very start.": "Farelos de grafite podem aparecer desde o início.",
   "It has a color now.": "Agora tem cor.",
-  "Nothing added.": "Nada adicionado."
+  "Nothing added.": "Nada adicionado.",
+  "Duplicate Dodger": "Desvia-repetidos",
+  "Rolling gives crumbs you already have less often.": "Ao rolar, saem menos farelos que você já tem.",
+  "New Crumb Soon": "Farelo novo logo",
+  "A new crumb is guaranteed after 7 rolls instead of 10.": "Um farelo novo é garantido após 7 rolagens em vez de 10."
  }
 }
