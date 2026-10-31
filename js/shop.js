@@ -252,25 +252,18 @@
     return true;
   };
 
-  // --- まぜる材料 ---
-  G.materialUnlocked = function (m) {
-    if (hasShard('allMaterials')) return true;
-    if (m.id === 'graphite' && hasShard('startGraphite')) return true;
-    return S().stage >= m.stage;
-  };
+  // --- 材料（カスの 色）---
+  // 2026-10-27 店の「まぜる」は なくした。STAGE が あがると その材料の 色の カスが まるめて 出るように なり、
+  // ひきだしにも しまえる ように なる（s.mats は「見つけた 材料」。消しゴムに もどっても のこる）
+  G.materialUnlocked = function (m) { return S().stage >= m.stage; };
 
-  G.availableMaterials = function () {
-    return K.data.materials.filter(function (m) { return m.cost > 0 && G.materialUnlocked(m) && !S().mats[m.id]; });
-  };
-
-  // まぜると、つぎに まるめる カスの けいとうが かわる（「まぜない」は ただ）
-  G.buyMaterial = function (id) {
-    var m = G.materialById[id];
-    if (!m || m.cost <= 0 || !G.materialUnlocked(m) || S().mats[m.id] || S().crumbs < m.cost) return false;
-    S().crumbs -= m.cost;
-    S().mats[m.id] = true;
-    S().stats.mixes++;
-    return true;
+  // いま つかえる 材料を「見つけた」ことにする。はじめて 見つけた 材料を かえす
+  G.grantMaterials = function () {
+    var out = [];
+    K.data.materials.forEach(function (m) {
+      if (G.materialUnlocked(m) && !S().mats[m.id]) { S().mats[m.id] = true; out.push(m); }
+    });
+    return out;
   };
 
   // 店で見せる どうぐ（持っているもの＋つぎの1つ）。その先の2つは かげ（シルエット）だけ見せる（クッキークリッカーと同じ「つぎは何？」）

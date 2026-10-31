@@ -1,6 +1,6 @@
 // あつめる・ずかん（企画書 7章、10章）
 // 「けしゴムの かみ」で「まるめる」と あたらしい カスが 1ぴき できる。だんかい（STAGE）は この周に あつめた つぶで ふえ、
-// まるめると そのなかから ランダム。いろは かった ざいりょうから ランダム。ずかんの しゅるい 1つにつき /s +2%
+// まるめると そのなかから ランダム。いろは いまの STAGE で 出る 色から ランダム。ずかんの しゅるい 1つにつき /s +2%
 (function (K) {
   'use strict';
   var E = {};
@@ -73,7 +73,7 @@
     var z = S().zukan[id];
     if (z) { z.n = (z.n || 1) + 1; return false; }
     var matId = null, tr = E.info(id).trait;
-    K.data.materials.forEach(function (m) { if (m.trait === tr && m.cost > 0) matId = m.id; });
+    K.data.materials.forEach(function (m) { if (m.trait === tr) matId = m.id; });
     S().zukan[id] = { at: Date.now(), mat: matId, n: 1 };
     return true;
   };
@@ -110,13 +110,14 @@
 
   // --- まるめる（ガチャ）---
   // けしゴムを こすると すこしずつ ちいさく なり、つかいきると「けしゴムの かみ」が 1まい もらえる。
-  // かみ 1まいで 1かい まるめる。いろは もっている ざいりょうから ランダム。
+  // かみ 1まいで 1かい まるめる。いろは いまの STAGE で 出る 色から ランダム。
   // ダブったら スタンプ 1こ（10こで すきな カスと こうかん）。10かい つづけて ダブったら つぎは かならず あたらしい カス
   // 1こ つかいきるまでの こする かいすう: さいしょは 80、つかいきる たびに +20、さいだい 1000
   E.life = function () { return Math.min(80 + 20 * (S().stats.erasers || 0), 1000); };
   E.TIER_TICKETS = 2; // あたらしい STAGE が でたら もらえる かみ
   Object.defineProperty(E, 'STAMPS', { get: function () { return K.game.hasShard('stamps8') ? 8 : 10; } }); // こうかんに ひつような スタンプ
-  E.PITY = 10;        // この かいすうめは かならず あたらしい
+  // この かいすうめは かならず あたらしい（かけらの おみせ「もうすぐ新しいカス」で 7。id は 前の allMaterials のまま）
+  Object.defineProperty(E, 'PITY', { get: function () { return K.game.hasShard('allMaterials') ? 7 : 10; } });
 
   // こすった ぶん けしゴムが へる。つかいきったら true
   E.wear = function () {
@@ -130,11 +131,11 @@
   };
   E.wearRatio = function () { return Math.min((S().wear || 0) / E.life(), 1); };
 
-  // まるめると でる いろ: まぜない（はいいろ）＋ かった ざいりょう（いまの STAGE で つかえる もの）
+  // まるめると でる いろ: はいいろ ＋ いまの STAGE で 出る 材料の 色
   E.pool = function () {
     var out = ['plain'];
     K.data.materials.forEach(function (m) {
-      if (m.cost > 0 && S().mats[m.id] && K.game.materialUnlocked(m) && out.indexOf(m.trait) < 0) out.push(m.trait);
+      if (K.game.materialUnlocked(m) && out.indexOf(m.trait) < 0) out.push(m.trait);
     });
     return out;
   };
@@ -170,7 +171,7 @@
   E.stageOf = function (id) { return E.info(id).stage; };
 
   // あと なんかいで あたらしい カスが かくていか
-  E.pityLeft = function () { return E.PITY - (S().dry || 0); };
+  E.pityLeft = function () { return Math.max(1, E.PITY - (S().dry || 0)); };
 
   // でる だんかい: いちばん うえ 40%、ひとつ した 25%、のこりは それより したから
   // でる だんかいの わりあい（ガチャの ページに だす）
@@ -211,7 +212,9 @@
         id = missing[Math.floor(Math.random() * missing.length)];
       } else {
         id = pickId();
-        if (s.zukan[id]) { var again = pickId(); if (!s.zukan[again]) id = again; }
+        // ダブったら もう1かい ひきなおす（かけらの おみせ「ダブりよけ」で もう1かい。id は 前の startGraphite のまま）
+        var tries = K.game.hasShard('startGraphite') ? 2 : 1;
+        for (var k = 0; k < tries && s.zukan[id]; k++) { var again = pickId(); if (!s.zukan[again]) id = again; }
       }
     }
     var isNew = E.register(id);
