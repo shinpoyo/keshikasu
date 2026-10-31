@@ -158,6 +158,7 @@
 "mixResult":"Seu farelo virou<br><em>{name}</em>!",
 "mixed":"Misturado!",
 "mixedToast":"Farelos “{t}” já podem aparecer!",
+"moreGames":"Ver mais jogos (shinpoyo.com)",
 "nameIt":"Dar um nome",
 "nameSuffix":"",
 "namingAgainDay":"BORRACHA Nº {n}",

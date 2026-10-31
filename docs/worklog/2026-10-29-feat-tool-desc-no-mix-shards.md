@@ -21,3 +21,7 @@
 - 天井の表示は7回に合わせて出す。前のセーブでダブりが8〜9回たまっていても、次は新しいカスになる。
 - 翻訳7言語、strings.json 作りなおし、check.py 0件。版 0.52 → 0.53。
 - スクショ: /mnt/project-files/keshikasu/shard-shop-no-mix-pc.png
+
+## 2026-10-31 main とのコンフリクト直し（版0.54）
+- PR #57（メニューに ほかのゲームへのリンク）と ぶつかった。翻訳 JSON は両方の変更を残して合わせた（#57 の moreGames を足し、こちらで消した「まぜる」の文は消したまま）。`build-i18n.py` で data/i18n を作りなおし、strings.json も作りなおして check.py 0件。
+- index.html はこちらのもの（「まぜる」の欄なし）を使い、版を 0.54 にそろえた。

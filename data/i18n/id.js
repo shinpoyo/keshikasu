@@ -158,6 +158,7 @@
 "mixResult":"Remahmu menjadi<br><em>{name}</em>!",
 "mixed":"Tercampur!",
 "mixedToast":"Remah \"{t}\" kini bisa muncul!",
+"moreGames":"Lihat game lainnya (shinpoyo.com)",
 "nameIt":"Beri nama",
 "nameSuffix":"",
 "namingAgainDay":"PENGHAPUS KE-{n}",

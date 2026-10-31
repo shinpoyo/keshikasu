@@ -323,6 +323,7 @@
     importBad: '文字が正しくないみたい',
     saved: 'セーブしました',
     saveMenu: 'セーブの書き出し・読みこみ',
+    moreGames: 'ほかのゲームを見る（shinpoyo.com）',
 
     close: 'とじる',
     drawer: 'ひきだし',

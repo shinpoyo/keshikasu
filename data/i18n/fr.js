@@ -158,6 +158,7 @@
 "mixResult":"Ta miette est devenue<br><em>{name}</em> !",
 "mixed":"Mélangé !",
 "mixedToast":"Les miettes « {t} » peuvent apparaître !",
+"moreGames":"Voir d’autres jeux (shinpoyo.com)",
 "nameIt":"Lui donner un nom",
 "nameSuffix":"",
 "namingAgainDay":"GOMME N° {n}",

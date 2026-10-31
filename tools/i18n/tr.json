@@ -340,7 +340,8 @@
   "achGotMany": "{n} başarı açıldı!",
   "incidentNo": "Tuhaf Olay #{n}",
   "incidentOk": "Demek öyle.",
-  "drawerNeedStage": "{n}. AŞAMADA açılır"
+  "drawerNeedStage": "{n}. AŞAMADA açılır",
+  "moreGames": "Diğer oyunlara bak (shinpoyo.com)"
  },
  "text": {
   "Finger": "Parmak",

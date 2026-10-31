@@ -158,6 +158,7 @@
 "mixResult":"Kırıntın dönüştü:<br><em>{name}</em>!",
 "mixed":"Karıştı!",
 "mixedToast":"Artık “{t}” kırıntılar çıkabilir!",
+"moreGames":"Diğer oyunlara bak (shinpoyo.com)",
 "nameIt":"İsim ver",
 "nameSuffix":"",
 "namingAgainDay":"{n}. SİLGİ",

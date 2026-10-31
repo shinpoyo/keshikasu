@@ -158,6 +158,7 @@
 "mixResult":"¡Tu miga se convirtió en<br><em>{name}</em>!",
 "mixed":"¡Mezclado!",
 "mixedToast":"¡Ya pueden salir migas “{t}”!",
+"moreGames":"Ver más juegos (shinpoyo.com)",
 "nameIt":"Ponle nombre",
 "nameSuffix":"",
 "namingAgainDay":"GOMA N.º {n}",

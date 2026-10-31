@@ -340,7 +340,8 @@
   "achGotMany": "{n} succès débloqués !",
   "incidentNo": "Événement étrange n° {n}",
   "incidentOk": "Ah bon.",
-  "drawerNeedStage": "Débloqué au STADE {n}"
+  "drawerNeedStage": "Débloqué au STADE {n}",
+  "moreGames": "Voir d’autres jeux (shinpoyo.com)"
  },
  "text": {
   "First Finger": "Premier doigt",

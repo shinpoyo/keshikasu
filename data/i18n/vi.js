@@ -158,6 +158,7 @@
 "mixResult":"Vụn của bạn đã thành<br><em>{name}</em>!",
 "mixed":"Đã trộn!",
 "mixedToast":"Vụn \"{t}\" giờ đã có thể xuất hiện!",
+"moreGames":"Xem thêm trò chơi (shinpoyo.com)",
 "nameIt":"Đặt tên",
 "nameSuffix":"",
 "namingAgainDay":"CỤC TẨY SỐ {n}",
