@@ -24,7 +24,7 @@
   K.data.traits = [
     { id: 'plain', chip: '#A9A49B', filter: 'none',
       name: { ja: 'ノーマル', en: 'Plain' }, word: { ja: '', en: '' },
-      lines: { ja: ['ふつうが一番。', '何もまざっていない。', 'はいいろは落ち着く。'], en: ['Plain is best.', 'Nothing mixed in.', 'Gray is calming.'] } },
+      lines: { ja: ['ふつうが一番。', '何も入っていない。', 'はいいろは落ち着く。'], en: ['Plain is best.', 'Nothing added.', 'Gray is calming.'] } },
     { id: 'graphite', chip: '#2B2A28', filter: 'brightness(0.55) contrast(1.4)',
       name: { ja: '黒', en: 'Graphite' }, word: { ja: '黒', en: 'Graphite' },
       lines: { ja: ['えんぴつの気持ちが少し分かる。', '黒い。ちょっと光る。', '書いた文字を思い出す。'], en: ['Understands pencils a little.', 'Black. Slightly shiny.', 'Remembers the letters it once was.'] } },

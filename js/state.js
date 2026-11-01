@@ -28,7 +28,7 @@
       dry: 0,                  // つづけて ダブった かず（天井）
       stamps: 0,               // ダブりで もらえる スタンプ（こうかん用）
       rollLog: [],             // さいきん まるめた けっか { id, n: 1=あたらしい }（あたらしい じゅん、12こ）
-      mats: {},                // かった ざいりょう id: true（いちど かえば ずっと）
+      mats: {},                // 見つけた ざいりょう id: true（STAGE で ふえる。消しゴムに もどっても のこる。js/shop.js grantMaterials）
       species: '1-plain',
       zukan: {},               // speciesId: { at: 日時, mat: 材料id }
       achievements: {},        // id: 日時
@@ -93,7 +93,7 @@
     var st = merge(fresh(), data);
     // 0.5 までの セーブ: いま まぜていた ざいりょうを もっている ことに して、かみを すこし くばる
     if (!('tickets' in data)) {
-      K.data.materials.forEach(function (m) { if (m.cost > 0 && m.trait === st.trait) st.mats[m.id] = true; });
+      K.data.materials.forEach(function (m) { if (m.trait === st.trait) st.mats[m.id] = true; });
       st.tickets = 3;
     }
     if (!ok && !st.cheated) st.cheated = { at: Date.now(), why: 'save' };

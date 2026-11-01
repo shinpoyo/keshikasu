@@ -19,7 +19,7 @@
       case 'stage': return { cur: K.evo.maxStageFound(), max: a.n };
       case 'rolls': return { cur: st.rolls || 0, max: a.n };
       case 'zukan': return { cur: K.evo.foundCount(), max: a.n };
-      case 'mix': return { cur: st.mixes, max: a.n };
+      case 'color': return { cur: Object.keys(s.zukan).filter(function (id) { var tr = K.evo.info(id).trait; return tr && tr !== 'plain'; }).length, max: a.n };
       case 'rebirth': return { cur: st.rebirths, max: a.n };
       case 'golden': return { cur: st.golden, max: a.n };
       case 'guest': return { cur: (st.guests || {})[a.g] || 0, max: a.n };

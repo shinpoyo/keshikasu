@@ -73,12 +73,13 @@
       name: { ja: 'すごいこする力', en: 'Super Rubbing Power' },
       desc: { ja: 'こすると /s の3%分ももらえる。', en: 'Rubbing also gives 3% of your /s.' } },
     // ずかん
+    // 2026-10-29「まぜる」を なくしたので 中身を かえた。id は セーブの ため 前の まま（startGraphite・allMaterials）
     { id: 'startGraphite', branch: 'zukan', cost: 2,
-      name: { ja: 'えんぴつのこな持ちこみ', en: 'Bring Your Own Pencil Dust' },
-      desc: { ja: 'はじめから「えんぴつのこな」がまぜられる。', en: 'Pencil Dust can be mixed from the very start.' } },
+      name: { ja: 'ダブりよけ', en: 'Duplicate Dodger' },
+      desc: { ja: 'まるめたとき、もう持っているカスが出にくくなる。', en: 'Rolling gives crumbs you already have less often.' } },
     { id: 'allMaterials', branch: 'zukan', cost: 20, requires: 'startGraphite',
-      name: { ja: 'いろんな材料', en: 'All Sorts of Materials' },
-      desc: { ja: 'はじめから全部の材料がまぜられる。', en: 'All materials can be mixed from the very start.' } },
+      name: { ja: 'もうすぐ新しいカス', en: 'New Crumb Soon' },
+      desc: { ja: '新しいカスがかならず出るまでの回数が10回から7回になる。', en: 'A new crumb is guaranteed after 7 rolls instead of 10.' } },
     { id: 'zukanPower', branch: 'zukan', cost: 90, requires: 'allMaterials',
       name: { ja: 'ずかんの力', en: 'Power of the Crumbpedia' },
       desc: { ja: 'ずかん1種類で /s が2%から3%ふえるようになる。', en: 'Each kind found gives +3% /s instead of +2%.' } },

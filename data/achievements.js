@@ -75,9 +75,10 @@
       desc: { ja: r[0] === 1 ? 'はじめてカスをまるめた。' : f(r[0]) + '回まるめた。', en: r[0] === 1 ? 'Rolled a crumb for the first time.' : 'Rolled ' + f(r[0]) + ' times.' },
       quote: { ja: 'ころころ。', en: 'Roll, roll.' } });
   });
-  add({ id: 'mix1', cat: 'evolve', type: 'mix', n: 1, name: { ja: 'まぜてみた', en: 'Mixed It Up' },
-    desc: { ja: 'はじめて材料をまぜた。', en: 'Mixed in a material for the first time.' },
-    quote: { ja: '何かまざった。', en: 'Something got mixed in.' } });
+  // id は 前の「まぜてみた」の まま（もう とった 人の セーブを そのまま 使うため）
+  add({ id: 'mix1', cat: 'evolve', type: 'color', n: 1, name: { ja: '色つきデビュー', en: 'Color Debut' },
+    desc: { ja: 'はじめて色つきのカスが出た。', en: 'Got a colored crumb for the first time.' },
+    quote: { ja: '色がついた。', en: 'It has a color now.' } });
   [[1, '消しゴムになった', 'Became an Eraser'], [5, 'また消しゴム', 'Eraser Again'], [10, '何度も消しゴム', 'Eraser, Again and Again']].forEach(function (r, i) {
     add({ id: 'rebirth' + i, cat: 'evolve', type: 'rebirth', n: r[0], name: { ja: r[1], en: r[2] },
       desc: { ja: '消しゴムに' + r[0] + '回もどった。', en: 'Returned to the eraser ' + r[0] + ' time' + (r[0] > 1 ? 's' : '') + '.' },

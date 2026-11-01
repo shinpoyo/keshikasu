@@ -1,5 +1,5 @@
 // ひきだし（終盤の あそび場。クッキークリッカーの 畑）
-// まぜる材料を つぶで 買って ひきだしに しまうと、時間が たつと 何かに 変わる。とじている 間も 育つ
+// 材料（STAGE で 見つかる）を つぶで ひきだしに しまうと、時間が たつと 何かに 変わる。とじている 間も 育つ
 (function (K) {
   'use strict';
   var D = {};
@@ -58,7 +58,8 @@
   D.slotOpen = function (i) { return K.evo.foundCount() >= D.SLOT_ZUKAN[i]; };
 
   D.price = function (seed) { return Math.max(100, Math.ceil(K.game.baseCps() * 60 * seed.price)); };
-  D.hasMat = function (seed) { return !!S().mats[seed.mat]; };
+  // いちど 見つけた 材料は 消しゴムに もどっても しまえる（js/shop.js grantMaterials）
+  D.hasMat = function (seed) { return !!S().mats[seed.mat] || K.game.materialUnlocked(K.game.materialById[seed.mat]); };
   // おなじ 材料は 1こしか しまえない
   D.inDrawer = function (mat) { return st().slots.some(function (x) { return x && x.mat === mat; }); };
   D.canPlant = function (i, seed) {

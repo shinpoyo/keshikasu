@@ -6,7 +6,7 @@
   var S = function () { return K.state; };
   var t = function (k, v) { return K.t(k, v); };
   var esc = function (s) { return K.ui.esc(s); };
-  var VERSION = '0.52'; // index.html の ?v= と そろえる（ブラウザの キャッシュで 古い js が のこらないように）
+  var VERSION = '0.54'; // index.html の ?v= と そろえる（ブラウザの キャッシュで 古い js が のこらないように）
 
   function show(id) {
     ['screen-title', 'screen-naming', 'screen-game'].forEach(function (s) { $(s).hidden = s !== id; });
@@ -241,14 +241,12 @@
         '<div class="z-detail-body"><span class="z-detail-no">' + K.evo.noLabel(id) + '</span><span class="badge ' + (info.special ? 'badge-special' : 'badge-stage') + '" style="align-self:flex-start">' + (info.special ? t('specialBadge') : t('stageBadge', { n: info.stage })) + '</span>' +
         '<h3>？？？</h3><p class="z-quote">' + esc(info.hint ? K.L(info.hint) : t('notFound')) + '</p>' + tradeBtn(id) + '</div></div>';
     }
-    var mat = found.mat ? K.game.materialById[found.mat] : null;
     var other = K.lang() === 'en' ? info.name.ja : info.name.en; // 下に 小さく べつの ことばの 名前
     return '<div class="z-detail"><div class="z-detail-img">' + K.art.kasuPic(info) + '</div>' +
       '<div class="z-detail-body"><span class="z-detail-no">' + K.evo.noLabel(id) + '</span><span class="badge ' + (info.special ? 'badge-special' : 'badge-stage') + '" style="align-self:flex-start">' + (info.special ? t('specialBadge') : t('stageBadge', { n: info.stage })) + '</span>' +
       '<h3>' + esc(K.L(info.name)) + '</h3><span class="z-en">' + esc(other) + '</span>' +
       '<p class="z-quote">' + esc(K.quote(K.L(info.line))) + '</p>' +
       '<div class="z-meta"><span>' + esc(t('foundOn')) + '</span><b>' + K.fmtDate(found.at) + '</b>' +
-      '<span>' + esc(t('mixedWith')) + '</span><b>' + esc(mat ? K.L(mat.name) : t('mixedNone')) + '</b>' +
       '<span>' + esc(t('ownedCount')) + '</span><b>' + K.fmt(found.n || 1) + '</b></div>' +
       (s.species === id ? '<span class="z-ondesk">' + esc(t('onDesk')) + '</span>'
         : '<button type="button" class="btn z-desk-btn" data-desk="' + id + '">' + esc(t('putOnDesk')) + '</button>') +
@@ -315,7 +313,7 @@
       case 'royal': return img('art/katachi-king.svg');
       case 'zukan': return A.ui('zukan', size);
       case 'rolls': return A.ui('roll', size);
-      case 'mix': return A.upIcon('graphite', size);
+      case 'color': return A.upIcon('colored', size);
       case 'rebirth': case 'erasers': return A.ui('eraser', size);
       case 'golden': return A.upIcon('golden', size);
       case 'guest': return A.guest(a.g, size, size);
@@ -524,7 +522,7 @@
     var cards = D.SEEDS.map(function (seed) {
       var m = K.game.materialById[seed.mat], have = D.hasMat(seed), price = D.price(seed);
       var why = '', inside = have && D.inDrawer(seed.mat);
-      if (!have) why = t('drawerNeedMat', { m: K.L(m.name) });
+      if (!have) why = t('drawerNeedStage', { n: m.stage });
       else if (inside) why = '';
       else if (free < 0) why = t('drawerNoSpace');
       else if (s.crumbs < price) why = t('drawerNeedCrumbs', { v: K.fmt(price - s.crumbs) });

@@ -72,6 +72,11 @@
       if (sc.from === tier && tier > 1) K.ui.toast(esc(t('sceneChanged', { s: K.L(sc.name) })));
       K.sound.play('tier');
     }
+    // STAGE が あがって あたらしい 色の カスが 出るように なったら しらせる
+    var newMats = K.game.grantMaterials();
+    if (newMats.length) {
+      K.ui.toast(esc(t('mixedToast', { t: newMats.map(function (m) { return K.L(K.evo.traitById[m.trait].name); }).join(K.lang() === 'ja' ? '・' : ', ') })));
+    }
 
     achAcc += dt;
     if (achAcc >= 1) {
@@ -331,6 +336,12 @@
       else K.ui.hideTip();
     });
     $('shop-list').addEventListener('mouseleave', function () { K.ui.hideTip(); });
+    $('up-grid').addEventListener('mouseover', function (e) {
+      var el = e.target.closest('.up[data-up]');
+      if (el) K.ui.showUpTip(el.getAttribute('data-up'));
+      else K.ui.hideTip();
+    });
+    $('up-grid').addEventListener('mouseleave', function () { K.ui.hideTip(); });
     $('up-grid').addEventListener('click', function (e) {
       var el = e.target.closest('[data-up]');
       if (!el) return;
@@ -350,20 +361,6 @@
         K.ui.renderDesk(true);
       }
     });
-    $('mat-list').addEventListener('click', function (e) {
-      var el = e.target.closest('[data-mat]');
-      if (!el) return;
-      markAction();
-      if (!K.game.buyMaterial(el.getAttribute('data-mat'))) { K.sound.play('deny'); return; }
-      {
-        K.sound.play('mixing');
-        var bought = K.game.materialById[el.getAttribute('data-mat')];
-        K.ui.toast(esc(t('mixedToast', { t: K.L(K.evo.traitById[bought.trait].name) })));
-        K.ui.say(K.news.monologue('mix'));
-        K.ui.renderShop(true);
-      }
-    });
-    $('mat-toggle').onclick = function () { K.ui.matOpen = !K.ui.matOpen; K.ui.renderShop(true); };
     $('bulk').addEventListener('click', function (e) {
       var b = e.target.closest('button');
       if (!b) return;
