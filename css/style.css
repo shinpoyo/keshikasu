@@ -1131,7 +1131,7 @@ textarea.savebox {
   .desk-row-name { width: 92px; }
   .desk-units { max-height: 70px; }
   .pane-shop { width: auto; border-left: none; background: var(--paper); flex-direction: column; padding-bottom: 0; }
-  .pane-shop .shop-scroll { overflow: visible; padding-bottom: 100px; }
+  .pane-shop .shop-scroll { flex: none; overflow: visible; padding-bottom: 100px; } /* flex: 1 のままだと 高さが 画面ぶんに 止まり、下の 100px が きかず 最後の どうぐ（うちゅうの意思）が 下のタブに かくれる */
   .pane-shop.active { overflow-y: auto; }
   .up-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
   .pane-menu { flex-direction: column; gap: 14px; }
