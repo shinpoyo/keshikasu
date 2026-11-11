@@ -90,6 +90,9 @@
     paralleldesk: [{ ja: '別のぼく', en: 'Another Me' }, { ja: '向こうのぼくもこすっていた。', en: 'The other me was rubbing too.' }],
     eplanet: [{ ja: '自転のスピードアップ', en: 'Faster Spin' }, { ja: '1日が短くなった。', en: 'The days got shorter.' }],
     universe: [{ ja: 'うちゅうのいびき', en: 'Cosmic Snore' }, { ja: 'うちゅうがねがえりをうった。', en: 'The universe rolled over in its sleep.' }],
+    blackhole: [{ ja: '事象のちへい線', en: 'Event Horizon' }, { ja: 'ここから先は、カスしか帰ってこない。', en: 'Past this line, only crumbs come back.' }],
+    bigbang: [{ ja: 'もう一回ドーン', en: 'One More Bang' }, { ja: 'うちゅうがもう1こできた。', en: 'Now there is one more universe.' }],
+    blankpaper: [{ ja: '方眼紙', en: 'Graph Paper' }, { ja: 'マス目がふえた。まだ何も書いていない。', en: 'More squares now. Still nothing written.' }],
   };
   K.data.buildings.forEach(function (b) {
     if (b.id === 'finger') return;

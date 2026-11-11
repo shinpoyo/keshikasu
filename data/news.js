@@ -99,6 +99,10 @@
     n({ stage: 5 }, 'カスと目が合った気がする、という相談ふえる。', 'More reports of feeling like the crumb made eye contact.'),
     n({ stage: 6 }, '伝説のカス、えいが化が注目。しゅえんはカス。', 'Legendary crumb to star in a movie. It plays itself.'),
     n({ stage: 7 }, 'うちゅう、カスでできていたことがはんめい。', 'The universe turns out to be made of crumbs.'),
+    n({ stage: 8 }, 'カス、うちゅうを一周してつくえにもどる。「ただいま」は言わなかった。', 'Crumb circles the universe and returns to the desk. It did not say "I\'m home."'),
+    n({ b: ['blackhole', 1] }, 'ブラックホール、カスだけはき出す。「まずかった」とコメント。', 'Black hole spits out only the crumbs. "Tasted bad," it says.'),
+    n({ b: ['bigbang', 1] }, 'ビッグバン、2回目。前回より少しカスっぽい。', 'Second Big Bang. A little more crumb-like than the first.'),
+    n({ b: ['blankpaper', 1] }, 'まっ白な紙、何も書かれないまま注目を集める。', 'Blank paper draws attention without anything written on it.'),
     n({ stage: 7 }, '星空の星のいくつかはカスだった、と発表。', 'Some stars in the sky were crumbs, scientists announce.'),
 
     // --- すうじ ---
