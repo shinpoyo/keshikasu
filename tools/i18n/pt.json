@@ -200,7 +200,7 @@
   "stCan": "Comprar",
   "stCant": "Falta",
   "stSecret": "Segredo",
-  "shardBonus": "Cada lasca dá +1% /s",
+  "shardBonus": "Cada lasca dá +{p}% /s",
   "shardOrder": "Em cada trilha, compre de cima para baixo.",
   "shardNeed": "Precisa de “{n}” antes",
   "shardNext": "Faltam {n} farelos para a próxima lasca",
@@ -356,7 +356,11 @@
   "challengeKindsFull": "Só 3 tipos de ferramentas",
   "challengeClear": "Desafio vencido! {n}",
   "challengeClearTime": "Tempo {v}",
-  "challengeClearReward": "Seu /s dobrou para sempre!"
+  "challengeClearReward": "Seu /s dobrou para sempre!",
+  "shardLevel": "Nv {n}",
+  "shardMax": "MÁX",
+  "shardEndless": "Melhorias sem fim",
+  "shardEndlessNote": "Compre quantas vezes quiser"
  },
  "text": {
   "\"A Thousand Fingers\" is 10 times stronger. Nobody has counted.": "“Mil Dedos” fica 10 vezes mais forte. Ninguém contou.",
@@ -2012,6 +2016,12 @@
   "Three Kinds of Tools": "Três Tipos de Ferramentas",
   "Shards give no /s bonus. You can only own 3 kinds of tools.": "Fragmentos não dão bônus de /s. Você só pode ter 3 tipos de ferramentas.",
   "The Quiet Desk": "A Mesa Silenciosa",
-  "Shards give no /s bonus. Rubbing gives no crumbs. No visiting erasers.": "Fragmentos não dão bônus de /s. Esfregar não dá migalhas. Nenhuma borracha visitante."
+  "Shards give no /s bonus. Rubbing gives no crumbs. No visiting erasers.": "Fragmentos não dão bônus de /s. Esfregar não dá migalhas. Nenhuma borracha visitante.",
+  "Shard Polish": "Polir lascas",
+  "Each shard gives +0.1% more /s per level.": "Cada lasca dá +0,1% a mais de /s por nível.",
+  "Golden Afterglow": "Brilho dourado",
+  "Golden Eraser effects last 10% longer per level.": "Os efeitos da Borracha Dourada duram 10% mais por nível.",
+  "Drawer Fast-Forward": "Gaveta acelerada",
+  "Drawer items grow 7% faster per level.": "O que está na gaveta cresce 7% mais rápido por nível."
  }
 }

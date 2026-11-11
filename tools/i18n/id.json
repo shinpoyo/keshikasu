@@ -200,7 +200,7 @@
   "stCan": "Beli",
   "stCant": "Kurang",
   "stSecret": "Rahasia",
-  "shardBonus": "Tiap serpihan memberi +1% /s",
+  "shardBonus": "Tiap serpihan memberi +{p}% /s",
   "shardOrder": "Di tiap jalur, beli dari atas ke bawah.",
   "shardNeed": "Perlu \"{n}\" dulu",
   "shardNext": "{n} remah lagi ke serpihan berikutnya",
@@ -356,7 +356,11 @@
   "challengeKindsFull": "Hanya 3 jenis alat",
   "challengeClear": "Tantangan selesai! {n}",
   "challengeClearTime": "Waktu {v}",
-  "challengeClearReward": "/s kamu jadi dua kali lipat selamanya!"
+  "challengeClearReward": "/s kamu jadi dua kali lipat selamanya!",
+  "shardLevel": "Lv {n}",
+  "shardMax": "MAKS",
+  "shardEndless": "Peningkatan Tanpa Akhir",
+  "shardEndlessNote": "Bisa dibeli berkali-kali"
  },
  "text": {
   "\"A Thousand Fingers\" is 10 times stronger. Nobody has counted.": "\"Seribu Jari\" 10 kali lebih kuat. Belum ada yang menghitungnya.",
@@ -2012,6 +2016,12 @@
   "Three Kinds of Tools": "Tiga Jenis Alat",
   "Shards give no /s bonus. You can only own 3 kinds of tools.": "Kepingan tidak memberi bonus /s. Kamu hanya bisa punya 3 jenis alat.",
   "The Quiet Desk": "Meja yang Sunyi",
-  "Shards give no /s bonus. Rubbing gives no crumbs. No visiting erasers.": "Kepingan tidak memberi bonus /s. Menggosok tidak memberi remah. Penghapus tamu tidak datang."
+  "Shards give no /s bonus. Rubbing gives no crumbs. No visiting erasers.": "Kepingan tidak memberi bonus /s. Menggosok tidak memberi remah. Penghapus tamu tidak datang.",
+  "Shard Polish": "Gosok Serpihan",
+  "Each shard gives +0.1% more /s per level.": "Tiap serpihan memberi +0,1% /s lebih banyak per level.",
+  "Golden Afterglow": "Sisa Cahaya Emas",
+  "Golden Eraser effects last 10% longer per level.": "Efek Penghapus Emas bertahan 10% lebih lama per level.",
+  "Drawer Fast-Forward": "Laci Dipercepat",
+  "Drawer items grow 7% faster per level.": "Isi laci tumbuh 7% lebih cepat per level."
  }
 }

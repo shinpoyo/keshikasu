@@ -200,7 +200,7 @@
   "stCan": "Mua",
   "stCant": "Thiếu",
   "stSecret": "Bí mật",
-  "shardBonus": "Mỗi mảnh cho +1% /s",
+  "shardBonus": "Mỗi mảnh cho +{p}% /s",
   "shardOrder": "Mỗi nhánh, mua từ trên xuống.",
   "shardNeed": "Cần \"{n}\" trước",
   "shardNext": "Còn {n} vụn đến mảnh kế",
@@ -356,7 +356,11 @@
   "challengeKindsFull": "Chỉ 3 loại dụng cụ",
   "challengeClear": "Hoàn thành thử thách! {n}",
   "challengeClearTime": "Thời gian {v}",
-  "challengeClearReward": "/s của bạn được nhân đôi mãi mãi!"
+  "challengeClearReward": "/s của bạn được nhân đôi mãi mãi!",
+  "shardLevel": "Cấp {n}",
+  "shardMax": "TỐI ĐA",
+  "shardEndless": "Nâng cấp vô tận",
+  "shardEndlessNote": "Mua bao nhiêu lần cũng được"
  },
  "text": {
   "\"A Thousand Fingers\" is 10 times stronger. Nobody has counted.": "\"Nghìn ngón tay\" mạnh gấp 10 lần. Chưa ai đếm thử.",
@@ -2012,6 +2016,12 @@
   "Three Kinds of Tools": "Ba Loại Dụng Cụ",
   "Shards give no /s bonus. You can only own 3 kinds of tools.": "Mảnh tẩy không tăng /s. Bạn chỉ có thể sở hữu 3 loại dụng cụ.",
   "The Quiet Desk": "Chiếc Bàn Yên Lặng",
-  "Shards give no /s bonus. Rubbing gives no crumbs. No visiting erasers.": "Mảnh tẩy không tăng /s. Chà không ra vụn. Không có cục tẩy khách ghé."
+  "Shards give no /s bonus. Rubbing gives no crumbs. No visiting erasers.": "Mảnh tẩy không tăng /s. Chà không ra vụn. Không có cục tẩy khách ghé.",
+  "Shard Polish": "Đánh bóng mảnh",
+  "Each shard gives +0.1% more /s per level.": "Mỗi mảnh cho thêm +0,1% /s mỗi cấp.",
+  "Golden Afterglow": "Dư âm vàng",
+  "Golden Eraser effects last 10% longer per level.": "Hiệu ứng Cục Tẩy Vàng kéo dài thêm 10% mỗi cấp.",
+  "Drawer Fast-Forward": "Tua nhanh ngăn kéo",
+  "Drawer items grow 7% faster per level.": "Đồ trong ngăn kéo lớn nhanh hơn 7% mỗi cấp."
  }
 }

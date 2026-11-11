@@ -6,7 +6,7 @@
   var S = function () { return K.state; };
   var t = function (k, v) { return K.t(k, v); };
   var esc = function (s) { return K.ui.esc(s); };
-  var VERSION = '0.58'; // index.html の ?v= と そろえる（ブラウザの キャッシュで 古い js が のこらないように）
+  var VERSION = '0.59'; // index.html の ?v= と そろえる（ブラウザの キャッシュで 古い js が のこらないように）
 
   function show(id) {
     ['screen-title', 'screen-naming', 'screen-game'].forEach(function (s) { $(s).hidden = s !== id; });
@@ -464,6 +464,22 @@
     var f = br.icon[0], id = br.icon[1];
     return f === 'building' ? K.art.building(id, size, size) : K.art[f](id, size);
   }
+  // 終わりのない かけらの 強化（data/shardshop.js shardEndless）
+  function endlessHtml() {
+    var A = K.ascend;
+    var nodes = K.data.shardEndless.map(function (it) {
+      var lv = A.level(it.id), maxed = A.endlessMaxed(it), can = A.canBuyEndless(it);
+      var st = maxed ? 'owned' : can ? 'can' : 'cant';
+      return '<button type="button" class="shard-node ' + st + '" data-endless="' + it.id + '"' + (st === 'can' ? '' : ' aria-disabled="true"') + '>' +
+        '<span class="shard-dot" aria-hidden="true"></span>' +
+        '<span class="shard-main"><span class="shard-name">' + esc(K.L(it.name)) + ' <small class="shard-lv">' + esc(t('shardLevel', { n: lv })) + (it.max != null ? ' / ' + it.max : '') + '</small></span>' +
+        '<span class="shard-desc">' + esc(K.L(it.desc)) + '</span></span>' +
+        (maxed ? '<span class="shard-cost done">' + esc(t('shardMax')) + '</span>' : '<span class="shard-cost">' + K.art.upIcon('shard', 18) + K.fmt(A.endlessCost(it)) + '</span>') + '</button>';
+    }).join('');
+    return '<section class="shard-branch shard-endless"><div class="shard-bh"><span class="shard-bic">' + K.art.upIcon('shard', 26) + '</span>' + esc(t('shardEndless')) +
+      '<small>' + esc(t('shardEndlessNote')) + '</small></div>' + nodes + '</section>';
+  }
+
   RENDER.shardshop = function (card) {
     card.classList.add('wide');
     var s = S(), byId = {};
@@ -492,8 +508,8 @@
         '<small>' + got + ' / ' + list.length + '</small></div>' + nodes + '</section>';
     }).join('');
     return head(t('shardShop'), '<span class="shard-have">' + K.art.upIcon('shard', 24) + s.shards + ' <small style="font-size:13px">' + esc(t('shardsUnit')) + '</small></span>') +
-      next +
-      '<p class="lead">' + [t('shardShopDesc'), t('shardOrder'), t('shardBonus')].map(esc).join(K.lang() === 'ja' ? '' : ' ') + '</p>' +
+      next + endlessHtml() +
+      '<p class="lead">' + [t('shardShopDesc'), t('shardOrder'), t('shardBonus', { p: +(K.ascend.perShard() * 100).toFixed(1) })].map(esc).join(K.lang() === 'ja' ? '' : ' ') + '</p>' +
       '<div class="shard-branches">' + branches + '</div>';
   };
   // ---------- ひきだし ----------
@@ -532,7 +548,7 @@
       // もう しまってある ものは 「しまう」ボタンを 出さない（おせそうに 見えるので）
       return '<div class="dw-card' + (have ? '' : ' dw-no') + (inside ? ' dw-in' : '') + '">' +
         '<span class="dw-mini">' + K.art.upIcon(seed.mat, 30) + '</span>' +
-        '<div class="dw-card-text"><b>' + esc(K.L(m.name)) + '<small>' + esc(growText(seed.grow)) + '</small></b>' +
+        '<div class="dw-card-text"><b>' + esc(K.L(m.name)) + '<small>' + esc(growText(K.drawer.growSec(seed))) + '</small></b>' +
         '<span class="dw-got">' + esc(K.L(seed.got)) + '</span>' +
         (why ? '<span class="dw-why">' + esc(why) + '</span>' : '') + '</div>' +
         '<div class="dw-card-buy">' + (inside ? '<span class="dw-in-tag">' + K.art.ui('check', 14) + esc(t('drawerAlready')) + '</span>' :
@@ -590,6 +606,11 @@
         if (K.ascend.buy(b.getAttribute('data-shard'))) { K.sound.play('upgrade'); K.store.save(); SC.refresh(); K.ui.renderAll(); }
       };
     });
+    card.querySelectorAll('[data-endless]').forEach(function (b) {
+      b.onclick = function () {
+        if (K.ascend.buyEndless(b.getAttribute('data-endless'))) { K.sound.play('upgrade'); K.store.save(); SC.refresh(); K.ui.renderAll(); }
+      };
+    });
   };
 
   // けしゴムに もどる
@@ -602,7 +623,7 @@
       '<p class="lead center">' + t('rebirthLead') + '</p>' +
       '<div class="reb-gain">' + K.art.upIcon('shard', 34) + '<span class="reb-gain-text"><span>' + esc(t('rebirthGain')) + '</span>' +
       '<b>+' + pend + ' <small>' + esc(t('rebirthTotal', { n: s.shards + pend })) + '</small></b></span>' +
-      '<span class="head-pill">+' + (s.shards + pend) + '% /s</span></div>' +
+      '<span class="head-pill">+' + K.fmt(Math.round((s.shards + pend) * K.ascend.perShard() * 100)) + '% /s</span></div>' +
       (pend === 0 ? '<p class="warn">' + esc(t('rebirthNone')) + '</p>' : '') +
       '<div class="two-col"><div class="keep-box"><b style="color:var(--eraser-blue)">' + esc(t('rebirthKeep')) + '</b><span>' + t('rebirthKeepList') + '</span></div>' +
       '<div class="keep-box"><b style="color:var(--danger)">' + esc(t('rebirthLose')) + '</b><span>' + t('rebirthLoseList') + '</span></div></div>' +

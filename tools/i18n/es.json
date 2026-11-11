@@ -200,7 +200,7 @@
   "stCan": "Comprar",
   "stCant": "Faltan",
   "stSecret": "Secreto",
-  "shardBonus": "Cada fragmento da +1% /s",
+  "shardBonus": "Cada fragmento da +{p}% /s",
   "shardOrder": "En cada rama, compra de arriba abajo.",
   "shardNeed": "Antes necesitas “{n}”",
   "shardNext": "{n} migas más para el próximo fragmento",
@@ -356,7 +356,11 @@
   "challengeKindsFull": "Solo 3 tipos de herramientas",
   "challengeClear": "¡Desafío superado! {n}",
   "challengeClearTime": "Tiempo {v}",
-  "challengeClearReward": "¡Tu /s se duplica desde ahora!"
+  "challengeClearReward": "¡Tu /s se duplica desde ahora!",
+  "shardLevel": "Nv {n}",
+  "shardMax": "MÁX",
+  "shardEndless": "Mejoras sin fin",
+  "shardEndlessNote": "Cómpralas tantas veces como quieras"
  },
  "text": {
   "\"A Thousand Fingers\" is 10 times stronger. Nobody has counted.": "“Mil Dedos” es 10 veces más fuerte. Nadie los ha contado.",
@@ -2012,6 +2016,12 @@
   "Three Kinds of Tools": "Tres tipos de herramientas",
   "Shards give no /s bonus. You can only own 3 kinds of tools.": "Los fragmentos no dan bonus de /s. Solo puedes tener 3 tipos de herramientas.",
   "The Quiet Desk": "El escritorio silencioso",
-  "Shards give no /s bonus. Rubbing gives no crumbs. No visiting erasers.": "Los fragmentos no dan bonus de /s. Frotar no da migas. No vienen gomas visitantes."
+  "Shards give no /s bonus. Rubbing gives no crumbs. No visiting erasers.": "Los fragmentos no dan bonus de /s. Frotar no da migas. No vienen gomas visitantes.",
+  "Shard Polish": "Pulir fragmentos",
+  "Each shard gives +0.1% more /s per level.": "Cada fragmento da +0,1% más de /s por nivel.",
+  "Golden Afterglow": "Resplandor dorado",
+  "Golden Eraser effects last 10% longer per level.": "Los efectos de la Goma Dorada duran un 10% más por nivel.",
+  "Drawer Fast-Forward": "Cajón acelerado",
+  "Drawer items grow 7% faster per level.": "Lo del cajón crece un 7% más rápido por nivel."
  }
 }

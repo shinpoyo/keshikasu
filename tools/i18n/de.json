@@ -200,7 +200,7 @@
   "stCan": "Kaufen",
   "stCant": "Zu wenig",
   "stSecret": "Geheim",
-  "shardBonus": "Jeder Splitter gibt +1% /s",
+  "shardBonus": "Jeder Splitter gibt +{p}% /s",
   "shardOrder": "Kauf in jedem Pfad von oben nach unten.",
   "shardNeed": "Braucht zuerst „{n}“",
   "shardNext": "Noch {n} Krümel bis zum nächsten Splitter",
@@ -356,7 +356,11 @@
   "challengeKindsFull": "Nur 3 Arten von Werkzeugen",
   "challengeClear": "Herausforderung geschafft! {n}",
   "challengeClearTime": "Zeit {v}",
-  "challengeClearReward": "Dein /s ist ab jetzt verdoppelt!"
+  "challengeClearReward": "Dein /s ist ab jetzt verdoppelt!",
+  "shardLevel": "Lv {n}",
+  "shardMax": "MAX",
+  "shardEndless": "Endlose Verbesserungen",
+  "shardEndlessNote": "So oft kaufen, wie du willst"
  },
  "text": {
   "\"A Thousand Fingers\" is 10 times stronger. Nobody has counted.": "„Tausend Finger“ ist 10-mal stärker. Gezählt hat niemand.",
@@ -2012,6 +2016,12 @@
   "Three Kinds of Tools": "Drei Arten von Werkzeugen",
   "Shards give no /s bonus. You can only own 3 kinds of tools.": "Splitter geben keinen /s-Bonus. Du kannst nur 3 Arten von Werkzeugen besitzen.",
   "The Quiet Desk": "Der stille Tisch",
-  "Shards give no /s bonus. Rubbing gives no crumbs. No visiting erasers.": "Splitter geben keinen /s-Bonus. Reiben bringt keine Krümel. Keine Besuchs-Radiergummis."
+  "Shards give no /s bonus. Rubbing gives no crumbs. No visiting erasers.": "Splitter geben keinen /s-Bonus. Reiben bringt keine Krümel. Keine Besuchs-Radiergummis.",
+  "Shard Polish": "Splitter-Politur",
+  "Each shard gives +0.1% more /s per level.": "Jeder Splitter gibt pro Stufe +0,1% mehr /s.",
+  "Golden Afterglow": "Goldenes Nachglühen",
+  "Golden Eraser effects last 10% longer per level.": "Effekte der Goldenen Radiergummis halten pro Stufe 10% länger.",
+  "Drawer Fast-Forward": "Schubladen-Vorspulen",
+  "Drawer items grow 7% faster per level.": "Sachen in der Schublade wachsen pro Stufe 7% schneller."
  }
 }
