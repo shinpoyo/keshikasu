@@ -341,7 +341,22 @@
   "incidentNo": "Acontecimento estranho nº {n}",
   "incidentOk": "Hum, tá.",
   "drawerNeedStage": "Libera na FASE {n}",
-  "moreGames": "Ver mais jogos (shinpoyo.com)"
+  "moreGames": "Ver mais jogos (shinpoyo.com)",
+  "challenge": "Desafios",
+  "challengeMenuSub": "Escolha um ao voltar para a borracha",
+  "challengeNow": "Desafio: {n} (STAGE {s} / {g})",
+  "challengePick": "Aceitar um desafio?",
+  "challengeLead": "Uma partida com uma regra. Faça uma migalha crescer até o STAGE {g} para vencer. Cada desafio vencido dobra seu /s para sempre.",
+  "challengeHow": "Escolha um ao voltar para a borracha. Depois de vencer, tente um tempo mais rápido.",
+  "challengeNone": "Sem desafio (partida normal)",
+  "challengeCleared": "✓ Vencido",
+  "challengeBest": "Melhor: {v}",
+  "challengeQuit": "Desistir do desafio",
+  "challengeQuitAsk": "Desistir do desafio e seguir numa partida normal? (Suas migalhas e ferramentas continuam.)",
+  "challengeKindsFull": "Só 3 tipos de ferramentas",
+  "challengeClear": "Desafio vencido! {n}",
+  "challengeClearTime": "Tempo {v}",
+  "challengeClearReward": "Seu /s dobrou para sempre!"
  },
  "text": {
   "\"A Thousand Fingers\" is 10 times stronger. Nobody has counted.": "“Mil Dedos” fica 10 vezes mais forte. Ninguém contou.",
@@ -1991,6 +2006,12 @@
   "Duplicate Dodger": "Desvia-repetidos",
   "Rolling gives crumbs you already have less often.": "Ao rolar, saem menos farelos que você já tem.",
   "New Crumb Soon": "Farelo novo logo",
-  "A new crumb is guaranteed after 7 rolls instead of 10.": "Um farelo novo é garantido após 7 rolagens em vez de 10."
+  "A new crumb is guaranteed after 7 rolls instead of 10.": "Um farelo novo é garantido após 7 rolagens em vez de 10.",
+  "Forget the Shards": "Esqueça os Fragmentos",
+  "Eraser shards give no /s bonus.": "Fragmentos de borracha não dão bônus de /s.",
+  "Three Kinds of Tools": "Três Tipos de Ferramentas",
+  "Shards give no /s bonus. You can only own 3 kinds of tools.": "Fragmentos não dão bônus de /s. Você só pode ter 3 tipos de ferramentas.",
+  "The Quiet Desk": "A Mesa Silenciosa",
+  "Shards give no /s bonus. Rubbing gives no crumbs. No visiting erasers.": "Fragmentos não dão bônus de /s. Esfregar não dá migalhas. Nenhuma borracha visitante."
  }
 }

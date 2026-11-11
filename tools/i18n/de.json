@@ -341,7 +341,22 @@
   "incidentNo": "Seltsames Ereignis Nr. {n}",
   "incidentOk": "Aha.",
   "drawerNeedStage": "Ab STAGE {n}",
-  "moreGames": "Weitere Spiele ansehen (shinpoyo.com)"
+  "moreGames": "Weitere Spiele ansehen (shinpoyo.com)",
+  "challenge": "Herausforderungen",
+  "challengeMenuSub": "Wähle eine, wenn du zum Radiergummi zurückgehst",
+  "challengeNow": "Herausforderung: {n} (STAGE {s} / {g})",
+  "challengePick": "Eine Herausforderung annehmen?",
+  "challengeLead": "Ein Durchgang mit einer Regel. Lass einen Krümel bis STAGE {g} wachsen, um sie zu schaffen. Jeder Erfolg verdoppelt dein /s für immer.",
+  "challengeHow": "Wähle eine, wenn du zum Radiergummi zurückgehst. Danach kannst du eine schnellere Zeit versuchen.",
+  "challengeNone": "Keine Herausforderung (normaler Durchgang)",
+  "challengeCleared": "✓ Geschafft",
+  "challengeBest": "Bestzeit: {v}",
+  "challengeQuit": "Herausforderung aufgeben",
+  "challengeQuitAsk": "Herausforderung aufgeben und normal weiterspielen? (Krümel und Werkzeuge bleiben.)",
+  "challengeKindsFull": "Nur 3 Arten von Werkzeugen",
+  "challengeClear": "Herausforderung geschafft! {n}",
+  "challengeClearTime": "Zeit {v}",
+  "challengeClearReward": "Dein /s ist ab jetzt verdoppelt!"
  },
  "text": {
   "\"A Thousand Fingers\" is 10 times stronger. Nobody has counted.": "„Tausend Finger“ ist 10-mal stärker. Gezählt hat niemand.",
@@ -1991,6 +2006,12 @@
   "Duplicate Dodger": "Doppelt-Ausweicher",
   "Rolling gives crumbs you already have less often.": "Beim Ziehen kommen seltener Krümel, die du schon hast.",
   "New Crumb Soon": "Bald ein neuer Krümel",
-  "A new crumb is guaranteed after 7 rolls instead of 10.": "Nach 7 statt 10 Zügen gibt es sicher einen neuen Krümel."
+  "A new crumb is guaranteed after 7 rolls instead of 10.": "Nach 7 statt 10 Zügen gibt es sicher einen neuen Krümel.",
+  "Forget the Shards": "Vergiss die Splitter",
+  "Eraser shards give no /s bonus.": "Radiergummi-Splitter geben keinen /s-Bonus.",
+  "Three Kinds of Tools": "Drei Arten von Werkzeugen",
+  "Shards give no /s bonus. You can only own 3 kinds of tools.": "Splitter geben keinen /s-Bonus. Du kannst nur 3 Arten von Werkzeugen besitzen.",
+  "The Quiet Desk": "Der stille Tisch",
+  "Shards give no /s bonus. Rubbing gives no crumbs. No visiting erasers.": "Splitter geben keinen /s-Bonus. Reiben bringt keine Krümel. Keine Besuchs-Radiergummis."
  }
 }

@@ -65,6 +65,11 @@
     sandTick(dt);
     dendoTick(dt);
     K.evo.check();
+    var cl = K.challenge.check();
+    if (cl) {
+      K.ui.toast('<b>' + esc(t('challengeClear', { n: K.L(cl.ch.name) })) + '</b> ' + esc(t('challengeClearTime', { v: K.challenge.fmtTime(cl.time) })) + (cl.first ? ' ' + esc(t('challengeClearReward')) : ''));
+      K.sound.play('achievement');
+    }
     while (K.evo.unlocked.length) {
       var tier = K.evo.unlocked.shift();
       K.ui.toast('<b>' + esc(t('tierUnlocked', { n: tier })) + '</b> ' + esc(t('ticketGift', { n: K.evo.TIER_TICKETS })));

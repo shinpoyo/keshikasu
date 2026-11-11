@@ -1421,3 +1421,22 @@ textarea.savebox {
 
 /* おんりょうの つまみ */
 .vol-range { width: min(180px, 46%); height: 28px; accent-color: var(--eraser-blue); cursor: pointer; }
+
+/* ちょうせん（js/challenge.js） */
+.ch-pick { display: flex; flex-direction: column; gap: 8px; }
+.ch-pick > b { font-family: var(--font-jp); font-weight: 900; font-size: 15px; }
+.ch-pick > small { font-family: var(--font-jp); font-weight: 500; font-size: 12.5px; color: var(--graphite); line-height: 1.6; }
+.ch-opt { display: flex; flex-direction: column; gap: 3px; text-align: left; padding: 10px 14px; border-radius: 14px; background: var(--card); border: 2px solid var(--line-2); color: var(--ink); font: inherit; }
+button.ch-opt { cursor: pointer; }
+.ch-opt[aria-pressed="true"], .ch-opt.on { border-color: var(--ink); background: var(--paper-2); box-shadow: inset 6px 0 0 var(--eraser-pink); }
+.ch-name { font-family: var(--font-jp); font-weight: 900; font-size: 14.5px; }
+.ch-name small { font-weight: 700; font-size: 12px; color: var(--graphite); }
+.ch-desc { font-family: var(--font-jp); font-weight: 500; font-size: 12.5px; color: var(--graphite); line-height: 1.55; }
+.ch-done { color: var(--eraser-blue); font-size: 12.5px; }
+.ch-now { display: block; padding: 12px 16px; margin-bottom: 12px; border-radius: 18px; background: var(--card); border: 2px solid var(--ink); }
+.ch-now b { display: block; font-family: var(--font-jp); font-weight: 900; font-size: 15px; }
+.ch-now small { display: block; margin-top: 4px; font-family: var(--font-jp); font-size: 12.5px; color: var(--graphite); }
+.ch-now .bar { display: block; width: 100%; max-width: none; height: 10px; margin: 10px 0 6px; }
+.ch-now .btn { display: flex; margin: 0 auto; }
+.ch-now .bar-fill { background: linear-gradient(90deg, #F29CA3, #E7B533); }
+.bld-nokind { color: var(--danger); font-weight: 700; }

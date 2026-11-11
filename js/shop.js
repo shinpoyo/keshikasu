@@ -72,7 +72,7 @@
 
   G.buy = function (id, amount) {
     var cost = G.price(id, amount);
-    if (S().crumbs < cost) return false;
+    if (S().crumbs < cost || !K.challenge.canOwn(id)) return false;
     S().crumbs -= cost;
     S().buildings[id] += amount;
     return true;
@@ -149,7 +149,9 @@
   };
 
   G.globalMult = function () {
-    var m = (1 + 0.01 * G.achievementCount()) * (1 + 0.01 * S().shards) * K.evo.bonusMult();
+    var shardBonus = K.challenge.rule('noShard') ? 1 : 1 + 0.01 * S().shards; // ちょうせん「かけらを忘れる」
+    var m = (1 + 0.01 * G.achievementCount()) * shardBonus * K.evo.bonusMult();
+    m *= K.challenge.mult(); // クリアした ちょうせん 1つにつき 2倍
     if (hasShard('secret50')) m *= 1.5;
     if (hasShard('secret100')) m *= 2;
     if (hasShard('secret500')) m *= 3;
@@ -210,10 +212,14 @@
   };
 
   G.clickPower = function () {
+    if (K.challenge.rule('noRub')) return 0; // ちょうせん「しずかなつくえ」
     var p = 1 * fingerDoubles() + G.fingerBonus();
     p += G.cps() * G.rubPercent();
-    if (G.buffActive('scrub')) p *= 777;
-    if (K.drawer && K.drawer.buffActive('rub10')) p *= K.drawer.RUB_MULT;
+    // ごりごりタイム（777倍）と ざらざらタイム（20倍）は かさならない。大きい ほうだけ（2026-11-11 かさねると 1回で 何日ぶんも 入って 勝負が 決まって しまった）
+    var rubX = 1;
+    if (G.buffActive('scrub')) rubX = 777;
+    if (K.drawer && K.drawer.buffActive('rub10')) rubX = Math.max(rubX, K.drawer.RUB_MULT);
+    p *= rubX;
     if (K.ads && K.ads.boostActive()) p *= 2;
     return p;
   };
