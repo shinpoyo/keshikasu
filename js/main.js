@@ -435,6 +435,32 @@
       if (!$('screen-game').hidden) { if (document.hidden) K.ads.gameplayStop(); else K.ads.gameplayStart(); }
     });
     window.addEventListener('resize', function () { K.ui.placeForWidth(); K.ui.renderShop(true); });
+    watchUpdate();
+  }
+
+  // ---------- 新しい版に 自動で 切りかえる ----------
+  // スマホの ブラウザは 開いたままの タブを 何日も 古い版の まま 残すことが ある（2026-11-09 直したはずの 見切れが 出ていた）。
+  // タブに もどってきた ときと 起動した ときに サーバーの index.html を 見て、版が 新しければ セーブして 読みなおす。
+  // CrazyGames は むこうが 版を 管理するので しない。
+  function watchUpdate() {
+    if (K.ads.wanted || !/^https?:$/.test(location.protocol)) return;
+    var link = document.querySelector('link[href*="style.css?v="]');
+    var mine = link && (link.getAttribute('href').match(/\?v=([\d.]+)/) || [])[1];
+    if (!mine) return;
+    var lastCheck = 0;
+    function check() {
+      if (Date.now() - lastCheck < 60 * 1000) return;
+      lastCheck = Date.now();
+      fetch(location.pathname + '?u=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.ok ? r.text() : ''; }).then(function (html) {
+        var m = html.match(/style\.css\?v=([\d.]+)/);
+        if (!m || m[1] === mine) return;
+        try { if (sessionStorage.getItem('keshikasu.reloadedFor') === m[1]) return; sessionStorage.setItem('keshikasu.reloadedFor', m[1]); } catch (e) { /* なし */ }
+        if (K.state) K.store.save();
+        location.reload();
+      }).catch(function () { /* オフラインなど */ });
+    }
+    check();
+    document.addEventListener('visibilitychange', function () { if (!document.hidden) check(); });
   }
 
   // ---------- オフライン ----------
