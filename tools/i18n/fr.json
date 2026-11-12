@@ -341,7 +341,22 @@
   "incidentNo": "Événement étrange n° {n}",
   "incidentOk": "Ah bon.",
   "drawerNeedStage": "Débloqué au STADE {n}",
-  "moreGames": "Voir d’autres jeux (shinpoyo.com)"
+  "moreGames": "Voir d’autres jeux (shinpoyo.com)",
+  "challenge": "Défis",
+  "challengeMenuSub": "Choisis-en un en retournant à la gomme",
+  "challengeNow": "Défi : {n} (STAGE {s} / {g})",
+  "challengePick": "Relever un défi ?",
+  "challengeLead": "Une partie avec une règle. Fais grandir une miette jusqu’au STAGE {g} pour le réussir. Chaque défi réussi double ton /s pour toujours.",
+  "challengeHow": "Choisis-en un en retournant à la gomme. Ensuite, tu peux viser un meilleur temps.",
+  "challengeNone": "Pas de défi (partie normale)",
+  "challengeCleared": "✓ Réussi",
+  "challengeBest": "Record : {v}",
+  "challengeQuit": "Abandonner le défi",
+  "challengeQuitAsk": "Abandonner le défi et continuer une partie normale ? (Tes miettes et outils restent.)",
+  "challengeKindsFull": "Seulement 3 sortes d’outils",
+  "challengeClear": "Défi réussi ! {n}",
+  "challengeClearTime": "Temps {v}",
+  "challengeClearReward": "Ton /s est doublé pour toujours !"
  },
  "text": {
   "First Finger": "Premier doigt",
@@ -1991,6 +2006,12 @@
   "Duplicate Dodger": "Anti-doublons",
   "Rolling gives crumbs you already have less often.": "En roulant, tu obtiens moins souvent des miettes que tu as déjà.",
   "New Crumb Soon": "Nouvelle miette bientôt",
-  "A new crumb is guaranteed after 7 rolls instead of 10.": "Une nouvelle miette est garantie après 7 tirages au lieu de 10."
+  "A new crumb is guaranteed after 7 rolls instead of 10.": "Une nouvelle miette est garantie après 7 tirages au lieu de 10.",
+  "Forget the Shards": "Oublie les éclats",
+  "Eraser shards give no /s bonus.": "Les éclats de gomme ne donnent aucun bonus de /s.",
+  "Three Kinds of Tools": "Trois sortes d’outils",
+  "Shards give no /s bonus. You can only own 3 kinds of tools.": "Les éclats ne donnent aucun bonus de /s. Tu ne peux avoir que 3 sortes d’outils.",
+  "The Quiet Desk": "Le bureau silencieux",
+  "Shards give no /s bonus. Rubbing gives no crumbs. No visiting erasers.": "Les éclats ne donnent aucun bonus de /s. Frotter ne donne pas de miettes. Aucune gomme visiteuse."
  }
 }

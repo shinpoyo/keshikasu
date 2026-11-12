@@ -124,7 +124,7 @@
       GS.gold = null;
       GS.scheduleGold();
     }
-    if (S().tutorial < 9) return;
+    if (S().tutorial < 9 || K.challenge.rule('noGuest')) return; // ちょうせん「しずかなつくえ」は 来ない
     if (!GS.goldAt && !GS.gold) GS.scheduleGold();
     if (!GS.current && GS.nextAt && now >= GS.nextAt) {
       var id = pick();

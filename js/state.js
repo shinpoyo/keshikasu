@@ -41,6 +41,7 @@
       daily: { last: '', streak: 0 },                     // 毎日のごほうび（js/missions.js）
       drawer: { slots: [null, null, null, null, null, null], buffs: {}, gold: 0, harvests: 0 }, // ひきだし（js/drawer.js）。消しゴムにもどっても のこる
       mood: { praises: 0, blows: 0, idle: 0 }, // この周の記録（特別な進化）
+      challenge: { on: null, start: 0, cleared: {}, best: {} }, // ちょうせん（js/challenge.js）。消しゴムにもどっても のこる
       incidents: {},           // もう おきた ふしぎなできごと id: { at, pick }（js/incidents.js）。消しゴムにもどっても のこる
       stats: {
         rubs: 0, rolls: 0, allHandmade: 0, golden: 0, guests: {}, playTime: 0, rebirths: 0,

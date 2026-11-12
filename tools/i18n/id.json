@@ -341,7 +341,22 @@
   "incidentNo": "Kejadian Aneh #{n}",
   "incidentOk": "Oh, begitu.",
   "drawerNeedStage": "Terbuka di TAHAP {n}",
-  "moreGames": "Lihat game lainnya (shinpoyo.com)"
+  "moreGames": "Lihat game lainnya (shinpoyo.com)",
+  "challenge": "Tantangan",
+  "challengeMenuSub": "Pilih saat kembali ke penghapus",
+  "challengeNow": "Tantangan: {n} (STAGE {s} / {g})",
+  "challengePick": "Coba tantangan?",
+  "challengeLead": "Satu putaran dengan aturan. Tumbuhkan remah sampai STAGE {g} untuk menyelesaikannya. Setiap tantangan selesai menggandakan /s kamu selamanya.",
+  "challengeHow": "Pilih saat kembali ke penghapus. Setelah selesai, kamu bisa mengejar waktu yang lebih cepat.",
+  "challengeNone": "Tanpa tantangan (putaran biasa)",
+  "challengeCleared": "✓ Selesai",
+  "challengeBest": "Terbaik: {v}",
+  "challengeQuit": "Menyerah",
+  "challengeQuitAsk": "Menyerah dan lanjut sebagai putaran biasa? (Remah dan alatmu tetap ada.)",
+  "challengeKindsFull": "Hanya 3 jenis alat",
+  "challengeClear": "Tantangan selesai! {n}",
+  "challengeClearTime": "Waktu {v}",
+  "challengeClearReward": "/s kamu jadi dua kali lipat selamanya!"
  },
  "text": {
   "\"A Thousand Fingers\" is 10 times stronger. Nobody has counted.": "\"Seribu Jari\" 10 kali lebih kuat. Belum ada yang menghitungnya.",
@@ -1991,6 +2006,12 @@
   "Duplicate Dodger": "Penghindar Kembar",
   "Rolling gives crumbs you already have less often.": "Saat mengundi, remah yang sudah kamu punya lebih jarang keluar.",
   "New Crumb Soon": "Remah Baru Segera",
-  "A new crumb is guaranteed after 7 rolls instead of 10.": "Remah baru dijamin keluar setelah 7 undian, bukan 10."
+  "A new crumb is guaranteed after 7 rolls instead of 10.": "Remah baru dijamin keluar setelah 7 undian, bukan 10.",
+  "Forget the Shards": "Lupakan Kepingan",
+  "Eraser shards give no /s bonus.": "Kepingan penghapus tidak memberi bonus /s.",
+  "Three Kinds of Tools": "Tiga Jenis Alat",
+  "Shards give no /s bonus. You can only own 3 kinds of tools.": "Kepingan tidak memberi bonus /s. Kamu hanya bisa punya 3 jenis alat.",
+  "The Quiet Desk": "Meja yang Sunyi",
+  "Shards give no /s bonus. Rubbing gives no crumbs. No visiting erasers.": "Kepingan tidak memberi bonus /s. Menggosok tidak memberi remah. Penghapus tamu tidak datang."
  }
 }

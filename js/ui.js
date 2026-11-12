@@ -303,7 +303,7 @@
     K.game.availableUpgrades().forEach(function (u) {
       cands.push({ cost: u.cost, kind: 'u', id: u.id, sel: '.up[data-up="' + u.id + '"]', name: K.L(u.name), icon: K.art.upIcon(u.icon, 22) });
     });
-    cands.forEach(function (c) { c.afford = c.kind !== 'l' && c.cost <= s.crumbs; });
+    cands.forEach(function (c) { c.afford = c.kind !== 'l' && c.cost <= s.crumbs && (c.kind !== 'b' || K.challenge.canOwn(c.id)); });
     cands.filter(function (c) { return c.afford; }).forEach(function (c) { if (!best || c.cost > best.cost) best = c; });
     if (!best) cands.forEach(function (c) { if (!best || c.cost < best.cost) best = c; });
     var el = $('goal');
@@ -423,14 +423,15 @@
       var sell = U.mode === 'sell';
       var amount = U.amountFor(b.id);
       var price = sell ? K.game.sellValue(b.id, amount) : K.game.price(b.id, amount);
-      var can = sell ? owned > 0 : s.crumbs >= price;
+      var kindOk = K.challenge.canOwn(b.id);
+      var can = sell ? owned > 0 : s.crumbs >= price && kindOk;
       var rate = '+' + K.fmtPerSec(K.game.unitCps(b.id) * K.game.globalMult());
       var open = U.openInfo === b.id;
       bh += '<div class="bld-wrap' + (open ? ' open' : '') + '">' +
         '<button type="button" class="bld ' + (can ? 'can' : 'cant') + (sell ? ' sell' : '') + (becameAffordable[b.id] ? ' became' : '') + '" data-b="' + b.id + '">' +
         '<span class="bld-ico">' + K.art.building(b.id, 32, 32) + '</span>' +
         '<span class="bld-text"><span class="bld-name">' + esc(K.L(b.name)) + (amount > 1 ? ' <small>x' + amount + '</small>' : '') + '</span>' +
-        '<span class="bld-line">' + esc(K.L(b.line)) + '</span>' +
+        '<span class="bld-line">' + (!sell && !kindOk ? '<span class="bld-nokind">' + esc(t('challengeKindsFull')) + '</span>' : esc(K.L(b.line))) + '</span>' +
         '<span class="bld-sub">' + (sell ? '<span class="price">' + crumbIcon() + '+' + K.fmt(price) + '</span>' : U.priceHtml(price, can)) + '<span class="bld-rate">' + rate + '</span></span></span>' +
         '<span class="bld-own">' + (owned || '') + '</span></button>' +
         // スマホは ホバーが ないので、よこの ボタンで くわしく ひらく（PC は ホバーで でる）
@@ -445,7 +446,7 @@
 
     // スマホの「みせ」タブの数字（買えるものの数）
     var n = ups.filter(function (u) { return s.crumbs >= u.cost; }).length +
-      vis.filter(function (v) { return !v.locked && s.crumbs >= K.game.price(v.b.id, 1); }).length;
+      vis.filter(function (v) { return !v.locked && s.crumbs >= K.game.price(v.b.id, 1) && K.challenge.canOwn(v.b.id); }).length;
     $('shop-badge').hidden = n === 0 || U.tab === 'shop';
     $('shop-badge').textContent = n > 9 ? '9+' : n;
   };

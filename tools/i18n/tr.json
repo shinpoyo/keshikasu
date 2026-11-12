@@ -341,7 +341,22 @@
   "incidentNo": "Tuhaf Olay #{n}",
   "incidentOk": "Demek öyle.",
   "drawerNeedStage": "{n}. AŞAMADA açılır",
-  "moreGames": "Diğer oyunlara bak (shinpoyo.com)"
+  "moreGames": "Diğer oyunlara bak (shinpoyo.com)",
+  "challenge": "Meydan okumalar",
+  "challengeMenuSub": "Silgiye dönerken birini seç",
+  "challengeNow": "Meydan okuma: {n} (STAGE {s} / {g})",
+  "challengePick": "Bir meydan okuma dener misin?",
+  "challengeLead": "Kurallı bir tur. Tamamlamak için bir kırıntıyı STAGE {g} seviyesine kadar büyüt. Her tamamlanan meydan okuma /s değerini kalıcı olarak ikiye katlar.",
+  "challengeHow": "Silgiye dönerken birini seç. Tamamladıktan sonra daha hızlı bir süre deneyebilirsin.",
+  "challengeNone": "Meydan okuma yok (normal tur)",
+  "challengeCleared": "✓ Tamamlandı",
+  "challengeBest": "En iyi: {v}",
+  "challengeQuit": "Meydan okumadan vazgeç",
+  "challengeQuitAsk": "Meydan okumadan vazgeçip normal tura devam edilsin mi? (Kırıntıların ve aletlerin kalır.)",
+  "challengeKindsFull": "Sadece 3 çeşit alet",
+  "challengeClear": "Meydan okuma tamamlandı! {n}",
+  "challengeClearTime": "Süre {v}",
+  "challengeClearReward": "/s değerin artık kalıcı olarak iki katı!"
  },
  "text": {
   "Finger": "Parmak",
@@ -1991,6 +2006,12 @@
   "Duplicate Dodger": "Tekrar Savar",
   "Rolling gives crumbs you already have less often.": "Çekerken elindeki kırıntılar daha az çıkar.",
   "New Crumb Soon": "Yakında Yeni Kırıntı",
-  "A new crumb is guaranteed after 7 rolls instead of 10.": "10 yerine 7 çekilişten sonra yeni kırıntı kesin çıkar."
+  "A new crumb is guaranteed after 7 rolls instead of 10.": "10 yerine 7 çekilişten sonra yeni kırıntı kesin çıkar.",
+  "Forget the Shards": "Parçaları Unut",
+  "Eraser shards give no /s bonus.": "Silgi parçaları /s bonusu vermez.",
+  "Three Kinds of Tools": "Üç Çeşit Alet",
+  "Shards give no /s bonus. You can only own 3 kinds of tools.": "Parçalar /s bonusu vermez. Sadece 3 çeşit aletin olabilir.",
+  "The Quiet Desk": "Sessiz Masa",
+  "Shards give no /s bonus. Rubbing gives no crumbs. No visiting erasers.": "Parçalar /s bonusu vermez. Ovmak kırıntı vermez. Misafir silgiler gelmez."
  }
 }

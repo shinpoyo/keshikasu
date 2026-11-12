@@ -20,11 +20,13 @@
   // はじめから いる どうぐ（アリさん・指）
   A.startBonus = function () {
     var s = S();
+    if (K.challenge.rule('maxKinds')) return; // ちょうせん「どうぐは3種類」は 自分で えらぶ
     if (s.shardUpgrades.startAnts && s.buildings.ant < 10) s.buildings.ant = 10;
     if (s.shardUpgrades.startFingers && s.buildings.finger < 50) s.buildings.finger = 50;
   };
 
-  A.rebirth = function () {
+  // challengeId: えらんだ ちょうせん（js/challenge.js）。なければ ふつうの 周
+  A.rebirth = function (challengeId) {
     var s = S();
     var gain = A.pending();
     s.shards += gain;
@@ -43,6 +45,7 @@
     s.stage = 1;
     s.mood = f.mood;
     s.stats.runStart = Date.now();
+    K.challenge.begin(challengeId);
     A.startBonus();
     if (s.shardUpgrades.paperGift) s.tickets = (s.tickets || 0) + 3;
     K.rt.buffs = {};

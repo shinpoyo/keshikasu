@@ -6,7 +6,7 @@
   var S = function () { return K.state; };
   var t = function (k, v) { return K.t(k, v); };
   var esc = function (s) { return K.ui.esc(s); };
-  var VERSION = '0.57'; // index.html の ?v= と そろえる（ブラウザの キャッシュで 古い js が のこらないように）
+  var VERSION = '0.58'; // index.html の ?v= と そろえる（ブラウザの キャッシュで 古い js が のこらないように）
 
   function show(id) {
     ['screen-title', 'screen-naming', 'screen-game'].forEach(function (s) { $(s).hidden = s !== id; });
@@ -149,6 +149,9 @@
       (K.drawer.unlocked() ? item('drawer', K.art.ui('drawer', 24), t('drawer'), K.drawer.readyCount() ? t('drawerReadyHint', { n: K.drawer.readyCount() }) : '', '', K.drawer.readyCount() ? 'gold' : '') : '') +
       item('shardshop', K.art.upIcon('shard', 24), t('shardShop'), '', s.shards + ' ' + t('shardsUnit')) +
       item('rebirth', K.art.ui('eraser', 24), t('rebirth'), pend > 0 ? t('rebirthMenuHint', { n: pend }) : '', '', pend > 0 ? 'gold' : '') +
+      (K.challenge.unlocked() ? item('challenge', K.art.upIcon('star', 24), t('challenge'),
+        K.challenge.current() ? t('challengeNow', { n: K.L(K.challenge.current().name), s: s.stage, g: K.challenge.GOAL_STAGE }) : t('challengeMenuSub'),
+        K.challenge.clearedCount() + ' / ' + K.challenge.LIST.length) : '') +
       '</div><div class="menu-sub">' +
       '<button type="button" data-open="settings">' + K.art.ui('settings', 20) + esc(t('settings')) + '</button>' +
       '<button type="button" data-open="save">' + K.art.ui('save', 20) + esc(t('saveMenu')) + '</button>' +
@@ -158,7 +161,7 @@
 
   // ---------- ダイアログ ----------
   var current = null;
-  var state = { zukanSel: null, zukanTab: 'kasu', achSel: null, achCat: 'all' };
+  var state = { zukanSel: null, zukanTab: 'kasu', achSel: null, achCat: 'all', chPick: '' };
 
   function head(title, extra) {
     return '<div class="modal-head"><h1>' + esc(title) + '</h1>' + (extra || '') +
@@ -603,16 +606,59 @@
       (pend === 0 ? '<p class="warn">' + esc(t('rebirthNone')) + '</p>' : '') +
       '<div class="two-col"><div class="keep-box"><b style="color:var(--eraser-blue)">' + esc(t('rebirthKeep')) + '</b><span>' + t('rebirthKeepList') + '</span></div>' +
       '<div class="keep-box"><b style="color:var(--danger)">' + esc(t('rebirthLose')) + '</b><span>' + t('rebirthLoseList') + '</span></div></div>' +
+      challengePick() +
       '<button type="button" class="btn btn-pink btn-lg" id="reb-go">' + esc(t('rebirthGo')) + '</button>' +
       '<button type="button" class="btn btn-ghost" data-close>' + esc(t('rebirthCancel')) + '</button>';
   };
-  AFTER.rebirth = function () {
-    $('reb-go').onclick = function () { SC.close(); SC.rebirthAnim(); };
+  AFTER.rebirth = function (card) {
+    card.querySelectorAll('[data-chpick]').forEach(function (b) {
+      b.onclick = function () { state.chPick = b.getAttribute('data-chpick'); SC.refresh(); };
+    });
+    $('reb-go').onclick = function () { var id = state.chPick; state.chPick = ''; SC.close(); SC.rebirthAnim(id); };
   };
 
-  SC.rebirthAnim = function () {
+  // ---------- ちょうせん（js/challenge.js）----------
+  function chStatus(x) {
+    var c = K.challenge.state();
+    var best = c.best[x.id] ? t('challengeBest', { v: K.challenge.fmtTime(c.best[x.id]) }) : '';
+    return c.cleared[x.id] ? '<span class="ch-done">' + esc(t('challengeCleared')) + '</span>' + (best ? ' <small>' + esc(best) + '</small>' : '') : '';
+  }
+  // 消しゴムに もどる 画面で えらぶ
+  function challengePick() {
+    if (!K.challenge.unlocked()) return '';
+    var opt = function (id, name, desc, status) {
+      return '<button type="button" class="ch-opt" data-chpick="' + id + '" aria-pressed="' + (state.chPick === id) + '">' +
+        '<span class="ch-name">' + esc(name) + (status ? ' ' + status : '') + '</span>' + (desc ? '<span class="ch-desc">' + esc(desc) + '</span>' : '') + '</button>';
+    };
+    return '<div class="ch-pick"><b>' + esc(t('challengePick')) + '</b><small>' + esc(t('challengeLead', { g: K.challenge.GOAL_STAGE })) + '</small>' +
+      opt('', t('challengeNone'), '', '') +
+      K.challenge.LIST.map(function (x) { return opt(x.id, K.L(x.name), K.L(x.desc), chStatus(x)); }).join('') + '</div>';
+  }
+  RENDER.challenge = function () {
+    var cur = K.challenge.current(), s = S();
+    var now = cur ? '<div class="ch-now"><b>' + esc(t('challengeNow', { n: K.L(cur.name), s: s.stage, g: K.challenge.GOAL_STAGE })) + '</b>' +
+      '<small>' + esc(K.L(cur.desc)) + '</small>' +
+      '<div class="bar"><div class="bar-fill" style="width:' + (Math.min(1, (s.stage - 1) / (K.challenge.GOAL_STAGE - 1)) * 100).toFixed(1) + '%"></div></div>' +
+      '<button type="button" class="btn btn-ghost" id="ch-quit">' + esc(t('challengeQuit')) + '</button></div>' : '';
+    var list = K.challenge.LIST.map(function (x) {
+      return '<div class="ch-opt' + (cur === x ? ' on' : '') + '"><span class="ch-name">' + esc(K.L(x.name)) + ' ' + chStatus(x) + '</span><span class="ch-desc">' + esc(K.L(x.desc)) + '</span></div>';
+    }).join('');
+    return head(t('challenge')) + now +
+      '<p class="lead">' + esc(t('challengeLead', { g: K.challenge.GOAL_STAGE })) + ' ' + esc(t('challengeHow')) + '</p>' +
+      '<div class="ch-pick">' + list + '</div>' +
+      (K.challenge.clearedCount() ? '<p class="lead center"><span class="head-pill">x' + K.challenge.mult() + ' /s</span></p>' : '');
+  };
+  AFTER.challenge = function () {
+    var q = $('ch-quit');
+    if (q) q.onclick = function () {
+      if (!window.confirm(t('challengeQuitAsk'))) return;
+      K.challenge.quit(); K.store.save(); SC.refresh(); K.ui.renderAll();
+    };
+  };
+
+  SC.rebirthAnim = function (challengeId) {
     K.sound.play('rebirth');
-    var gain = K.ascend.rebirth();
+    var gain = K.ascend.rebirth(challengeId);
     K.store.save();
     var el = document.createElement('div');
     el.className = 'reb-anim';

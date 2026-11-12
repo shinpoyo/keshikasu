@@ -341,7 +341,22 @@
   "incidentNo": "Suceso extraño n.º {n}",
   "incidentOk": "Vaya.",
   "drawerNeedStage": "Se desbloquea en la ETAPA {n}",
-  "moreGames": "Ver más juegos (shinpoyo.com)"
+  "moreGames": "Ver más juegos (shinpoyo.com)",
+  "challenge": "Desafíos",
+  "challengeMenuSub": "Elige uno al volver a la goma",
+  "challengeNow": "Desafío: {n} (STAGE {s} / {g})",
+  "challengePick": "¿Aceptas un desafío?",
+  "challengeLead": "Una partida con una regla. Haz crecer una miga hasta STAGE {g} para superarlo. Cada desafío superado duplica tu /s para siempre.",
+  "challengeHow": "Elige uno al volver a la goma. Después puedes intentar un tiempo más rápido.",
+  "challengeNone": "Sin desafío (partida normal)",
+  "challengeCleared": "✓ Superado",
+  "challengeBest": "Mejor: {v}",
+  "challengeQuit": "Abandonar el desafío",
+  "challengeQuitAsk": "¿Abandonar el desafío y seguir con una partida normal? (Tus migas y herramientas se quedan.)",
+  "challengeKindsFull": "Solo 3 tipos de herramientas",
+  "challengeClear": "¡Desafío superado! {n}",
+  "challengeClearTime": "Tiempo {v}",
+  "challengeClearReward": "¡Tu /s se duplica desde ahora!"
  },
  "text": {
   "\"A Thousand Fingers\" is 10 times stronger. Nobody has counted.": "“Mil Dedos” es 10 veces más fuerte. Nadie los ha contado.",
@@ -1991,6 +2006,12 @@
   "Duplicate Dodger": "Esquiva-repes",
   "Rolling gives crumbs you already have less often.": "Al tirar, salen menos migas que ya tienes.",
   "New Crumb Soon": "Miga nueva pronto",
-  "A new crumb is guaranteed after 7 rolls instead of 10.": "Una miga nueva está garantizada tras 7 tiradas en vez de 10."
+  "A new crumb is guaranteed after 7 rolls instead of 10.": "Una miga nueva está garantizada tras 7 tiradas en vez de 10.",
+  "Forget the Shards": "Olvida los fragmentos",
+  "Eraser shards give no /s bonus.": "Los fragmentos de goma no dan bonus de /s.",
+  "Three Kinds of Tools": "Tres tipos de herramientas",
+  "Shards give no /s bonus. You can only own 3 kinds of tools.": "Los fragmentos no dan bonus de /s. Solo puedes tener 3 tipos de herramientas.",
+  "The Quiet Desk": "El escritorio silencioso",
+  "Shards give no /s bonus. Rubbing gives no crumbs. No visiting erasers.": "Los fragmentos no dan bonus de /s. Frotar no da migas. No vienen gomas visitantes."
  }
 }

@@ -341,7 +341,22 @@
   "incidentNo": "Chuyện lạ số {n}",
   "incidentOk": "Ra vậy.",
   "drawerNeedStage": "Mở ở STAGE {n}",
-  "moreGames": "Xem thêm trò chơi (shinpoyo.com)"
+  "moreGames": "Xem thêm trò chơi (shinpoyo.com)",
+  "challenge": "Thử thách",
+  "challengeMenuSub": "Chọn khi quay về cục tẩy",
+  "challengeNow": "Thử thách: {n} (STAGE {s} / {g})",
+  "challengePick": "Nhận một thử thách?",
+  "challengeLead": "Một lượt chơi có luật riêng. Nuôi vụn tẩy đến STAGE {g} để hoàn thành. Mỗi thử thách hoàn thành nhân đôi /s của bạn mãi mãi.",
+  "challengeHow": "Chọn khi quay về cục tẩy. Sau khi hoàn thành, bạn có thể thử đạt thời gian nhanh hơn.",
+  "challengeNone": "Không thử thách (lượt thường)",
+  "challengeCleared": "✓ Hoàn thành",
+  "challengeBest": "Nhanh nhất: {v}",
+  "challengeQuit": "Bỏ thử thách",
+  "challengeQuitAsk": "Bỏ thử thách và chơi tiếp như lượt thường? (Vụn và dụng cụ vẫn giữ nguyên.)",
+  "challengeKindsFull": "Chỉ 3 loại dụng cụ",
+  "challengeClear": "Hoàn thành thử thách! {n}",
+  "challengeClearTime": "Thời gian {v}",
+  "challengeClearReward": "/s của bạn được nhân đôi mãi mãi!"
  },
  "text": {
   "\"A Thousand Fingers\" is 10 times stronger. Nobody has counted.": "\"Nghìn ngón tay\" mạnh gấp 10 lần. Chưa ai đếm thử.",
@@ -1991,6 +2006,12 @@
   "Duplicate Dodger": "Né trùng",
   "Rolling gives crumbs you already have less often.": "Khi quay, vụn bạn đã có sẽ ít ra hơn.",
   "New Crumb Soon": "Sắp có vụn mới",
-  "A new crumb is guaranteed after 7 rolls instead of 10.": "Chắc chắn có vụn mới sau 7 lần quay thay vì 10."
+  "A new crumb is guaranteed after 7 rolls instead of 10.": "Chắc chắn có vụn mới sau 7 lần quay thay vì 10.",
+  "Forget the Shards": "Quên Mảnh Tẩy",
+  "Eraser shards give no /s bonus.": "Mảnh tẩy không tăng /s.",
+  "Three Kinds of Tools": "Ba Loại Dụng Cụ",
+  "Shards give no /s bonus. You can only own 3 kinds of tools.": "Mảnh tẩy không tăng /s. Bạn chỉ có thể sở hữu 3 loại dụng cụ.",
+  "The Quiet Desk": "Chiếc Bàn Yên Lặng",
+  "Shards give no /s bonus. Rubbing gives no crumbs. No visiting erasers.": "Mảnh tẩy không tăng /s. Chà không ra vụn. Không có cục tẩy khách ghé."
  }
 }
