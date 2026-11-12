@@ -97,4 +97,18 @@
       desc: { ja: '/s が3倍。うちゅうのはしっこにも、消しカスは落ちていた。', en: 'x3 /s. Even at the edge of the universe, there were crumbs.' },
       hiddenDesc: { ja: 'うちゅうのはしっこにある。', en: 'It is at the edge of the universe.' } }
   ];
+
+  // 終わりのない かけらの 強化（2026-11-11）。お店を 全部 買った あとの かけらの 使い道。
+  // 何回でも 買えて、買うたびに 値段が 上がる。max が あるものは そこで おしまい。レベルは s.shardLevels（消しゴムにもどっても 残る）
+  K.data.shardEndless = [
+    { id: 'polish', base: 500, growth: 1.6,
+      name: { ja: 'かけらみがき', en: 'Shard Polish' },
+      desc: { ja: 'かけら1こで /s がふえる分が、レベルごとに +0.1% 上がる。', en: 'Each shard gives +0.1% more /s per level.' } },
+    { id: 'goldenTime', base: 200, growth: 2, max: 10,
+      name: { ja: 'ゴールデンの余韻', en: 'Golden Afterglow' },
+      desc: { ja: 'ゴールデン消しゴムのこうかが、レベルごとに10%長く続く。', en: 'Golden Eraser effects last 10% longer per level.' } },
+    { id: 'drawerFast', base: 200, growth: 2, max: 10,
+      name: { ja: 'ひきだしの早送り', en: 'Drawer Fast-Forward' },
+      desc: { ja: 'ひきだしの材料が、レベルごとに7%早く育つ。', en: 'Drawer items grow 7% faster per level.' } }
+  ];
 })(window.K = window.K || {});

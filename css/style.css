@@ -1440,3 +1440,6 @@ button.ch-opt { cursor: pointer; }
 .ch-now .btn { display: flex; margin: 0 auto; }
 .ch-now .bar-fill { background: linear-gradient(90deg, #F29CA3, #E7B533); }
 .bld-nokind { color: var(--danger); font-weight: 700; }
+/* 終わりのない かけらの 強化 */
+.shard-endless { margin-bottom: 14px; border-color: var(--gold, #E7B533); }
+.shard-lv { font-weight: 700; font-size: 12px; color: var(--graphite); }

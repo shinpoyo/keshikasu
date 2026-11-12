@@ -36,6 +36,7 @@
       shards: 0,               // もっている かけら
       shardsEarned: 0,         // これまでに もらった かけら
       shardUpgrades: {},
+      shardLevels: {},         // 終わりのない かけらの 強化の レベル（data/shardshop.js shardEndless）
       adBoost: { until: 0, next: 0 }, // CrazyGames 版の しばらく2倍（js/ads.js）
       missions: { slots: [], lvl: {}, done: 0, made: 0 }, // ミッション（js/missions.js）
       daily: { last: '', streak: 0 },                     // 毎日のごほうび（js/missions.js）

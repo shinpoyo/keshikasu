@@ -60,6 +60,7 @@
     var m = 1;
     if (K.game.has('g2')) m *= 2;
     if (K.game.hasShard('goldenLong')) m *= 1.5;
+    m *= 1 + 0.1 * K.ascend.level('goldenTime');
     return m;
   }
 

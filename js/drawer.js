@@ -57,6 +57,9 @@
   D.unlocked = function () { return K.evo.maxStageFound() >= D.OPEN_STAGE; };
   D.slotOpen = function (i) { return K.evo.foundCount() >= D.SLOT_ZUKAN[i]; };
 
+  // 育つ 時間（かけらの「ひきだしの早送り」で みじかく なる）
+  D.growSec = function (seed) { return Math.round(seed.grow * Math.pow(0.93, K.ascend.level('drawerFast'))); };
+
   D.price = function (seed) { return Math.max(100, Math.ceil(K.game.baseCps() * 60 * seed.price)); };
   // いちど 見つけた 材料は 消しゴムに もどっても しまえる（js/shop.js grantMaterials）
   D.hasMat = function (seed) { return !!S().mats[seed.mat] || K.game.materialUnlocked(K.game.materialById[seed.mat]); };
@@ -71,7 +74,7 @@
     if (!seed || !D.canPlant(i, seed)) return false;
     var now = Date.now();
     S().crumbs -= D.price(seed);
-    st().slots[i] = { mat: mat, at: now, until: now + seed.grow * 1000 };
+    st().slots[i] = { mat: mat, at: now, until: now + D.growSec(seed) * 1000 };
     return true;
   };
 

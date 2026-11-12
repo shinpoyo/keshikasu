@@ -149,7 +149,7 @@
   };
 
   G.globalMult = function () {
-    var shardBonus = K.challenge.rule('noShard') ? 1 : 1 + 0.01 * S().shards; // ちょうせん「かけらを忘れる」
+    var shardBonus = K.challenge.rule('noShard') ? 1 : 1 + K.ascend.perShard() * S().shards; // ちょうせん「かけらを忘れる」
     var m = (1 + 0.01 * G.achievementCount()) * shardBonus * K.evo.bonusMult();
     m *= K.challenge.mult(); // クリアした ちょうせん 1つにつき 2倍
     if (hasShard('secret50')) m *= 1.5;

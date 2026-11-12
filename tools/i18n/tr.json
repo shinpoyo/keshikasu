@@ -200,7 +200,7 @@
   "stCan": "Al",
   "stCant": "Yetmiyor",
   "stSecret": "Gizli",
-  "shardBonus": "Her parça +%1 /s verir",
+  "shardBonus": "Her parça +%{p} /s verir",
   "shardOrder": "Her yolda yukarıdan aşağı doğru al.",
   "shardNeed": "Önce gerekli: “{n}”",
   "shardNext": "Sonraki parçaya {n} kırıntı",
@@ -356,7 +356,11 @@
   "challengeKindsFull": "Sadece 3 çeşit alet",
   "challengeClear": "Meydan okuma tamamlandı! {n}",
   "challengeClearTime": "Süre {v}",
-  "challengeClearReward": "/s değerin artık kalıcı olarak iki katı!"
+  "challengeClearReward": "/s değerin artık kalıcı olarak iki katı!",
+  "shardLevel": "Sv {n}",
+  "shardMax": "MAKS",
+  "shardEndless": "Sonsuz Geliştirmeler",
+  "shardEndlessNote": "İstediğin kadar satın al"
  },
  "text": {
   "Finger": "Parmak",
@@ -2012,6 +2016,12 @@
   "Three Kinds of Tools": "Üç Çeşit Alet",
   "Shards give no /s bonus. You can only own 3 kinds of tools.": "Parçalar /s bonusu vermez. Sadece 3 çeşit aletin olabilir.",
   "The Quiet Desk": "Sessiz Masa",
-  "Shards give no /s bonus. Rubbing gives no crumbs. No visiting erasers.": "Parçalar /s bonusu vermez. Ovmak kırıntı vermez. Misafir silgiler gelmez."
+  "Shards give no /s bonus. Rubbing gives no crumbs. No visiting erasers.": "Parçalar /s bonusu vermez. Ovmak kırıntı vermez. Misafir silgiler gelmez.",
+  "Shard Polish": "Parça Cilası",
+  "Each shard gives +0.1% more /s per level.": "Her parça seviye başına %0,1 daha fazla /s verir.",
+  "Golden Afterglow": "Altın Işıltı",
+  "Golden Eraser effects last 10% longer per level.": "Altın Silgi etkileri seviye başına %10 daha uzun sürer.",
+  "Drawer Fast-Forward": "Çekmece Hızlandırma",
+  "Drawer items grow 7% faster per level.": "Çekmecedekiler seviye başına %7 daha hızlı büyür."
  }
 }

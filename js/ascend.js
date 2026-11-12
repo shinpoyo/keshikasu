@@ -75,5 +75,23 @@
     return true;
   };
 
+  // --- 終わりのない 強化 ---
+  A.level = function (id) { var l = S().shardLevels; return (l && Math.max(0, Math.floor(Number(l[id]) || 0))) || 0; };
+  A.endlessById = function (id) { var out = null; K.data.shardEndless.forEach(function (x) { if (x.id === id) out = x; }); return out; };
+  A.endlessCost = function (item) { return Math.ceil(item.base * Math.pow(item.growth, A.level(item.id))); };
+  A.endlessMaxed = function (item) { return item.max != null && A.level(item.id) >= item.max; };
+  A.canBuyEndless = function (item) { return !A.endlessMaxed(item) && S().shards >= A.endlessCost(item); };
+  A.buyEndless = function (id) {
+    var item = A.endlessById(id);
+    if (!item || !A.canBuyEndless(item)) return false;
+    var s = S();
+    s.shards -= A.endlessCost(item);
+    if (!s.shardLevels || typeof s.shardLevels !== 'object') s.shardLevels = {};
+    s.shardLevels[id] = A.level(id) + 1;
+    return true;
+  };
+  // かけら 1こあたりの /s（ふつうは 1%）
+  A.perShard = function () { return 0.01 * (1 + 0.1 * A.level('polish')); };
+
   K.ascend = A;
 })(window.K = window.K || {});

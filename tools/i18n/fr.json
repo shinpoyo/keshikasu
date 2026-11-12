@@ -200,7 +200,7 @@
   "stCan": "Acheter",
   "stCant": "Pas assez",
   "stSecret": "Secret",
-  "shardBonus": "Chaque éclat donne +1% /s",
+  "shardBonus": "Chaque éclat donne +{p}% /s",
   "shardOrder": "Dans chaque branche, achète de haut en bas.",
   "shardNeed": "Il faut d'abord « {n} »",
   "shardNext": "Encore {n} miettes pour le prochain éclat",
@@ -356,7 +356,11 @@
   "challengeKindsFull": "Seulement 3 sortes d’outils",
   "challengeClear": "Défi réussi ! {n}",
   "challengeClearTime": "Temps {v}",
-  "challengeClearReward": "Ton /s est doublé pour toujours !"
+  "challengeClearReward": "Ton /s est doublé pour toujours !",
+  "shardLevel": "Niv {n}",
+  "shardMax": "MAX",
+  "shardEndless": "Améliorations sans fin",
+  "shardEndlessNote": "Achetables autant de fois que tu veux"
  },
  "text": {
   "First Finger": "Premier doigt",
@@ -2012,6 +2016,12 @@
   "Three Kinds of Tools": "Trois sortes d’outils",
   "Shards give no /s bonus. You can only own 3 kinds of tools.": "Les éclats ne donnent aucun bonus de /s. Tu ne peux avoir que 3 sortes d’outils.",
   "The Quiet Desk": "Le bureau silencieux",
-  "Shards give no /s bonus. Rubbing gives no crumbs. No visiting erasers.": "Les éclats ne donnent aucun bonus de /s. Frotter ne donne pas de miettes. Aucune gomme visiteuse."
+  "Shards give no /s bonus. Rubbing gives no crumbs. No visiting erasers.": "Les éclats ne donnent aucun bonus de /s. Frotter ne donne pas de miettes. Aucune gomme visiteuse.",
+  "Shard Polish": "Polissage d’éclats",
+  "Each shard gives +0.1% more /s per level.": "Chaque éclat donne +0,1 % de /s en plus par niveau.",
+  "Golden Afterglow": "Lueur dorée",
+  "Golden Eraser effects last 10% longer per level.": "Les effets de la Gomme dorée durent 10 % plus longtemps par niveau.",
+  "Drawer Fast-Forward": "Tiroir en accéléré",
+  "Drawer items grow 7% faster per level.": "Ce qui est dans le tiroir pousse 7 % plus vite par niveau."
  }
 }
