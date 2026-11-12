@@ -17,7 +17,10 @@
     { n: 6, need: 1e12, name: { ja: '伝説の', en: 'Legendary' },
       line: { ja: '伝説になった。見た目はほぼ同じ。', en: 'It became a legend. Looks almost the same.' } },
     { n: 7, need: 1e15, name: { ja: 'うちゅうの', en: 'Cosmic' },
-      line: { ja: 'うちゅうのカスになった。つくえの上にいる。', en: 'It became a cosmic crumb. It is still on the desk.' } }
+      line: { ja: 'うちゅうのカスになった。つくえの上にいる。', en: 'It became a cosmic crumb. It is still on the desk.' } },
+    // 2026-11-11 終盤の 目標に 追加。うちゅうを 一周して、にょろにょろに もどってきた（絵は STAGE 1 ＋ 金の わ）
+    { n: 8, need: 1e21, name: { ja: '一周した', en: 'Full-Circle' },
+      line: { ja: 'うちゅうを一周して、もどってきた。見た目はにょろにょろ。', en: 'It went all the way around the universe and came back. Looks squiggly again.' } }
   ];
 
   // けいとう。filter はデザイン案（design/Zukan.dc.html）と同じ
@@ -124,7 +127,8 @@
     { id: 'school', from: 4, name: { ja: '学校', en: 'School' } },
     { id: 'town', from: 5, name: { ja: '町', en: 'Town' } },
     { id: 'sky', from: 6, name: { ja: '空', en: 'Sky' } },
-    { id: 'space', from: 7, name: { ja: 'うちゅう', en: 'Space' } }
+    { id: 'space', from: 7, name: { ja: 'うちゅう', en: 'Space' } },
+    { id: 'desk', from: 8, name: { ja: 'つくえ（2周目）', en: 'Desk (Again)' } }
   ];
   K.sceneFor = function (stage) {
     var sc = K.data.scenes[0];

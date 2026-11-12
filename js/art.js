@@ -52,7 +52,10 @@
     internet: ['0 0 40 40', '<circle cx="20" cy="20" r="15" fill="#BFE3F0" stroke="' + INK + '" stroke-width="2"/><ellipse cx="20" cy="20" rx="6" ry="15" fill="none" stroke="' + INK + '" stroke-width="1.6"/><path d="M5 20h30M8 12h24M8 28h24" stroke="' + INK + '" stroke-width="1.4"/><rect x="25" y="25" width="5" height="5" fill="#3E6FB0"/><rect x="31" y="29" width="4" height="4" fill="#3E6FB0"/><rect x="28" y="33" width="3" height="3" fill="#3E6FB0"/>'],
     physicist: ['0 0 40 40', '<rect x="3" y="6" width="34" height="24" rx="2" fill="#3F5446" stroke="' + INK + '" stroke-width="2"/><path d="M8 14h6M11 11v6M17 14h4M24 12c2 0 3 4 5 4M8 22h8M19 20l3 4M22 20l-3 4M26 22h6" stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round" fill="none"/><path d="M8 30l-2 6M32 30l2 6" stroke="' + INK + '" stroke-width="2" stroke-linecap="round"/><circle cx="30" cy="34" r="1.5" fill="#A9A49B"/><circle cx="25" cy="36" r="1.2" fill="#A9A49B"/>'],
     anticrumb: ['0 0 40 40', '<circle cx="20" cy="20" r="15" fill="#2E3350" stroke="' + INK + '" stroke-width="2" stroke-dasharray="4 3"/><path d="M14 22c-2-4 1-8 5-8 2-2 6-1 7 2 3 1 3 5 1 7-1 3-5 3-7 2-3 1-5 0-6-3z" fill="#FFF6D6" stroke="#E7B533" stroke-width="1.6"/><path d="M8 8l3 3M32 8l-3 3M8 32l3-3M32 32l-3-3" stroke="#E7B533" stroke-width="1.8" stroke-linecap="round"/>'],
-    eplanet: ['0 0 40 40', '<circle cx="20" cy="20" r="13" fill="#F29CA3" stroke="' + INK + '" stroke-width="2" stroke-linejoin="round"/><path d="M8 15c8 2 16 2 24 0v10c-8 2-16 2-24 0z" fill="#3E6FB0" stroke="' + INK + '" stroke-width="1.6"/><path d="M13 18.5h14v3H13z" fill="#FFFFFF" opacity=".9"/><path d="M2 26c6-3 30-10 36-10" fill="none" stroke="#E7B533" stroke-width="2.4" stroke-linecap="round"/><circle cx="6" cy="6" r="1.2" fill="#E7B533"/><circle cx="34" cy="34" r="1" fill="#8FA7C8"/>']
+    eplanet: ['0 0 40 40', '<circle cx="20" cy="20" r="13" fill="#F29CA3" stroke="' + INK + '" stroke-width="2" stroke-linejoin="round"/><path d="M8 15c8 2 16 2 24 0v10c-8 2-16 2-24 0z" fill="#3E6FB0" stroke="' + INK + '" stroke-width="1.6"/><path d="M13 18.5h14v3H13z" fill="#FFFFFF" opacity=".9"/><path d="M2 26c6-3 30-10 36-10" fill="none" stroke="#E7B533" stroke-width="2.4" stroke-linecap="round"/><circle cx="6" cy="6" r="1.2" fill="#E7B533"/><circle cx="34" cy="34" r="1" fill="#8FA7C8"/>'],
+    blackhole: ['0 0 40 40', '<circle cx="20" cy="20" r="16" fill="#8FA7C8" opacity="0.35"/><ellipse cx="20" cy="20" rx="17" ry="6" fill="none" stroke="#E7B533" stroke-width="2.4" transform="rotate(-18 20 20)"/><circle cx="20" cy="20" r="9" fill="#1E1D1C" stroke="' + INK + '" stroke-width="2"/><path d="M3 24c6 2 28-6 34-12" fill="none" stroke="#E7B533" stroke-width="2.4" stroke-linecap="round" transform="rotate(-4 20 20)"/><circle cx="33" cy="31" r="1.8" fill="#6B6A66"/><circle cx="36" cy="27" r="1.2" fill="#6B6A66"/>'],
+    bigbang: ['0 0 40 40', '<path d="M20 3l4 9 9-4-4 9 9 3-9 4 4 9-9-4-4 9-4-9-9 4 4-9-9-4 9-3-4-9 9 4z" fill="#E7B533" stroke="' + INK + '" stroke-width="2" stroke-linejoin="round"/><circle cx="20" cy="20" r="6" fill="#FFF6D6" stroke="' + INK + '" stroke-width="1.6"/><circle cx="20" cy="20" r="2" fill="#6B6A66"/><circle cx="5" cy="34" r="1.4" fill="#6B6A66"/><circle cx="35" cy="6" r="1.2" fill="#6B6A66"/>'],
+    blankpaper: ['0 0 40 40', '<path d="M8 4h18l7 7v25H8z" fill="#FFFFFF" stroke="' + INK + '" stroke-width="2" stroke-linejoin="round"/><path d="M26 4v7h7" fill="#F4F0E6" stroke="' + INK + '" stroke-width="2" stroke-linejoin="round"/><circle cx="14" cy="34" r="1.8" fill="#6B6A66"/><circle cx="20" cy="37" r="1.4" fill="#6B6A66"/><circle cx="27" cy="35" r="1.7" fill="#6B6A66"/><path d="M33 30l3 2M34 25l3 0" stroke="#E7B533" stroke-width="1.6" stroke-linecap="round"/>']
   };
 
   function building(id, w, h) {
@@ -179,7 +182,7 @@
 
   // カスの本体（だんかいの絵）。design/art/make.py と special.py で生成
   function kasuSrc(stage) {
-    var n = Math.min(Math.max(stage, 1), 7);
+    var n = Math.min(Math.max(stage, 1), K.data.stages.length);
     return 'art/kasu-stage' + n + '.svg';
   }
 

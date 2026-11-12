@@ -66,6 +66,16 @@
     { id: 'universe', cost: 7.1e19, cps: 1.1e12,
       name: { ja: 'うちゅうの意思', en: 'Will of the Universe' },
       line: { ja: '……', en: '...' } },
+    // 2026-11-11 うちゅうの意思の 先（終盤の 目標）
+    { id: 'blackhole', cost: 2.1e22, cps: 1.3e14,
+      name: { ja: 'ブラックホール', en: 'Black Hole' },
+      line: { ja: '何でもすいこむ。カスだけははき出す', en: 'Swallows everything. Spits out only the crumbs.' } },
+    { id: 'bigbang', cost: 6.6e24, cps: 1.6e16,
+      name: { ja: 'ビッグバン', en: 'Big Bang' },
+      line: { ja: 'うちゅうの始まり。最初に生まれたのはカスだった', en: 'The start of the universe. The first thing born was a crumb.' } },
+    { id: 'blankpaper', cost: 2.2e27, cps: 2e18,
+      name: { ja: 'まっ白な紙', en: 'Blank Paper' },
+      line: { ja: '何も書いていない。消すものがないので、カスがあふれる', en: 'Nothing is written on it. With nothing to erase, crumbs overflow.' } },
   ];
   K.data.PRICE_GROWTH = 1.15;
   K.data.SELL_RATE = 0.25;
